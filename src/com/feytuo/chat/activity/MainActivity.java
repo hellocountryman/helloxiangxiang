@@ -69,7 +69,11 @@ import com.feytuo.laoxianghao.wxapi.Share_Weixin;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
-
+/**
+ * 主界面
+ * @author feytuo
+ *
+ */
 public class MainActivity extends FragmentActivity implements IWeiboHandler.Response{
 
 	protected static final String TAG = "MainActivity";
