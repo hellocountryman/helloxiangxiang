@@ -64,6 +64,8 @@ public class ContactlistFragment extends Fragment {
 	private boolean hidden;
 	private Sidebar sidebar;
 	private InputMethodManager inputMethodManager;
+	
+	private boolean isInitialized = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +75,14 @@ public class ContactlistFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if(App.isLogin() && !isInitialized){
+			initView();
+		}
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		isInitialized = true;
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		listView = (ListView) getView().findViewById(R.id.list);
 		sidebar = (Sidebar) getView().findViewById(R.id.sidebar);
@@ -149,7 +159,7 @@ public class ContactlistFragment extends Fragment {
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		this.hidden = hidden;
-		if (!hidden) {
+		if (!hidden && isInitialized) {
 			refresh();
 		}
 	}
@@ -157,7 +167,10 @@ public class ContactlistFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (!hidden) {
+		if(App.isLogin() && !isInitialized){
+			initView();
+		}
+		if (!hidden && isInitialized) {
 			refresh();
 		}
 	}

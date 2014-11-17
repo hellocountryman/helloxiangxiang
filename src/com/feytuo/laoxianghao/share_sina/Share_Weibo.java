@@ -403,7 +403,7 @@ public class Share_Weibo {
 		mSsoHandler.authorize(new AuthListener(context, isLogin, words,
 				resource));
 	}
-
+	
 	public IWeiboShareAPI getmWeiboShareAPI() {
 		return mWeiboShareAPI;
 	}

@@ -160,7 +160,7 @@ public class SelsectedCountry extends Activity {
 			MobclickAgent.onEvent(this, "CityChange",map);//添加操作
 		}
 		Intent intent = new Intent();
-		intent.setClass(SelsectedCountry.this, com.feytuo.chat.activity.LoginActivity.class);
+		intent.setClass(SelsectedCountry.this, com.feytuo.chat.activity.MainActivity.class);
 		startActivity(intent);
 		finish();
 	}

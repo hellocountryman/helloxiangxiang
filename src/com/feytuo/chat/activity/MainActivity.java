@@ -62,6 +62,7 @@ import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.fragment.FindFragment;
 import com.feytuo.laoxianghao.fragment.MainFragment;
+import com.feytuo.laoxianghao.global.UserLogin;
 import com.feytuo.laoxianghao.share_qq.Share_QQ;
 import com.feytuo.laoxianghao.share_sina.Share_Weibo;
 import com.feytuo.laoxianghao.view.MyLoginDialog;
@@ -104,6 +105,13 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		inviteMessgeDao = new InviteMessgeDao(this);
 		userDao = new UserDao(this);
 
+		if(App.isLogin()){
+			registerHXListeners();
+		}
+	}
+	
+	//初始化环信监听和广播
+	public void registerHXListeners(){
 		// 注册一个接收消息的BroadcastReceiver
 		msgReceiver = new NewMessageBroadcastReceiver();
 		IntentFilter intentFilter = new IntentFilter(EMChatManager
@@ -135,7 +143,6 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		// 通知sdk，UI 已经初始化完毕，注册了相应的receiver和listener, 可以接受broadcast了
 		EMChat.getInstance().setAppInited();
 	}
-	
 	private void initShare(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		shareQQ = new Share_QQ(this);// QQ登录和分享
@@ -397,7 +404,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 			}
 			localUsers.putAll(toAddUsers);
 			// 刷新ui
-			if (currentTabIndex == 0) {
+			if (currentTabIndex == 3) {
 				if (cacFragment != null
 						&& cacFragment.getContactListFragment() != null) {
 					Log.i("MainActivity", "add");
@@ -435,7 +442,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				}
 			});
 			// 刷新ui
-			if (currentTabIndex == 0) {
+			if (currentTabIndex == 3) {
 				if (cacFragment != null
 						&& cacFragment.getContactListFragment() != null) {
 					Log.i("MainActivity", "delete");
@@ -506,7 +513,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		// 刷新bottom bar消息未读数
 		updateUnreadAddressLable();
 		// 刷新好友页面ui
-		if (currentTabIndex == 0) {
+		if (currentTabIndex == 3) {
 			if (cacFragment != null
 					&& cacFragment.getContactListFragment() != null) {
 				cacFragment.getContactListFragment().refresh();
@@ -653,7 +660,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				public void run() {
 					updateUnreadLabel();
 					// 刷新ui
-					if (currentTabIndex == 0) {
+					if (currentTabIndex == 3) {
 						// 当前页面如果为聊天历史页面，刷新此页面
 						if (cacFragment != null
 								&& cacFragment.getChatHistoryFragment() != null) {
@@ -689,7 +696,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				public void run() {
 					try {
 						updateUnreadLabel();
-						if (currentTabIndex == 0) {
+						if (currentTabIndex == 3) {
 							// 当前页面如果为聊天历史页面，刷新此页面
 							if (cacFragment != null
 									&& cacFragment.getChatHistoryFragment() != null) {
@@ -717,7 +724,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 			runOnUiThread(new Runnable() {
 				public void run() {
 					updateUnreadLabel();
-					if (currentTabIndex == 0) {
+					if (currentTabIndex == 3) {
 						// 当前页面如果为聊天历史页面，刷新此页面
 						if (cacFragment != null
 								&& cacFragment.getChatHistoryFragment() != null) {
@@ -767,7 +774,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				public void run() {
 					updateUnreadLabel();
 					// 刷新ui
-					if (currentTabIndex == 0) {
+					if (currentTabIndex == 3) {
 						// 当前页面如果为聊天历史页面，刷新此页面
 						if (cacFragment != null
 								&& cacFragment.getChatHistoryFragment() != null) {
@@ -793,11 +800,11 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (!isConflict) {
+		if (!isConflict && App.isLogin()) {
 			updateUnreadLabel();
 			updateUnreadAddressLable();
 			EMChatManager.getInstance().activityResumed();
-			if (currentTabIndex == 0) {
+			if (currentTabIndex == 3) {
 				if (cacFragment != null
 						&& cacFragment.getContactListFragment() != null) {
 					Log.i("MainActivity", "add");

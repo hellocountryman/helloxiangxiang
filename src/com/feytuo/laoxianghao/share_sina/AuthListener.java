@@ -1,14 +1,18 @@
 package com.feytuo.laoxianghao.share_sina;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.global.UserLogin;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.UsersAPI;
 
 public class AuthListener implements WeiboAuthListener{
 
@@ -18,6 +22,7 @@ public class AuthListener implements WeiboAuthListener{
     private boolean isLogin;
     private String words;
     private int resource;
+    private long uid;
     public AuthListener(Context context , boolean isLogin,String words,int resource) {
     	this.isLogin = isLogin;
 		this.context = context;
@@ -43,9 +48,9 @@ public class AuthListener implements WeiboAuthListener{
 		         /**
 		          * 两种方式获取新浪微博登录id
 		          */
-	             long uid = Long.parseLong(mAccessToken.getUid());
+	             uid = Long.parseLong(mAccessToken.getUid());
 //	             Log.i("WeiboAuthTest", uid+"=="+values.getString("uid"));
-	             UserLogin.Login(context, uid+"", "Sina");
+	             getUserInfo();
              }
              
              //授权成功即可
@@ -74,4 +79,59 @@ public class AuthListener implements WeiboAuthListener{
 //         Toast.makeText(context, 
 //                 "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
      }
+     
+     public void getUserInfo() {
+ 		// 获取当前已保存过的 Token
+ 		Oauth2AccessToken mAccessToken = AccessTokenKeeper
+ 				.readAccessToken(context);
+ 		if (mAccessToken != null && mAccessToken.isSessionValid()) {// token不可用，先sso授权
+ 			UsersAPI mUsersAPI = new UsersAPI(mAccessToken);
+ 			long uid = Long.parseLong(mAccessToken.getUid());
+ 			mUsersAPI.show(uid, getUserInfoListener);
+ 		}
+ 	}
+
+ 	/**
+ 	 * 微博 OpenAPI 回调接口。
+ 	 */
+ 	private RequestListener getUserInfoListener = new RequestListener() {
+ 		@Override
+ 		public void onComplete(String response) {
+ 			if (!TextUtils.isEmpty(response)) {
+ 				// 获取用户信息
+ 				final User user = User.parse(response);
+ 				if (user != null) {//获取昵称
+// 					Message msg = new Message();
+// 					msg.obj = user.screen_name;
+// 					msg.what = 0;
+// 					mHandler.sendMessage(msg);
+ 					new Thread() {//获取头像
+
+ 						@Override
+ 						public void run() {
+ 							if (user.profile_image_url != null) {// 获取头像
+ 								Bitmap bitmap = null;
+ 								bitmap = com.feytuo.laoxianghao.share_qq.Util
+ 										.getbitmap(user.profile_image_url);
+ 								
+ 								new UserLogin().Login(context, uid+"", "Sina",user.screen_name,bitmap);
+// 								Message msg = new Message();
+// 								msg.obj = bitmap;
+// 								msg.what = 1;
+// 								mHandler.sendMessage(msg);
+ 							}
+ 						}
+
+ 					}.start();
+ 				}
+ 			}
+ 		}
+
+ 		@Override
+ 		public void onWeiboException(WeiboException e) {
+ 			// LogUtil.e(TAG, e.getMessage());
+ 			ErrorInfo info = ErrorInfo.parse(e.getMessage());
+ 			Toast.makeText(context, info.toString(), Toast.LENGTH_LONG).show();
+ 		}
+ 	};
 }

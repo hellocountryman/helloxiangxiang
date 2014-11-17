@@ -85,7 +85,7 @@ public class WelcomeActivity extends Activity {
 		if(isFistLogin()){
 			intent.setClass(this, SimpleSelsectedCountry.class);
 		}else{
-			intent.setClass(this, com.feytuo.chat.activity.LoginActivity.class);
+			intent.setClass(this, com.feytuo.chat.activity.MainActivity.class);
 		}
 		startActivity(intent);
 		finish();

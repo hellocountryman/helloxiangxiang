@@ -60,6 +60,7 @@ public class ChatAllHistoryFragment extends Fragment {
 	public TextView errorText;
 	private boolean hidden;
 	private List<EMGroup> groups;
+	private boolean isInitialized = false;//有没有初始化
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +73,14 @@ public class ChatAllHistoryFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if(App.isLogin() && !isInitialized){
+			initView();
+		}
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		isInitialized = true;
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		// contact list
 //		contactList = App.getInstance().getContactList();
@@ -157,7 +166,6 @@ public class ChatAllHistoryFragment extends Fragment {
 
 			}
 		});
-
 	}
 
 	@Override
@@ -244,7 +252,7 @@ public class ChatAllHistoryFragment extends Fragment {
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		this.hidden = hidden;
-		if (!hidden) {
+		if (!hidden && isInitialized) {
 			refresh();
 		}
 	}
@@ -252,7 +260,10 @@ public class ChatAllHistoryFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (!hidden) {
+		if(App.isLogin() && !isInitialized){
+			initView();
+		}
+		if (!hidden && isInitialized) {
 			refresh();
 		}
 	}

@@ -2,16 +2,19 @@ package com.feytuo.laoxianghao.share_qq;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.global.UserLogin;
+import com.tencent.connect.UserInfo;
 //import com.feytuo.laoxianghao.MainActivity;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
@@ -21,9 +24,7 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 /**
- * QQ和QQ空间分享、登录、注销 
- * 1、QQ有几种分享模式，给朋友能够分享图片、文字、音乐 
- * 2、QQ空间可以分享图片、文字，不能分享音乐
+ * QQ和QQ空间分享、登录、注销 1、QQ有几种分享模式，给朋友能够分享图片、文字、音乐 2、QQ空间可以分享图片、文字，不能分享音乐
  * 3、QQ登录，可以获取token、expires、openId（与QQ号和app相关联的id号）
  * 
  * @author feytuo
@@ -37,7 +38,7 @@ public class Share_QQ {
 	public Share_QQ(Context context) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
-		//在主文件中也需要修改appid
+		// 在主文件中也需要修改appid
 		mTencent = Tencent.createInstance(Global.QQ_APPID,
 				context.getApplicationContext());
 	}
@@ -48,10 +49,10 @@ public class Share_QQ {
 	 * @param v
 	 */
 	public void qqLogin() {
-//		if (!mTencent.isSessionValid()) {
-//			mTencent.login((Activity) context, "all", listener);
-//		}
-		mTencent.login((Activity) context, "all", listener);
+		// if (!mTencent.isSessionValid()) {
+		// mTencent.login((Activity) context, "all", listener);
+		// }
+		mTencent.login((Activity) context, "all", new MyIUiListener(true));
 	}
 
 	/**
@@ -65,13 +66,19 @@ public class Share_QQ {
 
 	/**
 	 * 分享给QQ好友或者分享到QQ空间
-	 * @param title 小标题
-	 * @param summary 简要介绍
-	 * url一定要加上“http://”
-	 * @param targetUrl 整体点击跳转url，可以是app下载
-	 * @param imageUrl 图片url
-	 * @param audioUrl 语音的url，QQ空间分享音乐可以将audioUrl加到简要介绍里面
-	 * @param QorQzone 选择分享，1代表分享到QQ空间，2代表分享给好友
+	 * 
+	 * @param title
+	 *            小标题
+	 * @param summary
+	 *            简要介绍 url一定要加上“http://”
+	 * @param targetUrl
+	 *            整体点击跳转url，可以是app下载
+	 * @param imageUrl
+	 *            图片url
+	 * @param audioUrl
+	 *            语音的url，QQ空间分享音乐可以将audioUrl加到简要介绍里面
+	 * @param QorQzone
+	 *            选择分享，1代表分享到QQ空间，2代表分享给好友
 	 */
 	public void shareToQQOrQzone(String title, String summary,
 			String targetUrl, String imageUrl, String audioUrl, int QorQzone) {
@@ -81,11 +88,10 @@ public class Share_QQ {
 		params.putString(QQShare.SHARE_TO_QQ_TITLE, title);
 		params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
 		params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, targetUrl);
-		params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,imageUrl);
-		params.putString(QQShare.SHARE_TO_QQ_AUDIO_URL,audioUrl);
+		params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
+		params.putString(QQShare.SHARE_TO_QQ_AUDIO_URL, audioUrl);
 		params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "老乡好");
-		params.putInt(QQShare.SHARE_TO_QQ_EXT_INT,
-				QorQzone);
+		params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QorQzone);
 		doShareToQQ(params);
 	}
 
@@ -163,7 +169,7 @@ public class Share_QQ {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				mTencent.shareToQQ(activity, params, listener);
+				mTencent.shareToQQ(activity, params, new MyIUiListener(false));
 			}
 		}).start();
 	}
@@ -180,34 +186,40 @@ public class Share_QQ {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				mTencent.shareToQzone(activity, params, listener);
+				mTencent.shareToQzone(activity, params,
+						new MyIUiListener(false));
 			}
 		}).start();
 	}
 
-	private IUiListener listener = new IUiListener() {
+	class MyIUiListener implements IUiListener {
+
+		private boolean isLogin = false;
+
+		public MyIUiListener(boolean isLogin) {
+			this.isLogin = isLogin;
+		}
 
 		@Override
 		public void onCancel() {
-//			Util.toastMessage((Activity) context, "取消");
+			// Util.toastMessage((Activity) context, "取消");
 		}
 
 		@Override
 		public void onError(UiError e) {
 			// TODO Auto-generated method stub
-//			Util.toastMessage((Activity) context, "错误："
-//					+ e.errorMessage, "e");
+			// Util.toastMessage((Activity) context, "错误："
+			// + e.errorMessage, "e");
 		}
 
 		@Override
 		public void onComplete(Object response) {
 			// TODO Auto-generated method stub
-//			Util.toastMessage((Activity) context,
-//					"完成: " + response.toString());
+			// Util.toastMessage((Activity) context,
+			// "完成: " + response.toString());
 			Log.i("qqresponse", response.toString());
 
-			initOpenidAndToken((JSONObject) response);
-			// updateUserInfo();
+			initOpenidAndToken((JSONObject) response, isLogin);
 		}
 	};
 
@@ -216,7 +228,7 @@ public class Share_QQ {
 	 * 
 	 * @param jsonObject
 	 */
-	private void initOpenidAndToken(JSONObject jsonObject) {
+	private void initOpenidAndToken(JSONObject jsonObject, boolean isLogin) {
 		try {
 			String token = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
 			String expires = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
@@ -225,10 +237,57 @@ public class Share_QQ {
 					&& !TextUtils.isEmpty(openId)) {
 				mTencent.setAccessToken(token, expires);
 				mTencent.setOpenId(openId);
-				//QQ登录
-				UserLogin.Login(context, openId, "QQ");
+				// 判断是否是登录
+				if (isLogin) {
+					getUserQQInfo(openId);
+				}
 			}
 		} catch (Exception e) {
+		}
+	}
+
+	private Bitmap headBitmap;
+
+	private void getUserQQInfo(final String openId) {
+		if (mTencent != null && mTencent.isSessionValid()) {// 如果已经登录并且token可用
+			IUiListener listener = new IUiListener() {
+
+				@Override
+				public void onError(UiError e) {
+				}
+
+				@Override
+				public void onComplete(final Object response) {
+					new Thread() {
+						@Override
+						public void run() {
+							final JSONObject json = (JSONObject) response;
+							if (json.has("figureurl") && json.has("nickname")) {// 获取头像
+								try {
+									headBitmap = Util.getbitmap(json
+											.getString("figureurl_qq_2"));
+									// QQ登录
+									new UserLogin().Login(context, openId,
+											"QQ", json.getString("nickname"),
+											headBitmap);
+								} catch (JSONException e) {
+
+								}
+							}
+						}
+
+					}.start();
+				}
+
+				@Override
+				public void onCancel() {
+				}
+			};
+			UserInfo mInfo = new UserInfo(context, mTencent.getQQToken());
+			mInfo.getUserInfo(listener);
+
+		} else {// 如果未登录或者token不可用
+			// 设置未登录状态提醒重新登录
 		}
 	}
 }
