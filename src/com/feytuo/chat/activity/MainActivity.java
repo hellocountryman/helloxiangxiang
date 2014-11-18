@@ -62,6 +62,7 @@ import com.feytuo.chat.domain.InviteMessage.InviteMesageStatus;
 import com.feytuo.chat.domain.User;
 import com.feytuo.chat.utils.CommonUtils;
 import com.feytuo.laoxianghao.App;
+import com.feytuo.laoxianghao.PublishActivity;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.fragment.FindFragment;
@@ -73,20 +74,23 @@ import com.feytuo.laoxianghao.wxapi.Share_Weixin;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
+
 /**
  * 主界面
+ * 
  * @author feytuo
- *
+ * 
  */
-public class MainActivity extends FragmentActivity implements IWeiboHandler.Response{
+public class MainActivity extends FragmentActivity implements
+		IWeiboHandler.Response {
 
 	protected static final String TAG = "MainActivity";
 
 	private Button[] mTabs;
 	public ChatAndContactFragment cacFragment;// 乡聊
 	private SettingsFragment settingFragment;// 设置
-	private MainFragment mainFragment;//主界面
-	private FindFragment findFragment;//发现
+	private MainFragment mainFragment;// 主界面
+	private FindFragment findFragment;// 发现
 	private Fragment[] fragments;
 	private int index;
 	// 当前fragment的index
@@ -94,7 +98,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 	private NewMessageBroadcastReceiver msgReceiver;
 	// 账号在别处登录
 	private boolean isConflict = false;
-	
+
 	public static Share_QQ shareQQ;// QQ登录和分享
 	public static Share_Weibo shareWeibo;// 微博登录和分享
 	public static Share_Weixin shareWeixin;// 微信分享
@@ -108,13 +112,13 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		inviteMessgeDao = new InviteMessgeDao(this);
 		userDao = new UserDao(this);
 
-		if(App.isLogin()){
+		if (App.isLogin()) {
 			registerHXListeners();
 		}
 	}
-	
-	//初始化环信监听和广播
-	public void registerHXListeners(){
+
+	// 初始化环信监听和广播
+	public void registerHXListeners() {
 		// 注册一个接收消息的BroadcastReceiver
 		Log.i("MainActivity", "注册了聊天广播");
 		msgReceiver = new NewMessageBroadcastReceiver();
@@ -147,6 +151,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		// 通知sdk，UI 已经初始化完毕，注册了相应的receiver和listener, 可以接受broadcast了
 		EMChat.getInstance().setAppInited();
 	}
+
 	private void initShare(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		shareQQ = new Share_QQ(this);// QQ登录和分享
@@ -156,6 +161,16 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 					this);
 		}
 		shareWeixin = new Share_Weixin(this);
+	}
+
+	public void onTabpublishClicked(View view) {
+		if (!App.isLogin()) {// 判断是否登录
+			(MainActivity.this).showLoginDialog();
+		} else {
+			Intent intentpublish = new Intent();
+			intentpublish.setClass(MainActivity.this, PublishActivity.class);
+			startActivity(intentpublish);
+		}
 	}
 
 	/**
@@ -170,24 +185,23 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		// 把第一个tab设为选中状态
 		mTabs[0].setSelected(true);
 
-		//主帖界面
+		// 主帖界面
 		mainFragment = new MainFragment();
-		//发现
+		// 发现
 		findFragment = new FindFragment();
 		// 乡聊fragment
 		cacFragment = new ChatAndContactFragment();
 		// 设置fragment
 		settingFragment = new SettingsFragment();
-		fragments = new Fragment[] { mainFragment,findFragment,cacFragment, settingFragment };
+		fragments = new Fragment[] { mainFragment, findFragment, cacFragment,
+				settingFragment };
 		// 添加显示第一个fragment
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, mainFragment)
 				.add(R.id.fragment_container, findFragment)
 				.add(R.id.fragment_container, cacFragment)
 				.add(R.id.fragment_container, settingFragment)
-				.hide(findFragment)
-				.hide(cacFragment)
-				.hide(settingFragment)
+				.hide(findFragment).hide(cacFragment).hide(settingFragment)
 				.show(mainFragment).commit();
 
 	}
@@ -289,9 +303,8 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		int unreadAddressCountTotal = 0;
 		if (App.getInstance().getContactList()
 				.get(Constant.NEW_FRIENDS_USERNAME) != null)
-			unreadAddressCountTotal = App.getInstance()
-					.getContactList().get(Constant.NEW_FRIENDS_USERNAME)
-					.getUnreadMsgCount();
+			unreadAddressCountTotal = App.getInstance().getContactList()
+					.get(Constant.NEW_FRIENDS_USERNAME).getUnreadMsgCount();
 		return unreadAddressCountTotal;
 	}
 
@@ -327,7 +340,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 			// 当前页面如果为聊天历史页面，刷新此页面
 			if (cacFragment != null
 					&& cacFragment.getChatHistoryFragment() != null) {
-					cacFragment.getChatHistoryFragment().refresh();
+				cacFragment.getChatHistoryFragment().refresh();
 			}
 			// 注销广播，否则在ChatActivity中会收到这个广播
 			abortBroadcast();
@@ -447,8 +460,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		@Override
 		public void onContactDeleted(final List<String> usernameList) {
 			// 被删除
-			Map<String, User> localUsers = App.getInstance()
-					.getContactList();
+			Map<String, User> localUsers = App.getInstance().getContactList();
 			for (String username : usernameList) {
 				localUsers.remove(username);
 				userDao.deleteContact(username);
@@ -541,8 +553,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		// 刷新bottom bar消息未读数
 		updateUnreadAddressLable();
 		// 刷新好友页面ui
-		if (cacFragment != null
-				&& cacFragment.getContactListFragment() != null) {
+		if (cacFragment != null && cacFragment.getContactListFragment() != null) {
 			cacFragment.getContactListFragment().refresh();
 		}
 	}
@@ -608,7 +619,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 
 		@Override
 		public void onDisConnected(String errorString) {
-			Log.i("MyConnectionListener", "失去连接："+errorString);
+			Log.i("MyConnectionListener", "失去连接：" + errorString);
 			if (errorString != null && errorString.contains("conflict")) {
 				// 显示帐号在其他设备登陆dialog
 				showConflictDialog();
@@ -720,8 +731,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 						// 当前页面如果为聊天历史页面，刷新此页面
 						if (cacFragment != null
 								&& cacFragment.getChatHistoryFragment() != null) {
-								cacFragment.getChatHistoryFragment()
-										.refresh();
+							cacFragment.getChatHistoryFragment().refresh();
 						}
 						if (CommonUtils.getTopActivity(MainActivity.this)
 								.equals(GroupsActivity.class.getName())) {
@@ -746,7 +756,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 					// 当前页面如果为聊天历史页面，刷新此页面
 					if (cacFragment != null
 							&& cacFragment.getChatHistoryFragment() != null) {
-							cacFragment.getChatHistoryFragment().refresh();
+						cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(
 							GroupsActivity.class.getName())) {
@@ -794,7 +804,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 					// 当前页面如果为聊天历史页面，刷新此页面
 					if (cacFragment != null
 							&& cacFragment.getChatHistoryFragment() != null) {
-							cacFragment.getChatHistoryFragment().refresh();
+						cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(
 							GroupsActivity.class.getName())) {
@@ -891,23 +901,24 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		// TODO Auto-generated method stub
 		switch (baseResp.errCode) {
 		case WBConstants.ErrorCode.ERR_OK:
-//			Toast.makeText(getActivity(), R.string.weibosdk_demo_toast_share_success,
-//					Toast.LENGTH_LONG).show();
+			// Toast.makeText(getActivity(),
+			// R.string.weibosdk_demo_toast_share_success,
+			// Toast.LENGTH_LONG).show();
 			break;
 		case WBConstants.ErrorCode.ERR_CANCEL:
-//			Toast.makeText(getActivity(), R.string.weibosdk_demo_toast_share_canceled,
-//					Toast.LENGTH_LONG).show();
+			// Toast.makeText(getActivity(),
+			// R.string.weibosdk_demo_toast_share_canceled,
+			// Toast.LENGTH_LONG).show();
 			break;
 		case WBConstants.ErrorCode.ERR_FAIL:
-//			Toast.makeText(
-//					getActivity(),
-//					getString(R.string.weibosdk_demo_toast_share_failed)
-//							+ "Error Message: " + baseResp.errMsg,
-//					Toast.LENGTH_LONG).show();
+			// Toast.makeText(
+			// getActivity(),
+			// getString(R.string.weibosdk_demo_toast_share_failed)
+			// + "Error Message: " + baseResp.errMsg,
+			// Toast.LENGTH_LONG).show();
 			break;
 		}
 	}
-	
 
 	private Dialog loginDialog;
 
@@ -916,6 +927,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		loginDialog = new MyLoginDialog(this, R.style.MyDialog);
 		loginDialog.show();
 	}
+
 	/**
 	 * 当 SSO 授权 Activity 退出时，该函数被调用。
 	 * 
@@ -932,17 +944,18 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 					resultCode, data);
 		}
 	}
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		if (getIntent().getBooleanExtra("conflict", false)
-				&& !isConflictDialogShow){
+				&& !isConflictDialogShow) {
 			showConflictDialog();
 		}
 		// 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
 		// 来接收微博客户端返回的数据；执行成功，返回 true，并调用
 		// {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
 		// mWeiboShareAPI.handleWeiboResponse(intent, getActivity());
-		shareWeibo.getmWeiboShareAPI().handleWeiboResponse(intent,this);
+		shareWeibo.getmWeiboShareAPI().handleWeiboResponse(intent, this);
 	}
 }

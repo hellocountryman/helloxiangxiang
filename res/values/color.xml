@@ -15,7 +15,7 @@
     <!-- 绿色 -->
     <color name="blue">#0000ff</color>
     <!-- 蓝色 -->
-    <color name="black" >#000000</color>
+    <color name="black">#000000</color>
     <!-- 黑色 -->
     <color name="red" type="drawable">#fc0303</color>
 
@@ -24,7 +24,7 @@
     <!-- 00a0e9,fe6b75,f3f3f3,e6dfd5,F25D33 -->
     <!-- app主题pressed颜色 -->
     <color name="indexbg_pressed">#006c9e</color>
-    
+
     <!-- 微博的itme与item的间距)颜色 -->
     <color name="weibo_unline">#EDEDED</color>
     <color name="weibo_unline_3d">#D4D0D0</color>
@@ -38,11 +38,11 @@
     <color name="vifrification">#00000000</color>
     <!-- 热门颜色 -->
     <color name="hot">#ff0000</color>
+    <color name="newtime">#bebebe</color>
     <!-- Copyright -->
     <color name="copyright">#787878</color>
-
     <color name="common_top_bar_blue">#4ebcd3</color>
-      <color name="btn_login_normal">#007086</color>
+    <color name="btn_login_normal">#007086</color>
     <color name="btn_login_pressed">#303744</color>
     <color name="btn_logout_normal">#d33f3f</color>
     <color name="btn_logout_pressed">#DA5A4D</color>
@@ -58,20 +58,20 @@
     <color name="error_item_color">#F6EBE6</color>
     <color name="bottom_bar_normal_bg">#2D2F31</color>
     <color name="bottom_text_color_normal">#ffffff</color>
-     <color name="btn_white_normal">#f7f8f8</color>
+    <color name="btn_white_normal">#f7f8f8</color>
     <color name="btn_white_pressed">#b5b5b6</color>
     <color name="btn_green_noraml">#68C270</color>
     <color name="btn_green_pressed">#6FCD78</color>
     <color name="btn_gray_normal">#c0c0c0</color>
-     <color name="btn_gray_pressed_status">#b5b5b6</color>
+    <color name="btn_gray_pressed_status">#b5b5b6</color>
     <color name="btn_gray_pressed">#666667</color>
     <color name="btn_blue_normal">#1e90ff</color>
     <color name="btn_blue_pressed">#0066FF</color>
-     <color name="gray_pressed">#b5b5b6</color>
-     <color name="gray_normal">#666667</color>
-     <color name="grid_state_pressed">#1Affffff</color>
+    <color name="gray_pressed">#b5b5b6</color>
+    <color name="gray_normal">#666667</color>
+    <color name="grid_state_pressed">#1Affffff</color>
     <color name="grid_state_focused">#80000000</color>
-    
-      <color name="voip_interface_text_color">#bababa</color>
+    <color name="voip_interface_text_color">#bababa</color>
     <color name="black_deep">#FF000000</color>
+
 </resources>

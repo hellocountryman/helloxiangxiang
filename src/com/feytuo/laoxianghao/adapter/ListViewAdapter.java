@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -29,7 +28,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +37,6 @@ import com.feytuo.chat.activity.MainActivity;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.CommentActivity;
 import com.feytuo.laoxianghao.R;
-import com.feytuo.laoxianghao.dao.InvitationDao;
 import com.feytuo.laoxianghao.dao.PraiseDao;
 import com.feytuo.laoxianghao.domain.Invitation;
 import com.feytuo.laoxianghao.global.Global;
@@ -64,8 +61,9 @@ public class ListViewAdapter extends SimpleAdapter {
 	private SparseArray<Boolean> isAudioPlayArray;// 记录是否正在播放音乐
 	private boolean isCurrentItemAudioPlay;
 
-	public ListViewAdapter(Context context, List<Map<String, Object>> data,
-			int resource, String[] from, int[] to) {
+	public ListViewAdapter(Context context,
+			List<Map<String, Object>> data, int resource, String[] from,
+			int[] to) {
 		super(context, data, resource, from, to);
 		this.list = data;
 		this.context = context;
@@ -85,29 +83,19 @@ public class ListViewAdapter extends SimpleAdapter {
 			holder = new ViewHolder();
 			convertView = m_Inflater.inflate(resource, null);
 
-			if (resource == R.layout.index_listview_copy) {
+			if (resource == R.layout.index_listview) {
 
 				holder.indexSupportLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_support_linerlayout);
 				holder.indexCommentLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_comment_linerlayout);
-				holder.indexCollectLinerlayout = (LinearLayout) convertView
-						.findViewById(R.id.index_collect_linerlayout);
 				holder.indexShareLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_share_linerlayout);
-				holder.AudioLinearlayout = (LinearLayout) convertView
-						.findViewById(R.id.audio_linearlayout);
-				holder.audioSpaceTextView1 = (TextView) convertView
-						.findViewById(R.id.audio_space_textview_1);
-				holder.audioSpaceTextView2 = (TextView) convertView
-						.findViewById(R.id.audio_space_textview_2);
 				holder.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
 
 				holder.titleImage = (ImageView) convertView
 						.findViewById(R.id.title_img_id);
-				holder.indexProgressbarId = (ProgressBar) convertView
-						.findViewById(R.id.index_progressbar_id);
 				holder.supportImg = (ImageView) convertView
 						.findViewById(R.id.support_img);
 				holder.commentImg = (ImageView) convertView
@@ -118,8 +106,6 @@ public class ListViewAdapter extends SimpleAdapter {
 						.findViewById(R.id.index_support_num);
 				holder.indexCommentNum = (TextView) convertView
 						.findViewById(R.id.index_comment_num);
-				holder.collectImg = (ImageView) convertView
-						.findViewById(R.id.collect_img);
 				holder.indexProgressbarTime = (TextView) convertView
 						.findViewById(R.id.index_progressbar_time);
 
@@ -146,10 +132,10 @@ public class ListViewAdapter extends SimpleAdapter {
 		convertView.setOnClickListener(listener);
 		holder.indexSupportLinerlayout.setOnClickListener(listener);
 		holder.indexCommentLinerlayout.setOnClickListener(listener);
-		holder.indexCollectLinerlayout.setOnClickListener(listener);
 		holder.indexShareLinerlayout.setOnClickListener(listener);
 		// holder.indexProgressbarBtn.setOnClickListener(listener);
-		holder.indexProgressbarId.setOnClickListener(listener);
+		// holder.indexProgressbarId.setOnClickListener(listener);
+		holder.indexProgressbarBtn.setOnClickListener(listener);
 		setSubBtn(holder, position);
 		setcontent(holder, position);
 		setAudioState(holder, position);
@@ -166,9 +152,9 @@ public class ListViewAdapter extends SimpleAdapter {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						holder.indexProgressbarId.setProgress(0);
-						Log.i("progressbar", "主界面progress:"
-								+ holder.indexProgressbarId.getProgress());
+						// holder.indexProgressbarId.setProgress(0);
+						// Log.i("progressbar", "主界面progress:"
+						// + holder.indexProgressbarId.getProgress());
 					}
 				});
 				holder.indexProgressbarTime.setText((Integer) list
@@ -181,17 +167,6 @@ public class ListViewAdapter extends SimpleAdapter {
 			isCurrentItemAudioPlay = true;
 			holder.indexProgressbarBtn
 					.setBackgroundResource(R.drawable.pause_ico);
-		}
-
-		// 设置音频板块是否显示
-		if ("".equals(list.get(position).get("voice").toString())) {
-			holder.AudioLinearlayout.setVisibility(View.GONE);
-			holder.audioSpaceTextView1.setVisibility(View.VISIBLE);
-			holder.audioSpaceTextView2.setVisibility(View.VISIBLE);
-		} else {
-			holder.AudioLinearlayout.setVisibility(View.VISIBLE);
-			holder.audioSpaceTextView1.setVisibility(View.GONE);
-			holder.audioSpaceTextView2.setVisibility(View.GONE);
 		}
 	}
 
@@ -263,19 +238,9 @@ public class ListViewAdapter extends SimpleAdapter {
 				holder.supportImg.setBackgroundResource(R.drawable.support_no);
 				praiseMap.put(position, false);
 			}
-			// 判断该帖子是否被收藏
-			if (isInCollection(invId)) {
-				holder.collectImg
-						.setBackgroundResource(R.drawable.collect_press);
-				collectionMap.put(position, true);
-			} else {
-				holder.collectImg.setBackgroundResource(R.drawable.collect_no);
-				collectionMap.put(position, false);
-			}
 		} else {
 			holder.supportImg.setBackgroundResource(R.drawable.support_no);
 			praiseMap.put(position, false);
-			holder.collectImg.setBackgroundResource(R.drawable.collect_no);
 			collectionMap.put(position, false);
 		}
 	}
@@ -283,11 +248,6 @@ public class ListViewAdapter extends SimpleAdapter {
 	// 是否已经点赞
 	private boolean isPraised(String invId, String uId) {
 		return new PraiseDao(context).selectPraiseInvitation(invId, uId);
-	}
-
-	// 是否已经收藏
-	private boolean isInCollection(String invId) {
-		return new InvitationDao(context).selectCollection(invId);
 	}
 
 	class Listener implements OnClickListener {
@@ -314,21 +274,12 @@ public class ListViewAdapter extends SimpleAdapter {
 				if (App.isLogin()) {
 					turnToComment(position);
 				} else {
-					if(context instanceof MainActivity){
-						((MainActivity)context).showLoginDialog();
+					if (context instanceof MainActivity) {
+						((MainActivity) context).showLoginDialog();
 					}
 				}
 				// Toast.makeText(context, "点击了所在" + position + "的评论",
 				// Toast.LENGTH_SHORT).show();
-				break;
-			case R.id.index_collect_linerlayout:
-				if (App.isLogin()) {
-					dealCollectionBtn(v, position);
-				} else {
-					if(context instanceof MainActivity){
-						((MainActivity)context).showLoginDialog();
-					}
-				}
 				break;
 			case R.id.index_support_linerlayout:
 				if (App.isLogin()) {
@@ -336,12 +287,12 @@ public class ListViewAdapter extends SimpleAdapter {
 						dealSupportBtn(holder, position);
 					}
 				} else {
-					if(context instanceof MainActivity){
-						((MainActivity)context).showLoginDialog();
+					if (context instanceof MainActivity) {
+						((MainActivity) context).showLoginDialog();
 					}
 				}
 				break;
-			case R.id.index_progressbar_id:
+			case R.id.index_progressbar_btn:
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
 					if (lastPosition == position) {
 						if (!isPlay) {
@@ -362,8 +313,8 @@ public class ListViewAdapter extends SimpleAdapter {
 				if (App.isLogin()) {
 					turnToComment(position);
 				} else {
-					if(context instanceof MainActivity){
-						((MainActivity)context).showLoginDialog();
+					if (context instanceof MainActivity) {
+						((MainActivity) context).showLoginDialog();
 					}
 				}
 				break;
@@ -380,27 +331,6 @@ public class ListViewAdapter extends SimpleAdapter {
 		intentComment.putExtra("invId", invId);
 		intentComment.putExtra("enterFrom", 0);
 		context.startActivity(intentComment);
-	}
-
-	// 点击收藏按钮处理
-	public void dealCollectionBtn(View v, int position) {
-		// 处理ui
-		ImageButton collectImageButton = (ImageButton) ((LinearLayout) v)
-				.findViewById(R.id.collect_img);
-		if (!collectionMap.get(position)) {// 收藏
-			collectImageButton.setBackgroundResource(R.drawable.collect_press);
-			// 将数据添加到本地数据库
-			new InvitationDao(context)
-					.insert2InvitationCollection((Invitation) list
-							.get(position).get("invitation"));
-			collectionMap.put(position, true);
-		} else {// 取消收藏
-			collectImageButton.setBackgroundResource(R.drawable.collect_no);
-			// 从本地删除数据
-			new InvitationDao(context).deleteInInvitationCollection(list
-					.get(position).get("inv_id").toString());
-			collectionMap.put(position, false);
-		}
 	}
 
 	public void dealSupportBtn(ViewHolder holder, int position) {
@@ -489,21 +419,15 @@ public class ListViewAdapter extends SimpleAdapter {
 	class ViewHolder {
 		private LinearLayout indexSupportLinerlayout;// 赞
 		private LinearLayout indexCommentLinerlayout;// 评论
-		private LinearLayout indexCollectLinerlayout;// 收藏
 		private LinearLayout indexShareLinerlayout;// 分享
-		private LinearLayout AudioLinearlayout;// 音频
-		private TextView audioSpaceTextView1;// 空白
-		private TextView audioSpaceTextView2;// 空白
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageView personHeadImg;// 头像
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
-		private ImageView collectImg;// 收藏的图标
 		private ImageView commentImg;// 评论的图标
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
 		private TextView indexProgressbarTime;
-		private ProgressBar indexProgressbarId;
 		private TextView indexTextDescribe;// 帖子内容文字
 		private TextView indexLocalsCountry;// 帖子内容城市
 		private TextView indexLocalsTime;// 帖子内容时间
@@ -552,8 +476,6 @@ public class ListViewAdapter extends SimpleAdapter {
 					mCountDownTimer = new MyCount((voiceDuration) * 1000 + 50,
 							1000);
 					mCountDownTimer.start();
-					// 显示进度条
-					showIndeterDialog(voiceDuration);
 				}
 			});
 		} catch (IllegalArgumentException e) {
@@ -592,7 +514,7 @@ public class ListViewAdapter extends SimpleAdapter {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					holder.indexProgressbarId.setProgress(0);
+					// holder.indexProgressbarId.setProgress(0);
 				}
 			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
@@ -638,33 +560,33 @@ public class ListViewAdapter extends SimpleAdapter {
 		}
 	}
 
-	// /进度条的处理
-	private void showIndeterDialog(int processtime) {
-		final long newprocesstime = processtime * 10;
-		final int progrocessMax = 100;
-		mHolder.indexProgressbarId.setMax(progrocessMax);
-		mHolder.indexProgressbarId.setProgress(0);
-		mHolder.indexProgressbarId.setIndeterminate(false);
-		mProgressTimer = new Timer();
-		mProgressTimer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if (mCount <= progrocessMax) {
-					mCount++;
-					if (isCurrentItemAudioPlay) {
-						// TODO Auto-generated method stub
-						mHolder.indexProgressbarId.setProgress(mCount);
-						Log.i("progressbar", "子线程progress:"
-								+ mHolder.indexProgressbarId.getProgress());
-					}
-				} else {
-					mHandler.sendEmptyMessage(0);
-				}
-			}
-		}, 0l, newprocesstime);
-	}
+	// // /进度条的处理
+	// private void showIndeterDialog(int processtime) {
+	// final long newprocesstime = processtime * 10;
+	// final int progrocessMax = 100;
+	// mHolder.indexProgressbarId.setMax(progrocessMax);
+	// mHolder.indexProgressbarId.setProgress(0);
+	// mHolder.indexProgressbarId.setIndeterminate(false);
+	// mProgressTimer = new Timer();
+	// mProgressTimer.schedule(new TimerTask() {
+	//
+	// @Override
+	// public void run() {
+	// // TODO Auto-generated method stub
+	// if (mCount <= progrocessMax) {
+	// mCount++;
+	// if (isCurrentItemAudioPlay) {
+	// // TODO Auto-generated method stub
+	// mHolder.indexProgressbarId.setProgress(mCount);
+	// Log.i("progressbar", "子线程progress:"
+	// + mHolder.indexProgressbarId.getProgress());
+	// }
+	// } else {
+	// mHandler.sendEmptyMessage(0);
+	// }
+	// }
+	// }, 0l, newprocesstime);
+	// }
 
 	/**
 	 * Handler消息处理
@@ -676,7 +598,7 @@ public class ListViewAdapter extends SimpleAdapter {
 				// 进度条走完
 				mCount = 0;
 				mProgressTimer.cancel();
-				mHolder.indexProgressbarId.setProgress(0);
+				// mHolder.indexProgressbarId.setProgress(0);
 				if (isCurrentItemAudioPlay) {
 					mHolder.indexProgressbarTime.setText(voiceDuration + "s");
 					mHolder.indexProgressbarBtn
