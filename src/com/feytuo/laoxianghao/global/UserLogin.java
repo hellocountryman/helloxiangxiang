@@ -17,8 +17,11 @@ import android.graphics.Bitmap.CompressFormat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import com.easemob.EMCallBack;
@@ -28,6 +31,7 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.feytuo.chat.Constant;
+import com.feytuo.chat.activity.MainActivity;
 import com.feytuo.chat.db.UserDao;
 import com.feytuo.chat.domain.User;
 import com.feytuo.laoxianghao.App;
@@ -66,18 +70,27 @@ public class UserLogin {
 		Log.i("UserLogin", "openId:" + uName);
 		Log.i("UserLogin", "nickName:" + nickName);
 		Log.i("UserLogin", "bitmap:" + headBitmap);
-		//1、上传头像文件，获取头像文件地址
-		uploadHeadFile(context,uName,uKey,nickName,headBitmap);
-		//2、上传用户基本信息
-		//3、注册环信服务器
-		//4、登录环信服务器
+		// 0、上传头像文件，获取头像文件地址
+		uploadHeadFile(context, uName, uKey, nickName, headBitmap);
+		// 1、检查是否存在该用户，不存在则添加用户，反之更新用户
+		// 2、上传用户基本信息
+		// 3、注册环信服务器
+		// 4、登录环信服务器
 	}
 
-	//1、上传头像文件，获取头像文件地址
+	/**
+	 * 0、上传头像文件，获取头像文件地址
+	 * 
+	 * @param context
+	 * @param uName
+	 * @param uKey
+	 * @param nickName
+	 * @param headBitmap
+	 */
 	private void uploadHeadFile(final Context context, final String uName,
-			final String uKey, final String nickName, Bitmap headBitmap) {
+			final String uKey, final String nickName, final Bitmap headBitmap) {
 		// TODO Auto-generated method stub
-		((Activity)context).runOnUiThread(new Runnable() {
+		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
 				pd = new ProgressDialog(context);
 				pd.setMessage("正在获取登录信息...");
@@ -92,31 +105,98 @@ public class UserLogin {
 				pd.show();
 			}
 		});
-		
-		File file = saveBitmap2File(context,headBitmap);
-		if(file != null && file.exists()){
+
+		File file = saveBitmap2File(context, headBitmap);
+		if (file != null && file.exists()) {
 			final BmobFile bmobFile = new BmobFile(file);
 			bmobFile.uploadblock(context, new UploadFileListener() {
 
 				@Override
 				public void onSuccess() {
 					// TODO Auto-generated method stub
-					// 获取文件url后上传基本信息
-					saveAndLogin(context,uName,uKey,nickName,bmobFile.getFileUrl());
+					// 判断是否存在该用户
+					judgeUserExist(context, uName, uKey, nickName,
+							bmobFile.getFileUrl());
 				}
 
 				@Override
 				public void onFailure(int arg0, String arg1) {
 					// TODO Auto-generated method stub
 					pd.dismiss();
-					Log.i("PublishActivity", "保存登录信息失败："+arg1);
+					Toast.makeText(context, "网络或服务器有问题，请稍候再试...",
+							Toast.LENGTH_SHORT).show();
+					Log.i("UserLogin", "保存登录信息失败：" + arg1);
 				}
 			});
 		}
 	}
 
+	private void judgeUserExist(final Context context, final String uName,
+			final String uKey, final String nickName, final String headUrl) {
+		// TODO Auto-generated method stub
+		// 判断是否在数据库中有该用户
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereEqualTo("uName", uName);
+		query.findObjects(context, new FindListener<LXHUser>() {
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				if (arg0.size() > 0 && arg0.get(0) != null) {
+					// 如果存在该用户
+					// 更新用户信息，然后直接登录环信服务器
+					Log.i("UserLogin", "用户已存在");
+					updataAndLogin(context, arg0.get(0), nickName, headUrl);
+				} else {
+					// 如果不存在
+					// 获取文件url后上传基本信息，然后注册环信服务器
+					Log.i("UserLogin", "用户不存在");
+					saveAndLogin(context, uName, uKey, nickName, headUrl);
+				}
+			}
+
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Toast.makeText(context, uKey + "登陆失败,请稍候再试...",
+						Toast.LENGTH_SHORT).show();
+				Log.i("UserLogin", arg1 + "----" + arg0);
+			}
+		});
+	}
+
+	private void updataAndLogin(final Context context, final LXHUser user,
+			final String nickName, String headUrl) {
+		// TODO Auto-generated method stub
+		((Activity) context).runOnUiThread(new Runnable() {
+			public void run() {
+				pd.setMessage("正在更新登录信息...");
+			}
+		});
+		LXHUser lxhUser = new LXHUser();
+		lxhUser.setNickName(nickName);
+		lxhUser.setHeadUrl(headUrl);
+		lxhUser.update(context, user.getObjectId(), new UpdateListener() {
+
+			@Override
+			public void onSuccess() {
+				// TODO Auto-generated method stub
+				Log.i("UserLogin", user.getObjectId() + "--" + user.getuName());
+				loginHX(context, user.getObjectId(), user.getuName(), nickName);
+			}
+
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				pd.dismiss();
+				Toast.makeText(context, user.getuKey() + "更新用户信息失败,请稍后再试...",
+						Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+
 	/**
 	 * 2、上传用户基本信息
+	 * 
 	 * @param context
 	 * @param uName
 	 * @param uKey
@@ -124,9 +204,9 @@ public class UserLogin {
 	 * @param headUrl
 	 */
 	private void saveAndLogin(final Context context, final String uName,
-			final String uKey, final String nickName,String headUrl) {
+			final String uKey, final String nickName, String headUrl) {
 		// 如果没，则添加用户
-		((Activity)context).runOnUiThread(new Runnable() {
+		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
 				pd.setMessage("正在保存登录信息...");
 			}
@@ -141,10 +221,10 @@ public class UserLogin {
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
-				//注册环信服务器
-				registerHX(context,user.getObjectId(),uName);
-//				App.pre.edit().putString(Global.USER_ID, user.getObjectId())
-//						.commit();
+				// 注册环信服务器
+				registerHX(context, user.getObjectId(), uName, nickName);
+				// App.pre.edit().putString(Global.USER_ID, user.getObjectId())
+				// .commit();
 				gUser = user;// 将获取的用户设为全局变量
 			}
 
@@ -152,20 +232,22 @@ public class UserLogin {
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
 				pd.dismiss();
-				Toast.makeText(context, uKey + "保存用户信息失败：", Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(context, uKey + "保存用户信息失败,请稍候再试...",
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
 
 	/**
 	 * 3、注册环信服务器
+	 * 
 	 * @param uId
 	 * @param pwd
 	 */
-	protected void registerHX(final Context context,final String username, final String pwd) {
+	protected void registerHX(final Context context, final String username,
+			final String pwd, final String nickName) {
 		// TODO Auto-generated method stub
-		((Activity)context).runOnUiThread(new Runnable() {
+		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
 				pd.setMessage("正在注册聊天服务器...");
 			}
@@ -175,29 +257,38 @@ public class UserLogin {
 				public void run() {
 					try {
 						// 调用sdk注册方法
-						EMChatManager.getInstance().createAccountOnServer(username, pwd);
+						EMChatManager.getInstance().createAccountOnServer(
+								username, pwd);
 						// 保存用户名
 						App.getInstance().setUserName(username);
-						//登录服务器
-						loginHX(context,username,pwd);
+						// 登录服务器
+						loginHX(context, username, pwd, nickName);
 					} catch (final Exception e) {
 						pd.dismiss();
-						((Activity)context).runOnUiThread(new Runnable() {
+						((Activity) context).runOnUiThread(new Runnable() {
 							public void run() {
 								if (e != null && e.getMessage() != null) {
 									String errorMsg = e.getMessage();
-									if (errorMsg.indexOf("EMNetworkUnconnectedException") != -1) {
-										Toast.makeText(context, "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
+									if (errorMsg
+											.indexOf("EMNetworkUnconnectedException") != -1) {
+										Toast.makeText(context, "网络异常，请检查网络！",
+												Toast.LENGTH_SHORT).show();
 									} else if (errorMsg.indexOf("conflict") != -1) {
-										Toast.makeText(context, "用户已存在！",  Toast.LENGTH_SHORT).show();
-									}/* else if (errorMsg.indexOf("not support the capital letters") != -1) {
-										Toast.makeText(getApplicationContext(), "用户名不支持大写字母！", 0).show();
-									} */else {
-										Log.i("UserLogin", "注册失败: " + e.getMessage());
+										Toast.makeText(context, "用户已存在！",
+												Toast.LENGTH_SHORT).show();
+									}/*
+									 * else if (errorMsg.indexOf(
+									 * "not support the capital letters") != -1)
+									 * { Toast.makeText(getApplicationContext(),
+									 * "用户名不支持大写字母！", 0).show(); }
+									 */else {
+										Log.i("UserLogin",
+												"注册失败: " + e.getMessage());
 									}
 
 								} else {
-									Toast.makeText(context, "注册失败: 未知异常", Toast.LENGTH_SHORT).show();
+									Toast.makeText(context, "注册失败: 未知异常",
+											Toast.LENGTH_SHORT).show();
 								}
 							}
 						});
@@ -210,13 +301,15 @@ public class UserLogin {
 
 	/**
 	 * 4、登录环信服务器
+	 * 
 	 * @param context
 	 * @param username
 	 * @param pwd
 	 */
-	private void loginHX(final Context context,final String username, final String pwd) {
+	private void loginHX(final Context context, final String username,
+			final String pwd, final String nickName) {
 		// TODO Auto-generated method stub
-		((Activity)context).runOnUiThread(new Runnable() {
+		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
 				pd.setMessage("正在登陆聊天服务器...");
 			}
@@ -229,58 +322,29 @@ public class UserLogin {
 				@Override
 				public void onSuccess() {
 					if (!progressShow) {
+						Log.i("UserLogin", "提示框不见了！");
 						return;
 					}
 					// 登陆成功，保存用户名密码
 					App.getInstance().setUserName(username);
 					App.getInstance().setPassword(pwd);
-					((Activity)context).runOnUiThread(new Runnable() {
+					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
 							pd.setMessage("正在获取好友和群聊列表...");
 						}
 					});
 					try {
 						// demo中简单的处理成每次登陆都去获取好友username，开发者自己根据情况而定
-						List<String> usernames = EMContactManager.getInstance().getContactUserNames();
-						Map<String, User> userlist = new HashMap<String, User>();
-						for (String username : usernames) {
-							User user = new User();
-							user.setUsername(username);
-							setUserHearder(username, user);
-							userlist.put(username, user);
-						}
-						// 添加user"申请与通知"
-						User newFriends = new User();
-						newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
-						newFriends.setNick("申请与通知");
-						newFriends.setHeader("");
-						userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-						// 添加"群聊"
-						User groupUser = new User();
-						groupUser.setUsername(Constant.GROUP_USERNAME);
-						groupUser.setNick("群聊");
-						groupUser.setHeader("");
-						userlist.put(Constant.GROUP_USERNAME, groupUser);
-
-						// 存入内存
-						App.getInstance().setContactList(userlist);
-						// 存入db
-						UserDao dao = new UserDao(context);
-						List<User> users = new ArrayList<User>(userlist.values());
-						dao.saveContactList(users);
-
-						// 获取群聊列表(群聊里只有groupid和groupname的简单信息),sdk会把群组存入到内存和db中
-						EMGroupManager.getInstance().getGroupsFromServer();
+						List<String> usernames = EMContactManager.getInstance()
+								.getContactUserNames();
+						// 获取所有人的昵称
+						getNickNameFromBmob(context, usernames, username,
+								nickName);
 					} catch (Exception e) {
+						Log.i("UserLogin", "用户名或昵称获取失败");
+						pd.dismiss();
 						e.printStackTrace();
 					}
-					boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(App.currentUserNick);
-					if (!updatenick) {
-						EMLog.e("LoginActivity", "update current user nick fail");
-					}
-
-					pd.dismiss();
-					App.pre.edit().putString(Global.USER_ID, username).commit();
 				}
 
 				@Override
@@ -293,16 +357,106 @@ public class UserLogin {
 					if (!progressShow) {
 						return;
 					}
-					((Activity)context).runOnUiThread(new Runnable() {
+					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(context, "登录失败: " + message, Toast.LENGTH_SHORT).show();
+							Toast.makeText(context, "登录失败: " + message,
+									Toast.LENGTH_SHORT).show();
 
 						}
 					});
 				}
 			});
+		} else {
+			// 用户名或者密码为空
 		}
+	}
+
+	protected void getNickNameFromBmob(final Context context,
+			final List<String> usernames, final String username,
+			final String nickName) {
+		// TODO Auto-generated method stub
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereContainedIn("objectId", usernames);
+		query.addQueryKeys("nickName");
+		query.findObjects(context, new FindListener<LXHUser>() {
+
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				try {
+					Map<String, User> userlist = new HashMap<String, User>();
+					// Log.i("UserLogin", "服务器好友有："+usernames.size());
+					for (int i = 0; i < usernames.size(); i++) {
+						User user = new User();
+						user.setUsername(usernames.get(i));
+						user.setNick(arg0.get(i).getNickName());
+						setUserHearder(usernames.get(i), user);
+						userlist.put(usernames.get(i), user);
+						Log.i("UserLogin", "添加了服务器好友：" + usernames.get(i)
+								+ "---" + arg0.get(i).getNickName());
+					}
+					// 添加user"申请与通知"
+					User newFriends = new User();
+					newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
+					newFriends.setNick("申请与通知");
+					newFriends.setHeader("");
+					userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
+					// 添加"群聊"
+					User groupUser = new User();
+					groupUser.setUsername(Constant.GROUP_USERNAME);
+					groupUser.setNick("群聊");
+					groupUser.setHeader("");
+					userlist.put(Constant.GROUP_USERNAME, groupUser);
+
+					// 存入内存
+					App.getInstance().setContactList(userlist);
+					// 存入db
+					UserDao dao = new UserDao(context);
+					List<User> users = new ArrayList<User>(userlist.values());
+					dao.saveContactList(users);
+
+					// 获取群聊列表(群聊里只有groupid和groupname的简单信息),sdk会把群组存入到内存和db中
+					EMGroupManager.getInstance().getGroupsFromServer();
+				} catch (Exception e) {
+					pd.dismiss();
+					e.printStackTrace();
+				}
+				boolean updatenick = EMChatManager.getInstance()
+						.updateCurrentUserNick(nickName);
+				if (!updatenick) {
+					EMLog.e("UserLogin", "update current user nick fail");
+				}
+
+				pd.dismiss();
+				// 登录成功，设置登录成功标示
+				App.pre.edit().putString(Global.USER_ID, username).commit();
+				// 注册聊天广播和监听,初始化联系人列表
+				if (context instanceof MainActivity) {
+					((MainActivity) context).registerHXListeners();
+					if (((MainActivity) context).cacFragment != null
+							&& ((MainActivity) context).cacFragment
+									.getContactListFragment() != null
+							&& ((MainActivity) context).cacFragment
+									.getContactListFragment()
+									.isActivityCreated()) {
+						((Activity) context).runOnUiThread(new Runnable() {
+							public void run() {
+								((MainActivity) context).cacFragment
+										.getContactListFragment().initView();
+							}
+						});
+					}
+				}
+			}
+
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i("UserLogin", "昵称获取失败");
+				pd.dismiss();
+			}
+		});
 	}
 
 	/*
@@ -339,7 +493,7 @@ public class UserLogin {
 		}
 		return headFile;
 	}
-	
+
 	/**
 	 * 设置hearder属性，方便通讯中对联系人按header分类显示，以及通过右侧ABCD...字母栏快速定位联系人
 	 * 
@@ -358,7 +512,9 @@ public class UserLogin {
 		} else if (Character.isDigit(headerName.charAt(0))) {
 			user.setHeader("#");
 		} else {
-			user.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1)).get(0).target.substring(0, 1).toUpperCase());
+			user.setHeader(HanziToPinyin.getInstance()
+					.get(headerName.substring(0, 1)).get(0).target.substring(0,
+					1).toUpperCase());
 			char header = user.getHeader().toLowerCase().charAt(0);
 			if (header < 'a' || header > 'z') {
 				user.setHeader("#");

@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -66,22 +67,27 @@ public class ContactlistFragment extends Fragment {
 	private InputMethodManager inputMethodManager;
 	
 	private boolean isInitialized = false;
+	private boolean isActivityCreated = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.i("ContactlistFragment", "-->onCreateView");
 		return inflater.inflate(R.layout.fragment_contact_list, container, false);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		Log.i("ContactlistFragment", "-->onActivityCreated");
+		isActivityCreated = true;
 		if(App.isLogin() && !isInitialized){
 			initView();
 		}
 	}
 
-	private void initView() {
+	public void initView() {
 		// TODO Auto-generated method stub
+		Log.i("ContactlistFragment", "-->initView");
 		isInitialized = true;
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		listView = (ListView) getView().findViewById(R.id.list);
@@ -108,7 +114,10 @@ public class ContactlistFragment extends Fragment {
 					startActivity(new Intent(getActivity(), GroupsActivity.class));
 				} else {
 					// demo中直接进入聊天页面，实际一般是进入用户详情页
-					startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", adapter.getItem(position).getUsername()));
+					Intent intent = new Intent(getActivity(), ChatActivity.class);
+					intent.putExtra("userId", adapter.getItem(position).getUsername());
+					intent.putExtra("userNickName", adapter.getItem(position).getNick());
+					startActivity(intent);
 				}
 			}
 		});
@@ -158,6 +167,7 @@ public class ContactlistFragment extends Fragment {
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
+		Log.i("ContactlistFragment", "-->onHiddenChanged");
 		this.hidden = hidden;
 		if (!hidden && isInitialized) {
 			refresh();
@@ -167,6 +177,7 @@ public class ContactlistFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.i("ContactlistFragment", "-->onResume");
 		if(App.isLogin() && !isInitialized){
 			initView();
 		}
@@ -286,4 +297,9 @@ public class ContactlistFragment extends Fragment {
 //		// 把"申请与通知"添加到首位
 //		contactList.add(0, users.get(Constant.NEW_FRIENDS_USERNAME));
 	}
+
+	public boolean isActivityCreated() {
+		return isActivityCreated;
+	}
+	
 }

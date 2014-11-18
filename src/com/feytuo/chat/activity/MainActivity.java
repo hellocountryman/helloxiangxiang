@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -62,7 +63,6 @@ import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.fragment.FindFragment;
 import com.feytuo.laoxianghao.fragment.MainFragment;
-import com.feytuo.laoxianghao.global.UserLogin;
 import com.feytuo.laoxianghao.share_qq.Share_QQ;
 import com.feytuo.laoxianghao.share_sina.Share_Weibo;
 import com.feytuo.laoxianghao.view.MyLoginDialog;
@@ -80,7 +80,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 	protected static final String TAG = "MainActivity";
 
 	private Button[] mTabs;
-	private ChatAndContactFragment cacFragment;// 乡聊
+	public ChatAndContactFragment cacFragment;// 乡聊
 	private SettingsFragment settingFragment;// 设置
 	private MainFragment mainFragment;//主界面
 	private FindFragment findFragment;//发现
@@ -113,6 +113,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 	//初始化环信监听和广播
 	public void registerHXListeners(){
 		// 注册一个接收消息的BroadcastReceiver
+		Log.i("MainActivity", "注册了聊天广播");
 		msgReceiver = new NewMessageBroadcastReceiver();
 		IntentFilter intentFilter = new IntentFilter(EMChatManager
 				.getInstance().getNewMessageBroadcastAction());
@@ -320,13 +321,11 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 
 			// 刷新bottom bar消息未读数
 			updateUnreadLabel();
-//			if (currentTabIndex == 0) {
-				// 当前页面如果为聊天历史页面，刷新此页面
-				if (cacFragment != null
-						&& cacFragment.getChatHistoryFragment() != null) {
-						cacFragment.getChatHistoryFragment().refresh();
-				}
-//			}
+			// 当前页面如果为聊天历史页面，刷新此页面
+			if (cacFragment != null
+					&& cacFragment.getChatHistoryFragment() != null) {
+					cacFragment.getChatHistoryFragment().refresh();
+			}
 			// 注销广播，否则在ChatActivity中会收到这个广播
 			abortBroadcast();
 		}
@@ -404,12 +403,10 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 			}
 			localUsers.putAll(toAddUsers);
 			// 刷新ui
-			if (currentTabIndex == 3) {
-				if (cacFragment != null
-						&& cacFragment.getContactListFragment() != null) {
-					Log.i("MainActivity", "add");
-					cacFragment.getContactListFragment().refresh();
-				}
+			if (cacFragment != null
+					&& cacFragment.getContactListFragment() != null) {
+				Log.i("MainActivity", "add");
+				cacFragment.getContactListFragment().refresh();
 			}
 
 		}
@@ -442,12 +439,10 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				}
 			});
 			// 刷新ui
-			if (currentTabIndex == 3) {
-				if (cacFragment != null
-						&& cacFragment.getContactListFragment() != null) {
-					Log.i("MainActivity", "delete");
-					cacFragment.getContactListFragment().refresh();
-				}
+			if (cacFragment != null
+					&& cacFragment.getContactListFragment() != null) {
+				Log.i("MainActivity", "delete");
+				cacFragment.getContactListFragment().refresh();
 			}
 
 		}
@@ -513,11 +508,9 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		// 刷新bottom bar消息未读数
 		updateUnreadAddressLable();
 		// 刷新好友页面ui
-		if (currentTabIndex == 3) {
-			if (cacFragment != null
-					&& cacFragment.getContactListFragment() != null) {
-				cacFragment.getContactListFragment().refresh();
-			}
+		if (cacFragment != null
+				&& cacFragment.getContactListFragment() != null) {
+			cacFragment.getContactListFragment().refresh();
 		}
 	}
 
@@ -660,12 +653,10 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				public void run() {
 					updateUnreadLabel();
 					// 刷新ui
-					if (currentTabIndex == 3) {
-						// 当前页面如果为聊天历史页面，刷新此页面
-						if (cacFragment != null
-								&& cacFragment.getChatHistoryFragment() != null) {
-							cacFragment.getChatHistoryFragment().refresh();
-						}
+					// 当前页面如果为聊天历史页面，刷新此页面
+					if (cacFragment != null
+							&& cacFragment.getChatHistoryFragment() != null) {
+						cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(
 							GroupsActivity.class.getName())) {
@@ -696,13 +687,11 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				public void run() {
 					try {
 						updateUnreadLabel();
-						if (currentTabIndex == 3) {
-							// 当前页面如果为聊天历史页面，刷新此页面
-							if (cacFragment != null
-									&& cacFragment.getChatHistoryFragment() != null) {
-									cacFragment.getChatHistoryFragment()
-											.refresh();
-							}
+						// 当前页面如果为聊天历史页面，刷新此页面
+						if (cacFragment != null
+								&& cacFragment.getChatHistoryFragment() != null) {
+								cacFragment.getChatHistoryFragment()
+										.refresh();
 						}
 						if (CommonUtils.getTopActivity(MainActivity.this)
 								.equals(GroupsActivity.class.getName())) {
@@ -724,12 +713,10 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 			runOnUiThread(new Runnable() {
 				public void run() {
 					updateUnreadLabel();
-					if (currentTabIndex == 3) {
-						// 当前页面如果为聊天历史页面，刷新此页面
-						if (cacFragment != null
-								&& cacFragment.getChatHistoryFragment() != null) {
-								cacFragment.getChatHistoryFragment().refresh();
-						}
+					// 当前页面如果为聊天历史页面，刷新此页面
+					if (cacFragment != null
+							&& cacFragment.getChatHistoryFragment() != null) {
+							cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(
 							GroupsActivity.class.getName())) {
@@ -774,12 +761,10 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				public void run() {
 					updateUnreadLabel();
 					// 刷新ui
-					if (currentTabIndex == 3) {
-						// 当前页面如果为聊天历史页面，刷新此页面
-						if (cacFragment != null
-								&& cacFragment.getChatHistoryFragment() != null) {
-								cacFragment.getChatHistoryFragment().refresh();
-						}
+					// 当前页面如果为聊天历史页面，刷新此页面
+					if (cacFragment != null
+							&& cacFragment.getChatHistoryFragment() != null) {
+							cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(
 							GroupsActivity.class.getName())) {
@@ -804,7 +789,7 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 			updateUnreadLabel();
 			updateUnreadAddressLable();
 			EMChatManager.getInstance().activityResumed();
-			if (currentTabIndex == 3) {
+			if (currentTabIndex == 2) {
 				if (cacFragment != null
 						&& cacFragment.getContactListFragment() != null) {
 					Log.i("MainActivity", "add");
