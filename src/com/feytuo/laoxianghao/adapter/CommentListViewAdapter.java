@@ -120,21 +120,14 @@ public class CommentListViewAdapter extends BaseAdapter {
 		switch (type) {
 		case TYPE_1:
 			if (convertView == null) {
-				convertView = m_Inflater.inflate(R.layout.index_listview_copy,
+				convertView = m_Inflater.inflate(R.layout.index_listview,
 						null);// 同样是将布局转化成view
 				holder1 = new viewHolder1();
 				holder1.indexSupportLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_support_linerlayout);
-				holder1.indexCollectLinerlayout = (LinearLayout) convertView
-						.findViewById(R.id.index_collect_linerlayout);
+
 				holder1.indexShareLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_share_linerlayout);
-				holder1.AudioLinerlayout = (LinearLayout) convertView
-						.findViewById(R.id.audio_linearlayout);
-				holder1.audioSpaceTextView1 = (TextView) convertView
-						.findViewById(R.id.audio_space_textview_1);
-				holder1.audioSpaceTextView2 = (TextView) convertView
-						.findViewById(R.id.audio_space_textview_2);
 				holder1.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
 
@@ -150,12 +143,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 						.findViewById(R.id.index_support_num);
 				holder1.indexCommentNum = (TextView) convertView
 						.findViewById(R.id.index_comment_num);
-				holder1.collectImg = (ImageView) convertView
-						.findViewById(R.id.collect_img);
 				holder1.indexProgressbarTime = (TextView) convertView
 						.findViewById(R.id.index_progressbar_time);
-				holder1.indexProgressbarId = (ProgressBar) convertView
-						.findViewById(R.id.index_progressbar_id);
 
 				holder1.indexTextDescribe = (TextView) convertView
 						.findViewById(R.id.index_text_describe);
@@ -201,10 +190,9 @@ public class CommentListViewAdapter extends BaseAdapter {
 			setSubBtn(holder1, inv);
 			Listener listener = new Listener(holder1);
 			holder1.indexSupportLinerlayout.setOnClickListener(listener);
-			holder1.indexCollectLinerlayout.setOnClickListener(listener);
 			holder1.indexShareLinerlayout.setOnClickListener(listener);
 			// holder1.indexProgressbarBtn.setOnClickListener(listener);
-			holder1.indexProgressbarId.setOnClickListener(listener);
+			holder1.indexProgressbarBtn.setOnClickListener(listener);
 			break;
 		case TYPE_2:
 			setAudioPlayBtn(holder2.commentPlayId, position);
@@ -255,15 +243,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 			holder.indexLocalsCountry.setTextColor(context.getResources()
 					.getColor(R.color.hot));
 		}
-		if (inv.getVoice() == null || "".equals(inv.getVoice())) {
-			holder.AudioLinerlayout.setVisibility(View.GONE);
-			holder.audioSpaceTextView1.setVisibility(View.VISIBLE);
-			holder.audioSpaceTextView2.setVisibility(View.VISIBLE);
-		} else {
-			holder.AudioLinerlayout.setVisibility(View.VISIBLE);
-			holder.audioSpaceTextView1.setVisibility(View.GONE);
-			holder.audioSpaceTextView2.setVisibility(View.GONE);
-		}
 		if (inv.getPraiseNum() > 0) {
 			holder.indexSupportNum.setText(inv.getPraiseNum() + "");
 		} else {
@@ -289,14 +268,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 			holder.supportImg.setBackgroundResource(R.drawable.support_no);
 			isPraised = false;
 		}
-		// 判断该帖子是否被收藏
-		if (isInCollection(invId)) {
-			holder.collectImg.setBackgroundResource(R.drawable.collect_press);
-			isCollected = true;
-		} else {
-			holder.collectImg.setBackgroundResource(R.drawable.collect_no);
-			isCollected = false;
-		}
 	}
 
 	// 是否已经点赞
@@ -304,10 +275,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 		return new PraiseDao(context).selectPraiseInvitation(invId, uId);
 	}
 
-	// 是否已经收藏
-	private boolean isInCollection(String invId) {
-		return new InvitationDao(context).selectCollection(invId);
-	}
 
 	class AudioListener implements OnClickListener {
 		private int position;
@@ -410,21 +377,15 @@ public class CommentListViewAdapter extends BaseAdapter {
 	// 这样做的好处就是不必每次都到布局文件中去拿到你的View，提高了效率
 	class viewHolder1 {
 		private LinearLayout indexSupportLinerlayout;// 赞
-		private LinearLayout indexCollectLinerlayout;// 收藏
 		private LinearLayout indexShareLinerlayout;// 分享
-		private LinearLayout AudioLinerlayout;// 录音板块
-		private TextView audioSpaceTextView1;// 空白
-		private TextView audioSpaceTextView2;// 空白
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageView personHeadImg;// 头像
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
-		private ImageView collectImg;// 收藏的图标
 		private ImageView commentImg;// 评论的图标
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
 		private TextView indexProgressbarTime;
-		private ProgressBar indexProgressbarId;
 		private TextView indexTextDescribe;// 帖子内容文字
 		private TextView indexLocalsCountry;// 帖子内容城市
 		private TextView indexLocalsTime;// 帖子内容时间
@@ -454,13 +415,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 				Dialog dialog = new MyDialog(context, inv, R.style.MyDialog);
 				dialog.show();
 				break;
-			case R.id.index_collect_linerlayout:
-				// 主列表需要刷新
-				App.pre.edit()
-						.putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, true)
-						.commit();
-				dealCollectionBtn(v);
-				break;
 			case R.id.index_support_linerlayout:
 				// 主列表需要刷新
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
@@ -470,7 +424,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 					dealSupportBtn(holder);
 				}
 				break;
-			case R.id.index_progressbar_id:
+			case R.id.index_progressbar_btn:
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
 					if (!isInvitationPlay) {
 						playInvitationAudio(holder);// 播放语音
@@ -486,25 +440,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	}
 
-	// 点击收藏按钮处理
-	public void dealCollectionBtn(View v) {
-		// 处理ui
-		ImageButton collectImageButton = (ImageButton) ((LinearLayout) v)
-				.findViewById(R.id.collect_img);
-		if (!isCollected) {// 收藏
-			collectImageButton.setBackgroundResource(R.drawable.collect_press);
-			// 将数据添加到本地数据库
-			new InvitationDao(context).insert2InvitationCollection(inv);
-			isCollected = true;
-		} else {// 取消收藏
-			collectImageButton.setBackgroundResource(R.drawable.collect_no);
-			// 从本地删除数据
-			new InvitationDao(context).deleteInInvitationCollection(inv
-					.getObjectId());
-			isCollected = false;
-		}
-
-	}
 
 	public void dealSupportBtn(viewHolder1 holder) {
 		// TODO Auto-generated method stub
@@ -656,8 +591,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 			mHandler.post(new Runnable() {
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
-					holder.indexProgressbarId.setProgress(0);
+//					// TODO Auto-generated method stub
+//					holder.indexProgressbarId.setProgress(0);
 				}
 			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
@@ -700,10 +635,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 	// /进度条的处理
 	private void showIndeterDialog(int processtime) {
 		final int newprocesstime = processtime;
-		final int progrocessMax = 1000;
-		mHolder1.indexProgressbarId.setMax(progrocessMax);
-		mHolder1.indexProgressbarId.setProgress(0);
-		mHolder1.indexProgressbarId.setIndeterminate(false);
+		final int progrocessMax = 1000;;
 		mProgressTimer = new Timer();
 		mProgressTimer.schedule(new TimerTask() {
 
@@ -716,7 +648,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							mHolder1.indexProgressbarId.setProgress(mCount);
 						}
 					});
 				} else {
@@ -737,7 +668,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 				// 进度条走完
 				mCount = 0;
 				mProgressTimer.cancel();
-				mHolder1.indexProgressbarId.setProgress(0);
 				mHolder1.indexProgressbarTime.setText(voiceDuration + "s");
 				mHolder1.indexProgressbarBtn
 						.setBackgroundResource(R.drawable.play_ico);

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/common_selector"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8.0dip" >
+
+        <ImageView
+            android:id="@+id/person_head_img"
+            android:layout_width="48.0dip"
+            android:layout_height="48.0dip"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:background="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/index_user_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="8.0dip"
+            android:layout_toRightOf="@+id/person_head_img"
+            android:text="唐小鹏同学"
+            android:textColor="@color/indexbg"
+            android:textSize="16.0sp" />
+
+        <TextView
+            android:id="@+id/index_locals_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8.0dip"
+            android:layout_marginTop="30.0dip"
+            android:layout_toRightOf="@+id/person_head_img"
+            android:text="2014-09-17 19:20"
+            android:textColor="@color/newtime"
+            android:textSize="@dimen/text_time_size" />
+
+        <TextView
+            android:id="@+id/index_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="16.0dip"
+            android:text="中山话"
+            android:textColor="@color/grey"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8.0dip"
+        android:layout_marginLeft="@dimen/margin_left_right"
+        android:layout_marginRight="@dimen/margin_left_right"
+        android:layout_marginTop="8.0dip"
+        android:background="@drawable/musicback" >
+
+        <ImageButton
+            android:id="@+id/index_progressbar_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16.0dip"
+            android:layout_marginTop="13.0dip"
+            android:background="@drawable/musicplaythree" />
+
+        <TextView
+            android:id="@+id/index_progressbar_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16.0dip"
+            android:layout_marginTop="18.0dip"
+            android:text="32s"
+            android:textSize="12.0sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/index_text_describe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_left_right"
+        android:layout_marginRight="@dimen/margin_left_right"
+        android:text="今天的天气还不错哦"
+        android:textColor="@color/black"
+        android:textSize="16.0sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dip"
+        android:background="@drawable/common_selector" >
+
+        <ImageView
+            android:id="@+id/title_img_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16.0dip"
+            android:background="@drawable/geographical" />
+
+        <TextView
+            android:id="@+id/index_locals_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8.0dip"
+            android:layout_toRightOf="@+id/title_img_id"
+            android:text="湖南长沙"
+            android:textColor="@color/newtime"
+            android:textSize="12.0sp" />
+
+        <LinearLayout
+            android:id="@+id/index_support_linerlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="36dip"
+            android:layout_marginRight="16.0dip"
+            android:layout_toLeftOf="@+id/index_comment_linerlayout"
+            android:background="@drawable/common_selector"
+            android:clickable="true"
+            android:gravity="center" >
+
+            <ImageButton
+                android:id="@+id/support_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/support_no"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/index_support_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:clickable="false"
+                android:text="赞"
+                android:textColor="@color/text_num_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/index_comment_linerlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="36dip"
+            android:layout_marginRight="16.0dip"
+            android:layout_toLeftOf="@+id/index_share_linerlayout"
+            android:background="@drawable/common_selector"
+            android:clickable="true"
+            android:gravity="center" >
+
+            <ImageButton
+                android:id="@+id/comment_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/comment_selector"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/index_comment_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:clickable="false"
+                android:text="评论"
+                android:textColor="@color/text_num_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/index_share_linerlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="36dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16.0dip"
+            android:background="@drawable/common_selector"
+            android:clickable="true"
+            android:gravity="center" >
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/share_selector"
+                android:clickable="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:clickable="false"
+                android:text="分享"
+                android:textColor="@color/text_num_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <include layout="@layout/viewone3dhight" />
+    <!-- 让布局有一个立体的效果 -->
+
+    <include layout="@layout/viewtenhight" />
+
+</LinearLayout>

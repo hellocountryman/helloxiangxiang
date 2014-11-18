@@ -297,7 +297,7 @@ public class MainFragment extends Fragment {
 
 		listItems = new ArrayList<Map<String, Object>>();
 		adapter = new ListViewAdapter(getActivity(), listItems,
-				R.layout.index_listview_copy, new String[] { "position",
+				R.layout.index_listview, new String[] { "position",
 						"words", "time", "praise_num", "comment_num" },
 				new int[] { R.id.index_locals_country,
 						R.id.index_text_describe, R.id.index_locals_time,

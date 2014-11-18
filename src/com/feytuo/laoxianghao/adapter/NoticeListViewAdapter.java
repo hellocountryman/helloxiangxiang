@@ -69,7 +69,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	private int resource;
 	private List<Map<String, Object>> list;// 声明List容器对象
 	private SparseArray<Boolean> praiseMap; // 标记点赞对象
-	private SparseArray<Boolean> collectionMap;// 标记收藏对象
 	private SparseArray<Boolean> isAudioPlayArray;// 记录是否正在播放音乐
 	private SparseArray<Boolean> commentArray;// 记录是否正在播放音乐
 	private boolean isCurrentItemAudioPlay;
@@ -92,7 +91,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		}
 		m_Inflater = LayoutInflater.from(context);
 		praiseMap = new SparseArray<>();
-		collectionMap = new SparseArray<>();
 		isAudioPlayArray = new SparseArray<>();
 	}
 
@@ -105,22 +103,14 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 			holder = new ViewHolder();
 			convertView = m_Inflater.inflate(resource, null);
 
-			if (resource == R.layout.index_listview_copy) {
+			if (resource == R.layout.index_listview) {
 
 				holder.indexSupportLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_support_linerlayout);
 				holder.indexCommentLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_comment_linerlayout);
-				holder.indexCollectLinerlayout = (LinearLayout) convertView
-						.findViewById(R.id.index_collect_linerlayout);
 				holder.indexShareLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_share_linerlayout);
-				holder.AudioLinearlayout = (LinearLayout) convertView
-						.findViewById(R.id.audio_linearlayout);
-				holder.audioSpaceTextView1 = (TextView) convertView
-						.findViewById(R.id.audio_space_textview_1);
-				holder.audioSpaceTextView2 = (TextView) convertView
-						.findViewById(R.id.audio_space_textview_2);
 				holder.titleImage = (ImageView) convertView
 						.findViewById(R.id.title_img_id);
 				holder.indexProgressbarBtn = (ImageButton) convertView
@@ -136,13 +126,8 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 						.findViewById(R.id.index_support_num);
 				holder.indexCommentNum = (TextView) convertView
 						.findViewById(R.id.index_comment_num);
-				holder.collectImg = (ImageView) convertView
-						.findViewById(R.id.collect_img);
 				holder.indexProgressbarTime = (TextView) convertView
 						.findViewById(R.id.index_progressbar_time);
-				holder.indexProgressbarId = (ProgressBar) convertView
-						.findViewById(R.id.index_progressbar_id);
-
 				holder.indexTextDescribe = (TextView) convertView
 						.findViewById(R.id.index_text_describe);
 				holder.indexLocalsCountry = (TextView) convertView
@@ -172,10 +157,10 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		}
 		holder.indexSupportLinerlayout.setOnClickListener(listener);
 		holder.indexCommentLinerlayout.setOnClickListener(listener);
-		holder.indexCollectLinerlayout.setOnClickListener(listener);
 		holder.indexShareLinerlayout.setOnClickListener(listener);
 		// holder.indexProgressbarBtn.setOnClickListener(listener);
-		holder.indexProgressbarId.setOnClickListener(listener);
+//		holder.indexProgressbarId.setOnClickListener(listener);
+		holder.indexProgressbarBtn.setOnClickListener(listener);
 		setSubBtn(holder, position);
 		setcontent(holder, position);
 		setAudioState(holder, position);
@@ -359,31 +344,15 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				holder.supportImg.setBackgroundResource(R.drawable.support_no);
 				praiseMap.put(position, false);
 			}
-			// 判断该帖子是否被收藏
-			if (isInCollection(invId)) {
-				holder.collectImg
-						.setBackgroundResource(R.drawable.collect_press);
-				collectionMap.put(position, true);
-			} else {
-				holder.collectImg.setBackgroundResource(R.drawable.collect_no);
-				collectionMap.put(position, false);
-			}
 		} else {
 			holder.supportImg.setBackgroundResource(R.drawable.support_no);
 			praiseMap.put(position, false);
-			holder.collectImg.setBackgroundResource(R.drawable.collect_no);
-			collectionMap.put(position, false);
 		}
 	}
 
 	// 是否已经点赞
 	private boolean isPraised(String invId, String uId) {
 		return new PraiseDao(context).selectPraiseInvitation(invId, uId);
-	}
-
-	// 是否已经收藏
-	private boolean isInCollection(String invId) {
-		return new InvitationDao(context).selectCollection(invId);
 	}
 
 	// 根据音乐是否播放设置item
@@ -396,9 +365,8 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						holder.indexProgressbarId.setProgress(0);
-						Log.i("progressbar", "主界面progress:"
-								+ holder.indexProgressbarId.getProgress());
+//						holder.indexProgressbarId.setProgress(0);
+						
 					}
 				});
 				holder.indexProgressbarTime.setText((Integer) list
@@ -412,16 +380,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 					.setBackgroundResource(R.drawable.pause_ico);
 		}
 
-		// 设置音频板块是否显示
-		if ("".equals(list.get(position).get("voice").toString())) {
-			holder.AudioLinearlayout.setVisibility(View.GONE);
-			holder.audioSpaceTextView1.setVisibility(View.VISIBLE);
-			holder.audioSpaceTextView2.setVisibility(View.VISIBLE);
-		} else {
-			holder.AudioLinearlayout.setVisibility(View.VISIBLE);
-			holder.audioSpaceTextView1.setVisibility(View.GONE);
-			holder.audioSpaceTextView2.setVisibility(View.GONE);
-		}
 	}
 
 	// 设置新评论通知
@@ -466,13 +424,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				// Toast.makeText(context, "点击了所在" + position + "的评论",
 				// Toast.LENGTH_SHORT).show();
 				break;
-			case R.id.index_collect_linerlayout:
-				// 主列表需要刷新
-				App.pre.edit()
-						.putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, true)
-						.commit();
-				dealCollectionBtn(v, position);
-				break;
 			case R.id.index_support_linerlayout:
 				// 主列表需要刷新
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
@@ -482,7 +433,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 					dealSupportBtn(holder, position);
 				}
 				break;
-			case R.id.index_progressbar_id:
+			case R.id.index_progressbar_btn:
 				// Toast.makeText(context, "你点击了录音的播放按钮" + position,
 				// Toast.LENGTH_SHORT).show();
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
@@ -516,32 +467,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		context.startActivity(intentComment);
 	}
 
-	// 点击收藏按钮处理
-	public void dealCollectionBtn(View v, int position) {
-		// 处理ui
-		ImageButton collectImageButton = (ImageButton) ((LinearLayout) v)
-				.findViewById(R.id.collect_img);
-		if (!collectionMap.get(position)) {// 收藏
-			collectImageButton.setBackgroundResource(R.drawable.collect_press);
-			// 将数据添加到本地数据库
-			new InvitationDao(context)
-					.insert2InvitationCollection((Invitation) list
-							.get(position).get("invitation"));
-			collectionMap.put(position, true);
-		} else {// 取消收藏
-			collectImageButton.setBackgroundResource(R.drawable.collect_no);
-			// 从本地删除数据
-			new InvitationDao(context).deleteInInvitationCollection(list
-					.get(position).get("inv_id").toString());
-			collectionMap.put(position, false);
-		}
-
-		// 服务器数据
-
-		// Toast.makeText(context, "点击了所在" + position + "收藏",
-		// Toast.LENGTH_SHORT)
-		// .show();
-	}
 
 	public void dealSupportBtn(ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
@@ -665,21 +590,15 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	class ViewHolder {
 		private LinearLayout indexSupportLinerlayout;// 赞
 		private LinearLayout indexCommentLinerlayout;// 评论
-		private LinearLayout indexCollectLinerlayout;// 收藏
 		private LinearLayout indexShareLinerlayout;// 分享
-		private LinearLayout AudioLinearlayout;// 音频
-		private TextView audioSpaceTextView1;// 空白
-		private TextView audioSpaceTextView2;// 空白
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageView personHeadImg;// 头像
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
-		private ImageView collectImg;// 收藏的图标
 		private ImageView commentImg;// 评论的图标
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
 		private TextView indexProgressbarTime;
-		private ProgressBar indexProgressbarId;
 		private TextView indexTextDescribe;// 帖子内容文字
 		private TextView indexLocalsCountry;// 帖子内容城市
 		private TextView indexLocalsTime;// 帖子内容时间
@@ -762,7 +681,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					holder.indexProgressbarId.setProgress(0);
+//					holder.indexProgressbarId.setProgress(0);
 				}
 			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
@@ -812,9 +731,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	private void showIndeterDialog(int processtime) {
 		final int newprocesstime = processtime * 10;
 		final int progrocessMax = 100;
-		mHolder.indexProgressbarId.setMax(progrocessMax);
-		mHolder.indexProgressbarId.setProgress(0);
-		mHolder.indexProgressbarId.setIndeterminate(false);
 		mProgressTimer = new Timer();
 		mProgressTimer.schedule(new TimerTask() {
 
@@ -824,7 +740,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				if (mCount <= progrocessMax) {
 					mCount++;
 					if (isCurrentItemAudioPlay) {
-						mHolder.indexProgressbarId.setProgress(mCount);
+//						mHolder.indexProgressbarId.setProgress(mCount);
 					}
 				} else {
 					mHandler.sendEmptyMessage(0);
@@ -843,7 +759,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				// 进度条走完
 				mCount = 0;
 				mProgressTimer.cancel();
-				mHolder.indexProgressbarId.setProgress(0);
+//				mHolder.indexProgressbarId.setProgress(0);
 				if (isCurrentItemAudioPlay) {
 					mHolder.indexProgressbarTime.setText(voiceDuration + "s");
 					mHolder.indexProgressbarBtn
