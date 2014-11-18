@@ -12,7 +12,11 @@
  * limitations under the License.
  */
 package com.feytuo.chat;
-//常量类
+/**
+ * 常量类
+ * @author feytuo
+ *
+ */
 public class Constant {
 	public static final String NEW_FRIENDS_USERNAME = "item_new_friends";
 	public static final String GROUP_USERNAME = "item_groups";
