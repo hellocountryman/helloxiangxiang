@@ -31,10 +31,11 @@
                 android:paddingBottom="2dip"
                 android:paddingTop="7dip"
                 android:scaleType="matrix"
-                android:text="帖子"
+                android:text="首页"
                 android:textColor="@color/main_botton_text_color"
                 android:textSize="12sp" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/btn_container_find"
             android:layout_width="0dp"
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/main_bottom_item_bg"
-                android:drawableTop="@drawable/tab_chat_bg"
+                android:drawableTop="@drawable/tab_find_bg"
                 android:onClick="onTabClicked"
                 android:paddingBottom="2dip"
                 android:paddingTop="7dip"
@@ -55,6 +56,27 @@
                 android:textColor="@color/main_botton_text_color"
                 android:textSize="12sp" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_container_publish"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_publish"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/main_bottom_item_bg"
+                android:drawableTop="@drawable/tab_publish_bg"
+                android:onClick="onTabpublishClicked"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:textColor="@color/main_botton_text_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/btn_container_address_list"
             android:layout_width="0dp"
@@ -71,7 +93,7 @@
                 android:paddingBottom="2dip"
                 android:paddingTop="7dip"
                 android:scaleType="matrix"
-                android:text="通讯录"
+                android:text="好友"
                 android:textColor="@color/main_botton_text_color"
                 android:textSize="12sp" />
 
@@ -105,7 +127,7 @@
                 android:paddingBottom="2dip"
                 android:paddingTop="7dip"
                 android:scaleType="matrix"
-                android:text="设置"
+                android:text="个人"
                 android:textColor="@color/main_botton_text_color"
                 android:textSize="12sp" />
         </RelativeLayout>
