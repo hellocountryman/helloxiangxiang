@@ -116,7 +116,7 @@ public class ContactlistFragment extends Fragment {
 					// demo中直接进入聊天页面，实际一般是进入用户详情页
 					Intent intent = new Intent(getActivity(), ChatActivity.class);
 					intent.putExtra("userId", adapter.getItem(position).getUsername());
-					intent.putExtra("userNickName", adapter.getItem(position).getNick());
+					intent.putExtra("userNickName", adapter.getItem(position).getNickName());
 					startActivity(intent);
 				}
 			}

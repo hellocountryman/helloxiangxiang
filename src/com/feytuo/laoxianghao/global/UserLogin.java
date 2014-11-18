@@ -337,8 +337,8 @@ public class UserLogin {
 						// demo中简单的处理成每次登陆都去获取好友username，开发者自己根据情况而定
 						List<String> usernames = EMContactManager.getInstance()
 								.getContactUserNames();
-						// 获取所有人的昵称
-						getNickNameFromBmob(context, usernames, username,
+						// 获取所有人的昵称和头像url
+						getUserInfoFromBmob(context, usernames, username,
 								nickName);
 					} catch (Exception e) {
 						Log.i("UserLogin", "用户名或昵称获取失败");
@@ -372,13 +372,20 @@ public class UserLogin {
 		}
 	}
 
-	protected void getNickNameFromBmob(final Context context,
+	/**
+	 * 获取用户的昵称和headUrl
+	 * @param context
+	 * @param usernames
+	 * @param username
+	 * @param nickName
+	 */
+	protected void getUserInfoFromBmob(final Context context,
 			final List<String> usernames, final String username,
 			final String nickName) {
 		// TODO Auto-generated method stub
 		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
 		query.addWhereContainedIn("objectId", usernames);
-		query.addQueryKeys("nickName");
+		query.addQueryKeys("objectId,nickName,headUrl");
 		query.findObjects(context, new FindListener<LXHUser>() {
 
 			@Override
@@ -389,12 +396,14 @@ public class UserLogin {
 					// Log.i("UserLogin", "服务器好友有："+usernames.size());
 					for (int i = 0; i < usernames.size(); i++) {
 						User user = new User();
-						user.setUsername(usernames.get(i));
-						user.setNick(arg0.get(i).getNickName());
-						setUserHearder(usernames.get(i), user);
-						userlist.put(usernames.get(i), user);
-						Log.i("UserLogin", "添加了服务器好友：" + usernames.get(i)
-								+ "---" + arg0.get(i).getNickName());
+						String userName = arg0.get(i).getObjectId();
+						user.setUsername(userName);
+						user.setNickName(arg0.get(i).getNickName());
+						user.setHeadUrl(arg0.get(i).getHeadUrl());
+						setUserHearder(userName, user);
+						userlist.put(userName, user);
+						Log.i("UserLogin", "添加了服务器好友：" + userName
+								+ "---" + arg0.get(i).getNickName()+"---"+arg0.get(i).getHeadUrl());
 					}
 					// 添加user"申请与通知"
 					User newFriends = new User();

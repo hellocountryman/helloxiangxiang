@@ -17,7 +17,17 @@ import com.easemob.chat.EMContact;
 
 public class User extends EMContact {
 	private int unreadMsgCount;
+	private String headUrl;
 	private String header;
+	private String nickName;
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
 	public String getHeader() {
 		return header;
@@ -51,5 +61,13 @@ public class User extends EMContact {
 	@Override
 	public String toString() {
 		return nick == null ? username : nick;
+	}
+
+	public String getHeadUrl() {
+		return headUrl;
+	}
+
+	public void setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
 	}
 }

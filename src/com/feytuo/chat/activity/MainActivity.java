@@ -35,6 +35,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 import com.easemob.chat.ConnectionListener;
 import com.easemob.chat.EMChat;
@@ -61,6 +63,7 @@ import com.feytuo.chat.domain.User;
 import com.feytuo.chat.utils.CommonUtils;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.fragment.FindFragment;
 import com.feytuo.laoxianghao.fragment.MainFragment;
 import com.feytuo.laoxianghao.share_qq.Share_QQ;
@@ -390,25 +393,55 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 		@Override
 		public void onContactAdded(List<String> usernameList) {
 			// 保存增加的联系人
-			Map<String, User> localUsers = App.getInstance()
-					.getContactList();
-			Map<String, User> toAddUsers = new HashMap<String, User>();
-			for (String username : usernameList) {
-				User user = setUserHead(username);
-				// 暂时有个bug，添加好友时可能会回调added方法两次
-				if (!localUsers.containsKey(username)) {
-					userDao.saveContact(user);
-				}
-				toAddUsers.put(username, user);
-			}
-			localUsers.putAll(toAddUsers);
-			// 刷新ui
-			if (cacFragment != null
-					&& cacFragment.getContactListFragment() != null) {
-				Log.i("MainActivity", "add");
-				cacFragment.getContactListFragment().refresh();
-			}
+			//1、获取用户头像和昵称
+			//2、添加到本地并显示在界面
+			getUserInfoFromBmob(usernameList);
+		}
 
+		private void getUserInfoFromBmob(List<String> usernameList) {
+			// TODO Auto-generated method stub
+			BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+			query.addWhereContainedIn("objectId", usernameList);
+			query.addQueryKeys("objectId,nickName,headUrl");
+			query.findObjects(MainActivity.this, new FindListener<LXHUser>(){
+
+				@Override
+				public void onSuccess(List<LXHUser> arg0) {
+					// TODO Auto-generated method stub
+					Map<String, User> localUsers = App.getInstance()
+							.getContactList();
+					Map<String, User> toAddUsers = new HashMap<String, User>();
+					// Log.i("UserLogin", "服务器好友有："+usernames.size());
+					for (int i = 0; i < arg0.size(); i++) {
+						User user = new User();
+						String userName = arg0.get(i).getObjectId();
+						user.setUsername(userName);
+						user.setNickName(arg0.get(i).getNickName());
+						user.setHeadUrl(arg0.get(i).getHeadUrl());
+						setUserHead(userName,user);
+						// 暂时有个bug，添加好友时可能会回调added方法两次
+						if (!localUsers.containsKey(userName)) {
+							userDao.saveContact(user);
+						}
+						toAddUsers.put(userName, user);
+						Log.i("UserLogin", "添加了服务器好友：" + userName
+								+ "---" + arg0.get(i).getNickName()+"---"+arg0.get(i).getHeadUrl());
+					}
+					localUsers.putAll(toAddUsers);
+					// 刷新ui
+					if (cacFragment != null
+							&& cacFragment.getContactListFragment() != null) {
+						Log.i("MainActivity", "add");
+						cacFragment.getContactListFragment().refresh();
+					}
+				}
+				
+				@Override
+				public void onError(int arg0, String arg1) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
 
 		@Override
@@ -534,12 +567,10 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 	 * @param username
 	 * @return
 	 */
-	User setUserHead(String username) {
-		User user = new User();
-		user.setUsername(username);
+	void setUserHead(String username,User user) {
 		String headerName = null;
-		if (!TextUtils.isEmpty(user.getNick())) {
-			headerName = user.getNick();
+		if (!TextUtils.isEmpty(user.getNickName())) {
+			headerName = user.getNickName();
 		} else {
 			headerName = user.getUsername();
 		}
@@ -556,7 +587,6 @@ public class MainActivity extends FragmentActivity implements IWeiboHandler.Resp
 				user.setHeader("#");
 			}
 		}
-		return user;
 	}
 
 	/**

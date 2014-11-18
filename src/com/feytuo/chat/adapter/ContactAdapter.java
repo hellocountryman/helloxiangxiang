@@ -151,8 +151,8 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 				nameTextview.setText(user.getNick());
 				avatar.setImageResource(R.drawable.groups_icon);
 			}else{
-				Log.i("ContactAdapter", "昵称："+user.getNick());
-				nameTextview.setText(user.getNick());
+				Log.i("ContactAdapter", "昵称："+user.getNickName());
+				nameTextview.setText(user.getNickName());
 				if(unreadMsgView != null)
 					unreadMsgView.setVisibility(View.INVISIBLE);
 				avatar.setImageResource(R.drawable.default_avatar);

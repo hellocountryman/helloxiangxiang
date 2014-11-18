@@ -37,6 +37,7 @@ import com.easemob.util.DateUtils;
 import com.feytuo.chat.Constant;
 import com.feytuo.chat.utils.SmileUtils;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.util.ImageLoader;
 
 /**
  * 聊天记录adpater
@@ -45,10 +46,12 @@ import com.feytuo.laoxianghao.R;
 public class ChatHistoryAdapter extends ArrayAdapter<EMContact> {
 
 	private LayoutInflater inflater;
+	private ImageLoader mImageLoader;
 
 	public ChatHistoryAdapter(Context context, int textViewResourceId, List<EMContact> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
+		mImageLoader = new ImageLoader();
 	}
 
 	@Override
@@ -81,6 +84,7 @@ public class ChatHistoryAdapter extends ArrayAdapter<EMContact> {
 			//群聊消息，显示群聊头像
 			holder.avatar.setImageResource(R.drawable.group_icon);
 		}else{
+//			mImageLoader.loadImage(user., this, viewHolder);
 			holder.avatar.setImageResource(R.drawable.default_avatar);
 		}
 		

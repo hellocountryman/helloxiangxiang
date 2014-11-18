@@ -50,6 +50,7 @@ public class AddContactActivity extends BaseActivity{
 //	private InputMethodManager inputMethodManager;
 	private String toAddUsername;//用户名id
 	private String toAddUserNick;//用户昵称
+	private String toAddUserHeadUrl;//用户头像
 	private ProgressDialog progressDialog;
 
 	@Override
@@ -111,6 +112,8 @@ public class AddContactActivity extends BaseActivity{
 				if(arg0.size() > 0){
 					toAddUserNick = arg0.get(0).getNickName();
 					toAddUsername = arg0.get(0).getObjectId();
+					toAddUserHeadUrl = arg0.get(0).getHeadUrl();
+					Log.i("AddContactActivity", "添加用户是"+arg0.get(0).getNickName()+"--"+arg0.get(0).getObjectId()+"--"+arg0.get(0).getHeadUrl());
 					//服务器存在此用户，显示此用户和添加按钮
 					searchedUserLayout.setVisibility(View.VISIBLE);
 					nameText.setText(toAddUserNick);
@@ -155,7 +158,7 @@ public class AddContactActivity extends BaseActivity{
 					//demo写死了个reason，实际应该让用户手动填入
 					EMContactManager.getInstance().addContact(toAddUsername, "加个好友呗");
 					//将添加的好友持久到本地数据库
-					addToLocalDB(toAddUsername,toAddUserNick);
+					addToLocalDB(toAddUsername,toAddUserNick,toAddUserHeadUrl);
 					runOnUiThread(new Runnable() {
 						public void run() {
 							progressDialog.dismiss();
@@ -175,13 +178,14 @@ public class AddContactActivity extends BaseActivity{
 	}
 	
 	
-	private void addToLocalDB(String username,String userNick){
+	private void addToLocalDB(String username,String userNick,String headUrl){
 		// 保存增加的联系人
 		Map<String, User> localUsers = App.getInstance()
 				.getContactList();
 		Map<String, User> toAddUsers = new HashMap<String, User>();
 		User user = setUserHead(username);
-		user.setNick(userNick);
+		user.setNickName(userNick);
+		user.setHeadUrl(headUrl);
 		// 暂时有个bug，添加好友时可能会回调added方法两次
 		UserDao userDao = new UserDao(this);
 		if (!localUsers.containsKey(username)) {

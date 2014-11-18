@@ -24,11 +24,19 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 1;
 	private static DbOpenHelper instance;
 
+	//好友表
 	private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
 			+ UserDao.TABLE_NAME + " ("
 			+ UserDao.COLUMN_NAME_NICK +" TEXT, "
+			+ UserDao.COLUMN_HEAD_URL +" TEXT, "
 			+ UserDao.COLUMN_NAME_ID + " TEXT PRIMARY KEY);";
-	
+	//会话用户表
+	private static final String CONVERSATION_USERNAME_TABLE_CREATE = "CREATE TABLE "
+			+ UserDao.CONVERSATION_TABLE_NAME + " ("
+			+ UserDao.COLUMN_NAME_NICK +" TEXT, "
+			+ UserDao.COLUMN_HEAD_URL +" TEXT, "
+			+ UserDao.COLUMN_NAME_ID + " TEXT PRIMARY KEY);";
+	//邀请信息表
 	private static final String INIVTE_MESSAGE_TABLE_CREATE = "CREATE TABLE "
 			+ InviteMessgeDao.TABLE_NAME + " ("
 			+ InviteMessgeDao.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -61,6 +69,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(USERNAME_TABLE_CREATE);
 		db.execSQL(INIVTE_MESSAGE_TABLE_CREATE);
+		db.execSQL(CONVERSATION_USERNAME_TABLE_CREATE);
 		
 	}
 

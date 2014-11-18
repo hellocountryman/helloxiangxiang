@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 import com.easemob.chat.EMContact;
 import com.easemob.chat.EMConversation;
@@ -35,8 +39,11 @@ import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.util.DateUtils;
 import com.feytuo.chat.Constant;
+import com.feytuo.chat.db.UserDao;
 import com.feytuo.chat.utils.SmileUtils;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.domain.LXHUser;
+import com.feytuo.laoxianghao.util.ImageLoader;
 
 /**
  * 显示所有聊天记录adpater
@@ -45,10 +52,14 @@ import com.feytuo.laoxianghao.R;
 public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
 	private LayoutInflater inflater;
+	private Context context;
+	private ImageLoader mImageLoader;
 
 	public ChatAllHistoryAdapter(Context context, int textViewResourceId, List<EMConversation> objects) {
 		super(context, textViewResourceId, objects);
+		this.context = context;
 		inflater = LayoutInflater.from(context);
+		mImageLoader = new ImageLoader();
 	}
 
 	@Override
@@ -93,15 +104,18 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			holder.avatar.setImageResource(R.drawable.group_icon);
 			holder.name.setText(contact.getNick() != null ? contact.getNick() : username);
 		} else {
-			// 本地或者服务器获取用户详情，以用来显示头像和nick
-			holder.avatar.setImageResource(R.drawable.default_avatar);
 			if (username.equals(Constant.GROUP_USERNAME)) {
 				holder.name.setText("群聊");
 
 			} else if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
 				holder.name.setText("申请与通知");
 			}
-			holder.name.setText(username);
+			//会话名
+			getUserNickName(username,holder.name);
+			
+			// 本地或者服务器获取用户详情，以用来显示头像和nick
+			holder.avatar.setImageResource(R.drawable.default_avatar);
+			getUserHeadUrl(username,holder.avatar);
 		}
 
 		if (conversation.getUnreadMsgCount() > 0) {
@@ -199,6 +213,87 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		/** 整个list中每一行总布局 */
 		RelativeLayout list_item_layout;
 
+	}
+	
+	/**
+	 * 设置item的用户昵称
+	 * @param userName
+	 * @param nameTV
+	 */
+	public void getUserNickName(String userName ,TextView nameTV){
+		UserDao userDao = new UserDao(context);
+		String nickName = userDao.getUserNickName(userName);
+		if(nickName != null){//如果本地数据库存在该用户
+			nameTV.setText(nickName);
+		}else{//如果没有再从bmob上取
+			nameTV.setText(userName);
+			getNickNameFromBmob(userName,nameTV);
+		}
+	}
+
+	private void getNickNameFromBmob(final String userName, final TextView nameTV) {
+		// TODO Auto-generated method stub
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereEqualTo("objectId", userName);
+		query.addQueryKeys("nickName");
+		query.findObjects(context, new FindListener<LXHUser>() {
+			
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.size() > 0){
+					nameTV.setText(arg0.get(0).getNickName());
+				}else{
+					nameTV.setText(userName);
+				}
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i("ChatAllHistoryAdapter", "查找昵称失败："+arg1);
+			}
+		});
+	}
+	/**
+	 * 获取用户headurl
+	 * @param username
+	 * @param avatar
+	 */
+	private void getUserHeadUrl(String userName, ImageView headUrlIV) {
+		// TODO Auto-generated method stub
+		UserDao userDao = new UserDao(context);
+		String headUrl = userDao.getUserHeadUrl(userName);
+		if(headUrl != null && !TextUtils.isEmpty(headUrl)){//如果本地数据库存在该用户
+			mImageLoader.loadImage(headUrl, this, headUrlIV);
+		}else{//如果没有再从bmob上取
+			getHeadUrlFromBmob(userName,headUrlIV);
+		}
+	}
+
+	private void getHeadUrlFromBmob(String userName, final ImageView headUrlIV) {
+		// TODO Auto-generated method stub
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereEqualTo("objectId", userName);
+		query.addQueryKeys("headUrl");
+		query.findObjects(context, new FindListener<LXHUser>() {
+			
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.size() > 0 && !TextUtils.isEmpty(arg0.get(0).getHeadUrl())){
+					mImageLoader.loadImage(arg0.get(0).getHeadUrl(), ChatAllHistoryAdapter.this, headUrlIV);
+				}else{
+					headUrlIV.setImageResource(R.drawable.default_avatar);
+				}
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i("ChatAllHistoryAdapter", "查找头像url失败："+arg1);
+			}
+		});
 	}
 
 	String getStrng(Context context, int resId) {

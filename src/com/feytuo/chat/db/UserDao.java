@@ -22,15 +22,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.easemob.util.HanziToPinyin;
 import com.feytuo.chat.Constant;
 import com.feytuo.chat.domain.User;
 
 public class UserDao {
-	public static final String TABLE_NAME = "uers";
+	public static final String TABLE_NAME = "users";
+	public static final String CONVERSATION_TABLE_NAME = "conversation_users";
 	public static final String COLUMN_NAME_ID = "username";
 	public static final String COLUMN_NAME_NICK = "nick";
+	public static final String COLUMN_HEAD_URL = "headurl";
 	public static final String COLUMN_NAME_IS_STRANGER = "is_stranger";
 
 	private DbOpenHelper dbHelper;
@@ -39,24 +42,7 @@ public class UserDao {
 		dbHelper = DbOpenHelper.getInstance(context);
 	}
 
-	/**
-	 * 保存好友list
-	 * 
-	 * @param contactList
-	 */
-	public void saveContactList(List<User> contactList) {
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		if (db.isOpen()) {
-			db.delete(TABLE_NAME, null, null);
-			for (User user : contactList) {
-				ContentValues values = new ContentValues();
-				values.put(COLUMN_NAME_ID, user.getUsername());
-				if(user.getNick() != null)
-					values.put(COLUMN_NAME_NICK, user.getNick());
-				db.replace(TABLE_NAME, null, values);
-			}
-		}
-	}
+
 
 	/**
 	 * 获取好友list
@@ -71,12 +57,15 @@ public class UserDao {
 			while (cursor.moveToNext()) {
 				String username = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ID));
 				String nick = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_NICK));
+				String headUrl = cursor.getString(cursor.getColumnIndex(COLUMN_HEAD_URL));
+				Log.i("UserDao", "本地数据库获取到的："+nick+"=="+headUrl);
 				User user = new User();
 				user.setUsername(username);
-				user.setNick(nick);
+				user.setNickName(nick);
+				user.setHeadUrl(headUrl);
 				String headerName = null;
-				if (!TextUtils.isEmpty(user.getNick())) {
-					headerName = user.getNick();
+				if (!TextUtils.isEmpty(user.getNickName())) {
+					headerName = user.getNickName();
 				} else {
 					headerName = user.getUsername();
 				}
@@ -120,13 +109,88 @@ public class UserDao {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_NAME_ID, user.getUsername());
-		if(user.getNick() != null)
-			values.put(COLUMN_NAME_NICK, user.getNick());
+		if(user.getNickName() != null)
+			values.put(COLUMN_NAME_NICK, user.getNickName());
+		if(user.getHeadUrl() != null)
+			values.put(COLUMN_HEAD_URL, user.getHeadUrl());
 		if(db.isOpen()){
 			db.replace(TABLE_NAME, null, values);
 		}
 	}
 	
 	
+	/**
+	 * 保存好友list
+	 * 
+	 * @param contactList
+	 */
+	public void saveContactList(List<User> contactList) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		if (db.isOpen()) {
+			db.delete(TABLE_NAME, null, null);
+			for (User user : contactList) {
+				ContentValues values = new ContentValues();
+				values.put(COLUMN_NAME_ID, user.getUsername());
+				if(user.getNickName() != null)
+					values.put(COLUMN_NAME_NICK, user.getNickName());
+				if(user.getHeadUrl() != null)
+					values.put(COLUMN_HEAD_URL, user.getHeadUrl());
+				db.replace(TABLE_NAME, null, values);
+			}
+		}
+	}
+	/****************************会话用户表**********************************/
+	/**
+	 * 从会话用户列表中获取昵称
+	 * @param userName
+	 * @return
+	 */
+	public String getUserNickName(String userName){
+		String nickName = null;
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		if(db.isOpen()){
+			String sqlStr = "select "+COLUMN_NAME_NICK+" from "+CONVERSATION_TABLE_NAME+" where "+COLUMN_NAME_ID+"=?";
+			Cursor cursor = db.rawQuery(sqlStr, new String[]{userName});
+			while(cursor.moveToNext()){
+				nickName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_NICK));
+			}
+			cursor.close();
+		}
+		return nickName;
+	}
+	/**
+	 * 从会话用户列表中获取头像
+	 * @param userName
+	 * @return
+	 */
+	public String getUserHeadUrl(String userName){
+		String headUrl = null;
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		if(db.isOpen()){
+			String sqlStr = "select "+COLUMN_HEAD_URL+" from "+CONVERSATION_TABLE_NAME+" where "+COLUMN_NAME_ID+"=?";
+			Cursor cursor = db.rawQuery(sqlStr, new String[]{userName});
+			while(cursor.moveToNext()){
+				headUrl = cursor.getString(cursor.getColumnIndex(COLUMN_HEAD_URL));
+			}
+			cursor.close();
+		}
+		return headUrl;
+	}
+	/**
+	 * 保存一个联系人到会话用户表中去
+	 * @param user
+	 */
+	public void saveContact2Conversation(User user){
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(COLUMN_NAME_ID, user.getUsername());
+		if(user.getNickName() != null)
+			values.put(COLUMN_NAME_NICK, user.getNickName());
+		if(user.getHeadUrl() != null)
+			values.put(COLUMN_HEAD_URL, user.getHeadUrl());
+		if(db.isOpen()){
+			db.replace(CONVERSATION_TABLE_NAME, null, values);
+		}
+	}
 
 }
