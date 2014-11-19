@@ -8,11 +8,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -76,7 +78,8 @@ public class ChatAndContactFragment extends Fragment{
 					currentOffset = arg0 * cursorOffset;
 				} else {
 					// 图片移动偏移量
-					LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cursorImage
+					Log.i("ChatAndContactFragment", "当前移动总量："+(currentOffset + cursorOffset* arg1));
+					final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cursorImage
 							.getLayoutParams();
 					if(arg0 == 0 && arg2 == 0){
 						params.setMargins((int) (currentOffset + cursorOffset
@@ -85,7 +88,15 @@ public class ChatAndContactFragment extends Fragment{
 						params.setMargins((int) (currentOffset + cursorOffset
 								* arg1)+1, 0, 0, 0);
 					}
-					cursorImage.requestLayout();
+					//首次加载后不会刷新，必须强制放到ui线程刷新ui
+					cursorImage.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							cursorImage.setLayoutParams(params);
+						}
+					});
 				}
 				currentPager = arg0;
 				currentTabInCAC = arg0;

@@ -177,20 +177,44 @@ public class UserDao {
 		return headUrl;
 	}
 	/**
-	 * 保存一个联系人到会话用户表中去
+	 * 保存一个联系人的昵称到会话用户表中去
 	 * @param user
 	 */
-	public void saveContact2Conversation(User user){
+	public void updateNickName2Conversation(String userName,String nickName){
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		ContentValues values = new ContentValues();
-		values.put(COLUMN_NAME_ID, user.getUsername());
-		if(user.getNickName() != null)
-			values.put(COLUMN_NAME_NICK, user.getNickName());
-		if(user.getHeadUrl() != null)
-			values.put(COLUMN_HEAD_URL, user.getHeadUrl());
+		String sqlStr = "select * from "+CONVERSATION_TABLE_NAME+" where "+COLUMN_NAME_ID+"=?";
 		if(db.isOpen()){
-			db.replace(CONVERSATION_TABLE_NAME, null, values);
+			Cursor cursor = db.rawQuery(sqlStr, new String[]{userName});
+			Log.i("UserDao", "cursor的nick数据:"+cursor.getCount());
+			if(cursor.getCount() > 0 ){
+				sqlStr ="update "+CONVERSATION_TABLE_NAME+" set "+COLUMN_NAME_NICK+"=? where "+COLUMN_NAME_ID+"=?";
+				db.execSQL(sqlStr, new Object[]{nickName,userName});
+			}else{
+				sqlStr ="insert into "+CONVERSATION_TABLE_NAME+"("+COLUMN_NAME_ID+","+COLUMN_NAME_NICK+") values(?,?)";
+				db.execSQL(sqlStr, new Object[]{userName,nickName});
+			}
+			cursor.close();
 		}
 	}
-
+	/**
+	 * 保存一个联系人的头像到会话用户表中去
+	 * @param user
+	 */
+	public void updateHeadUrl2Conversation(String userName,String headUrl){
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		String sqlStr = "select * from "+CONVERSATION_TABLE_NAME+" where "+COLUMN_NAME_ID+"=?";
+		if(db.isOpen()){
+			Cursor cursor = db.rawQuery(sqlStr, new String[]{userName});
+			Log.i("UserDao", "cursor的head数据:"+cursor.getCount());
+			if(cursor.getCount() > 0 ){
+				sqlStr ="update "+CONVERSATION_TABLE_NAME+" set "+COLUMN_HEAD_URL+"=? where "+COLUMN_NAME_ID+"=?";
+				db.execSQL(sqlStr, new Object[]{headUrl,userName});
+			}else{
+				sqlStr ="insert into "+CONVERSATION_TABLE_NAME+"("+COLUMN_NAME_ID+","+COLUMN_HEAD_URL+") values(?,?)";
+				db.execSQL(sqlStr, new Object[]{userName,headUrl});
+			}
+			cursor.close();
+		}
+	}
+	
 }

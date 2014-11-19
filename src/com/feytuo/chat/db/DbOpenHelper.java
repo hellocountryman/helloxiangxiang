@@ -17,12 +17,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.feytuo.laoxianghao.App;
-
 public class DbOpenHelper extends SQLiteOpenHelper{
 
 	private static final int DATABASE_VERSION = 1;
 	private static DbOpenHelper instance;
+	private static final String DB_NAME = "XX_contact.db";
 
 	//好友表
 	private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
@@ -62,7 +61,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	}
 	
 	private static String getUserDatabaseName() {
-        return  App.getInstance().getUserName() + "_demo.db";
+        return DB_NAME;
     }
 	
 	@Override

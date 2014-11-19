@@ -479,16 +479,16 @@ public class UserLogin {
 		}
 
 		// 要保存的文件的路径
-		String filePath = SDcardTools.getSDPath() + "/" + "laoxianghaoImage";
+		String filePath = SDcardTools.getSDPath() + "/" + "laoxianghaoAudio";
 		// 实例化文件夹
 		File dir = new File(filePath);
 		if (!dir.exists()) {
 			// 如果文件夹不存在 则创建文件夹
-			dir.mkdir();
+			dir.mkdirs();
 		}
 
 		// 保存文件名
-		String fileName = "head" + GetSystemDateTime.now()
+		String fileName = "/head" + GetSystemDateTime.now()
 				+ StringTools.getRandomString(2) + ".png";
 		File headFile = new File(filePath + fileName);
 		try {

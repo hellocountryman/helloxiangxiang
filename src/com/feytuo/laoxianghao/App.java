@@ -29,7 +29,11 @@ import com.feytuo.chat.domain.User;
 import com.feytuo.chat.receiver.VoiceCallReceiver;
 import com.feytuo.chat.utils.PreferenceUtils;
 import com.feytuo.laoxianghao.global.Global;
-
+/**
+ * application
+ * @author feytuo
+ *
+ */
 public class App extends Application {
 
 	public static SharedPreferences pre;

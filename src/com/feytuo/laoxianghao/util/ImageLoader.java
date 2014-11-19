@@ -190,12 +190,14 @@ public class ImageLoader {
 
 	class ImageLoadTask extends AsyncTask<Object, Void, Bitmap> {
 		String url;
-		BaseAdapter adapter;
+		BaseAdapter adapter = null;
 
 		@Override
 		protected Bitmap doInBackground(Object... params) {
 			url = (String) params[0];
-			adapter = (BaseAdapter) params[1];
+			if(params[1] != null){
+				adapter = (BaseAdapter) params[1];
+			}
 			Bitmap drawable = loadImageFromInternet(url);// 获取网络图片
 			return drawable;
 		}
@@ -210,7 +212,9 @@ public class ImageLoader {
 			}
 			addImage2Cache(url, result);// 放入缓存
 			fileCache.saveBitmap(result, url);//保存为文件
-			adapter.notifyDataSetChanged();// 触发getView方法执行，这个时候getView实际上会拿到刚刚缓存好的图片
+			if(adapter != null){
+				adapter.notifyDataSetChanged();// 触发getView方法执行，这个时候getView实际上会拿到刚刚缓存好的图片
+			}
 		}
 	}
 

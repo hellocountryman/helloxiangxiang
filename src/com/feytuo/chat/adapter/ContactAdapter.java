@@ -39,6 +39,7 @@ import com.feytuo.chat.Constant;
 import com.feytuo.chat.domain.User;
 import com.feytuo.chat.widget.Sidebar;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.util.ImageLoader;
 
 /**
  * 简单的好友Adapter实现
@@ -53,12 +54,15 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 	private SparseIntArray sectionOfPosition;
 	private Sidebar sidebar;
 	private int res;
+	
+	private ImageLoader mImageLoader;
 
 	public ContactAdapter(Context context, int resource, List<User> objects,Sidebar sidebar) {
 		super(context, resource, objects);
 		this.res = resource;
 		this.sidebar=sidebar;
 		layoutInflater = LayoutInflater.from(context);
+		mImageLoader = new ImageLoader();
 	}
 	
 	@Override
@@ -151,11 +155,12 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 				nameTextview.setText(user.getNick());
 				avatar.setImageResource(R.drawable.groups_icon);
 			}else{
-				Log.i("ContactAdapter", "昵称："+user.getNickName());
-				nameTextview.setText(user.getNickName());
 				if(unreadMsgView != null)
 					unreadMsgView.setVisibility(View.INVISIBLE);
+				Log.i("ContactAdapter", "昵称："+user.getNickName());
+				nameTextview.setText(user.getNickName());
 				avatar.setImageResource(R.drawable.default_avatar);
+				mImageLoader.loadImage(user.getHeadUrl(), this, avatar);
 			}
 		}
 		

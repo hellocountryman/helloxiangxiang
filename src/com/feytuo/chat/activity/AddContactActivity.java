@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +41,13 @@ import com.feytuo.chat.domain.User;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.domain.LXHUser;
+import com.feytuo.laoxianghao.util.ImageLoader;
 
 public class AddContactActivity extends BaseActivity{
 	private EditText editText;
 	private LinearLayout searchedUserLayout;
 	private TextView nameText;
+	private ImageView avatarImageView;
 	private Button searchBtn;
 //	private ImageView avatar;
 //	private InputMethodManager inputMethodManager;
@@ -52,6 +55,8 @@ public class AddContactActivity extends BaseActivity{
 	private String toAddUserNick;//用户昵称
 	private String toAddUserHeadUrl;//用户头像
 	private ProgressDialog progressDialog;
+	
+	private ImageLoader mImageLoader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,9 @@ public class AddContactActivity extends BaseActivity{
 		editText = (EditText) findViewById(R.id.edit_note);
 		searchedUserLayout = (LinearLayout) findViewById(R.id.ll_user);
 		nameText = (TextView) findViewById(R.id.name);
+		avatarImageView = (ImageView)findViewById(R.id.avatar);
 		searchBtn = (Button) findViewById(R.id.search);
+		mImageLoader = new ImageLoader();
 //		avatar = (ImageView) findViewById(R.id.avatar);
 //		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
@@ -115,8 +122,9 @@ public class AddContactActivity extends BaseActivity{
 					toAddUserHeadUrl = arg0.get(0).getHeadUrl();
 					Log.i("AddContactActivity", "添加用户是"+arg0.get(0).getNickName()+"--"+arg0.get(0).getObjectId()+"--"+arg0.get(0).getHeadUrl());
 					//服务器存在此用户，显示此用户和添加按钮
-					searchedUserLayout.setVisibility(View.VISIBLE);
 					nameText.setText(toAddUserNick);
+					mImageLoader.loadImage(toAddUserHeadUrl, null, avatarImageView);
+					searchedUserLayout.setVisibility(View.VISIBLE);
 				}else{
 					Toast.makeText(AddContactActivity.this, "查无此人", Toast.LENGTH_SHORT).show();
 				}
@@ -183,9 +191,11 @@ public class AddContactActivity extends BaseActivity{
 		Map<String, User> localUsers = App.getInstance()
 				.getContactList();
 		Map<String, User> toAddUsers = new HashMap<String, User>();
-		User user = setUserHead(username);
+		User user = new User();
+		user.setUsername(username);
 		user.setNickName(userNick);
 		user.setHeadUrl(headUrl);
+		setUserHead(user);
 		// 暂时有个bug，添加好友时可能会回调added方法两次
 		UserDao userDao = new UserDao(this);
 		if (!localUsers.containsKey(username)) {
@@ -200,14 +210,13 @@ public class AddContactActivity extends BaseActivity{
 	 * @param username
 	 * @return
 	 */
-	User setUserHead(String username) {
-		User user = new User();
-		user.setUsername(username);
+	void setUserHead(User user) {
 		String headerName = null;
-		if (!TextUtils.isEmpty(user.getNick())) {
-			headerName = user.getNick();
+		String username = user.getUsername();
+		if (!TextUtils.isEmpty(user.getNickName())) {
+			headerName = user.getNickName();
 		} else {
-			headerName = user.getUsername();
+			headerName = username;
 		}
 		if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
 			user.setHeader("");
@@ -222,7 +231,6 @@ public class AddContactActivity extends BaseActivity{
 				user.setHeader("#");
 			}
 		}
-		return user;
 	}
 	
 	public void back(View v) {

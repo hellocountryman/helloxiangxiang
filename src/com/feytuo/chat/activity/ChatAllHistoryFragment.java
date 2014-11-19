@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -199,6 +200,7 @@ public class ChatAllHistoryFragment extends Fragment {
 	 * 刷新页面
 	 */
 	public void refresh() {
+		Log.i("ChatAllHistoryFragment", "ChatAllHistoryFragment刷新了");
 		adapter = new ChatAllHistoryAdapter(getActivity(), R.layout.row_chat_history, loadConversationsWithRecentChat());
 		listView.setAdapter(adapter);
 		adapter.notifyDataSetChanged();

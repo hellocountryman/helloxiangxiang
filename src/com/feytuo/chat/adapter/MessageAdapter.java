@@ -16,6 +16,7 @@ package com.feytuo.chat.adapter;
 import java.io.File;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
@@ -69,12 +73,16 @@ import com.feytuo.chat.activity.ContextMenu;
 import com.feytuo.chat.activity.ShowBigImage;
 import com.feytuo.chat.activity.ShowNormalFileActivity;
 import com.feytuo.chat.activity.ShowVideoActivity;
+import com.feytuo.chat.db.UserDao;
 import com.feytuo.chat.task.LoadImageTask;
 import com.feytuo.chat.task.LoadVideoImageTask;
 import com.feytuo.chat.utils.ImageCache;
 import com.feytuo.chat.utils.ImageUtils;
 import com.feytuo.chat.utils.SmileUtils;
+import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.domain.LXHUser;
+import com.feytuo.laoxianghao.util.ImageLoader;
 
 public class MessageAdapter extends BaseAdapter{
 
@@ -109,6 +117,10 @@ public class MessageAdapter extends BaseAdapter{
 	private Context context;
 
 	private Map<String, Timer> timers = new Hashtable<String, Timer>();
+	
+	private ImageLoader mImageLoader;
+	
+	private UserDao userDao;
 
 	public MessageAdapter(Context context, String username, int chatType) {
 		this.username = username;
@@ -116,6 +128,8 @@ public class MessageAdapter extends BaseAdapter{
 		inflater = LayoutInflater.from(context);
 		activity = (Activity) context;
 		this.conversation = EMChatManager.getInstance().getConversation(username);
+		mImageLoader = new ImageLoader();
+		userDao = new UserDao(context);
 	}
 
 	// public void setUser(String user) {
@@ -376,6 +390,9 @@ public class MessageAdapter extends BaseAdapter{
 		}
 
 		if (message.direct == EMMessage.Direct.SEND) {
+			//设置头像，发送方设置本人头像
+//			holder.head_iv
+			setHead(App.getInstance().getUserName(),holder.head_iv);
 			View statusView = convertView.findViewById(R.id.msg_status);
 			// 重发按钮点击事件
 			statusView.setOnClickListener(new OnClickListener() {
@@ -405,6 +422,8 @@ public class MessageAdapter extends BaseAdapter{
 			});
 
 		} else {
+			//设置头像，接收方设置聊天对象头像
+			setHead(username, holder.head_iv);
 			// 长按头像，移入黑名单
 			holder.head_iv.setOnLongClickListener(new OnLongClickListener() {
 
@@ -435,6 +454,43 @@ public class MessageAdapter extends BaseAdapter{
 			}
 		}
 		return convertView;
+	}
+
+	//设置头像
+	private void setHead(String userName, ImageView head_iv) {
+		// TODO Auto-generated method stub
+		String headUrl = userDao.getUserHeadUrl(userName);
+		Log.i(TAG, "send方的头像："+userName+"=="+headUrl);
+		if(headUrl != null && !TextUtils.isEmpty(headUrl)){//如果本地数据库存在该用户
+			mImageLoader.loadImage(headUrl, this, head_iv);
+		}else{
+			getHeadUrlFromBmob(userName,head_iv);
+		}
+	}
+
+	private void getHeadUrlFromBmob(final String userName,final ImageView head_iv) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereEqualTo("objectId", userName);
+		query.addQueryKeys("headUrl");
+		query.findObjects(context, new FindListener<LXHUser>() {
+			
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.size() > 0 && !TextUtils.isEmpty(arg0.get(0).getHeadUrl())){
+					mImageLoader.loadImage(arg0.get(0).getHeadUrl(), MessageAdapter.this, head_iv);
+					userDao.updateHeadUrl2Conversation(userName, arg0.get(0).getHeadUrl());
+				}
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "查找头像url失败："+arg1);
+			}
+		});
 	}
 
 	/**

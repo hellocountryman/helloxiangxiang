@@ -51,15 +51,19 @@ import com.feytuo.laoxianghao.util.ImageLoader;
  */
 public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
+	private final String TAG = "ChatAllHistoryAdapter";
 	private LayoutInflater inflater;
 	private Context context;
 	private ImageLoader mImageLoader;
+	
+	private UserDao userDao;
 
 	public ChatAllHistoryAdapter(Context context, int textViewResourceId, List<EMConversation> objects) {
 		super(context, textViewResourceId, objects);
 		this.context = context;
 		inflater = LayoutInflater.from(context);
 		mImageLoader = new ImageLoader();
+		userDao = new UserDao(context);
 	}
 
 	@Override
@@ -221,12 +225,10 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 	 * @param nameTV
 	 */
 	public void getUserNickName(String userName ,TextView nameTV){
-		UserDao userDao = new UserDao(context);
 		String nickName = userDao.getUserNickName(userName);
 		if(nickName != null){//如果本地数据库存在该用户
 			nameTV.setText(nickName);
 		}else{//如果没有再从bmob上取
-			nameTV.setText(userName);
 			getNickNameFromBmob(userName,nameTV);
 		}
 	}
@@ -243,6 +245,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 				// TODO Auto-generated method stub
 				if(arg0.size() > 0){
 					nameTV.setText(arg0.get(0).getNickName());
+					userDao.updateNickName2Conversation(userName, arg0.get(0).getNickName());
 				}else{
 					nameTV.setText(userName);
 				}
@@ -251,7 +254,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			@Override
 			public void onError(int arg0, String arg1) {
 				// TODO Auto-generated method stub
-				Log.i("ChatAllHistoryAdapter", "查找昵称失败："+arg1);
+				Log.i(TAG, "查找昵称失败："+arg1);
 			}
 		});
 	}
@@ -262,7 +265,6 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 	 */
 	private void getUserHeadUrl(String userName, ImageView headUrlIV) {
 		// TODO Auto-generated method stub
-		UserDao userDao = new UserDao(context);
 		String headUrl = userDao.getUserHeadUrl(userName);
 		if(headUrl != null && !TextUtils.isEmpty(headUrl)){//如果本地数据库存在该用户
 			mImageLoader.loadImage(headUrl, this, headUrlIV);
@@ -271,7 +273,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		}
 	}
 
-	private void getHeadUrlFromBmob(String userName, final ImageView headUrlIV) {
+	private void getHeadUrlFromBmob(final String userName, final ImageView headUrlIV) {
 		// TODO Auto-generated method stub
 		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
 		query.addWhereEqualTo("objectId", userName);
@@ -283,6 +285,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 				// TODO Auto-generated method stub
 				if(arg0.size() > 0 && !TextUtils.isEmpty(arg0.get(0).getHeadUrl())){
 					mImageLoader.loadImage(arg0.get(0).getHeadUrl(), ChatAllHistoryAdapter.this, headUrlIV);
+					userDao.updateHeadUrl2Conversation(userName, arg0.get(0).getHeadUrl());
 				}else{
 					headUrlIV.setImageResource(R.drawable.default_avatar);
 				}
@@ -291,7 +294,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			@Override
 			public void onError(int arg0, String arg1) {
 				// TODO Auto-generated method stub
-				Log.i("ChatAllHistoryAdapter", "查找头像url失败："+arg1);
+				Log.i(TAG, "查找头像url失败："+arg1);
 			}
 		});
 	}
