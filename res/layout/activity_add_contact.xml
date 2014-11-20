@@ -10,7 +10,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-        android:background="@color/top_bar_normal_bg"
+        android:background="@color/indexbg"
         android:gravity="center_vertical">
 
         <include layout="@layout/commom_back_btn" />
@@ -43,7 +43,7 @@
         android:layout_margin="10dp"
         android:paddingLeft="5dp"
         android:background="@drawable/button_normal_shape"
-        android:hint="用户名"
+        android:hint="请输入好友昵称"
         android:singleLine="true"
         android:textColorHint="#b3b3b3"
         android:textSize="18sp" />

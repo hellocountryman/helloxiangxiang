@@ -64,7 +64,7 @@ public class NetUtil {
 		Bitmap bitmap = bitmapDrawable.getBitmap();
 		@SuppressWarnings("deprecation")
 		BitmapDrawable bbb = new BitmapDrawable(NetUtil.toRoundCorner(bitmap,
-				20));
+				15));
 		imgbtn.setBackgroundDrawable(bbb);
 	}
 	
