@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -19,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,8 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,8 +50,8 @@ public class ChatAllHistoryFragment extends Fragment {
 	private ListView listView;
 //	private Map<String, User> contactList;
 	private ChatAllHistoryAdapter adapter;
-	private EditText query;
-	private ImageButton clearSearch;
+//	private EditText query;
+//	private ImageButton clearSearch;
 	public RelativeLayout errorItem;
 	public TextView errorText;
 	private boolean hidden;
@@ -139,34 +134,34 @@ public class ChatAllHistoryFragment extends Fragment {
 				return false;
 			}
 		});
-		// 搜索框
-		query = (EditText) getView().findViewById(R.id.query);
-		// 搜索框中清除button
-		clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
-		query.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-				adapter.getFilter().filter(s);
-				if (s.length() > 0) {
-					clearSearch.setVisibility(View.VISIBLE);
-				} else {
-					clearSearch.setVisibility(View.INVISIBLE);
-				}
-			}
-
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			public void afterTextChanged(Editable s) {
-			}
-		});
-		clearSearch.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				query.getText().clear();
-
-			}
-		});
+//		// 搜索框
+//		query = (EditText) getView().findViewById(R.id.query);
+//		// 搜索框中清除button
+//		clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
+//		query.addTextChangedListener(new TextWatcher() {
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//				adapter.getFilter().filter(s);
+//				if (s.length() > 0) {
+//					clearSearch.setVisibility(View.VISIBLE);
+//				} else {
+//					clearSearch.setVisibility(View.INVISIBLE);
+//				}
+//			}
+//
+//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//			}
+//
+//			public void afterTextChanged(Editable s) {
+//			}
+//		});
+//		clearSearch.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				query.getText().clear();
+//
+//			}
+//		});
 	}
 
 	@Override

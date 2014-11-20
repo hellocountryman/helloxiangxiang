@@ -137,6 +137,7 @@ public class ContactlistFragment extends Fragment {
 		registerForContextMenu(listView);
 	}
 
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
@@ -288,7 +289,11 @@ public class ContactlistFragment extends Fragment {
 
 			@Override
 			public int compare(User lhs, User rhs) {
-				return lhs.getUsername().compareTo(rhs.getUsername());
+				if(lhs.getNickName() != null && rhs.getNickName() != null){
+					return lhs.getNickName().compareTo(rhs.getNickName());
+				}else{
+					return lhs.getUsername().compareTo(rhs.getUsername());
+				}
 			}
 		});
 /******************需要求聊或者好友申请，只需要加入以下代码，别且application中修改好友添加需要认证******************************/
