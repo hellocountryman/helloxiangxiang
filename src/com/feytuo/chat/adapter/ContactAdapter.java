@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SectionIndexer;
@@ -47,6 +48,7 @@ import com.feytuo.laoxianghao.util.ImageLoader;
  */
 public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexer{
 
+	private final String TAG = "ContactAdapter";
 	private LayoutInflater layoutInflater;
 	private EditText query;
 	private ImageButton clearSearch;
@@ -54,6 +56,8 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 	private SparseIntArray sectionOfPosition;
 	private Sidebar sidebar;
 	private int res;
+	private List<User> data;
+	private List<User> mOriginalValues;
 	
 	private ImageLoader mImageLoader;
 
@@ -63,6 +67,11 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 		this.sidebar=sidebar;
 		layoutInflater = LayoutInflater.from(context);
 		mImageLoader = new ImageLoader();
+		this.data = objects;
+		mOriginalValues = new ArrayList<User>();
+		for(User user : data){
+			mOriginalValues.add(user);
+		}
 	}
 	
 	@Override
@@ -158,7 +167,11 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 				if(unreadMsgView != null)
 					unreadMsgView.setVisibility(View.INVISIBLE);
 				Log.i("ContactAdapter", "昵称："+user.getNickName());
-				nameTextview.setText(user.getNickName());
+				if(user.getNickName() != null){
+					nameTextview.setText(user.getNickName());
+				}else{
+					nameTextview.setText(user.getUsername());
+				}
 				avatar.setImageResource(R.drawable.default_avatar);
 				mImageLoader.loadImage(user.getHeadUrl(), this, avatar);
 			}
@@ -169,13 +182,13 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 	
 	@Override
 	public User getItem(int position) {
-		return position == 0 ? new User() : super.getItem(position - 1);
+		return position == 0 ? new User() : data.get(position - 1);
 	}
 	
 	@Override
 	public int getCount() {
 		//有搜索框，count+1
-		return super.getCount() + 1;
+		return data.size() + 1;
 	}
 
 	public int getPositionForSection(int section) {
@@ -210,4 +223,58 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 		return list.toArray(new String[list.size()]);
 	}
 
+	public Filter getFilter() {
+		Filter filter = new Filter() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			protected void publishResults(CharSequence constraint, FilterResults results) {
+				// TODO Auto-generated method stub
+				data = (ArrayList<User>) results.values;
+				notifyDataSetChanged();
+			}
+			
+			@Override
+			protected FilterResults performFiltering(CharSequence constraint) {
+				// TODO Auto-generated method stub
+				FilterResults results = new FilterResults();
+				List<User> FilteredArrList = new ArrayList<User>();
+
+                if (mOriginalValues == null) {
+                	mOriginalValues = new ArrayList<User>(); // saves the original data in mOriginalValues
+                }
+
+                /********
+                 * 
+                 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
+                 *  else does the Filtering and returns FilteredArrList(Filtered)  
+                 *
+                 ********/
+                if (constraint == null || constraint.length() == 0) {
+                    // set the Original result to return  
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;
+                } else {
+                    constraint = constraint.toString().toLowerCase();
+                    for (int i = 0; i < mOriginalValues.size(); i++) {
+                        User user = mOriginalValues.get(i);
+                        String words;
+                        if(user.getNickName() != null){
+                        	words = user.getNickName().toString();
+                        }else {
+                        	words = user.getUsername().toString();
+                        }
+                        if (words.toLowerCase().contains(constraint.toString())) {
+                        	FilteredArrList.add(user);
+                        }
+                    }
+                    // set the Filtered result to return
+                    results.count = FilteredArrList.size();
+                    results.values = FilteredArrList;
+                }
+				return results;
+			}
+		};
+		return filter;
+	};
 }
