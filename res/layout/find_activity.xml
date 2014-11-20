@@ -40,19 +40,12 @@
         android:clickable="true" >
 
         <ImageButton
+            android:id="@+id/find_topic_img"
             android:layout_width="42.0dip"
             android:layout_height="42.0dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16.0dip"
             android:background="@drawable/findtopic"
-            android:clickable="false" />
-
-        <ImageButton
-            android:layout_width="42.0dip"
-            android:layout_height="42.0dip"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16.0dip"
-            android:background="@drawable/corners_head"
             android:clickable="false" />
 
         <TextView
@@ -81,19 +74,12 @@
         android:clickable="true" >
 
         <ImageButton
+            android:id="@+id/find_duanzi_img"
             android:layout_width="42.0dip"
             android:layout_height="42.0dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16.0dip"
             android:background="@drawable/findduanzi"
-            android:clickable="false" />
-
-        <ImageButton
-            android:layout_width="42.0dip"
-            android:layout_height="42.0dip"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16.0dip"
-            android:background="@drawable/corners_head"
             android:clickable="false" />
 
         <TextView
@@ -117,19 +103,12 @@
         android:clickable="true" >
 
         <ImageButton
+            android:id="@+id/find_ktv_img"
             android:layout_width="42.0dip"
             android:layout_height="42.0dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16.0dip"
             android:background="@drawable/findktv"
-            android:clickable="false" />
-
-        <ImageButton
-            android:layout_width="42.0dip"
-            android:layout_height="42.0dip"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16.0dip"
-            android:background="@drawable/corners_head"
             android:clickable="false" />
 
         <TextView
@@ -153,19 +132,12 @@
         android:clickable="true" >
 
         <ImageButton
+            android:id="@+id/find_show_img"
             android:layout_width="42.0dip"
             android:layout_height="42.0dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16.0dip"
             android:background="@drawable/findshow"
-            android:clickable="false" />
-
-        <ImageButton
-            android:layout_width="42.0dip"
-            android:layout_height="42.0dip"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16.0dip"
-            android:background="@drawable/corners_head"
             android:clickable="false" />
 
         <TextView
