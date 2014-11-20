@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/indexbg"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-        android:background="@color/top_bar_normal_bg"
+        android:background="@color/indexbg"
         android:gravity="center_vertical" >
 
         <ImageView
@@ -295,6 +295,8 @@
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
