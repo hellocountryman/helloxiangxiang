@@ -20,6 +20,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
+import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
 import com.feytuo.chat.activity.ChatActivity;
 import com.feytuo.chat.activity.MainActivity;
@@ -46,6 +47,7 @@ public class App extends Application {
 	private static final String PREF_PWD = "pwd";
 	private String password = null;
 	private Map<String, User> contactList;
+	private UserDao userDao;
 	/**
 	 * 当前用户nickname,为了苹果推送不是userid而是昵称
 	 */
@@ -54,6 +56,7 @@ public class App extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		userDao = new UserDao(this);
 		pre = this.getSharedPreferences(Global.PREFERENCE_NAME, Context.MODE_PRIVATE);
         int pid = android.os.Process.myPid();
         String processAppName = getAppName(pid);
@@ -110,28 +113,26 @@ public class App extends Application {
 		});
 		// 设置一个connectionlistener监听账户重复登陆
 		EMChatManager.getInstance().addConnectionListener(new MyConnectionListener());
-//		// 取消注释，app在后台，有新消息来时，状态栏的消息提示换成自己写的
-//		options.setNotifyText(new OnMessageNotifyListener() {
-//
-//			@Override
-//			public String onNewMessageNotify(EMMessage message) {
-//				// 可以根据message的类型提示不同文字(可参考微信或qq)，demo简单的覆盖了原来的提示
-//				return "你的好基友" + message.getFrom() + "发来了一条消息哦";
-//			}
-//
-//			@Override
-//			public String onLatestMessageNotify(EMMessage message, int fromUsersNum, int messageNum) {
-//				return fromUsersNum + "个基友，发来了" + messageNum + "条消息";
-//			}
-//
-//			@Override
-//			public String onSetNotificationTitle(EMMessage message) {
-//				//修改标题
-//				return "环信notification";
-//			}
-//
-//
-//		});
+		// 取消注释，app在后台，有新消息来时，状态栏的消息提示换成自己写的
+		options.setNotifyText(new OnMessageNotifyListener() {
+
+			@Override
+			public String onNewMessageNotify(EMMessage message) {
+				// 可以根据message的类型提示不同文字(可参考微信或qq)，demo简单的覆盖了原来的提示
+				return "你的乡友发来了一条消息~";
+			}
+
+			@Override
+			public String onLatestMessageNotify(EMMessage message, int fromUsersNum, int messageNum) {
+				return fromUsersNum + "个乡友发来了" + messageNum + "条消息";
+			}
+
+			@Override
+			public String onSetNotificationTitle(EMMessage message) {
+				//修改标题
+				return "乡乡";
+			}
+		});
 		
 		//注册一个语言电话的广播接收者
 		IntentFilter callFilter = new IntentFilter(EMChatManager.getInstance().getIncomingVoiceCallBroadcastAction());
@@ -160,11 +161,13 @@ public class App extends Application {
 	 * @return
 	 */
 	public Map<String, User> getContactList() {
-		if (getUserName() != null && contactList == null) {
-			UserDao dao = new UserDao(applicationContext);
-			// 获取本地好友user list到内存,方便以后获取好友list
-			contactList = dao.getContactList();
-		}
+//		if (getUserName() != null && contactList == null) {
+//			UserDao dao = new UserDao(applicationContext);
+//			// 获取本地好友user list到内存,方便以后获取好友list
+//			contactList = dao.getContactList();
+//		}
+//		return contactList;
+		contactList = userDao.getContactList();
 		return contactList;
 	}
 

@@ -169,7 +169,6 @@ public class AddContactActivity extends BaseActivity{
 					addToLocalDB(toAddUsername,toAddUserNick,toAddUserHeadUrl);
 					runOnUiThread(new Runnable() {
 						public void run() {
-							progressDialog.dismiss();
 							Toast.makeText(getApplicationContext(), "成功添加好友", Toast.LENGTH_SHORT).show();
 						}
 					});
@@ -177,7 +176,8 @@ public class AddContactActivity extends BaseActivity{
 					runOnUiThread(new Runnable() {
 						public void run() {
 							progressDialog.dismiss();
-							Toast.makeText(getApplicationContext(), "添加好友失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "添加好友失败,请稍候再试...", Toast.LENGTH_SHORT).show();
+							Log.i("AddContactActivity","添加好友失败：" + e.getMessage());
 						}
 					});
 				}
@@ -202,7 +202,11 @@ public class AddContactActivity extends BaseActivity{
 			userDao.saveContact(user);
 		}
 		toAddUsers.put(username, user);
+		Log.i("AddContactActivity", "增加前好友数："+localUsers.size());
 		localUsers.putAll(toAddUsers);
+		Log.i("AddContactActivity", "增加后好友数："+localUsers.size()+"--"+App.getInstance()
+				.getContactList().size());
+		progressDialog.dismiss();
 	}
 	/**
 	 * set head

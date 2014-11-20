@@ -278,6 +278,7 @@ public class ContactlistFragment extends Fragment {
 	private void getContactList() {
 		contactList.clear();
 		Map<String, User> users = App.getInstance().getContactList();
+		Log.i("ContactlistFragment", "取出好友个数："+users.size());
 		Iterator<Entry<String, User>> iterator = users.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Entry<String, User> entry = iterator.next();

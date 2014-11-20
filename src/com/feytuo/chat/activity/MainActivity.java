@@ -339,7 +339,8 @@ public class MainActivity extends FragmentActivity implements
 			updateUnreadLabel();
 			// 当前页面如果为聊天历史页面，刷新此页面
 			if (cacFragment != null
-					&& cacFragment.getChatHistoryFragment() != null) {
+					&& cacFragment.getChatHistoryFragment() != null
+					&& cacFragment.getChatHistoryFragment().isInitialized()) {
 				cacFragment.getChatHistoryFragment().refresh();
 			}
 			// 注销广播，否则在ChatActivity中会收到这个广播
@@ -459,36 +460,36 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		public void onContactDeleted(final List<String> usernameList) {
-			// 被删除
-			Map<String, User> localUsers = App.getInstance().getContactList();
-			for (String username : usernameList) {
-				localUsers.remove(username);
-				userDao.deleteContact(username);
-				inviteMessgeDao.deleteMessage(username);
-			}
-			runOnUiThread(new Runnable() {
-				public void run() {
-					// 如果正在与此用户的聊天页面
-					if (ChatActivity.activityInstance != null
-							&& usernameList
-									.contains(ChatActivity.activityInstance
-											.getToChatUsername())) {
-						Toast.makeText(
-								MainActivity.this,
-								ChatActivity.activityInstance
-										.getToChatUsername() + "已把你从他好友列表里移除",
-								Toast.LENGTH_SHORT).show();
-						ChatActivity.activityInstance.finish();
-					}
-					updateUnreadLabel();
-				}
-			});
-			// 刷新ui
-			if (cacFragment != null
-					&& cacFragment.getContactListFragment() != null) {
-				Log.i("MainActivity", "delete");
-				cacFragment.getContactListFragment().refresh();
-			}
+//			// 被删除
+//			Map<String, User> localUsers = App.getInstance().getContactList();
+//			for (String username : usernameList) {
+//				localUsers.remove(username);
+//				userDao.deleteContact(username);
+//				inviteMessgeDao.deleteMessage(username);
+//			}
+//			runOnUiThread(new Runnable() {
+//				public void run() {
+//					// 如果正在与此用户的聊天页面
+//					if (ChatActivity.activityInstance != null
+//							&& usernameList
+//									.contains(ChatActivity.activityInstance
+//											.getToChatUsername())) {
+//						Toast.makeText(
+//								MainActivity.this,
+//								ChatActivity.activityInstance
+//										.getToChatUsername() + "已把你从他好友列表里移除",
+//								Toast.LENGTH_SHORT).show();
+//						ChatActivity.activityInstance.finish();
+//					}
+//					updateUnreadLabel();
+//				}
+//			});
+//			// 刷新ui
+//			if (cacFragment != null
+//					&& cacFragment.getContactListFragment() != null) {
+//				Log.i("MainActivity", "delete");
+//				cacFragment.getContactListFragment().refresh();
+//			}
 
 		}
 
@@ -696,7 +697,8 @@ public class MainActivity extends FragmentActivity implements
 					// 刷新ui
 					// 当前页面如果为聊天历史页面，刷新此页面
 					if (cacFragment != null
-							&& cacFragment.getChatHistoryFragment() != null) {
+							&& cacFragment.getChatHistoryFragment() != null
+							&& cacFragment.getChatHistoryFragment().isInitialized()) {
 						cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(
@@ -730,7 +732,8 @@ public class MainActivity extends FragmentActivity implements
 						updateUnreadLabel();
 						// 当前页面如果为聊天历史页面，刷新此页面
 						if (cacFragment != null
-								&& cacFragment.getChatHistoryFragment() != null) {
+								&& cacFragment.getChatHistoryFragment() != null
+								&& cacFragment.getChatHistoryFragment().isInitialized()) {
 							cacFragment.getChatHistoryFragment().refresh();
 						}
 						if (CommonUtils.getTopActivity(MainActivity.this)
@@ -755,7 +758,8 @@ public class MainActivity extends FragmentActivity implements
 					updateUnreadLabel();
 					// 当前页面如果为聊天历史页面，刷新此页面
 					if (cacFragment != null
-							&& cacFragment.getChatHistoryFragment() != null) {
+							&& cacFragment.getChatHistoryFragment() != null
+							&& cacFragment.getChatHistoryFragment().isInitialized()) {
 						cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(
@@ -803,7 +807,8 @@ public class MainActivity extends FragmentActivity implements
 					// 刷新ui
 					// 当前页面如果为聊天历史页面，刷新此页面
 					if (cacFragment != null
-							&& cacFragment.getChatHistoryFragment() != null) {
+							&& cacFragment.getChatHistoryFragment() != null
+							&& cacFragment.getChatHistoryFragment().isInitialized()) {
 						cacFragment.getChatHistoryFragment().refresh();
 					}
 					if (CommonUtils.getTopActivity(MainActivity.this).equals(

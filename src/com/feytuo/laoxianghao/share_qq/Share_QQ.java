@@ -262,6 +262,7 @@ public class Share_QQ {
 						@Override
 						public void run() {
 							final JSONObject json = (JSONObject) response;
+							Log.i("QQlogin", json.toString());
 							if (json.has("figureurl") && json.has("nickname")) {// 获取头像
 								try {
 									headBitmap = Util.getbitmap(json

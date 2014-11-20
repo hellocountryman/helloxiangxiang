@@ -265,4 +265,8 @@ public class ChatAllHistoryFragment extends Fragment {
 		}
 	}
 
+	public boolean isInitialized() {
+		return isInitialized;
+	}
+	
 }

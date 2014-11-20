@@ -35,6 +35,7 @@ import com.feytuo.chat.activity.MainActivity;
 import com.feytuo.chat.db.UserDao;
 import com.feytuo.chat.domain.User;
 import com.feytuo.laoxianghao.App;
+import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.util.GetSystemDateTime;
 import com.feytuo.laoxianghao.util.SDcardTools;
@@ -45,6 +46,7 @@ public class UserLogin {
 	public static LXHUser gUser = null;
 	private ProgressDialog pd;
 	private boolean progressShow;
+	private String userHome;
 
 	/**
 	 * 获取当前登录的用户信息
@@ -70,12 +72,20 @@ public class UserLogin {
 		Log.i("UserLogin", "openId:" + uName);
 		Log.i("UserLogin", "nickName:" + nickName);
 		Log.i("UserLogin", "bitmap:" + headBitmap);
+		//获取当前用户的家乡
+		getUserHome(context);
 		// 0、上传头像文件，获取头像文件地址
 		uploadHeadFile(context, uName, uKey, nickName, headBitmap);
 		// 1、检查是否存在该用户，不存在则添加用户，反之更新用户
 		// 2、上传用户基本信息
 		// 3、注册环信服务器
 		// 4、登录环信服务器
+	}
+
+	private void getUserHome(Context context) {
+		// TODO Auto-generated method stub
+		int cityId = App.pre.getInt(Global.CURRENT_NATIVE, -1);
+		userHome = new CityDao(context).getCityNameById(cityId);
 	}
 
 	/**
@@ -175,6 +185,7 @@ public class UserLogin {
 		LXHUser lxhUser = new LXHUser();
 		lxhUser.setNickName(nickName);
 		lxhUser.setHeadUrl(headUrl);
+		lxhUser.setHome(userHome);
 		lxhUser.update(context, user.getObjectId(), new UpdateListener() {
 
 			@Override
@@ -216,6 +227,7 @@ public class UserLogin {
 		user.setuKey(uKey);
 		user.setHeadUrl(headUrl);
 		user.setNickName(nickName);
+		user.setHome(userHome);
 		user.save(context, new SaveListener() {
 
 			@Override
@@ -405,21 +417,21 @@ public class UserLogin {
 						Log.i("UserLogin", "添加了服务器好友：" + userName
 								+ "---" + arg0.get(i).getNickName()+"---"+arg0.get(i).getHeadUrl());
 					}
-					// 添加user"申请与通知"
-					User newFriends = new User();
-					newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
-					newFriends.setNick("申请与通知");
-					newFriends.setHeader("");
-					userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-					// 添加"群聊"
-					User groupUser = new User();
-					groupUser.setUsername(Constant.GROUP_USERNAME);
-					groupUser.setNick("群聊");
-					groupUser.setHeader("");
-					userlist.put(Constant.GROUP_USERNAME, groupUser);
-
-					// 存入内存
-					App.getInstance().setContactList(userlist);
+//					// 添加user"申请与通知"
+//					User newFriends = new User();
+//					newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
+//					newFriends.setNick("申请与通知");
+//					newFriends.setHeader("");
+//					userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
+//					// 添加"群聊"
+//					User groupUser = new User();
+//					groupUser.setUsername(Constant.GROUP_USERNAME);
+//					groupUser.setNick("群聊");
+//					groupUser.setHeader("");
+//					userlist.put(Constant.GROUP_USERNAME, groupUser);
+//
+//					// 存入内存
+//					App.getInstance().setContactList(userlist);
 					// 存入db
 					UserDao dao = new UserDao(context);
 					List<User> users = new ArrayList<User>(userlist.values());

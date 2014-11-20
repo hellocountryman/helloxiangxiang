@@ -62,6 +62,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
@@ -85,6 +87,7 @@ import com.feytuo.chat.adapter.ExpressionAdapter;
 import com.feytuo.chat.adapter.ExpressionPagerAdapter;
 import com.feytuo.chat.adapter.MessageAdapter;
 import com.feytuo.chat.adapter.VoicePlayClickListener;
+import com.feytuo.chat.db.UserDao;
 import com.feytuo.chat.utils.CommonUtils;
 import com.feytuo.chat.utils.ImageUtils;
 import com.feytuo.chat.utils.SmileUtils;
@@ -92,6 +95,7 @@ import com.feytuo.chat.widget.ExpandGridView;
 import com.feytuo.chat.widget.PasteEditText;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.domain.LXHUser;
 
 /**
  * 聊天页面
@@ -314,7 +318,18 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 		if (chatType == CHATTYPE_SINGLE) { // 单聊
 			toChatUsername = getIntent().getStringExtra("userId");
 			String nickName = getIntent().getStringExtra("userNickName");
-			((TextView) findViewById(R.id.name)).setText(nickName);
+			TextView nickNameTV = (TextView) findViewById(R.id.name);
+			if(!TextUtils.isEmpty(nickName)){//从好友列表进入
+				nickNameTV.setText(nickName);
+			}else {
+				nickName = new UserDao(this).getUserNickName(toChatUsername);
+				if(!TextUtils.isEmpty(nickName)){//从会话列表进入
+					nickNameTV.setText(nickName);
+				}else{//从个人信息界面
+					setTitleName(toChatUsername,nickNameTV);
+				}
+			}
+				
 			// conversation =
 			// EMChatManager.getInstance().getConversation(toChatUsername,false);
 		} else {
@@ -381,6 +396,36 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 			forwardMessage(forward_msg_id);
 		}
 
+	}
+
+	/**
+	 * 从个人中心进入对话的标题中的用户昵称设置
+	 * @param userName
+	 * @param nickNameTV
+	 */
+	private void setTitleName(final String userName, final TextView nickNameTV) {
+		// TODO Auto-generated method stub
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereEqualTo("objectId", userName);
+		query.addQueryKeys("nickName");
+		query.findObjects(this, new FindListener<LXHUser>() {
+			
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.size() > 0){
+					nickNameTV.setText(arg0.get(0).getNickName());
+				}else{
+					nickNameTV.setText(userName);
+				}
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				nickNameTV.setText(userName);
+			}
+		});
 	}
 
 	/**
