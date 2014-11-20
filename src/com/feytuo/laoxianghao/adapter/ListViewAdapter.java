@@ -12,6 +12,9 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.CountDownTimer;
@@ -98,9 +101,7 @@ public class ListViewAdapter extends SimpleAdapter {
 						.findViewById(R.id.title_img_id);
 				holder.supportImg = (ImageView) convertView
 						.findViewById(R.id.support_img);
-				holder.commentImg = (ImageView) convertView
-						.findViewById(R.id.comment_img);
-				holder.personHeadImg = (ImageView) convertView
+				holder.personHeadImg = (ImageButton) convertView
 						.findViewById(R.id.person_head_img);
 				holder.indexSupportNum = (TextView) convertView
 						.findViewById(R.id.index_support_num);
@@ -178,10 +179,10 @@ public class ListViewAdapter extends SimpleAdapter {
 		// 地点
 		holder.indexLocalsCountry.setText(list.get(position).get("position")
 				.toString());
-		// 设置头像
-		holder.personHeadImg
-				.setBackgroundResource(HeadImageChoose.HEAD_IDS[(int) list.get(
-						position).get("head_id")]);
+		
+		NetUtil.corner(context,HeadImageChoose.HEAD_IDS[(int) list.get(
+				position).get("head_id")], holder.personHeadImg);//把头像设置成圆角
+		
 		// 确定热门还是地理位置图标
 		if (0 == (int) list.get(position).get("ishot")) {
 			holder.titleImage.setBackgroundResource(R.drawable.geographical);
@@ -221,7 +222,6 @@ public class ListViewAdapter extends SimpleAdapter {
 		} else {
 			holder.indexCommentNum.setText("评论");
 		}
-		holder.commentImg.setBackgroundResource(R.drawable.comment_no);
 	}
 
 	// 设置点赞等图片按钮
@@ -272,7 +272,7 @@ public class ListViewAdapter extends SimpleAdapter {
 				break;
 			case R.id.index_comment_linerlayout:
 				if (App.isLogin()) {
-					turnToComment(position);
+					turnToComment(holder, position);
 				} else {
 					if (context instanceof MainActivity) {
 						((MainActivity) context).showLoginDialog();
@@ -311,7 +311,7 @@ public class ListViewAdapter extends SimpleAdapter {
 				break;
 			default:
 				if (App.isLogin()) {
-					turnToComment(position);
+					turnToComment(holder,position);
 				} else {
 					if (context instanceof MainActivity) {
 						((MainActivity) context).showLoginDialog();
@@ -323,7 +323,7 @@ public class ListViewAdapter extends SimpleAdapter {
 	}
 
 	// 跳转到评论页面
-	private void turnToComment(int position) {
+	private void turnToComment(ViewHolder holder,int position) {
 		// TODO Auto-generated method stub
 		String invId = list.get(position).get("inv_id").toString();
 		Intent intentComment = new Intent();
@@ -422,10 +422,9 @@ public class ListViewAdapter extends SimpleAdapter {
 		private LinearLayout indexShareLinerlayout;// 分享
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
-		private ImageView personHeadImg;// 头像
+		private ImageButton personHeadImg;// 头像
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
-		private ImageView commentImg;// 评论的图标
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
 		private TextView indexProgressbarTime;
 		private TextView indexTextDescribe;// 帖子内容文字
@@ -435,7 +434,6 @@ public class ListViewAdapter extends SimpleAdapter {
 
 	private MyCount mCountDownTimer;// 当前录音倒计时
 	private Timer mProgressTimer;// 当前进度条进度计时
-	private int mCount = 0;// 进度条度数
 	private MediaPlayer mp;
 	private int voiceDuration;
 	private boolean isPlay = false;
@@ -502,7 +500,6 @@ public class ListViewAdapter extends SimpleAdapter {
 	public void stopAudio(final ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
 		// 进度条走完
-		mCount = 0;
 		isPlay = false;
 		isAudioPlayArray.put(position, false);
 		if (mProgressTimer != null) {
@@ -596,7 +593,6 @@ public class ListViewAdapter extends SimpleAdapter {
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
 				// 进度条走完
-				mCount = 0;
 				mProgressTimer.cancel();
 				// mHolder.indexProgressbarId.setProgress(0);
 				if (isCurrentItemAudioPlay) {
