@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-        android:background="@color/top_bar_normal_bg"
+        android:background="@color/indexbg"
         android:gravity="center_vertical" >
 
         <TextView
@@ -34,7 +34,7 @@
     <LinearLayout
         android:id="@+id/tab_group"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="35.0dip"
         android:orientation="horizontal" >
 
         <RelativeLayout
@@ -44,28 +44,18 @@
             android:layout_weight="1"
             android:clickable="true" >
 
-            <!--
             <Button
                 android:id="@+id/btn_conversation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/main_bottom_item_bg"
-                android:drawableLeft="@drawable/tab_chat_bg"
+                android:background="@color/white"
+                android:clickable="false"
                 android:paddingBottom="2dip"
                 android:paddingTop="7dip"
                 android:scaleType="matrix"
-                android:text="乡音"
-                android:textColor="@color/main_botton_text_color"
+                android:text="消息"
+                android:textColor="@color/indexbg"
                 android:textSize="12sp" />
-            -->
-
-            <ImageView
-                android:id="@+id/btn_conversation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/main_bottom_item_bg"
-                android:scaleType="center"
-                android:src="@drawable/tab_chat_bg" />
 
             <TextView
                 android:id="@+id/unread_msg_number"
@@ -88,28 +78,18 @@
             android:layout_weight="1"
             android:clickable="true" >
 
-            <!--
             <Button
                 android:id="@+id/btn_address_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/main_bottom_item_bg"
-                android:drawableLeft="@drawable/tab_contact_list_bg"
+                android:background="@color/white"
+                android:clickable="false"
                 android:paddingBottom="2dip"
                 android:paddingTop="7dip"
                 android:scaleType="matrix"
-                android:text="乡友"
-                android:textColor="@color/main_botton_text_color"
+                android:text="列表"
+                android:textColor="@color/indexbg"
                 android:textSize="12sp" />
-            -->
-
-            <ImageView
-                android:id="@+id/btn_address_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/main_bottom_item_bg"
-                android:scaleType="center"
-                android:src="@drawable/tab_contact_list_bg" />
 
             <TextView
                 android:id="@+id/unread_address_number"
@@ -128,14 +108,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/common_bottom_bar_normal_bg" >
+        android:layout_height="2dp"
+        android:background="@color/white" >
 
         <ImageView
             android:id="@+id/cursor"
             android:layout_width="wrap_content"
-            android:layout_height="5dp"
-            android:background="#ffffff"
+            android:layout_height="2dp"
+            android:background="@color/indexbg"
             android:orientation="vertical" />
     </LinearLayout>
 

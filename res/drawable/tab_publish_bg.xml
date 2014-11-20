@@ -2,6 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/publish_press" android:state_selected="true"/>
-    <item android:drawable="@drawable/publish_no"/>
+    <item android:drawable="@drawable/publish_press"/>
 
 </selector>

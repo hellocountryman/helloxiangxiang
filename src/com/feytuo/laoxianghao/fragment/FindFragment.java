@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.feytuo.laoxianghao.FindDetailsActivity;
 import com.feytuo.laoxianghao.MessageCellectActivity;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.global.HeadImageChoose;
@@ -52,10 +53,10 @@ public class FindFragment extends Fragment {
 				R.id.find_ktv_img);
 		indexShowImg = (ImageButton) getActivity().findViewById(
 				R.id.find_show_img);
-		NetUtil.corner(getActivity(),R.drawable.findtopic, indexTopicImg);//设置圆角
-		NetUtil.corner(getActivity(),R.drawable.findduanzi, indeDuanziImg);
-		NetUtil.corner(getActivity(),R.drawable.findktv, indexKtvImg);
-		NetUtil.corner(getActivity(),R.drawable.findshow, indexShowImg);
+		NetUtil.corner(getActivity(), R.drawable.findtopic, indexTopicImg);// 设置圆角
+		NetUtil.corner(getActivity(), R.drawable.findduanzi, indeDuanziImg);
+		NetUtil.corner(getActivity(), R.drawable.findktv, indexKtvImg);
+		NetUtil.corner(getActivity(), R.drawable.findshow, indexShowImg);
 
 		findTopicRelac = (RelativeLayout) getActivity().findViewById(
 				R.id.find_topic_linear);
@@ -73,29 +74,33 @@ public class FindFragment extends Fragment {
 	}
 
 	class listener implements OnClickListener {
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			// case R.id.find_topic_linear:
 
-			// break;
-			// case R.id.find_duanzi_linear:
-			//
-			// break;
-			// case R.id.find_ktv_linear:
-			//
-			// break;
-			// case R.id.find_show_linear:
-			//
-			// break;
-			default:
-				Intent intent = new Intent();
-				intent.setClass(getActivity(), MessageCellectActivity.class);
+		public void onClick(View v) {
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), FindDetailsActivity.class);
+			switch (v.getId()) {
+			case R.id.find_topic_linear:
+				intent.putExtra("type", 1);
 				getActivity().startActivity(intent);
 				break;
+			case R.id.find_duanzi_linear:
+				intent.putExtra("type", 2);
+				getActivity().startActivity(intent);
+				break;
+			case R.id.find_ktv_linear:
+				intent.putExtra("type", 3);
+				getActivity().startActivity(intent);
+				break;
+			case R.id.find_show_linear:
+				intent.putExtra("type", 4);
+				getActivity().startActivity(intent);
+				break;
+			default:
+				break;
+
 			}
+
 		}
 	};
-
 
 }
