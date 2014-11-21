@@ -69,26 +69,20 @@
         android:background="@color/weibo_unline" />
 
     <RelativeLayout
-        android:id="@+id/person_talk_rela"
+        android:id="@+id/person_tiezi_rela"
         android:layout_width="fill_parent"
         android:layout_height="50.0dip"
         android:background="@drawable/common_selector"
         android:clickable="true" >
 
-        <ImageView
-            android:layout_width="12.0dip"
-            android:layout_height="12.0dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16.0dip"
-            android:src="@drawable/into_icon" />
+        <include layout="@layout/viewintimg" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16.0dip"
-            android:text="发话"
+            android:text="帖子"
             android:textColor="@color/head_color"
             android:textSize="@dimen/find_text_size" />
     </RelativeLayout>
@@ -110,13 +104,7 @@
         android:background="@drawable/common_selector"
         android:clickable="true" >
 
-        <ImageView
-            android:layout_width="12.0dip"
-            android:layout_height="12.0dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16.0dip"
-            android:src="@drawable/into_icon" />
+        <include layout="@layout/viewintimg" />
 
         <TextView
             android:layout_width="wrap_content"

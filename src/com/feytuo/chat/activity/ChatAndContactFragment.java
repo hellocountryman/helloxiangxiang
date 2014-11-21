@@ -1,5 +1,6 @@
 package com.feytuo.chat.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,38 +15,43 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsoluteLayout;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.feytuo.laoxianghao.R;
 
-public class ChatAndContactFragment extends Fragment{
+@SuppressLint({ "ResourceAsColor", "CutPasteId" })
+public class ChatAndContactFragment extends Fragment {
 
 	private Fragment[] fragments;
 	private ContactlistFragment contactListFragment;
 	private ChatAllHistoryFragment chatHistoryFragment;
-	
+
 	private ViewPager viewPager;
 	private ImageView cursorImage;
-	private ImageView addContactView;
+	private Button addContactView;// 添加好友
+	private Button btnConversation;// 消息按钮
+	private Button btnAddressList;// 好友消息按钮
+
 	private RelativeLayout cursorConversationBtn;
 	private RelativeLayout cursorFriendBtn;
 	// 未读消息textview
 	private TextView unreadLabel;
 	// 未读通讯录textview
 	private TextView unreadAddressLable;
-	
+
 	private int cursorOffset;// 每一格偏移量
 	private int currentOffset;// 当前总偏移量
 	private int currentTabInCAC;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.fragment_contact_viewpager, container, false);
+		View view = inflater.inflate(R.layout.fragment_contact_viewpager,
+				container, false);
 		// 初始化viewpager
 		initViewPager(view);
 		// 初始化view
@@ -54,14 +60,15 @@ public class ChatAndContactFragment extends Fragment{
 		initCursor(view);
 		return view;
 	}
-	
+
 	private void initViewPager(View view) {
 		// TODO Auto-generated method stub
 		chatHistoryFragment = new ChatAllHistoryFragment();
 		contactListFragment = new ContactlistFragment();
-		fragments = new Fragment[] { chatHistoryFragment, contactListFragment};
+		fragments = new Fragment[] { chatHistoryFragment, contactListFragment };
 		viewPager = (ViewPager) view.findViewById(R.id.contact_viewpager);
-		viewPager.setAdapter(new MyFragmentPagerAdapter(getChildFragmentManager()));
+		viewPager.setAdapter(new MyFragmentPagerAdapter(
+				getChildFragmentManager()));
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			private int currentPager;
 
@@ -78,19 +85,20 @@ public class ChatAndContactFragment extends Fragment{
 					currentOffset = arg0 * cursorOffset;
 				} else {
 					// 图片移动偏移量
-					Log.i("ChatAndContactFragment", "当前移动总量："+(currentOffset + cursorOffset* arg1));
+					Log.i("ChatAndContactFragment", "当前移动总量："
+							+ (currentOffset + cursorOffset * arg1));
 					final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cursorImage
 							.getLayoutParams();
-					if(arg0 == 0 && arg2 == 0){
+					if (arg0 == 0 && arg2 == 0) {
 						params.setMargins((int) (currentOffset + cursorOffset
 								* arg1), 0, 0, 0);
-					}else{
+					} else {
 						params.setMargins((int) (currentOffset + cursorOffset
-								* arg1)+1, 0, 0, 0);
+								* arg1) + 1, 0, 0, 0);
 					}
-					//首次加载后不会刷新，必须强制放到ui线程刷新ui
+					// 首次加载后不会刷新，必须强制放到ui线程刷新ui
 					cursorImage.post(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
@@ -108,18 +116,42 @@ public class ChatAndContactFragment extends Fragment{
 		});
 	}
 
+	@SuppressLint("ResourceAsColor")
 	private void initView(View view) {
 		// TODO Auto-generated method stub
+		btnConversation = (Button) view.findViewById(R.id.btn_conversation);
+		btnAddressList = (Button) view.findViewById(R.id.btn_friends_list);
+
 		cursorImage = (ImageView) view.findViewById(R.id.cursor);
 		unreadLabel = (TextView) view.findViewById(R.id.unread_msg_number);
-		unreadAddressLable = (TextView) view.findViewById(R.id.unread_address_number);
-		cursorConversationBtn = (RelativeLayout)view.findViewById(R.id.btn_container_conversation);
-		cursorFriendBtn = (RelativeLayout)view.findViewById(R.id.btn_container_address_list);
-		addContactView = (ImageView) view.findViewById(R.id.fragment_contact_viewpager_iv_new_contact);
+		unreadAddressLable = (TextView) view
+				.findViewById(R.id.unread_address_number);
+		cursorConversationBtn = (RelativeLayout) view
+				.findViewById(R.id.btn_container_conversation);
+		cursorFriendBtn = (RelativeLayout) view
+				.findViewById(R.id.btn_container_address_list);
+		addContactView = (Button) view
+				.findViewById(R.id.fragment_contact_viewpager_iv_new_contact);
 		// 进入添加好友页
 		addContactView.setOnClickListener(listener);
 		cursorConversationBtn.setOnClickListener(listener);
 		cursorFriendBtn.setOnClickListener(listener);
+	}
+
+	/**
+	 * viewpager在左边的时候
+	 */
+	private void leftcolor() {
+		btnConversation.setTextColor(R.color.indexbg);
+		btnAddressList.setTextColor(R.color.grey);//
+	}
+
+	/*
+	 * viewpager在右边边的时候
+	 */
+	private void rightcolor() {
+		btnConversation.setTextColor(R.color.grey);
+		btnAddressList.setTextColor(R.color.indexbg);//
 	}
 
 	private void initCursor(View view) {
@@ -135,29 +167,29 @@ public class ChatAndContactFragment extends Fragment{
 		cursorImage.setLayoutParams(params);
 		currentTabInCAC = 0;
 	}
-	
+
 	private OnClickListener listener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.btn_container_conversation: //会话按钮
-				setCursor(viewPager.getCurrentItem(),0);
+			case R.id.btn_container_conversation: // 会话按钮
+				setCursor(viewPager.getCurrentItem(), 0);
 				viewPager.setCurrentItem(0, false);
 				currentTabInCAC = 0;
 				break;
-			case R.id.btn_container_address_list://好友列表按钮
-				setCursor(viewPager.getCurrentItem(),1);
+			case R.id.btn_container_address_list:// 好友列表按钮
+				setCursor(viewPager.getCurrentItem(), 1);
 				viewPager.setCurrentItem(1, false);
 				currentTabInCAC = 1;
 				break;
-			case R.id.fragment_contact_viewpager_iv_new_contact://好友列表按钮
-				startActivity(new Intent(getActivity(), AddContactActivity.class));
+			case R.id.fragment_contact_viewpager_iv_new_contact:// 好友列表按钮
+				startActivity(new Intent(getActivity(),
+						AddContactActivity.class));
 				break;
 			}
 		}
 	};
-
 
 	class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -178,22 +210,24 @@ public class ChatAndContactFragment extends Fragment{
 			return fragments.length;
 		}
 	}
-	
+
 	/**
 	 * 点击时滑动块移动
+	 * 
 	 * @param currentNum
 	 * 
 	 * @param targetNum
 	 */
-	private void setCursor(int currentNum , int targetNum){
+	private void setCursor(int currentNum, int targetNum) {
 		int offsetNum = 0;
 		offsetNum = targetNum - currentNum;
 		currentOffset = currentOffset + offsetNum * cursorOffset;
-		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)cursorImage.getLayoutParams();
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cursorImage
+				.getLayoutParams();
 		params.setMargins(currentOffset, 0, 0, 0);
 		cursorImage.requestLayout();
 	}
-	
+
 	public int getCurrentTabInCAC() {
 		return currentTabInCAC;
 	}
@@ -213,6 +247,5 @@ public class ChatAndContactFragment extends Fragment{
 	public TextView getUnreadAddressLable() {
 		return unreadAddressLable;
 	}
-	
-	
+
 }

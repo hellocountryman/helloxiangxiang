@@ -254,5 +254,10 @@ public class SetActivity extends Activity implements OnClickListener {
 		}
 
 	}
+	
+	public void setRetImg(View v)
+	{
+		finish();
+	}
 
 }
