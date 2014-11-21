@@ -11,24 +11,38 @@
         android:background="@color/indexbg"
         android:gravity="center_vertical" >
 
-        <TextView
-            android:id="@+id/fragment_contact_viewpager_message_title"
+        <ImageView
+            android:id="@+id/index_ico_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="我的乡聊"
-            android:textColor="@color/bottom_text_color_normal"
-            android:textSize="18sp" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8.0dip"
+            android:background="@drawable/title_ic_launcher"
+            android:contentDescription="@string/app_name"
+            android:padding="8.0dip" />
 
-        <ImageView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_hight"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_8dip"
+            android:layout_toRightOf="@+id/index_ico_img"
+            android:gravity="center_vertical"
+            android:text="我的乡聊"
+            android:textColor="@color/white"
+            android:textSize="@dimen/city_text_size" />
+
+        <Button
             android:id="@+id/fragment_contact_viewpager_iv_new_contact"
-            android:layout_width="48dp"
+            android:layout_width="54dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/common_tab_bg"
-            android:clickable="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/add" />
+            android:onClick="searchContact"
+            android:text="添加"
+            android:textColor="#fff"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -79,7 +93,7 @@
             android:clickable="true" >
 
             <Button
-                android:id="@+id/btn_address_list"
+                android:id="@+id/btn_friends_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -88,7 +102,7 @@
                 android:paddingTop="7dip"
                 android:scaleType="matrix"
                 android:text="列表"
-                android:textColor="@color/indexbg"
+                android:textColor="@color/grey"
                 android:textSize="12sp" />
 
             <TextView

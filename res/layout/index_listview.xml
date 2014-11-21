@@ -129,12 +129,13 @@
             android:layout_height="36dip"
             android:layout_weight="1"
             android:clickable="true"
-            android:gravity="center" >
+            android:gravity="right" >
 
             <ImageButton
                 android:id="@+id/support_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/support_no"
                 android:clickable="false" />
 
@@ -142,6 +143,7 @@
                 android:id="@+id/index_support_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dip"
                 android:clickable="false"
                 android:text="赞"
@@ -155,12 +157,13 @@
             android:layout_height="36dip"
             android:layout_weight="1"
             android:clickable="true"
-            android:gravity="center" >
+            android:gravity="right" >
 
             <ImageButton
                 android:id="@+id/comment_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_vertical"
                 android:background="@drawable/comment_selector"
                 android:clickable="false" />
 
@@ -169,6 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dip"
+                 android:layout_gravity="center_vertical"
                 android:clickable="false"
                 android:text="评论"
                 android:textColor="@color/text_num_color"
@@ -181,11 +185,12 @@
             android:layout_height="36dip"
             android:layout_weight="1"
             android:clickable="true"
-            android:gravity="center" >
+            android:gravity="right" >
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_vertical"
                 android:background="@drawable/share_selector"
                 android:clickable="false" />
 
@@ -195,6 +200,7 @@
                 android:layout_marginLeft="5dip"
                 android:clickable="false"
                 android:text="分享"
+                 android:layout_gravity="center_vertical"
                 android:textColor="@color/text_num_color"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -208,7 +214,7 @@
     </LinearLayout>
 
     <include layout="@layout/viewone3dhight" />
+    <include  layout="@layout/viewtenhight"/>
     <!-- 让布局有一个立体的效果 -->
-
 
 </LinearLayout>

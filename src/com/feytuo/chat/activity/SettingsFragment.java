@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.feytuo.laoxianghao.MessageCellectActivity;
 import com.feytuo.laoxianghao.PersonDetailsActivity;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.SetActivity;
@@ -32,10 +33,10 @@ import com.feytuo.laoxianghao.SetActivity;
  * @author Administrator
  * 
  */
-public class SettingsFragment extends Fragment{
+public class SettingsFragment extends Fragment {
 
 	private RelativeLayout personInfoRela;
-	private RelativeLayout personTalkRela;
+	private RelativeLayout personTieziRela;
 	private RelativeLayout personSetRela;
 
 	@Override
@@ -50,12 +51,12 @@ public class SettingsFragment extends Fragment{
 
 		personInfoRela = (RelativeLayout) getView().findViewById(
 				R.id.person_info_rela);
-		personTalkRela = (RelativeLayout) getView().findViewById(
-				R.id.person_talk_rela);
+		personTieziRela = (RelativeLayout) getView().findViewById(
+				R.id.person_tiezi_rela);
 		personSetRela = (RelativeLayout) getView().findViewById(
 				R.id.person_set_rela);
 		personInfoRela.setOnClickListener(new linstener());
-		personTalkRela.setOnClickListener(new linstener());
+		personTieziRela.setOnClickListener(new linstener());
 		personSetRela.setOnClickListener(new linstener());
 
 	}
@@ -64,15 +65,16 @@ public class SettingsFragment extends Fragment{
 
 		@Override
 		public void onClick(View v) {
-			Intent intent=new Intent();
+			Intent intent = new Intent();
 			switch (v.getId()) {
-			
+
 			case R.id.person_info_rela:
 				intent.setClass(getActivity(), PersonDetailsActivity.class);
 				getActivity().startActivity(intent);
 				break;
-			case R.id.person_talk_rela:
-
+			case R.id.person_tiezi_rela:
+				intent.setClass(getActivity(), MessageCellectActivity.class);
+				getActivity().startActivity(intent);
 				break;
 			case R.id.person_set_rela:
 				intent.setClass(getActivity(), SetActivity.class);
@@ -85,6 +87,5 @@ public class SettingsFragment extends Fragment{
 		}
 
 	}
-
 
 }
