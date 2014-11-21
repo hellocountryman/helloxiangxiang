@@ -84,7 +84,7 @@ public class UserLogin {
 
 	private void getUserHome(Context context) {
 		// TODO Auto-generated method stub
-		int cityId = App.pre.getInt(Global.CURRENT_NATIVE, -1);
+		int cityId = App.pre.getInt(Global.USER_HOME, 1);
 		userHome = new CityDao(context).getCityNameById(cityId);
 	}
 

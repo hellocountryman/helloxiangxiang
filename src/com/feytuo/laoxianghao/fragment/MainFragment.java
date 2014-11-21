@@ -208,7 +208,7 @@ public class MainFragment extends Fragment {
 	private void getListDataFromLocal() {
 		// TODO Auto-generated method stub
 		listData = new InvitationDao(getActivity()).getAllInfo(App.pre.getInt(
-				Global.CURRENT_NATIVE, 1));
+				Global.CURRENT_NATIVE, 0));
 		for (Invitation inv : listData) {
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("inv_id", inv.getObjectId());
@@ -221,6 +221,8 @@ public class MainFragment extends Fragment {
 			map.put("voice", inv.getVoice());
 			map.put("ishot", inv.getIsHot());
 			map.put("head_id", inv.getHeadId());
+			map.put("uid", inv.getuId());
+			map.put("home", inv.getHome());
 			map.put("invitation", inv);
 			listItems.add(map);
 		}
@@ -446,16 +448,11 @@ public class MainFragment extends Fragment {
 
 	private void getListData(final int page, final int actionType) {
 		// 获取当前城市
-		int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 1);
-		BmobQuery<Invitation> query1 = new BmobQuery<Invitation>();
-		query1.addWhereEqualTo("home", homeId);
-		BmobQuery<Invitation> query2 = new BmobQuery<Invitation>();
-		query2.addWhereEqualTo("isHot", 1);
-		List<BmobQuery<Invitation>> queries = new ArrayList<BmobQuery<Invitation>>();
-		queries.add(query1);
-		queries.add(query2);
+		int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 0);
 		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
-		query.or(queries);
+		if(homeId > 0){
+			query.addWhereEqualTo("home", homeId);
+		}
 		query.order("-createdAt");
 		query.setLimit(LIMIT); // 设置每页多少条数据
 		query.setSkip(page * LIMIT); // 从第几条数据开始
@@ -481,6 +478,8 @@ public class MainFragment extends Fragment {
 					map.put("voice_duration", inv.getVoiceDuration());
 					map.put("ishot", inv.getIsHot());
 					map.put("head_id", inv.getHeadId());
+					map.put("uid", inv.getuId());
+					map.put("home", inv.getHome());
 					map.put("invitation", inv);
 					listItems.add(map);
 				}

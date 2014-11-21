@@ -115,11 +115,11 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 				holder.name.setText("申请与通知");
 			}
 			//会话名
-			getUserNickName(username,holder.name);
+			setUserNickName(username,holder.name);
 			
 			// 本地或者服务器获取用户详情，以用来显示头像和nick
 			holder.avatar.setImageResource(R.drawable.default_avatar);
-			getUserHeadUrl(username,holder.avatar);
+			setUserHeadUrl(username,holder.avatar);
 		}
 
 		if (conversation.getUnreadMsgCount() > 0) {
@@ -224,7 +224,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 	 * @param userName
 	 * @param nameTV
 	 */
-	public void getUserNickName(String userName ,TextView nameTV){
+	public void setUserNickName(String userName ,TextView nameTV){
 		String nickName = userDao.getUserNickName(userName);
 		if(nickName != null){//如果本地数据库存在该用户
 			nameTV.setText(nickName);
@@ -263,7 +263,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 	 * @param username
 	 * @param avatar
 	 */
-	private void getUserHeadUrl(String userName, ImageView headUrlIV) {
+	private void setUserHeadUrl(String userName, ImageView headUrlIV) {
 		// TODO Auto-generated method stub
 		String headUrl = userDao.getUserHeadUrl(userName);
 		if(headUrl != null && !TextUtils.isEmpty(headUrl)){//如果本地数据库存在该用户

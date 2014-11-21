@@ -81,12 +81,12 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 
 	@Override
 	public int getItemViewType(int position) {
-		return position == 0 ? 0 : 1;
+		return position == -1 ? 0 : 1;//隐藏，如果像是搜索框与0比较
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position == 0) {//搜索框
+		if (position == -1) {//隐藏搜索框，如果现实position = 0
 			if(convertView == null){
 				convertView = layoutInflater.inflate(R.layout.search_bar_with_padding, null);
 				query = (EditText) convertView.findViewById(R.id.query);
@@ -182,13 +182,14 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 	
 	@Override
 	public User getItem(int position) {
-		return position == 0 ? new User() : data.get(position - 1);
+//		return position == 0 ? new User() : data.get(position - 1);现实搜索框
+		return data.get(position);//隐藏搜索框
 	}
 	
 	@Override
 	public int getCount() {
-		//有搜索框，count+1
-		return data.size() + 1;
+//		return data.size() + 1;有搜索框，count+1
+		return data.size();
 	}
 
 	public int getPositionForSection(int section) {

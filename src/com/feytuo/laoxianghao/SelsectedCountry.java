@@ -172,7 +172,7 @@ public class SelsectedCountry extends Activity {
 	protected void saveCurrentHome(String home) {
 		// TODO Auto-generated method stub
 		int cityId = new CityDao(this).getCityIdByName(home);
-		App.pre.edit().putInt(Global.CURRENT_NATIVE, cityId).commit();
+		App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
 	}
 
 	/**

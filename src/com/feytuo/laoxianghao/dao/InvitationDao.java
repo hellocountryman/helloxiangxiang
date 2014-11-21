@@ -83,11 +83,20 @@ public class InvitationDao {
 	 * @return
 	 */
 	public List<Invitation> getAllInfo(int homeId){
+		String sqlStr = null;
+		Cursor cursor = null;
 		List<Invitation> list = new ArrayList<>();
-		String sqlStr = "select position,words,"
-				+ "voice,voice_duration,time,praise_num,"
-				+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation where home=? or ishot=1";
-		Cursor cursor = db.rawQuery(sqlStr,new String[]{homeId+""});
+		if(homeId == 0){//取出全部
+			sqlStr = "select position,words,"
+					+ "voice,voice_duration,time,praise_num,"
+					+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation";
+			cursor = db.rawQuery(sqlStr,null);
+		}else{
+			sqlStr = "select position,words,"
+					+ "voice,voice_duration,time,praise_num,"
+					+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation where home=?";
+			cursor = db.rawQuery(sqlStr,new String[]{homeId+""});
+		}
 		while(cursor.moveToNext()){
 			Invitation inv = new Invitation();
 			inv.setPosition(cursor.getString(0));
@@ -365,6 +374,65 @@ public class InvitationDao {
 	public void deleteAllDataInCollection(){
 		String sqlStr = "delete from invitation_collection";
 		db.execSQL(sqlStr);
+	}
+	
+	/*********************我的帖子分类表************************/
+	/**
+	 * 获取homeid的所有帖子信息
+	 * @param homeId 方言地id
+	 * @return
+	 */
+	public List<Invitation> getInvitationFromClass(int type){
+		List<Invitation> list = new ArrayList<>();
+		String sqlStr = "select position,words,"
+				+ "voice,voice_duration,time,praise_num,"
+				+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation_class where ishot=?";
+		Cursor cursor = db.rawQuery(sqlStr,new String[]{type+""});
+		while(cursor.moveToNext()){
+			Invitation inv = new Invitation();
+			inv.setPosition(cursor.getString(0));
+			inv.setWords(cursor.getString(1));
+			inv.setVoice(cursor.getString(2));
+			inv.setVoiceDuration(cursor.getInt(3));
+			inv.setTime(cursor.getString(4));
+			inv.setPraiseNum(cursor.getInt(5));
+			inv.setCommentNum(cursor.getInt(6));
+			inv.setObjectId(cursor.getString(7));
+			inv.setuId(cursor.getString(8));
+			inv.setHome(cursor.getInt(9));
+			inv.setIsHot(cursor.getInt(10));
+			inv.setShareNum(cursor.getInt(11));
+			inv.setHeadId(cursor.getInt(12));
+			list.add(inv);
+		}
+		cursor.close();
+		return list;
+	}
+	
+	/**
+	 * 向“帖子分类表”中插入一组数据
+	 * @param list
+	 * @param isLoadMore
+	 */
+	public void insert2InvitationClass(List<Invitation> list,boolean isLoadMore){
+		String sqlStr;
+		if(!isLoadMore){//如果是刷新，需要清空本地表
+			sqlStr = "delete from invitation_class";
+			db.execSQL(sqlStr);
+		}
+		if(list != null && list.size() > 0){
+			sqlStr = "insert into "
+					+ "invitation_class(inv_id,uid,home,position,words,voice,voice_duration,time,ishot,praise_num,share_num,comment_num,head_id) "
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			for(Invitation inv : list){
+				db.execSQL(
+						sqlStr,
+						new Object[] { inv.getObjectId(), inv.getuId(), inv.getHome(),
+								inv.getPosition(), inv.getWords(), inv.getVoice(),inv.getVoiceDuration(), inv.getTime(),
+								inv.getIsHot(), inv.getPraiseNum(), inv.getShareNum(),
+								inv.getCommentNum(),inv.getHeadId()});
+			}
+		}
 	}
 	
 }

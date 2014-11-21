@@ -57,7 +57,7 @@ import com.feytuo.laoxianghao.view.MyDialog;
  * 
  */
 @SuppressLint({ "HandlerLeak", "UseSparseArrays" })
-public class ListViewAdapter extends SimpleAdapter {
+public class FindListViewAdapter extends SimpleAdapter {
 	
 	private final String TAG = "ListViewAdapter";
 	private Context context;
@@ -73,7 +73,7 @@ public class ListViewAdapter extends SimpleAdapter {
 	private CityDao cityDao;
 	private ImageLoader mImageLoader;
 
-	public ListViewAdapter(Context context,
+	public FindListViewAdapter(Context context,
 			List<Map<String, Object>> data, int resource, String[] from,
 			int[] to) {
 		super(context, data, resource, from, to);
@@ -306,7 +306,7 @@ public class ListViewAdapter extends SimpleAdapter {
 				// TODO Auto-generated method stub
 				if(arg0.size() > 0){
 					nameTV.setText(arg0.get(0).getNickName());
-					mImageLoader.loadCornerImage(context,arg0.get(0).getHeadUrl(), ListViewAdapter.this, personHeadImg);
+					mImageLoader.loadCornerImage(context,arg0.get(0).getHeadUrl(), FindListViewAdapter.this, personHeadImg);
 					userDao.insertUser(arg0.get(0));
 				}else{
 					//没有改用户信息

@@ -28,17 +28,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import cn.bmob.v3.listener.UpdateListener;
 
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
-import com.feytuo.laoxianghao.dao.InvitationDao;
+import com.feytuo.laoxianghao.dao.CityDao;
+import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.dao.PraiseDao;
 import com.feytuo.laoxianghao.domain.Invitation;
+import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
-import com.feytuo.laoxianghao.global.HeadImageChoose;
+import com.feytuo.laoxianghao.util.CommonUtils;
+import com.feytuo.laoxianghao.util.ImageLoader;
 import com.feytuo.laoxianghao.util.NetUtil;
 import com.feytuo.laoxianghao.view.MyDialog;
 
@@ -60,7 +62,10 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	private SparseArray<Boolean> isAudioPlayArray;
 	private boolean isPraised;
-	private boolean isCollected;
+	
+	private LXHUserDao userDao;
+	private CityDao cityDao;
+	private ImageLoader mImageLoader;
 
 	public CommentListViewAdapter(Context context,
 			List<? extends Map<String, ?>> data, Invitation inv) {
@@ -69,8 +74,10 @@ public class CommentListViewAdapter extends BaseAdapter {
 		this.context = context;
 		m_Inflater = LayoutInflater.from(context);
 		isPraised = false;
-		isCollected = false;
 		isAudioPlayArray = new SparseArray<>();
+		userDao = new LXHUserDao(context);
+		cityDao = new CityDao(context);
+		mImageLoader = new ImageLoader();
 		// LayoutInflater作用是将layout的xml布局文件实例化为View类对象。
 	}
 
@@ -137,8 +144,12 @@ public class CommentListViewAdapter extends BaseAdapter {
 						.findViewById(R.id.support_img);
 				holder1.commentImg = (ImageView) convertView
 						.findViewById(R.id.comment_img);
-				holder1.personHeadImg = (ImageView) convertView
-						.findViewById(R.id.person_head_img);
+				holder1.personHeadImg = (ImageButton) convertView
+						.findViewById(R.id.index_user_head);
+				holder1.personUserNick = (TextView) convertView
+						.findViewById(R.id.index_user_nick);
+				holder1.home = (TextView) convertView
+						.findViewById(R.id.index_home_textview);
 				holder1.indexSupportNum = (TextView) convertView
 						.findViewById(R.id.index_support_num);
 				holder1.indexCommentNum = (TextView) convertView
@@ -229,19 +240,25 @@ public class CommentListViewAdapter extends BaseAdapter {
 		holder.indexTextDescribe.setText(inv.getWords());
 		holder.indexLocalsCountry.setText(inv.getPosition());
 		holder.indexLocalsTime.setText(inv.getTime());
-		// 设置头像
-		holder.personHeadImg.setBackgroundResource(HeadImageChoose.HEAD_IDS[inv
-				.getHeadId()]);
+		//地方话
+		holder.home.setText(cityDao.getCityNameById(inv.getHome())+"话");
 		holder.indexProgressbarTime.setText(inv.getVoiceDuration() + "s");
-		if (0 == inv.getIsHot()) {
+		if (1 == inv.getIsHot()) {
+			holder.titleImage.setVisibility(View.GONE);
+			holder.indexLocalsCountry.setVisibility(View.GONE);
+			holder.home.setVisibility(View.GONE);
+			// 设置头像、昵称
+			holder.personUserNick.setText("乡乡话题");
+			CommonUtils.corner(context, R.drawable.ic_launcher, holder.personHeadImg);
+		} else {
+			holder.titleImage.setVisibility(View.VISIBLE);
+			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
+			holder.home.setVisibility(View.VISIBLE);
 			holder.titleImage.setBackgroundResource(R.drawable.geographical);
 			holder.indexLocalsCountry.setTextColor(context.getResources()
 					.getColor(R.color.indexbg));
-		} else {
-			holder.titleImage
-					.setBackgroundResource(R.drawable.geographical_hot);
-			holder.indexLocalsCountry.setTextColor(context.getResources()
-					.getColor(R.color.hot));
+			// 设置头像、昵称
+			setUserInfo(inv.getuId(),holder.personUserNick,holder.personHeadImg);
 		}
 		if (inv.getPraiseNum() > 0) {
 			holder.indexSupportNum.setText(inv.getPraiseNum() + "");
@@ -256,6 +273,19 @@ public class CommentListViewAdapter extends BaseAdapter {
 		holder.commentImg.setBackgroundResource(R.drawable.comment_no);
 	}
 
+	/**
+	 * 设置item的用户昵称
+	 * @param userName
+	 * @param nameTV
+	 * @param personHeadImg 
+	 */
+	public void setUserInfo(String uId ,TextView nameTV, ImageButton personHeadImg){
+		LXHUser user = userDao.getNickAndHeadByUid(uId);
+		if(user != null){//如果本地数据库存在该用户
+			nameTV.setText(user.getNickName());
+			mImageLoader.loadCornerImage(context,user.getHeadUrl(), this, personHeadImg);
+		}
+	}
 	// 设置点赞等图片按钮
 	private void setSubBtn(viewHolder1 holder, Invitation inv) {
 		String invId = inv.getObjectId();
@@ -380,7 +410,9 @@ public class CommentListViewAdapter extends BaseAdapter {
 		private LinearLayout indexShareLinerlayout;// 分享
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
-		private ImageView personHeadImg;// 头像
+		private ImageButton personHeadImg;// 头像
+		private TextView personUserNick;//昵称
+		private TextView home;//地方话
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
 		private ImageView commentImg;// 评论的图标

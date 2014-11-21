@@ -6,41 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-import com.feytuo.chat.activity.MainActivity;
-import com.feytuo.laoxianghao.App;
-import com.feytuo.laoxianghao.FeedbackActivity;
-import com.feytuo.laoxianghao.MessageCellectActivity;
-import com.feytuo.laoxianghao.PublishActivity;
-import com.feytuo.laoxianghao.R;
-import com.feytuo.laoxianghao.adapter.ListViewAdapter;
-import com.feytuo.laoxianghao.dao.CityDao;
+import com.feytuo.laoxianghao.adapter.FindListViewAdapter;
 import com.feytuo.laoxianghao.dao.InvitationDao;
 import com.feytuo.laoxianghao.domain.Invitation;
 import com.feytuo.laoxianghao.global.Global;
-import com.feytuo.laoxianghao.util.ScreenUtils;
 import com.feytuo.listviewonload.SimpleFooter;
 import com.feytuo.listviewonload.SimpleHeader;
 import com.feytuo.listviewonload.ZrcListView;
@@ -49,7 +31,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class FindDetailsActivity extends Activity {
 
-	private ListViewAdapter adapter;
+	private FindListViewAdapter adapter;
 	private ZrcListView findListView;
 	private Handler handler;
 	private List<Map<String, Object>> listItems;
@@ -59,6 +41,7 @@ public class FindDetailsActivity extends Activity {
 	private final int STATE_MORE = 1;// 加载更多
 	private final int LIMIT = 10;// 每页的数据是10条
 	private int curPage = 0;// 当前页的编号，从0开始
+	private int type;//帖子类型
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +56,9 @@ public class FindDetailsActivity extends Activity {
 
 	public void initview() {
 		findTypeText = (TextView) findViewById(R.id.find_type_text);
-		int type = getIntent().getIntExtra("type", 0);
+		type = getIntent().getIntExtra("type", 0);
 		if (type == 1) {
-			findTypeText.setText("热门话题");
+			findTypeText.setText("方言话题");
 		} else if (type == 2) {
 			findTypeText.setText("方言段子");
 		} else if (type == 3) {
@@ -87,7 +70,7 @@ public class FindDetailsActivity extends Activity {
 		}
 	}
 
-	public void findDetailsReturnBtn() {
+	public void findDetailsReturnBtn(View v) {
 		finish();
 	}
 
@@ -95,7 +78,7 @@ public class FindDetailsActivity extends Activity {
 	private void getListDataFromLocal() {
 		// TODO Auto-generated method stub
 		listData = new InvitationDao(FindDetailsActivity.this)
-				.getAllInfo(App.pre.getInt(Global.CURRENT_NATIVE, 1));
+				.getInvitationFromClass(type);
 		for (Invitation inv : listData) {
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("inv_id", inv.getObjectId());
@@ -108,6 +91,8 @@ public class FindDetailsActivity extends Activity {
 			map.put("voice", inv.getVoice());
 			map.put("ishot", inv.getIsHot());
 			map.put("head_id", inv.getHeadId());
+			map.put("uid", inv.getuId());
+			map.put("home", inv.getHome());
 			map.put("invitation", inv);
 			listItems.add(map);
 		}
@@ -154,7 +139,7 @@ public class FindDetailsActivity extends Activity {
 		});
 
 		listItems = new ArrayList<Map<String, Object>>();
-		adapter = new ListViewAdapter(FindDetailsActivity.this, listItems,
+		adapter = new FindListViewAdapter(FindDetailsActivity.this, listItems,
 				R.layout.index_listview, new String[] { "position", "words",
 						"time", "praise_num", "comment_num" }, new int[] {
 						R.id.index_locals_country, R.id.index_text_describe,
@@ -210,17 +195,8 @@ public class FindDetailsActivity extends Activity {
 	}
 
 	private void getListData(final int page, final int actionType) {
-		// 获取当前城市
-		int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 1);
-		BmobQuery<Invitation> query1 = new BmobQuery<Invitation>();
-		query1.addWhereEqualTo("home", homeId);
-		BmobQuery<Invitation> query2 = new BmobQuery<Invitation>();
-		query2.addWhereEqualTo("isHot", 1);
-		List<BmobQuery<Invitation>> queries = new ArrayList<BmobQuery<Invitation>>();
-		queries.add(query1);
-		queries.add(query2);
-		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
-		query.or(queries);
+		BmobQuery<Invitation> query = new BmobQuery<Invitation>(); 
+		query.addWhereEqualTo("isHot", type);
 		query.order("-createdAt");
 		query.setLimit(LIMIT); // 设置每页多少条数据
 		query.setSkip(page * LIMIT); // 从第几条数据开始
@@ -247,19 +223,21 @@ public class FindDetailsActivity extends Activity {
 							map.put("voice_duration", inv.getVoiceDuration());
 							map.put("ishot", inv.getIsHot());
 							map.put("head_id", inv.getHeadId());
+							map.put("uid", inv.getuId());
+							map.put("home", inv.getHome());
 							map.put("invitation", inv);
 							listItems.add(map);
 						}
 						adapter.notifyDataSetChanged();
 						// 存入本地数据库
-						InvitationDao inv = new InvitationDao(
+						InvitationDao invDao = new InvitationDao(
 								FindDetailsActivity.this);
 						if (actionType == STATE_REFRESH) {
-							inv.insert2Invitation(arg0, false);
+							invDao.insert2InvitationClass(arg0, false);
 							findListView.setRefreshSuccess("加载成功");
 							findListView.startLoadMore(); // 开启LoadingMore功能
 						} else if (actionType == STATE_MORE) {
-							inv.insert2Invitation(arg0, true);
+							invDao.insert2InvitationClass(arg0, true);
 							findListView.setLoadMoreSuccess();
 						}
 						if (arg0.size() == 0) {

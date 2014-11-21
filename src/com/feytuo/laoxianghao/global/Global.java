@@ -8,6 +8,7 @@ public interface Global {
 	public static final String PREFERENCE_NAME = "laoxianghao";//preference名
 	public static final String IS_FIRST_USE = "isFirstUse";//保存在pre中是否首次打开
 	public static final String CURRENT_NATIVE = "currentNative";//保存在pre中当前方言地序号
+	public static final String USER_HOME = "userHome";//保存在pre中当前用户家乡
 	public static final String USER_ID = "userId";//保存在pre中当前用户id（String）
 	public static final String NO_LOGIN = "noLogin";//保存在pre中表示没有登录的userid标记
 	public static final String IS_MAIN_LIST_NEED_REFRESH = "isNeedRefresh";//主界面列表是否需要刷新

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -171,6 +172,34 @@ public class ImageLoader {
 			iv.setImageBitmap(bitmap);// 设为缓存图片
 		}
 
+	}
+	/**
+	 * 加载图片，如果缓存中有就直接从缓存中拿，缓存中没有就下载
+	 * 
+	 * @param url
+	 * @param adapter
+	 * @param holder
+	 */
+	public void loadCornerImage(Context context,String url, BaseAdapter adapter, ImageView iv) {
+		resetPurgeTimer();
+		Bitmap bitmap = getBitmapFromCache(url);// 从缓存中读取
+		if(bitmap != null){
+			Log.i("ImageLoader", "从cache中取出");
+		}
+		if(bitmap == null){
+			bitmap = fileCache.getImage(url);//从文件中获取
+			if(bitmap != null){
+				Log.i("ImageLoader", "从文件中取出");
+			}
+		}
+		if (bitmap == null) {
+			ImageLoadTask imageLoadTask = new ImageLoadTask();
+			imageLoadTask.execute(url, adapter);
+		} else {
+//			iv.setImageBitmap(CommonUtils.toRoundCorner(bitmap, 15));// 设为缓存图片
+			CommonUtils.corner(context, bitmap, iv);
+		}
+		
 	}
 
 	/**
