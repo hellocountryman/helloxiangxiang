@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:focusable="false"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_left_right"
+        android:layout_marginRight="@dimen/margin_left_right"
+        android:layout_marginTop="8.0dip" >
+
+        <ImageView
+            android:id="@+id/comment_floor"
+            android:layout_width="25.0dip"
+            android:layout_height="25.0dip"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_launcher"
+            android:textColor="@color/indexbg"
+            android:textSize="16.0sp" />
+
+        <TextView
+            android:id="@+id/comment_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8.0dip"
+            android:layout_toRightOf="@+id/comment_floor"
+            android:text="刘家小二"
+            android:textColor="@color/head_color"
+            android:textSize="16.0sp" />
+
+        <TextView
+            android:id="@+id/comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="2014-09-17 19:20"
+            android:textColor="@color/newtime"
+            android:textSize="@dimen/text_time_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40.0dip"
+        android:layout_marginBottom="8.0dip"
+        android:layout_marginLeft="@dimen/margin_left_right"
+        android:layout_marginRight="@dimen/margin_left_right"
+        android:layout_marginTop="8.0dip"
+        android:background="@drawable/musicback" >
+
+        <Button
+            android:id="@+id/comment_play_btn"
+            android:layout_width="30.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="16.0dip"
+            android:layout_marginTop="13.0dip"
+            android:background="@drawable/musicplayone" />
+
+        <TextView
+           android:id="@+id/comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16.0dip"
+            android:layout_marginTop="18.0dip"
+            android:text="32s"
+            android:textColor="@color/indexbg"
+            android:textSize="12.0sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/comment_text_context"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4.0dip"
+        android:layout_marginLeft="@dimen/margin_left_right"
+        android:layout_marginRight="@dimen/margin_left_right"
+        android:layout_marginTop="4.0dip"
+        android:text="今天的天气还不错哦"
+        android:textColor="@color/black"
+        android:textSize="14.0sp" />
+
+</LinearLayout>

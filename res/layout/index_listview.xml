@@ -7,13 +7,15 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8.0dip" >
+        android:layout_height="wrap_content" >
 
         <ImageButton
             android:id="@+id/index_user_head"
             android:layout_width="48.0dip"
             android:layout_height="48.0dip"
+            android:layout_marginTop="8.0dip"
+            android:layout_marginBottom="8.0dip"
+            android:clickable="true"
             android:layout_marginLeft="@dimen/margin_left_right"
             android:background="@drawable/ic_launcher" />
 
@@ -23,16 +25,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="8.0dip"
+            android:layout_marginTop="10.0dip"
             android:layout_toRightOf="@+id/index_user_head"
             android:textColor="@color/head_color"
-            android:textSize="16.0sp" />
+            android:textSize="14.0sp" />
 
         <TextView
             android:id="@+id/index_locals_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/index_user_nick"
             android:layout_marginLeft="8.0dip"
-            android:layout_marginTop="30.0dip"
+            android:layout_marginTop="4.0dip"
             android:layout_toRightOf="@+id/index_user_head"
             android:text="2014-10-24 00:00"
             android:textColor="@color/newtime"
@@ -44,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="8.0dip"
             android:layout_marginRight="16.0dip"
             android:text="中山话"
             android:textColor="@color/grey"
@@ -53,11 +58,10 @@
     <RelativeLayout
         android:id="@+id/index_progressbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40.0dip"
         android:layout_marginBottom="8.0dip"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_marginTop="8.0dip"
         android:background="@drawable/musicback" >
 
         <ImageButton
@@ -129,7 +133,7 @@
             android:layout_height="36dip"
             android:layout_weight="1"
             android:clickable="true"
-            android:gravity="right" >
+            android:gravity="center" >
 
             <ImageButton
                 android:id="@+id/support_img"
@@ -147,7 +151,7 @@
                 android:layout_marginLeft="5dip"
                 android:clickable="false"
                 android:text="赞"
-                android:textColor="@color/text_num_color"
+                android:textColor="@color/newtime"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -157,13 +161,13 @@
             android:layout_height="36dip"
             android:layout_weight="1"
             android:clickable="true"
-            android:gravity="right" >
+            android:gravity="center" >
 
             <ImageButton
                 android:id="@+id/comment_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/comment_selector"
                 android:clickable="false" />
 
@@ -171,11 +175,11 @@
                 android:id="@+id/index_comment_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dip"
-                 android:layout_gravity="center_vertical"
                 android:clickable="false"
                 android:text="评论"
-                android:textColor="@color/text_num_color"
+                android:textColor="@color/newtime"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -185,23 +189,23 @@
             android:layout_height="36dip"
             android:layout_weight="1"
             android:clickable="true"
-            android:gravity="right" >
+            android:gravity="center" >
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/share_selector"
                 android:clickable="false" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dip"
                 android:clickable="false"
                 android:text="分享"
-                 android:layout_gravity="center_vertical"
-                android:textColor="@color/text_num_color"
+                android:textColor="@color/newtime"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -214,7 +218,8 @@
     </LinearLayout>
 
     <include layout="@layout/viewone3dhight" />
-    <include  layout="@layout/viewtenhight"/>
+
+    <include layout="@layout/viewtenhight" />
     <!-- 让布局有一个立体的效果 -->
 
 </LinearLayout>

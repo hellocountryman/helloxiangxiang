@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/weibo_unline"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_hight"
+        android:background="@color/indexbg" >
+
+        <Button
+            android:id="@+id/comment_return_button_id"
+            android:layout_width="48.0dip"
+            android:layout_height="48.0dip"
+            android:layout_centerVertical="true"
+            android:background="@drawable/return_selector"
+            android:onClick="commentReturnRelative" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/comment"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_city_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="12.0"
+        android:orientation="vertical" >
+
+        <com.feytuo.listviewonload.XListView
+            android:id="@+id/comment_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/weibo_unline"
+            android:dividerHeight="1.0dip"
+            android:scrollbars="none" >
+        </com.feytuo.listviewonload.XListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_edit_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/comment_text_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="8.0dip"
+            android:layout_marginTop="5dp"
+            android:layout_weight="5"
+            android:background="@drawable/corners_storke_indexbg"
+            android:inputType="textMultiLine"
+            android:padding="3dp"
+            android:singleLine="false" />
+
+        <Button
+            android:id="@+id/comment_comment_btn"
+            android:layout_width="30.0dip"
+            android:layout_height="30.0dip"
+            android:layout_margin="8dp"
+            android:background="@drawable/chatting_setmode_voice_btn" />
+    </LinearLayout>
+    
+</LinearLayout>

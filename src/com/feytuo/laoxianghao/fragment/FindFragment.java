@@ -48,10 +48,11 @@ public class FindFragment extends Fragment {
 				R.id.find_ktv_img);
 		indexShowImg = (ImageButton) getActivity().findViewById(
 				R.id.find_show_img);
-		CommonUtils.corner(getActivity(), R.drawable.findtopic, indexTopicImg);// 设置圆角
-		CommonUtils.corner(getActivity(), R.drawable.findduanzi, indeDuanziImg);
-		CommonUtils.corner(getActivity(), R.drawable.findktv, indexKtvImg);
-		CommonUtils.corner(getActivity(), R.drawable.findshow, indexShowImg);
+		
+//		CommonUtils.corner(getActivity(), R.drawable.findtopic, indexTopicImg);// 设置圆角
+//		CommonUtils.corner(getActivity(), R.drawable.findduanzi, indeDuanziImg);
+//		CommonUtils.corner(getActivity(), R.drawable.findktv, indexKtvImg);
+//		CommonUtils.corner(getActivity(), R.drawable.findshow, indexShowImg);
 
 		findTopicRelac = (RelativeLayout) getActivity().findViewById(
 				R.id.find_topic_linear);

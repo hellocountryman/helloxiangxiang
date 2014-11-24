@@ -14,7 +14,7 @@
         android:layout_marginRight="@dimen/margin_left_right" >
 
         <TextView
-            android:id="@+id/comment_floor"
+            android:id="@+id/comment_user_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
