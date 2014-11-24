@@ -316,7 +316,7 @@ public class Share_Weibo {
 	/**
 	 * 没有安装客户端的通过openAPI进行分享 三种形式：文字；本地图+文字；网络图+文字，只能任选一种
 	 */
-	public void sendMessage(String words, int resource) {
+	public void sendMessage(Activity activity,String words, int resource) {
 		// TODO Auto-generated method stub-----------
 		// 获取当前已保存过的 Token
 		Oauth2AccessToken mAccessToken = AccessTokenKeeper
@@ -326,7 +326,7 @@ public class Share_Weibo {
 //			Toast.makeText(context,
 //					R.string.weibosdk_demo_access_token_is_empty,
 //					Toast.LENGTH_LONG).show();
-			SSOAuthorize(false, words, resource);
+			SSOAuthorize(activity,false, words, resource);
 		} else {// token可用，直接分享
 			sendMessageByOpenAPI(words, resource);
 		}
@@ -395,12 +395,12 @@ public class Share_Weibo {
 	/**
 	 * SSO授权
 	 */
-	public void SSOAuthorize(boolean isLogin, String words, int resource) {
+	public void SSOAuthorize(Context activity,boolean isLogin, String words, int resource) {
 		// 创建微博实例/** 微博 Web 授权类，提供登陆等功能 */
-		WeiboAuth mWeiboAuth = new WeiboAuth(context, Constants.APP_KEY,
+		WeiboAuth mWeiboAuth = new WeiboAuth(activity, Constants.APP_KEY,
 				Constants.REDIRECT_URL, Constants.SCOPE);
-		mSsoHandler = new SsoHandler((Activity) context, mWeiboAuth);
-		mSsoHandler.authorize(new AuthListener(context, isLogin, words,
+		mSsoHandler = new SsoHandler((Activity)activity, mWeiboAuth);
+		mSsoHandler.authorize(new AuthListener(activity, isLogin, words,
 				resource));
 	}
 	

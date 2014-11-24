@@ -414,11 +414,11 @@ public class InvitationDao {
 	 * @param list
 	 * @param isLoadMore
 	 */
-	public void insert2InvitationClass(List<Invitation> list,boolean isLoadMore){
+	public void insert2InvitationClass(List<Invitation> list,int type,boolean isLoadMore){
 		String sqlStr;
 		if(!isLoadMore){//如果是刷新，需要清空本地表
-			sqlStr = "delete from invitation_class";
-			db.execSQL(sqlStr);
+			sqlStr = "delete from invitation_class where ishot=?";
+			db.execSQL(sqlStr,new Object[]{type});
 		}
 		if(list != null && list.size() > 0){
 			sqlStr = "insert into "

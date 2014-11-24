@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,13 +27,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
@@ -67,10 +66,6 @@ import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.fragment.FindFragment;
 import com.feytuo.laoxianghao.fragment.MainFragment;
-import com.feytuo.laoxianghao.share_qq.Share_QQ;
-import com.feytuo.laoxianghao.share_sina.Share_Weibo;
-import com.feytuo.laoxianghao.view.MyLoginDialog;
-import com.feytuo.laoxianghao.wxapi.Share_Weixin;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
@@ -84,12 +79,12 @@ import com.sina.weibo.sdk.constant.WBConstants;
 public class MainActivity extends FragmentActivity implements
 		IWeiboHandler.Response {
 
-	protected static final String TAG = "MainActivity";
+	public static final String TAG = "MainActivity";
 
 	private Button[] mTabs;
 	public ChatAndContactFragment cacFragment;// 乡聊
 	private SettingsFragment settingFragment;// 设置
-	private MainFragment mainFragment;// 主界面
+	private Fragment mainFragment;// 主界面
 	private FindFragment findFragment;// 发现
 	private Fragment[] fragments;
 	private int index;
@@ -99,16 +94,12 @@ public class MainActivity extends FragmentActivity implements
 	// 账号在别处登录
 	private boolean isConflict = false;
 
-	public static Share_QQ shareQQ;// QQ登录和分享
-	public static Share_Weibo shareWeibo;// 微博登录和分享
-	public static Share_Weixin shareWeixin;// 微信分享
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initShare(savedInstanceState);
-		initView();
+		initView(savedInstanceState);
 		inviteMessgeDao = new InviteMessgeDao(this);
 		userDao = new UserDao(this);
 
@@ -116,11 +107,11 @@ public class MainActivity extends FragmentActivity implements
 			registerHXListeners();
 		}
 	}
-
+	
 	// 初始化环信监听和广播
 	public void registerHXListeners() {
 		// 注册一个接收消息的BroadcastReceiver
-		Log.i("MainActivity", "注册了聊天广播");
+		Log.i(TAG, "注册了聊天广播");
 		msgReceiver = new NewMessageBroadcastReceiver();
 		IntentFilter intentFilter = new IntentFilter(EMChatManager
 				.getInstance().getNewMessageBroadcastAction());
@@ -154,19 +145,14 @@ public class MainActivity extends FragmentActivity implements
 
 	private void initShare(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		shareQQ = new Share_QQ(this);// QQ登录和分享
-		shareWeibo = new Share_Weibo(this);
 		if (savedInstanceState != null) {
-			shareWeibo.getmWeiboShareAPI().handleWeiboResponse(getIntent(),
+			App.shareWeibo.getmWeiboShareAPI().handleWeiboResponse(getIntent(),
 					this);
 		}
-		shareWeixin = new Share_Weixin(this);
 	}
 
 	public void onTabpublishClicked(View view) {
-		if (!App.isLogin()) {// 判断是否登录
-			(MainActivity.this).showLoginDialog();
-		} else {
+		if (App.isLogin()) {
 			Intent intentpublish = new Intent();
 			intentpublish.setClass(MainActivity.this, PublishActivity.class);
 			startActivity(intentpublish);
@@ -175,8 +161,9 @@ public class MainActivity extends FragmentActivity implements
 
 	/**
 	 * 初始化组件
+	 * @param savedInstanceState 
 	 */
-	private void initView() {
+	private void initView(Bundle savedInstanceState) {
 		mTabs = new Button[4];
 		mTabs[0] = (Button) findViewById(R.id.btn_main_invitation);
 		mTabs[1] = (Button) findViewById(R.id.btn_find);
@@ -185,25 +172,36 @@ public class MainActivity extends FragmentActivity implements
 		// 把第一个tab设为选中状态
 		mTabs[0].setSelected(true);
 
+		FragmentManager manager = getSupportFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
 		// 主帖界面
-		mainFragment = new MainFragment();
-		// 发现
-		findFragment = new FindFragment();
-		// 乡聊fragment
-		cacFragment = new ChatAndContactFragment();
-		// 设置fragment
-		settingFragment = new SettingsFragment();
+		if(savedInstanceState == null){
+			mainFragment = new MainFragment();
+			// 发现
+			findFragment = new FindFragment();
+			// 乡聊fragment
+			cacFragment = new ChatAndContactFragment();
+			// 设置fragment
+			settingFragment = new SettingsFragment();
+			transaction.add(R.id.fragment_container, mainFragment, "mainFragment");
+			transaction.add(R.id.fragment_container, findFragment, "findFragment");
+			transaction.add(R.id.fragment_container, cacFragment, "cacFragment");
+			transaction.add(R.id.fragment_container, settingFragment, "settingFragment");
+//			Log.i(TAG, "------> new mainFragment:"+mainFragment);
+		}else{
+			mainFragment = manager.findFragmentByTag("mainFragment");
+			findFragment = (FindFragment) manager.findFragmentByTag("findFragment");
+			cacFragment = (ChatAndContactFragment) manager.findFragmentByTag("cacFragment");
+			settingFragment =  (SettingsFragment) manager.findFragmentByTag("settingFragment");
+//			Log.i(TAG, "------> old mainFragment:"+mainFragment);
+		}
+		
 		fragments = new Fragment[] { mainFragment, findFragment, cacFragment,
 				settingFragment };
 		// 添加显示第一个fragment
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, mainFragment)
-				.add(R.id.fragment_container, findFragment)
-				.add(R.id.fragment_container, cacFragment)
-				.add(R.id.fragment_container, settingFragment)
-				.hide(findFragment).hide(cacFragment).hide(settingFragment)
-				.show(mainFragment).commit();
-
+		transaction
+			.hide(cacFragment).hide(findFragment).hide(settingFragment)
+			.show(mainFragment).commit();
 	}
 
 	/**
@@ -781,7 +779,6 @@ public class MainActivity extends FragmentActivity implements
 			msg.setGroupId(groupId);
 			msg.setGroupName(groupName);
 			msg.setReason(reason);
-			Log.d(TAG, applyer + " 申请加入群聊：" + groupName);
 			msg.setStatus(InviteMesageStatus.BEAPPLYED);
 			notifyNewIviteMessage(msg);
 		}
@@ -925,13 +922,13 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 
-	private Dialog loginDialog;
-
-	public void showLoginDialog() {
-		// TODO Auto-generated method stub
-		loginDialog = new MyLoginDialog(this, R.style.MyDialog);
-		loginDialog.show();
-	}
+//	private Dialog loginDialog;
+//
+//	public void showLoginDialog() {
+//		// TODO Auto-generated method stub
+//		loginDialog = new MyLoginDialog(this, R.style.MyDialog);
+//		loginDialog.show();
+//	}
 
 	/**
 	 * 当 SSO 授权 Activity 退出时，该函数被调用。
@@ -944,8 +941,8 @@ public class MainActivity extends FragmentActivity implements
 
 		// SSO 授权回调
 		// 重要：发起 SSO 登陆的 Activity 必须重写 onActivityResult
-		if (shareWeibo.getmSsoHandler() != null) {
-			shareWeibo.getmSsoHandler().authorizeCallBack(requestCode,
+		if (App.shareWeibo.getmSsoHandler() != null) {
+			App.shareWeibo.getmSsoHandler().authorizeCallBack(requestCode,
 					resultCode, data);
 		}
 	}
@@ -961,6 +958,6 @@ public class MainActivity extends FragmentActivity implements
 		// 来接收微博客户端返回的数据；执行成功，返回 true，并调用
 		// {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
 		// mWeiboShareAPI.handleWeiboResponse(intent, getActivity());
-		shareWeibo.getmWeiboShareAPI().handleWeiboResponse(intent, this);
+		App.shareWeibo.getmWeiboShareAPI().handleWeiboResponse(intent, this);
 	}
 }

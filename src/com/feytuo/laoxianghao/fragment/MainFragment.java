@@ -28,7 +28,6 @@ import android.widget.TextView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-import com.feytuo.chat.activity.MainActivity;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.FeedbackActivity;
 import com.feytuo.laoxianghao.MessageCellectActivity;
@@ -48,6 +47,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class MainFragment extends Fragment {
 
+//	private final String TAG = "MainFragment";
 	private TextView indexCitySelect;// 选择城市的按钮
 	private ImageView publishImgview;// 发布
 	private ImageView messageImgview;// 消息按钮
@@ -67,7 +67,6 @@ public class MainFragment extends Fragment {
 	private int curPage = 0;// 当前页的编号，从0开始
 	private PopupWindow popupWindow;
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -367,9 +366,7 @@ public class MainFragment extends Fragment {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.publish_imgview:// 点击发布的按钮
-				if (!App.isLogin()) {// 判断是否登录
-						((MainActivity)getActivity()).showLoginDialog();
-				} else {
+				if (App.isLogin()) {// 判断是否登录
 					Intent intentpublish = new Intent();
 					intentpublish.setClass(getActivity(),
 							PublishActivity.class);
@@ -377,9 +374,7 @@ public class MainFragment extends Fragment {
 				}
 				break;
 			case R.id.message_imgview:// 点击消息按钮
-				if (!App.isLogin()) {// 判断是否登录
-					((MainActivity)getActivity()).showLoginDialog();
-				} else {
+				if (App.isLogin()) {// 判断是否登录
 					messageImgview
 							.setBackgroundResource(R.drawable.notice_normal_selector);
 					Intent intentmessage = new Intent();

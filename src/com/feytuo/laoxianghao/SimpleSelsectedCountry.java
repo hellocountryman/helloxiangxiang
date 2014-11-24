@@ -1,7 +1,6 @@
 package com.feytuo.laoxianghao;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,12 +15,25 @@ public class SimpleSelsectedCountry extends Activity {
 
 	}
 
-	public void selected_country_click(View v) {
-		Intent intent = new Intent();
-		intent.putExtra("isfromtocity", 0);// 判断是从那里进入的城市选择
-		intent.setClass(this, SelsectedCountry.class);
-		startActivity(intent);
-		finish();
+//	public void selected_country_click(View v) {
+//		Intent intent = new Intent();
+//		intent.putExtra("isfromtocity", 0);// 判断是从那里进入的城市选择
+//		intent.setClass(this, SelsectedCountry.class);
+//		startActivity(intent);
+//		finish();
+//	}
+	
+	public void appLogin(View v){
+		int vId = v.getId();
+		switch(vId){
+		case R.id.login_qq_btn:
+			App.shareQQ.qqLogin(this);
+			break;
+		case R.id.login_sina_btn:
+			App.shareWeibo.SSOAuthorize(this,true,"",0);
+			break;
+		default:
+		}
 	}
 	
 	@Override

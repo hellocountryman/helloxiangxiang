@@ -2,6 +2,7 @@ package com.feytuo.laoxianghao.view;
 
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.feytuo.chat.activity.MainActivity;
+import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.domain.Invitation;
 
@@ -110,28 +111,28 @@ public class MyDialog extends Dialog {
 		// TODO Auto-generated method stub
 		// String voiceUrl =
 		// "http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3";
-		if (MainActivity.shareWeibo.getmWeiboShareAPI().isWeiboAppInstalled()) {
+		if (App.shareWeibo.getmWeiboShareAPI().isWeiboAppInstalled()) {
 			// 安装了客户端正常分享
-			MainActivity.shareWeibo.sendMessage(words, targetUrl,
+			App.shareWeibo.sendMessage(words, targetUrl,
 					imageResource, voiceTitle, voiceDes, audioUrl,
 					imageResource);
 		} else {
 			// 未安装客户端调用openapi分享
-			MainActivity.shareWeibo.sendMessage(words + targetUrl,
+			App.shareWeibo.sendMessage((Activity) context,words + targetUrl,
 					imageResource);
 		}
 	}
 
 	private void shareQzone() {
 		// TODO Auto-generated method stub
-		MainActivity.shareQQ.shareToQQOrQzone(words,voiceTitle, targetUrl,
+		App.shareQQ.shareToQQOrQzone(context,words,voiceTitle, targetUrl,
 				imageUrl, audioUrl, 1);
 	}
 
 	// 分享QQ好友
 	private void shareQFriend() {
 		// TODO Auto-generated method stub
-		MainActivity.shareQQ.shareToQQOrQzone(words,voiceTitle, targetUrl,
+		App.shareQQ.shareToQQOrQzone(context,words,voiceTitle, targetUrl,
 				imageUrl, audioUrl, 2);
 	}
 
@@ -141,7 +142,7 @@ public class MyDialog extends Dialog {
 	 * @param v
 	 */
 	private void toWeixinFriend() {
-		MainActivity.shareWeixin.wechatShare(0, words,voiceTitle, targetUrl,
+		App.shareWeixin.wechatShare(0, words,voiceTitle, targetUrl,
 				audioUrl, R.drawable.ic_launcher);
 	}
 
@@ -151,7 +152,7 @@ public class MyDialog extends Dialog {
 	 * @param v
 	 */
 	private void toFriendGroup() {
-		MainActivity.shareWeixin.wechatShare(1,words,voiceTitle, targetUrl,
+		App.shareWeixin.wechatShare(1,words,voiceTitle, targetUrl,
 				audioUrl, R.drawable.ic_launcher);
 	}
 	

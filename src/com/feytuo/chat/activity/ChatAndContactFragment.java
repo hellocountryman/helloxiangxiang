@@ -20,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.feytuo.laoxianghao.R;
 
 @SuppressLint({ "ResourceAsColor", "CutPasteId" })
 public class ChatAndContactFragment extends Fragment {
 
+	private final String TAG = "ChatAndContactFragment";
 	private Fragment[] fragments;
 	private ContactlistFragment contactListFragment;
 	private ChatAllHistoryFragment chatHistoryFragment;
@@ -61,6 +63,12 @@ public class ChatAndContactFragment extends Fragment {
 		return view;
 	}
 
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		Log.i(TAG, "----->onStop");
+		super.onStop();
+	}
 	private void initViewPager(View view) {
 		// TODO Auto-generated method stub
 		chatHistoryFragment = new ChatAllHistoryFragment();

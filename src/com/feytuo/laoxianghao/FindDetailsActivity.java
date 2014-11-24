@@ -233,11 +233,11 @@ public class FindDetailsActivity extends Activity {
 						InvitationDao invDao = new InvitationDao(
 								FindDetailsActivity.this);
 						if (actionType == STATE_REFRESH) {
-							invDao.insert2InvitationClass(arg0, false);
+							invDao.insert2InvitationClass(arg0, type,false);
 							findListView.setRefreshSuccess("加载成功");
 							findListView.startLoadMore(); // 开启LoadingMore功能
 						} else if (actionType == STATE_MORE) {
-							invDao.insert2InvitationClass(arg0, true);
+							invDao.insert2InvitationClass(arg0, type,true);
 							findListView.setLoadMoreSuccess();
 						}
 						if (arg0.size() == 0) {

@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.text.TextUtils;
@@ -31,10 +32,11 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
 import com.feytuo.chat.Constant;
-import com.feytuo.chat.activity.MainActivity;
 import com.feytuo.chat.db.UserDao;
 import com.feytuo.chat.domain.User;
 import com.feytuo.laoxianghao.App;
+import com.feytuo.laoxianghao.SelsectedCountry;
+import com.feytuo.laoxianghao.SimpleSelsectedCountry;
 import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.util.GetSystemDateTime;
@@ -453,21 +455,26 @@ public class UserLogin {
 				// 登录成功，设置登录成功标示
 				App.pre.edit().putString(Global.USER_ID, username).commit();
 				// 注册聊天广播和监听,初始化联系人列表
-				if (context instanceof MainActivity) {
-					((MainActivity) context).registerHXListeners();
-					if (((MainActivity) context).cacFragment != null
-							&& ((MainActivity) context).cacFragment
-									.getContactListFragment() != null
-							&& ((MainActivity) context).cacFragment
-									.getContactListFragment()
-									.isActivityCreated()) {
-						((Activity) context).runOnUiThread(new Runnable() {
-							public void run() {
-								((MainActivity) context).cacFragment
-										.getContactListFragment().initView();
-							}
-						});
-					}
+				if (context instanceof SimpleSelsectedCountry) {
+//					((MainActivity) context).registerHXListeners();
+//					if (((MainActivity) context).cacFragment != null
+//							&& ((MainActivity) context).cacFragment
+//									.getContactListFragment() != null
+//							&& ((MainActivity) context).cacFragment
+//									.getContactListFragment()
+//									.isActivityCreated()) {
+//						((Activity) context).runOnUiThread(new Runnable() {
+//							public void run() {
+//								((MainActivity) context).cacFragment
+//										.getContactListFragment().initView();
+//							}
+//						});
+//					}
+					Intent intent = new Intent();
+					intent.putExtra("isfromtocity", 0);// 判断是从那里进入的城市选择
+					intent.setClass(context, SelsectedCountry.class);
+					context.startActivity(intent);
+					((SimpleSelsectedCountry)context).finish();
 				}
 			}
 

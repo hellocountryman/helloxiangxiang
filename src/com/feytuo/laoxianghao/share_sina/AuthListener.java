@@ -1,5 +1,6 @@
 package com.feytuo.laoxianghao.share_sina;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class AuthListener implements WeiboAuthListener{
               * 需要判断，如果是登录，不需要弹出
               */
              if(!isLogin){
-            	 new Share_Weibo(context).sendMessage(words,resource);
+            	 new Share_Weibo(context).sendMessage((Activity)context,words,resource);
              }else{
 		         /**
 		          * 两种方式获取新浪微博登录id

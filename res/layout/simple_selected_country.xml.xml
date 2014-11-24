@@ -6,7 +6,7 @@
     android:background="@drawable/select_city_bg"
     android:gravity="bottom"
     android:orientation="vertical" >
-
+<!--  
     <RelativeLayout
         android:layout_width="250dip"
         android:layout_height="40.0dip"
@@ -33,5 +33,35 @@
             android:background="@drawable/login_normal"
             />
     </RelativeLayout>
+    -->
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#0e9fe0"
+        android:layout_marginBottom="20dp"
+        android:text="请选择第三方登录"/>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="50dp"
+        android:orientation="horizontal">
+        <ImageButton 
+            android:id="@+id/login_qq_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:onClick="appLogin"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/login_qq_selector"/>
+        <ImageButton 
+            android:id="@+id/login_sina_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:onClick="appLogin"
+            android:background="@drawable/login_sina_selector"/>
+    </LinearLayout>
 
 </LinearLayout>

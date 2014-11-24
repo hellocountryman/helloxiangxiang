@@ -18,7 +18,6 @@ public class WelcomeActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
-		
 		/*********youmeng**********/
 		// 设置定义启动一次程序的时间间隔是5秒
 		MobclickAgent.setSessionContinueMillis(5000);

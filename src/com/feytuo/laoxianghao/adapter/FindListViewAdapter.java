@@ -36,7 +36,6 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-import com.feytuo.chat.activity.MainActivity;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.CommentActivity;
 import com.feytuo.laoxianghao.R;
@@ -344,10 +343,6 @@ public class FindListViewAdapter extends SimpleAdapter {
 			case R.id.index_comment_linerlayout:
 				if (App.isLogin()) {
 					turnToComment(holder, position);
-				} else {
-					if (context instanceof MainActivity) {
-						((MainActivity) context).showLoginDialog();
-					}
 				}
 				// Toast.makeText(context, "点击了所在" + position + "的评论",
 				// Toast.LENGTH_SHORT).show();
@@ -356,10 +351,6 @@ public class FindListViewAdapter extends SimpleAdapter {
 				if (App.isLogin()) {
 					if (NetUtil.isNetConnect(context)) {// 检查是否联网
 						dealSupportBtn(holder, position);
-					}
-				} else {
-					if (context instanceof MainActivity) {
-						((MainActivity) context).showLoginDialog();
 					}
 				}
 				break;
@@ -383,10 +374,6 @@ public class FindListViewAdapter extends SimpleAdapter {
 			default:
 				if (App.isLogin()) {
 					turnToComment(holder,position);
-				} else {
-					if (context instanceof MainActivity) {
-						((MainActivity) context).showLoginDialog();
-					}
 				}
 				break;
 			}
