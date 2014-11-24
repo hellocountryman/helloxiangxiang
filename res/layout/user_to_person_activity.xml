@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/weibo_unline"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0.0dip"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="2"
+            android:background="@drawable/person_head_bg"
+            android:clickable="true" >
+
+            <ImageView
+                android:id="@+id/to_person_head_img"
+                android:layout_width="68dp"
+                android:layout_height="68.0dip"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/to_person_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/to_person_head_img"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8.0dip"
+                android:text="唐小鹏同学"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/to_person_sign_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/to_person_nick"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8.0dip"
+                android:text="好好学习，天天向上"
+                android:textColor="@color/head_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8.0dip"
+                android:layout_toLeftOf="@+id/to_person_home"
+                android:text="家乡："
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/to_person_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="8.0dip"
+                android:layout_marginRight="8.0dip"
+                android:text="永州"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+        <com.feytuo.listviewonload.ZrcListView
+            android:id="@+id/user_to_person_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_marginTop="-50.0dip"
+            android:layout_weight="3"
+            android:clickable="true"
+            android:divider="@color/weibo_unline"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="48.0dip"
+        android:layout_gravity="bottom"
+        android:layout_margin="4dip"
+        android:background="@drawable/chat_selector"
+        android:onClick="toPersonChat"
+        android:text="发起聊天"
+        android:textColor="@color/white"
+        android:textSize="16.0sp" />
+
+</LinearLayout>

@@ -39,6 +39,7 @@ import cn.bmob.v3.listener.UpdateListener;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.CommentActivity;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.UserToPersonActivity;
 import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.dao.PraiseDao;
@@ -144,11 +145,10 @@ public class ListViewAdapter extends SimpleAdapter {
 		Listener listener = new Listener(holder, position);
 		convertView.setClickable(true);
 		convertView.setOnClickListener(listener);
+		holder.personHeadImg.setOnClickListener(listener);
 		holder.indexSupportLinerlayout.setOnClickListener(listener);
 		holder.indexCommentLinerlayout.setOnClickListener(listener);
 		holder.indexShareLinerlayout.setOnClickListener(listener);
-		// holder.indexProgressbarBtn.setOnClickListener(listener);
-		// holder.indexProgressbarId.setOnClickListener(listener);
 		holder.indexProgressbarBtn.setOnClickListener(listener);
 		setSubBtn(holder, position);
 		setcontent(holder, position);
@@ -335,6 +335,15 @@ public class ListViewAdapter extends SimpleAdapter {
 			// TODO Auto-generated method stub
 
 			switch (v.getId()) {
+			case R.id.index_user_head:
+				//跳转到查看别人的个人中心
+				Log.i("tangpeng", "查看他人的消息");
+				String invId = list.get(position).get("inv_id").toString();
+				Intent intentToPerson = new Intent();
+				intentToPerson.setClass(context, UserToPersonActivity.class);
+				intentToPerson.putExtra("invId", invId);
+				context.startActivity(intentToPerson);
+				break;
 			case R.id.index_share_linerlayout:
 				Dialog dialog = new MyDialog(context, list.get(position),
 						R.style.MyDialog);

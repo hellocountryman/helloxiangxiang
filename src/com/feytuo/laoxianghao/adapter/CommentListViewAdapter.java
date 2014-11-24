@@ -173,11 +173,11 @@ public class CommentListViewAdapter extends BaseAdapter {
 		case TYPE_2:
 			// if (ViewArray.get(position) == null) {
 			if (convertView == null) {
-				convertView = m_Inflater.inflate(R.layout.comment_item, null);
+				convertView = m_Inflater.inflate(R.layout.comment_item_copy, null);
 				// 实例化holder以及控件
 				holder2 = new viewHolder2();
-				holder2.commentFloor = (TextView) convertView
-						.findViewById(R.id.comment_floor);
+				holder2.commentUserHead = (ImageView) convertView
+						.findViewById(R.id.comment_user_head);
 				holder2.commentPosition = (TextView) convertView
 						.findViewById(R.id.comment_position);
 				holder2.commentTime = (TextView) convertView
@@ -208,7 +208,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		case TYPE_2:
 			setAudioPlayBtn(holder2.commentPlayId, position);
 			Map<String, ?> map = data.get(position - 1);
-			holder2.commentFloor.setText(Integer.toString(position) + "楼");
+			
 			holder2.commentPosition.setText(map.get("com_position") + "");
 			holder2.commentTime.setText(map.get("com_time") + "");
 			holder2.commentTextContext.setText(map.get("com_words") + "");
@@ -424,7 +424,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 	}
 
 	class viewHolder2 {
-		TextView commentFloor;// 楼层
+		ImageView commentUserHead;// 楼层
 		TextView commentPosition; // 评论的用户所在的位置
 		TextView commentTime; // 评论的时间
 		TextView commentTextContext; // 评论的文字内容

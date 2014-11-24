@@ -106,7 +106,7 @@
             android:screenOrientation="portrait" >
         </activity>
           <activity
-            android:name="com.feytuo.laoxianghao.PersonDetailsActivity"
+            android:name="com.feytuo.laoxianghao.PersonUpdateInfoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>s
@@ -129,6 +129,12 @@
         </activity>
         <activity
             android:name="com.feytuo.laoxianghao.CommentActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+          <activity
+            android:name="com.feytuo.laoxianghao.UserToPersonActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" >
