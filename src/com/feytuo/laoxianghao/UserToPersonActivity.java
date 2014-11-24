@@ -225,11 +225,11 @@ public class UserToPersonActivity extends Activity {
 						InvitationDao invDao = new InvitationDao(
 								UserToPersonActivity.this);
 						if (actionType == STATE_REFRESH) {
-							invDao.insert2InvitationClass(arg0, false);
+//							invDao.insert2InvitationClass(arg0, false);
 							userToPersonListView.setRefreshSuccess("加载成功");
 							userToPersonListView.startLoadMore(); // 开启LoadingMore功能
 						} else if (actionType == STATE_MORE) {
-							invDao.insert2InvitationClass(arg0, true);
+//							invDao.insert2InvitationClass(arg0, true);
 							userToPersonListView.setLoadMoreSuccess();
 						}
 						if (arg0.size() == 0) {
