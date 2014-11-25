@@ -8,8 +8,13 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import cn.bmob.v3.listener.UpdateListener;
 
 import com.feytuo.chat.widget.PasteEditText;
+import com.feytuo.laoxianghao.dao.LXHUserDao;
+import com.feytuo.laoxianghao.domain.LXHUser;
+import com.feytuo.laoxianghao.global.Global;
 
 public class PersonUpdateInfoActivity extends Activity {
 	private TextView titleTypeText;//显示昵称还是个性签名
@@ -77,9 +82,43 @@ public class PersonUpdateInfoActivity extends Activity {
 	//点击修改完成按钮
 	public void updateInfoSuccess(View v)
 	{
-		mEditText.getText().toString();
+		updateUserInfo(mEditText.getText().toString().trim());
 	}
 	
+
+	/**
+	 * 修改个性签名
+	 * @param et
+	 */
+	private void updateUserInfo(final String et) {
+		// TODO Auto-generated method stub
+		final String userId = App.pre.getString(Global.USER_ID, "");
+		LXHUser user = new LXHUser();
+		if("nick".equals(type)){//昵称
+			user.setNickName(et);
+		}else{//个性签名
+			user.setPersonSign(et);
+		}
+		user.update(this, userId, new UpdateListener() {
+			
+			@Override
+			public void onSuccess() {
+				// TODO Auto-generated method stub
+				if("nick".equals(type)){//昵称
+					new LXHUserDao(PersonUpdateInfoActivity.this).updateUserNickName(userId, et);
+				}else{//个性签名
+					new LXHUserDao(PersonUpdateInfoActivity.this).updateUserPersonSign(userId, et);
+				}
+				finish();
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Toast.makeText(PersonUpdateInfoActivity.this, "网络或服务器问题，请稍候再试...",Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 
 	public void personDetailsRetImg(View v) {
 		finish();

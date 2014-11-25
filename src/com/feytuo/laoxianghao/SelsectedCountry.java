@@ -11,14 +11,18 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import cn.bmob.v3.listener.UpdateListener;
 
 import com.feytuo.laoxianghao.dao.CityDao;
+import com.feytuo.laoxianghao.dao.LXHUserDao;
+import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.sortlistview.CharacterParser;
 import com.feytuo.laoxianghao.sortlistview.ClearEditText;
@@ -171,8 +175,34 @@ public class SelsectedCountry extends Activity {
 	 */
 	protected void saveCurrentHome(String home) {
 		// TODO Auto-generated method stub
+		//更新当前用户home属性
+		updateCurrentUserHome(home);
 		int cityId = new CityDao(this).getCityIdByName(home);
 		App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
+	}
+
+	
+	private void updateCurrentUserHome(final String home) {
+		// TODO Auto-generated method stub
+		final String userId = App.pre.getString(Global.USER_ID, "");
+		//更新本地数据库
+		new LXHUserDao(SelsectedCountry.this).updateUserHome(userId, home);
+		//更新服务器数据库
+		LXHUser user = new LXHUser();
+		user.setHome(home);
+		user.update(this, userId, new UpdateListener() {
+			
+			@Override
+			public void onSuccess() {
+				Log.i("SelectCountry", "更新home成功");
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i("SelectCountry", "更新home失败");
+			}
+		});
 	}
 
 	/**

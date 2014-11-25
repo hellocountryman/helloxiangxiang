@@ -62,7 +62,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		super(context, textViewResourceId, objects);
 		this.context = context;
 		inflater = LayoutInflater.from(context);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(context);
 		userDao = new UserDao(context);
 	}
 

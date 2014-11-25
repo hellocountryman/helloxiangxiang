@@ -101,7 +101,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		
 		userDao = new LXHUserDao(context);
 		cityDao = new CityDao(context);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(context);
 	}
 
 	@Override
@@ -380,10 +380,10 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	 * @param personHeadImg 
 	 */
 	public void setUserInfo(String uId ,TextView nameTV, ImageButton personHeadImg){
-		LXHUser user = userDao.getNickAndHeadByUid(uId);
+		LXHUser user = userDao.getNickAndHeadByUidFromUser(uId);
 		if(user != null){//如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
-			mImageLoader.loadCornerImage(context,user.getHeadUrl(), this, personHeadImg);
+			mImageLoader.loadCornerImage(user.getHeadUrl(), this, personHeadImg);
 		}else{//如果没有再从bmob上取
 			setUserInfoFromBmob(uId,nameTV,personHeadImg);
 		}
@@ -400,7 +400,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				// TODO Auto-generated method stub
 				if(arg0.size() > 0){
 					nameTV.setText(arg0.get(0).getNickName());
-					mImageLoader.loadCornerImage(context,arg0.get(0).getHeadUrl(), NoticeListViewAdapter.this, personHeadImg);
+					mImageLoader.loadCornerImage(arg0.get(0).getHeadUrl(), NoticeListViewAdapter.this, personHeadImg);
 					userDao.insertUser(arg0.get(0));
 				}else{
 					//没有改用户信息

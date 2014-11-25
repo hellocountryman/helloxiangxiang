@@ -77,7 +77,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		isAudioPlayArray = new SparseArray<>();
 		userDao = new LXHUserDao(context);
 		cityDao = new CityDao(context);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(context);
 		// LayoutInflater作用是将layout的xml布局文件实例化为View类对象。
 	}
 
@@ -283,7 +283,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		LXHUser user = userDao.getNickAndHeadByUid(uId);
 		if(user != null){//如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
-			mImageLoader.loadCornerImage(context,user.getHeadUrl(), this, personHeadImg);
+			mImageLoader.loadCornerImage(user.getHeadUrl(), this, personHeadImg);
 		}
 	}
 	// 设置点赞等图片按钮

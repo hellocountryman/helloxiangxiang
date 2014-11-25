@@ -66,7 +66,7 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 		this.res = resource;
 		this.sidebar=sidebar;
 		layoutInflater = LayoutInflater.from(context);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(context);
 		this.data = objects;
 		mOriginalValues = new ArrayList<User>();
 		for(User user : data){

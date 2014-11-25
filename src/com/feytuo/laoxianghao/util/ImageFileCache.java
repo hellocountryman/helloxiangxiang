@@ -96,7 +96,8 @@ public class ImageFileCache {
         }
                                                             
         if (dirSize > CACHE_SIZE * MB || FREE_SD_SPACE_NEEDED_TO_CACHE > freeSpaceOnSd()) {
-            int removeFactor = (int) ((0.4 * files.length) + 1);
+//        	int removeFactor = (int) ((0.4 * files.length) + 1);
+            int removeFactor = (int) ((0.4 * files.length));
             Arrays.sort(files, new FileLastModifSort());
             for (int i = 0; i < removeFactor; i++) {
                 if (files[i].getName().contains(WHOLESALE_CONV)) {

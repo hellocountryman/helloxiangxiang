@@ -68,7 +68,7 @@ public class AddContactActivity extends BaseActivity{
 		nameText = (TextView) findViewById(R.id.name);
 		avatarImageView = (ImageView)findViewById(R.id.avatar);
 		searchBtn = (Button) findViewById(R.id.search);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(this);
 //		avatar = (ImageView) findViewById(R.id.avatar);
 //		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	}

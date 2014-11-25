@@ -37,7 +37,6 @@ import com.feytuo.chat.domain.User;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.SelsectedCountry;
 import com.feytuo.laoxianghao.SimpleSelsectedCountry;
-import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.util.GetSystemDateTime;
@@ -49,7 +48,6 @@ public class UserLogin {
 	public static LXHUser gUser = null;
 	private ProgressDialog pd;
 	private boolean progressShow;
-	private String userHome;
 	private LXHUserDao userDao;
 
 	/**
@@ -77,20 +75,12 @@ public class UserLogin {
 		Log.i("UserLogin", "nickName:" + nickName);
 		Log.i("UserLogin", "bitmap:" + headBitmap);
 		userDao = new LXHUserDao(context);
-		//获取当前用户的家乡
-		getUserHome(context);
 		// 0、上传头像文件，获取头像文件地址
 		uploadHeadFile(context, uName, uKey, nickName, headBitmap);
 		// 1、检查是否存在该用户，不存在则添加用户，反之更新用户
 		// 2、上传用户基本信息
 		// 3、注册环信服务器
 		// 4、登录环信服务器
-	}
-
-	private void getUserHome(Context context) {
-		// TODO Auto-generated method stub
-		int cityId = App.pre.getInt(Global.USER_HOME, 1);
-		userHome = new CityDao(context).getCityNameById(cityId);
 	}
 
 	/**
@@ -190,7 +180,7 @@ public class UserLogin {
 		final LXHUser lxhUser = new LXHUser();
 		lxhUser.setNickName(nickName);
 		lxhUser.setHeadUrl(headUrl);
-		lxhUser.setHome(userHome);
+		lxhUser.setHome("");
 		lxhUser.setPersonSign("");
 		lxhUser.update(context, user.getObjectId(), new UpdateListener() {
 
@@ -238,7 +228,7 @@ public class UserLogin {
 		user.setuKey(uKey);
 		user.setHeadUrl(headUrl);
 		user.setNickName(nickName);
-		user.setHome(userHome);
+		user.setHome("");
 		user.setPersonSign("");
 		user.save(context, new SaveListener() {
 

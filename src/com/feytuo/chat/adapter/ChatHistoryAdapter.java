@@ -51,7 +51,7 @@ public class ChatHistoryAdapter extends ArrayAdapter<EMContact> {
 	public ChatHistoryAdapter(Context context, int textViewResourceId, List<EMContact> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(context);
 	}
 
 	@Override

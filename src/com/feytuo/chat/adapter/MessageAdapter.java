@@ -128,7 +128,7 @@ public class MessageAdapter extends BaseAdapter{
 		inflater = LayoutInflater.from(context);
 		activity = (Activity) context;
 		this.conversation = EMChatManager.getInstance().getConversation(username);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(context);
 		userDao = new UserDao(context);
 	}
 

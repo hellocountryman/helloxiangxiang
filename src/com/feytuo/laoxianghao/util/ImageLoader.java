@@ -18,8 +18,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
-import com.feytuo.laoxianghao.R;
 /**
  * 图片加载辅助类
  * 通过一级本地map缓存和二级SoftReference缓存获取图片加快图片的加载
@@ -32,6 +30,7 @@ public class ImageLoader {
 	private static final long DELAY_BEFORE_PURGE = 1200 * 1000;// 定时清理缓存
 	
 	private ImageFileCache  fileCache=new ImageFileCache();
+	private Context context;
 
 	// 0.75是加载因子为经验值，true则表示按照最近访问量的高低排序，false则表示按照插入顺序排序
 	private HashMap<String, Bitmap> mFirstLevelCache = new LinkedHashMap<String, Bitmap>(
@@ -60,6 +59,10 @@ public class ImageLoader {
 	};
 	private Handler mPurgeHandler = new Handler();
 
+	public ImageLoader(Context context) {
+		// TODO Auto-generated constructor stub
+		this.context = context;
+	}
 	// 重置缓存清理的timer
 	private void resetPurgeTimer() {
 		mPurgeHandler.removeCallbacks(mClearCache);
@@ -165,13 +168,11 @@ public class ImageLoader {
 			}
 		}
 		if (bitmap == null) {
-			iv.setImageResource(R.drawable.default_avatar);// 缓存没有设为默认图片
 			ImageLoadTask imageLoadTask = new ImageLoadTask();
-			imageLoadTask.execute(url, adapter);
-		} else {
-			iv.setImageBitmap(bitmap);// 设为缓存图片
+			imageLoadTask.execute(url, adapter,iv);
+		}else{
+			iv.setImageBitmap(bitmap);
 		}
-
 	}
 	/**
 	 * 加载图片，如果缓存中有就直接从缓存中拿，缓存中没有就下载
@@ -180,7 +181,7 @@ public class ImageLoader {
 	 * @param adapter
 	 * @param holder
 	 */
-	public void loadCornerImage(Context context,String url, BaseAdapter adapter, ImageView iv) {
+	public void loadCornerImage(String url, BaseAdapter adapter, ImageView iv) {
 		resetPurgeTimer();
 		Bitmap bitmap = getBitmapFromCache(url);// 从缓存中读取
 		if(bitmap != null){
@@ -194,9 +195,8 @@ public class ImageLoader {
 		}
 		if (bitmap == null) {
 			ImageLoadTask imageLoadTask = new ImageLoadTask();
-			imageLoadTask.execute(url, adapter);
+			imageLoadTask.execute(url, adapter,iv);
 		} else {
-//			iv.setImageBitmap(CommonUtils.toRoundCorner(bitmap, 15));// 设为缓存图片
 			CommonUtils.corner(context, bitmap, iv);
 		}
 		
@@ -220,12 +220,16 @@ public class ImageLoader {
 	class ImageLoadTask extends AsyncTask<Object, Void, Bitmap> {
 		String url;
 		BaseAdapter adapter = null;
+		ImageView iv;
 
 		@Override
 		protected Bitmap doInBackground(Object... params) {
 			url = (String) params[0];
 			if(params[1] != null){
 				adapter = (BaseAdapter) params[1];
+			}
+			if(params[2] != null){
+				iv = (ImageView)params[2];
 			}
 			Bitmap drawable = loadImageFromInternet(url);// 获取网络图片
 			return drawable;
@@ -243,6 +247,9 @@ public class ImageLoader {
 			fileCache.saveBitmap(result, url);//保存为文件
 			if(adapter != null){
 				adapter.notifyDataSetChanged();// 触发getView方法执行，这个时候getView实际上会拿到刚刚缓存好的图片
+			}
+			if(result != null){
+				CommonUtils.corner(context, result, iv);
 			}
 		}
 	}

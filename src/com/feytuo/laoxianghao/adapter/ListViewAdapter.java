@@ -86,7 +86,7 @@ public class ListViewAdapter extends SimpleAdapter {
 		isAudioPlayArray = new SparseArray<>();
 		userDao = new LXHUserDao(context);
 		cityDao = new CityDao(context);
-		mImageLoader = new ImageLoader();
+		mImageLoader = new ImageLoader(context);
 	}
 
 	@Override
@@ -306,7 +306,7 @@ public class ListViewAdapter extends SimpleAdapter {
 		LXHUser user = userDao.getNickAndHeadByUid(uId);
 		if (user != null) {// 如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
-			mImageLoader.loadCornerImage(context, user.getHeadUrl(), this,
+			mImageLoader.loadCornerImage(user.getHeadUrl(), this,
 					personHeadImg);
 		} else {// 如果没有再从bmob上取
 			setUserInfoFromBmob(uId, nameTV, personHeadImg);
@@ -326,7 +326,7 @@ public class ListViewAdapter extends SimpleAdapter {
 				// TODO Auto-generated method stub
 				if (arg0.size() > 0) {
 					nameTV.setText(arg0.get(0).getNickName());
-					mImageLoader.loadCornerImage(context, arg0.get(0)
+					mImageLoader.loadCornerImage(arg0.get(0)
 							.getHeadUrl(), ListViewAdapter.this, personHeadImg);
 					userDao.insertUser(arg0.get(0));
 				} else {
