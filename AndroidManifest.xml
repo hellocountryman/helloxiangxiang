@@ -140,7 +140,7 @@
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
-            android:name="com.feytuo.laoxianghao.MessageCellectActivity"
+            android:name="com.feytuo.laoxianghao.PersonInvitationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >

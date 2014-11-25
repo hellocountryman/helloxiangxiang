@@ -30,7 +30,6 @@ import cn.bmob.v3.listener.FindListener;
 
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.FeedbackActivity;
-import com.feytuo.laoxianghao.MessageCellectActivity;
 import com.feytuo.laoxianghao.PublishActivity;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.adapter.ListViewAdapter;
@@ -374,15 +373,15 @@ public class MainFragment extends Fragment {
 				}
 				break;
 			case R.id.message_imgview:// 点击消息按钮
-				if (App.isLogin()) {// 判断是否登录
-					messageImgview
-							.setBackgroundResource(R.drawable.notice_normal_selector);
-					Intent intentmessage = new Intent();
-					intentmessage.setClass(getActivity(),
-							MessageCellectActivity.class);
-					startActivity(intentmessage);
-				}
-				break;
+//				if (App.isLogin()) {// 判断是否登录
+//					messageImgview
+//							.setBackgroundResource(R.drawable.notice_normal_selector);
+//					Intent intentmessage = new Intent();
+//					intentmessage.setClass(getActivity(),
+//							MessageCellectActivity.class);
+//					startActivity(intentmessage);
+//				}
+//				break;
 			case R.id.more_imgview:// 点击更多按钮
 				showPopUp(moreImgview);
 				break;

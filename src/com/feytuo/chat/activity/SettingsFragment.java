@@ -15,7 +15,9 @@ package com.feytuo.chat.activity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,11 +38,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
+import com.feytuo.laoxianghao.PersonInvitationActivity;
 import com.feytuo.laoxianghao.PersonUpdateInfoActivity;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.SetActivity;
-import com.feytuo.laoxianghao.UserToPersonActivity;
+import com.feytuo.laoxianghao.dao.InvitationDao;
+import com.feytuo.laoxianghao.domain.Invitation;
 import com.feytuo.laoxianghao.util.CommonUtils;
 
 /**
@@ -62,6 +68,8 @@ public class SettingsFragment extends Fragment {
 
 	private ImageView personHeadImg;// 个人中心的头像
 	private TextView personHeadNick;// 个人中心头像下面的昵称
+	
+	private ImageView redPoint;//我的帖子红点
 
 	private AlertDialog dialog;
 	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;
@@ -81,11 +89,17 @@ public class SettingsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initview();
-
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		getMyCommentNotice();
+		super.onResume();
 	}
 
 	public void initview() {
 
+		redPoint = (ImageView) getView().findViewById(R.id.person_red_point);
 		personHeadImg = (ImageView) getView()
 				.findViewById(R.id.person_head_img);
 		CommonUtils
@@ -164,8 +178,9 @@ public class SettingsFragment extends Fragment {
 				getActivity().startActivity(intent);
 				break;
 			case R.id.person_tiezi_rela:
-//				intent.setClass(getActivity(), UserToPersonActivity.class);
-//				getActivity().startActivity(intent);
+				redPoint.setVisibility(View.GONE);
+				intent.setClass(getActivity(), PersonInvitationActivity.class);
+				getActivity().startActivity(intent);
 				break;
 			case R.id.person_set_rela:
 				intent.setClass(getActivity(), SetActivity.class);
@@ -232,5 +247,57 @@ public class SettingsFragment extends Fragment {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"'IMG'_yyyyMMdd_HHmmss");
 		return dateFormat.format(date) + ".jpg";
+	}
+	
+	/**
+	 * "我的帖子"的评论数是否有更新
+	 * 
+	 * @return
+	 */
+	private void getMyCommentNotice() {
+		// TODO Auto-generated method stub
+		final List<Integer> localCommentNum = new ArrayList<Integer>();
+		final List<Integer> netCommentNum = new ArrayList<Integer>();
+		final List<String> myInvIds = new ArrayList<String>();
+		new InvitationDao(getActivity()).getAllCommentNum(localCommentNum, myInvIds);
+
+		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
+		query.addWhereContainedIn("objectId", myInvIds);
+		query.addQueryKeys("commentNum");
+		query.findObjects(getActivity(), new FindListener<Invitation>() {
+			@Override
+			public void onSuccess(List<Invitation> arg0) {
+				// TODO Auto-generated method stub
+				for (Invitation inv : arg0) {
+					netCommentNum.add(inv.getCommentNum());
+				}
+				// 对比本地和服务器评论数是否有不同
+				for (int i = 0; i < netCommentNum.size(); i++) {
+					int idIndex = 0;
+					for (int j = 0; j < myInvIds.size(); j++) {
+						if (arg0.get(i).getObjectId().equals(myInvIds.get(j))) {
+							idIndex = j;
+							break;
+						}
+					}
+					Log.i("comment_notice", arg0.get(i).getObjectId() + "=="
+							+ myInvIds.get(idIndex));
+					if (netCommentNum.get(i) != localCommentNum.get(idIndex)) {
+						// 添加修改UI代码
+						redPoint.setVisibility(View.VISIBLE);
+						Log.i("comment_notice", "有更新:");
+						break;
+					} else {
+						Log.i("comment_notice", "无");
+					}
+				}
+			}
+
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i("comment_notice", "查询我贴评论数失败:" + arg1);
+			}
+		});
 	}
 }

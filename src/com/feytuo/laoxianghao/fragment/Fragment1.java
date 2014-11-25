@@ -28,8 +28,6 @@ import com.umeng.analytics.MobclickAgent;
 
 public class Fragment1 extends Fragment {
 
-	private Button messageRedPointB;
-
 	public Fragment1() {
 		// TODO Auto-generated constructor stub
 	}
@@ -58,23 +56,6 @@ public class Fragment1 extends Fragment {
 		initView();
 		getListDataFromLocal();
 		super.onActivityCreated(savedInstanceState);
-	}
-
-	// 设置红点状态
-	private void setRedPoint() {
-		// TODO Auto-generated method stub
-		if (getActivity() != null) {
-			messageRedPointB = (Button) getActivity().findViewById(
-					R.id.message_redpoint_btn);
-			for (int i = 0, nsize = commentMap.size(); i < nsize; i++) {
-				boolean value = commentMap.valueAt(i);
-				if (value) {
-					messageRedPointB.setVisibility(View.VISIBLE);
-					break;
-				}
-				messageRedPointB.setVisibility(View.INVISIBLE);
-			}
-		}
 	}
 
 	public void initView() {
@@ -111,6 +92,8 @@ public class Fragment1 extends Fragment {
 			map.put("voice", inv.getVoice());
 			map.put("ishot", inv.getIsHot());
 			map.put("head_id", inv.getHeadId());
+			map.put("uid", inv.getuId());
+			map.put("home", inv.getHome());
 			map.put("invitation", inv);
 			tempListItems.add(map);
 		}
@@ -169,7 +152,6 @@ public class Fragment1 extends Fragment {
 						Log.i("Fragment1", "无");
 					}
 				}
-				setRedPoint();
 			}
 
 			@Override
@@ -210,6 +192,8 @@ public class Fragment1 extends Fragment {
 					map.put("voice", inv.getVoice());
 					map.put("ishot", inv.getIsHot());
 					map.put("head_id", inv.getHeadId());
+					map.put("uid", inv.getuId());
+					map.put("home", inv.getHome());
 					map.put("invitation", inv);
 					listItems.add(map);
 				}
@@ -239,7 +223,6 @@ public class Fragment1 extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		setRedPoint();
 		adapter.notifyDataSetChanged();
 		MobclickAgent.onPageStart("MyInvitationFragment"); // 统计页面
 	}

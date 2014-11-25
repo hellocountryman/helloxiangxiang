@@ -1,7 +1,10 @@
 package com.feytuo.laoxianghao.adapter;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -33,7 +36,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import cn.bmob.v3.BmobObject;
@@ -45,15 +48,17 @@ import cn.bmob.v3.listener.UpdateListener;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.CommentActivity;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.dao.CommentDao;
 import com.feytuo.laoxianghao.dao.InvitationDao;
+import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.dao.PraiseDao;
 import com.feytuo.laoxianghao.domain.Comment;
 import com.feytuo.laoxianghao.domain.Invitation;
+import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.fragment.Fragment1;
-import com.feytuo.laoxianghao.fragment.Fragment2;
 import com.feytuo.laoxianghao.global.Global;
-import com.feytuo.laoxianghao.global.HeadImageChoose;
+import com.feytuo.laoxianghao.util.ImageLoader;
 import com.feytuo.laoxianghao.util.NetUtil;
 import com.feytuo.laoxianghao.view.MyDialog;
 
@@ -64,6 +69,7 @@ import com.feytuo.laoxianghao.view.MyDialog;
  */
 @SuppressLint({ "HandlerLeak", "UseSparseArrays" })
 public class NoticeListViewAdapter extends SimpleAdapter {
+	private final String TAG = "NoticeListViewAdapter";
 	private Context context;
 	private LayoutInflater m_Inflater;
 	private int resource;
@@ -73,6 +79,10 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	private SparseArray<Boolean> commentArray;// 记录是否正在播放音乐
 	private boolean isCurrentItemAudioPlay;
 	private int isMyOrCollection;//标记是从1我的帖子还是从2收藏中进来,与评论中enterFrom对应
+	
+	private LXHUserDao userDao;
+	private CityDao cityDao;
+	private ImageLoader mImageLoader;
 
 	public NoticeListViewAdapter(Context context,
 			List<Map<String, Object>> data, int resource, String[] from,
@@ -85,13 +95,13 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 			commentArray = ((Fragment1) fragment).getCommentMap();
 			isMyOrCollection = 1;
 		}
-		if (fragment instanceof Fragment2) {
-			commentArray = ((Fragment2) fragment).getCollectCommentMap();
-			isMyOrCollection = 2;
-		}
 		m_Inflater = LayoutInflater.from(context);
 		praiseMap = new SparseArray<>();
 		isAudioPlayArray = new SparseArray<>();
+		
+		userDao = new LXHUserDao(context);
+		cityDao = new CityDao(context);
+		mImageLoader = new ImageLoader();
 	}
 
 	@Override
@@ -105,12 +115,16 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 
 			if (resource == R.layout.index_listview) {
 
+				holder.indexBottomLinearlayout = (LinearLayout) convertView
+						.findViewById(R.id.index_bottom_linearlayout);
 				holder.indexSupportLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_support_linerlayout);
 				holder.indexCommentLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_comment_linerlayout);
 				holder.indexShareLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_share_linerlayout);
+				holder.indexProgressbarLayout = (RelativeLayout) convertView
+						.findViewById(R.id.index_progressbar_layout);
 				holder.titleImage = (ImageView) convertView
 						.findViewById(R.id.title_img_id);
 				holder.indexProgressbarBtn = (ImageButton) convertView
@@ -120,8 +134,12 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 						.findViewById(R.id.support_img);
 				holder.commentImg = (ImageView) convertView
 						.findViewById(R.id.comment_img);
-				holder.personHeadImg = (ImageView) convertView
-						.findViewById(R.id.person_head_img);
+				holder.personHeadImg = (ImageButton) convertView
+						.findViewById(R.id.index_user_head);
+				holder.personUserNick = (TextView) convertView
+						.findViewById(R.id.index_user_nick);
+				holder.home = (TextView) convertView
+						.findViewById(R.id.index_home_textview);
 				holder.indexSupportNum = (TextView) convertView
 						.findViewById(R.id.index_support_num);
 				holder.indexCommentNum = (TextView) convertView
@@ -301,19 +319,44 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		// 地点
 		holder.indexLocalsCountry.setText(list.get(position).get("position")
 				.toString());
-		// 设置头像
-		holder.personHeadImg
-				.setBackgroundResource(HeadImageChoose.HEAD_IDS[(int) list.get(
-						position).get("head_id")]);
-		if (0 == (int) list.get(position).get("ishot")) {
+		//地方话
+		holder.home.setText(cityDao.getCityNameById((int)list.get(position).get("home"))+"话");
+		// 设置昵称和头像
+		setUserInfo(list.get(position).get("uid").toString(),holder.personUserNick,holder.personHeadImg);
+		
+		// 设置话题帖和普通帖
+		if (1 == (int) list.get(position).get("ishot")) {
+			//帖子底部栏、头像、时间、地方方言、地理位置、录音隐藏，昵称改为“热门话题”
+			holder.indexBottomLinearlayout.setVisibility(View.GONE);
+			holder.personHeadImg.setVisibility(View.GONE);
+			holder.indexLocalsTime.setVisibility(View.GONE);
+			holder.home.setVisibility(View.GONE);
+			holder.indexLocalsCountry.setVisibility(View.GONE);
+			holder.indexProgressbarLayout.setVisibility(View.GONE);
+			holder.titleImage.setVisibility(View.GONE);
+			holder.personUserNick.setText("方言话题");
+			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.indexbg));
+		} else {//非方言话题类帖子
+			holder.indexBottomLinearlayout.setVisibility(View.VISIBLE);
 			holder.titleImage.setBackgroundResource(R.drawable.geographical);
 			holder.indexLocalsCountry.setTextColor(context.getResources()
 					.getColor(R.color.indexbg));
-		} else {
-			holder.titleImage
-					.setBackgroundResource(R.drawable.geographical_hot);
-			holder.indexLocalsCountry.setTextColor(context.getResources()
-					.getColor(R.color.hot));
+			holder.personHeadImg.setVisibility(View.VISIBLE);
+			holder.indexLocalsTime.setVisibility(View.VISIBLE);
+			holder.home.setVisibility(View.VISIBLE);
+			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
+			holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
+			holder.titleImage.setVisibility(View.VISIBLE);
+			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.head_color));
+		}
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
+		Date date = null;
+		try {
+			date = df.parse(list.get(position).get("time") + "");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		// 时间
 		holder.indexLocalsTime.setText(list.get(position).get("time") + "");
@@ -328,6 +371,48 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		} else {
 			holder.indexSupportNum.setText("赞");
 		}
+	}
+	
+	/**
+	 * 设置item的用户昵称
+	 * @param userName
+	 * @param nameTV
+	 * @param personHeadImg 
+	 */
+	public void setUserInfo(String uId ,TextView nameTV, ImageButton personHeadImg){
+		LXHUser user = userDao.getNickAndHeadByUid(uId);
+		if(user != null){//如果本地数据库存在该用户
+			nameTV.setText(user.getNickName());
+			mImageLoader.loadCornerImage(context,user.getHeadUrl(), this, personHeadImg);
+		}else{//如果没有再从bmob上取
+			setUserInfoFromBmob(uId,nameTV,personHeadImg);
+		}
+	}
+	//从网络获取帖子作者昵称和头像
+	private void setUserInfoFromBmob(final String uId, final TextView nameTV,final ImageButton personHeadImg) {
+		// TODO Auto-generated method stub
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereEqualTo("objectId", uId);
+		query.findObjects(context, new FindListener<LXHUser>() {
+			
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.size() > 0){
+					nameTV.setText(arg0.get(0).getNickName());
+					mImageLoader.loadCornerImage(context,arg0.get(0).getHeadUrl(), NoticeListViewAdapter.this, personHeadImg);
+					userDao.insertUser(arg0.get(0));
+				}else{
+					//没有改用户信息
+				}
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "帖子查找用户失败："+arg1);
+			}
+		});
 	}
 
 	// 设置点赞等图片按钮
@@ -588,12 +673,16 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	}
 
 	class ViewHolder {
+		private LinearLayout indexBottomLinearlayout;// 帖子底部栏
 		private LinearLayout indexSupportLinerlayout;// 赞
 		private LinearLayout indexCommentLinerlayout;// 评论
 		private LinearLayout indexShareLinerlayout;// 分享
+		private RelativeLayout indexProgressbarLayout;
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
-		private ImageView personHeadImg;// 头像
+		private ImageButton personHeadImg;// 头像
+		private TextView personUserNick;//昵称
+		private TextView home;//地方话
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
 		private ImageView commentImg;// 评论的图标

@@ -159,6 +159,16 @@
             android:clickable="true" >
 
             <include layout="@layout/viewintimg" />
+            <ImageView
+                android:id="@+id/person_red_point" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/redpoint"
+                android:visibility="gone"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

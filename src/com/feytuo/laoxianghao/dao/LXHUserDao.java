@@ -37,13 +37,23 @@ private DatabaseHelper dbHelper;
 	}
 	
 	/**
-	 * 插入一个用户
+	 * 向帖子用户表插入一个用户
 	 * @param user
 	 */
 	public void insertUser(LXHUser user){
 		db = dbHelper.getWritableDatabase();
 		String sql = "insert into invitation_user(uid,u_nickname,u_headurl,u_home,u_personsign) values(?,?,?,?,?)";
 		db.execSQL(sql, new Object[]{user.getObjectId(),user.getNickName(),user.getHeadUrl(),
+				user.getHome(),user.getPersonSign()});
+	}
+	/**
+	 * 主人表插入一个用户
+	 * @param user
+	 */
+	public void insertCurrentUser(LXHUser user){
+		db = dbHelper.getWritableDatabase();
+		String sql = "insert into user(uid,u_name,u_key,u_nickname,u_headurl,u_home,u_personsign) values(?,?,?,?,?,?,?)";
+		db.execSQL(sql, new Object[]{user.getObjectId(),user.getuName(),user.getuKey(),user.getNickName(),user.getHeadUrl(),
 				user.getHome(),user.getPersonSign()});
 	}
 }

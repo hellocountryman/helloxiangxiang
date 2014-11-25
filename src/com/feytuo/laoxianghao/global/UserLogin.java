@@ -38,6 +38,7 @@ import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.SelsectedCountry;
 import com.feytuo.laoxianghao.SimpleSelsectedCountry;
 import com.feytuo.laoxianghao.dao.CityDao;
+import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.util.GetSystemDateTime;
 import com.feytuo.laoxianghao.util.SDcardTools;
@@ -49,6 +50,7 @@ public class UserLogin {
 	private ProgressDialog pd;
 	private boolean progressShow;
 	private String userHome;
+	private LXHUserDao userDao;
 
 	/**
 	 * 获取当前登录的用户信息
@@ -74,6 +76,7 @@ public class UserLogin {
 		Log.i("UserLogin", "openId:" + uName);
 		Log.i("UserLogin", "nickName:" + nickName);
 		Log.i("UserLogin", "bitmap:" + headBitmap);
+		userDao = new LXHUserDao(context);
 		//获取当前用户的家乡
 		getUserHome(context);
 		// 0、上传头像文件，获取头像文件地址
@@ -184,16 +187,22 @@ public class UserLogin {
 				pd.setMessage("正在更新登录信息...");
 			}
 		});
-		LXHUser lxhUser = new LXHUser();
+		final LXHUser lxhUser = new LXHUser();
 		lxhUser.setNickName(nickName);
 		lxhUser.setHeadUrl(headUrl);
 		lxhUser.setHome(userHome);
+		lxhUser.setPersonSign("");
 		lxhUser.update(context, user.getObjectId(), new UpdateListener() {
 
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
 				Log.i("UserLogin", user.getObjectId() + "--" + user.getuName());
+				//保存到本地当前用户表
+				lxhUser.setObjectId(user.getObjectId());
+				lxhUser.setuName(user.getuName());
+				lxhUser.setuKey(user.getuKey());
+				userDao.insertCurrentUser(lxhUser);
 				loginHX(context, user.getObjectId(), user.getuName(), nickName);
 			}
 
@@ -230,11 +239,14 @@ public class UserLogin {
 		user.setHeadUrl(headUrl);
 		user.setNickName(nickName);
 		user.setHome(userHome);
+		user.setPersonSign("");
 		user.save(context, new SaveListener() {
 
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
+				//保存到本地当前用户表
+				userDao.insertCurrentUser(user);
 				// 注册环信服务器
 				registerHX(context, user.getObjectId(), uName, nickName);
 				// App.pre.edit().putString(Global.USER_ID, user.getObjectId())
