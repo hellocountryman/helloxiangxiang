@@ -359,11 +359,11 @@ public class ListViewAdapter extends SimpleAdapter {
 			switch (v.getId()) {
 			case R.id.index_user_head:
 				// 跳转到查看别人的个人中心
-				Log.i("tangpeng", "查看他人的消息");
-				String invId = list.get(position).get("inv_id").toString();
+				String userid = list.get(position).get("uid").toString();
+				Log.i("tangpeng", userid+"拉拉");
 				Intent intentToPerson = new Intent();
 				intentToPerson.setClass(context, UserToPersonActivity.class);
-				intentToPerson.putExtra("invId", invId);
+				intentToPerson.putExtra("userid", userid);
 				context.startActivity(intentToPerson);
 				break;
 			case R.id.index_share_linerlayout:
@@ -616,6 +616,7 @@ public class ListViewAdapter extends SimpleAdapter {
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
 			animationDrawable.stop();
 			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
+
 		}
 		if (mCountDownTimer != null) {
 			mCountDownTimer.cancel();

@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.CountDownTimer;
@@ -78,8 +79,8 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	private SparseArray<Boolean> isAudioPlayArray;// 记录是否正在播放音乐
 	private SparseArray<Boolean> commentArray;// 记录是否正在播放音乐
 	private boolean isCurrentItemAudioPlay;
-	private int isMyOrCollection;//标记是从1我的帖子还是从2收藏中进来,与评论中enterFrom对应
-	
+	private int isMyOrCollection;// 标记是从1我的帖子还是从2收藏中进来,与评论中enterFrom对应
+
 	private LXHUserDao userDao;
 	private CityDao cityDao;
 	private ImageLoader mImageLoader;
@@ -98,7 +99,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		m_Inflater = LayoutInflater.from(context);
 		praiseMap = new SparseArray<>();
 		isAudioPlayArray = new SparseArray<>();
-		
+
 		userDao = new LXHUserDao(context);
 		cityDao = new CityDao(context);
 		mImageLoader = new ImageLoader();
@@ -125,6 +126,8 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 						.findViewById(R.id.index_share_linerlayout);
 				holder.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_progressbar_layout);
+				holder.indexProgressbarTopImg = (ImageView) convertView
+						.findViewById(R.id.index_progressbar_top_img);
 				holder.titleImage = (ImageView) convertView
 						.findViewById(R.id.title_img_id);
 				holder.indexProgressbarBtn = (ImageButton) convertView
@@ -161,13 +164,13 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		Listener listener = new Listener(holder, position);
 		convertView.setClickable(true);
 		convertView.setOnClickListener(listener);
-		if(isMyOrCollection == 1){//如果是我的帖子
+		if (isMyOrCollection == 1) {// 如果是我的帖子
 			convertView.setOnLongClickListener(new OnLongClickListener() {
-				
+
 				@Override
 				public boolean onLongClick(View v) {
 					// TODO Auto-generated method stub
-					//当进入我的帖子中时，长按删除当前发的帖子
+					// 当进入我的帖子中时，长按删除当前发的帖子
 					showDeleteEnsureDialog(position);
 					return true;
 				}
@@ -177,8 +180,8 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		holder.indexCommentLinerlayout.setOnClickListener(listener);
 		holder.indexShareLinerlayout.setOnClickListener(listener);
 		// holder.indexProgressbarBtn.setOnClickListener(listener);
-//		holder.indexProgressbarId.setOnClickListener(listener);
-		holder.indexProgressbarBtn.setOnClickListener(listener);
+		// holder.indexProgressbarId.setOnClickListener(listener);
+		holder.indexProgressbarLayout.setOnClickListener(listener);
 		setSubBtn(holder, position);
 		setcontent(holder, position);
 		setAudioState(holder, position);
@@ -186,24 +189,24 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		return convertView;
 	}
 
-	//删除当前帖子，确认提示
+	// 删除当前帖子，确认提示
 	protected void showDeleteEnsureDialog(final int position) {
 		// TODO Auto-generated method stub
 		AlertDialog.Builder builder = new Builder(context);
 		builder.setMessage("确认删除帖子吗？");
 		builder.setTitle("提示");
 		builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				//服务器中删除当前帖子
+				// 服务器中删除当前帖子
 				removeInvitationFromUser(position);
 				dialog.dismiss();
 			}
 		});
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -212,22 +215,24 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		});
 		builder.create().show();
 	}
-	//服务器中删除当前帖子
+
+	// 服务器中删除当前帖子
 	protected void removeInvitationFromUser(final int position) {
 		// TODO Auto-generated method stub
-		Log.i("NoticeListViewAdapter", "当前位置："+position);
-		final Invitation inv = (Invitation)list.get(position).get("invitation");
-		if(inv != null && !TextUtils.isEmpty(inv.getObjectId())){
+		Log.i("NoticeListViewAdapter", "当前位置：" + position);
+		final Invitation inv = (Invitation) list.get(position)
+				.get("invitation");
+		if (inv != null && !TextUtils.isEmpty(inv.getObjectId())) {
 			inv.delete(context, new DeleteListener() {
-				
+
 				@Override
 				public void onSuccess() {
 					// TODO Auto-generated method stub
-					//删除本地帖子(我的帖子和我的收藏)
+					// 删除本地帖子(我的帖子和我的收藏)
 					removeLocalData(inv);
-					//删除本地和服务器上的该帖子的评论
+					// 删除本地和服务器上的该帖子的评论
 					removeRelatedComment(inv);
-//					//删除界面当前帖子
+					// //删除界面当前帖子
 					list.remove(position);
 					notifyDataSetChanged();
 					// 主列表需要刷新
@@ -236,73 +241,74 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 							.commit();
 					Log.i("NoticeListViewAdapter", "删除成功");
 				}
-				
+
 				@Override
 				public void onFailure(int arg0, String arg1) {
 					// TODO Auto-generated method stub
-					Log.i("NoticeListViewAdapter", "删除失败："+arg1);
+					Log.i("NoticeListViewAdapter", "删除失败：" + arg1);
 				}
 			});
 		}
 	}
+
 	/**
-	 * 删除该帖子的评论信息
-	 * 1、获取帖子的所有评论
-	 * 2、根据评论id逐个删除
+	 * 删除该帖子的评论信息 1、获取帖子的所有评论 2、根据评论id逐个删除
+	 * 
 	 * @param inv
 	 */
 	protected void removeRelatedComment(Invitation inv) {
 		// TODO Auto-generated method stub
-		//删除本地评论
+		// 删除本地评论
 		new CommentDao(context).deleteAllComment(inv.getObjectId());
-		//删除服务器评论
+		// 删除服务器评论
 		BmobQuery<Comment> query = new BmobQuery<Comment>();
-//		本来由于设置了外键需要用pointer来获取当前用户的帖子，但由于第一版本限制暂采用老方式
-//		query.addWhereRelatedTo("comment", new BmobPointer(inv));
-		/**********新版本过度获取，由于第一版只能通过id获取**********/
+		// 本来由于设置了外键需要用pointer来获取当前用户的帖子，但由于第一版本限制暂采用老方式
+		// query.addWhereRelatedTo("comment", new BmobPointer(inv));
+		/********** 新版本过度获取，由于第一版只能通过id获取 **********/
 		query.addWhereEqualTo("invId", inv.getObjectId());
-		/**********新版本过度获取，由于第一版只能通过id获取**********/
+		/********** 新版本过度获取，由于第一版只能通过id获取 **********/
 		query.setLimit(1000);
 		query.findObjects(context, new FindListener<Comment>() {
-			
+
 			@Override
 			public void onSuccess(List<Comment> arg0) {
 				// TODO Auto-generated method stub
-				Log.i("NoticeListViewAdapter", "list大小："+arg0.size());
+				Log.i("NoticeListViewAdapter", "list大小：" + arg0.size());
 				List<BmobObject> list = new ArrayList<BmobObject>();
-				for(Comment comment : arg0){
+				for (Comment comment : arg0) {
 					list.add(comment);
 				}
 				deleteComment(list);
 			}
-			
+
 			@Override
 			public void onError(int arg0, String arg1) {
 				// TODO Auto-generated method stub
-				Log.i("NoticeListViewAdapter", "获取comment失败："+arg1);
+				Log.i("NoticeListViewAdapter", "获取comment失败：" + arg1);
 			}
 		});
 	}
-	//逐个删除评论
+
+	// 逐个删除评论
 	private void deleteComment(List<BmobObject> comments) {
 		// TODO Auto-generated method stub
 		new BmobObject().deleteBatch(context, comments, new DeleteListener() {
-			
+
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
 				Log.i("NoticeListViewAdapter", "批量删除成功");
 			}
-			
+
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
-				Log.i("NoticeListViewAdapter", "批量删除失败："+arg1);
+				Log.i("NoticeListViewAdapter", "批量删除失败：" + arg1);
 			}
 		});
 	}
 
-	//删除本地数据库当前用户删除的帖子
+	// 删除本地数据库当前用户删除的帖子
 	protected void removeLocalData(Invitation inv) {
 		// TODO Auto-generated method stub
 		InvitationDao invDao = new InvitationDao(context);
@@ -319,24 +325,28 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		// 地点
 		holder.indexLocalsCountry.setText(list.get(position).get("position")
 				.toString());
-		//地方话
-		holder.home.setText(cityDao.getCityNameById((int)list.get(position).get("home"))+"话");
+		// 地方话
+		holder.home.setText(cityDao.getCityNameById((int) list.get(position)
+				.get("home")) + "话");
 		// 设置昵称和头像
-		setUserInfo(list.get(position).get("uid").toString(),holder.personUserNick,holder.personHeadImg);
-		
+		setUserInfo(list.get(position).get("uid").toString(),
+				holder.personUserNick, holder.personHeadImg);
+
 		// 设置话题帖和普通帖
 		if (1 == (int) list.get(position).get("ishot")) {
-			//帖子底部栏、头像、时间、地方方言、地理位置、录音隐藏，昵称改为“热门话题”
+			// 帖子底部栏、头像、时间、地方方言、地理位置、录音隐藏，昵称改为“热门话题”
 			holder.indexBottomLinearlayout.setVisibility(View.GONE);
 			holder.personHeadImg.setVisibility(View.GONE);
 			holder.indexLocalsTime.setVisibility(View.GONE);
 			holder.home.setVisibility(View.GONE);
 			holder.indexLocalsCountry.setVisibility(View.GONE);
 			holder.indexProgressbarLayout.setVisibility(View.GONE);
+			holder.indexProgressbarTopImg.setVisibility(View.GONE);
 			holder.titleImage.setVisibility(View.GONE);
 			holder.personUserNick.setText("方言话题");
-			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.indexbg));
-		} else {//非方言话题类帖子
+			holder.personUserNick.setTextColor(context.getResources().getColor(
+					R.color.indexbg));
+		} else {// 非方言话题类帖子
 			holder.indexBottomLinearlayout.setVisibility(View.VISIBLE);
 			holder.titleImage.setBackgroundResource(R.drawable.geographical);
 			holder.indexLocalsCountry.setTextColor(context.getResources()
@@ -346,8 +356,10 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 			holder.home.setVisibility(View.VISIBLE);
 			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
 			holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
+			holder.indexProgressbarTopImg.setVisibility(View.VISIBLE);
 			holder.titleImage.setVisibility(View.VISIBLE);
-			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.head_color));
+			holder.personUserNick.setTextColor(context.getResources().getColor(
+					R.color.head_color));
 		}
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
@@ -372,45 +384,52 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 			holder.indexSupportNum.setText("赞");
 		}
 	}
-	
+
 	/**
 	 * 设置item的用户昵称
+	 * 
 	 * @param userName
 	 * @param nameTV
-	 * @param personHeadImg 
+	 * @param personHeadImg
 	 */
-	public void setUserInfo(String uId ,TextView nameTV, ImageButton personHeadImg){
+	public void setUserInfo(String uId, TextView nameTV,
+			ImageButton personHeadImg) {
 		LXHUser user = userDao.getNickAndHeadByUid(uId);
-		if(user != null){//如果本地数据库存在该用户
+		if (user != null) {// 如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
-			mImageLoader.loadCornerImage(context,user.getHeadUrl(), this, personHeadImg);
-		}else{//如果没有再从bmob上取
-			setUserInfoFromBmob(uId,nameTV,personHeadImg);
+			mImageLoader.loadCornerImage(context, user.getHeadUrl(), this,
+					personHeadImg);
+		} else {// 如果没有再从bmob上取
+			setUserInfoFromBmob(uId, nameTV, personHeadImg);
 		}
 	}
-	//从网络获取帖子作者昵称和头像
-	private void setUserInfoFromBmob(final String uId, final TextView nameTV,final ImageButton personHeadImg) {
+
+	// 从网络获取帖子作者昵称和头像
+	private void setUserInfoFromBmob(final String uId, final TextView nameTV,
+			final ImageButton personHeadImg) {
 		// TODO Auto-generated method stub
 		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
 		query.addWhereEqualTo("objectId", uId);
 		query.findObjects(context, new FindListener<LXHUser>() {
-			
+
 			@Override
 			public void onSuccess(List<LXHUser> arg0) {
 				// TODO Auto-generated method stub
-				if(arg0.size() > 0){
+				if (arg0.size() > 0) {
 					nameTV.setText(arg0.get(0).getNickName());
-					mImageLoader.loadCornerImage(context,arg0.get(0).getHeadUrl(), NoticeListViewAdapter.this, personHeadImg);
+					mImageLoader.loadCornerImage(context, arg0.get(0)
+							.getHeadUrl(), NoticeListViewAdapter.this,
+							personHeadImg);
 					userDao.insertUser(arg0.get(0));
-				}else{
-					//没有改用户信息
+				} else {
+					// 没有改用户信息
 				}
 			}
-			
+
 			@Override
 			public void onError(int arg0, String arg1) {
 				// TODO Auto-generated method stub
-				Log.i(TAG, "帖子查找用户失败："+arg1);
+				Log.i(TAG, "帖子查找用户失败：" + arg1);
 			}
 		});
 	}
@@ -442,7 +461,11 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 
 	// 根据音乐是否播放设置item
 	private void setAudioState(final ViewHolder holder, int position) {
-		// TODO Auto-generated method stub
+
+		holder.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable) holder.indexProgressbarBtn
+				.getBackground();
+
 		if (!isAudioPlayArray.get(position, false)) {// 没有播放的
 			if (mHolder != null && mHolder.equals(holder)) {
 				isCurrentItemAudioPlay = false;
@@ -450,19 +473,23 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-//						holder.indexProgressbarId.setProgress(0);
-						
+						// holder.indexProgressbarId.setProgress(0);
+
 					}
 				});
 				holder.indexProgressbarTime.setText((Integer) list
 						.get(position).get("voice_duration") + "s");
+				// holder.indexProgressbarBtn
+				// .setBackgroundResource(R.drawable.play_ico);
+				animationDrawable.stop();// 停止播放
 				holder.indexProgressbarBtn
-						.setBackgroundResource(R.drawable.play_ico);
+						.setBackgroundResource(R.drawable.musicplayone);
 			}
 		} else {// 正在播放的
 			isCurrentItemAudioPlay = true;
-			holder.indexProgressbarBtn
-					.setBackgroundResource(R.drawable.pause_ico);
+			animationDrawable.start();
+			// holder.indexProgressbarBtn
+			// .setBackgroundResource(R.drawable.pause_ico);
 		}
 
 	}
@@ -518,7 +545,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 					dealSupportBtn(holder, position);
 				}
 				break;
-			case R.id.index_progressbar_btn:
+			case R.id.index_progressbar_layout:
 				// Toast.makeText(context, "你点击了录音的播放按钮" + position,
 				// Toast.LENGTH_SHORT).show();
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
@@ -551,7 +578,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		intentComment.putExtra("enterFrom", isMyOrCollection);
 		context.startActivity(intentComment);
 	}
-
 
 	public void dealSupportBtn(ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
@@ -678,11 +704,12 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		private LinearLayout indexCommentLinerlayout;// 评论
 		private LinearLayout indexShareLinerlayout;// 分享
 		private RelativeLayout indexProgressbarLayout;
+		private ImageView indexProgressbarTopImg;// 语音指向头像的的箭头
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageButton personHeadImg;// 头像
-		private TextView personUserNick;//昵称
-		private TextView home;//地方话
+		private TextView personUserNick;// 昵称
+		private TextView home;// 地方话
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
 		private ImageView commentImg;// 评论的图标
@@ -701,6 +728,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	private boolean isPlay = false;
 	private ViewHolder mHolder;// 记录前一个holder，在停止时调用
 	private int lastPosition;// 记录上一个position，在点击播放按钮时判断是否有其它item在播放
+	private AnimationDrawable animationDrawable;// 播放时候用的动画
 
 	// 播放已经录好的音
 	public void playAudio(ViewHolder holder, int position) {
@@ -708,7 +736,13 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		stopAudio(mHolder, lastPosition);
 		// 设置
 		mHolder = holder;
-		mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.pause_ico);
+
+		mHolder.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable) mHolder.indexProgressbarBtn
+				.getBackground();
+		animationDrawable.start();
+		
+		// mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.pause_ico);
 		isPlay = true;
 		isCurrentItemAudioPlay = true;
 		Log.i("ListViewAdapter", "1:" + isCurrentItemAudioPlay);
@@ -770,12 +804,14 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-//					holder.indexProgressbarId.setProgress(0);
+					// holder.indexProgressbarId.setProgress(0);
 				}
 			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
-			holder.indexProgressbarBtn
-					.setBackgroundResource(R.drawable.play_ico);
+//			holder.indexProgressbarBtn
+//					.setBackgroundResource(R.drawable.play_ico);
+			animationDrawable.stop();
+			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 		}
 		if (mCountDownTimer != null) {
 			mCountDownTimer.cancel();
@@ -829,7 +865,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				if (mCount <= progrocessMax) {
 					mCount++;
 					if (isCurrentItemAudioPlay) {
-//						mHolder.indexProgressbarId.setProgress(mCount);
+						// mHolder.indexProgressbarId.setProgress(mCount);
 					}
 				} else {
 					mHandler.sendEmptyMessage(0);
@@ -848,11 +884,13 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				// 进度条走完
 				mCount = 0;
 				mProgressTimer.cancel();
-//				mHolder.indexProgressbarId.setProgress(0);
+				// mHolder.indexProgressbarId.setProgress(0);
 				if (isCurrentItemAudioPlay) {
 					mHolder.indexProgressbarTime.setText(voiceDuration + "s");
-					mHolder.indexProgressbarBtn
-							.setBackgroundResource(R.drawable.play_ico);
+//					mHolder.indexProgressbarBtn
+//							.setBackgroundResource(R.drawable.play_ico);
+					animationDrawable.stop();
+					mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 				}
 				isAudioPlayArray.put(lastPosition, false);
 				isPlay = false;
