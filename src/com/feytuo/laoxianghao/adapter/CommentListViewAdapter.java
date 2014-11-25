@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -48,7 +50,6 @@ import com.feytuo.laoxianghao.view.MyDialog;
  * 
  * @author feytuo
  * 
- * 
  */
 public class CommentListViewAdapter extends BaseAdapter {
 	private Context context;
@@ -62,7 +63,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	private SparseArray<Boolean> isAudioPlayArray;
 	private boolean isPraised;
-	
+
 	private LXHUserDao userDao;
 	private CityDao cityDao;
 	private ImageLoader mImageLoader;
@@ -127,16 +128,20 @@ public class CommentListViewAdapter extends BaseAdapter {
 		switch (type) {
 		case TYPE_1:
 			if (convertView == null) {
-				convertView = m_Inflater.inflate(R.layout.index_listview,
-						null);// 同样是将布局转化成view
+				convertView = m_Inflater.inflate(R.layout.index_listview, null);// 同样是将布局转化成view
 				holder1 = new viewHolder1();
 				holder1.indexSupportLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_support_linerlayout);
 
 				holder1.indexShareLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_share_linerlayout);
+
 				holder1.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
+				holder1.indexProgressbarTopImg = (ImageView) convertView
+						.findViewById(R.id.index_progressbar_top_img);
+				holder1.indexProgressbarLayout = (RelativeLayout) convertView
+						.findViewById(R.id.index_progressbar_layout);
 
 				holder1.titleImage = (ImageView) convertView
 						.findViewById(R.id.title_img_id);
@@ -171,21 +176,26 @@ public class CommentListViewAdapter extends BaseAdapter {
 			}
 			break;
 		case TYPE_2:
-			// if (ViewArray.get(position) == null) {
+
 			if (convertView == null) {
-				convertView = m_Inflater.inflate(R.layout.comment_item_copy, null);
+				convertView = m_Inflater.inflate(R.layout.comment_item_copy,
+						null);
 				// 实例化holder以及控件
 				holder2 = new viewHolder2();
 				holder2.commentUserHead = (ImageView) convertView
-						.findViewById(R.id.comment_user_head);
+						.findViewById(R.id.comment_floor);
 				holder2.commentPosition = (TextView) convertView
 						.findViewById(R.id.comment_position);
 				holder2.commentTime = (TextView) convertView
-						.findViewById(R.id.comment_time);
+						.findViewById(R.id.comment_time_date);
 				holder2.commentTextContext = (TextView) convertView
 						.findViewById(R.id.comment_text_context);
 				holder2.commentPlayId = (Button) convertView
 						.findViewById(R.id.comment_play_btn);
+				holder2.commentMusicBottomBg = (RelativeLayout) convertView
+						.findViewById(R.id.comment_music_bottom_bg);
+				holder2.commentMusicTopBg = (ImageView) convertView
+						.findViewById(R.id.comment_music_top_bg);
 				convertView.setTag(holder2);
 				// 用容器将已经实例化的convertView保存用于获取里面给的控件
 			} else {
@@ -203,34 +213,37 @@ public class CommentListViewAdapter extends BaseAdapter {
 			holder1.indexSupportLinerlayout.setOnClickListener(listener);
 			holder1.indexShareLinerlayout.setOnClickListener(listener);
 			// holder1.indexProgressbarBtn.setOnClickListener(listener);
-			holder1.indexProgressbarBtn.setOnClickListener(listener);
+			holder1.indexProgressbarLayout.setOnClickListener(listener);
 			break;
 		case TYPE_2:
-			setAudioPlayBtn(holder2.commentPlayId, position);
+			setAudioPlayBtn(holder2,holder2.commentPlayId, position);
 			Map<String, ?> map = data.get(position - 1);
-			
 			holder2.commentPosition.setText(map.get("com_position") + "");
 			holder2.commentTime.setText(map.get("com_time") + "");
 			holder2.commentTextContext.setText(map.get("com_words") + "");
-			holder2.commentPlayId
-					.setOnClickListener(new AudioListener(position));
+			holder2.commentMusicBottomBg.setOnClickListener(new AudioListener(position));
 			break;
 		}
 		return convertView;
 
 	}
 
-	private void setAudioPlayBtn(Button btn, int position) {
+	private void setAudioPlayBtn(viewHolder2 holder,Button btn, int position) {
 		// 播放时的修改
 		if (isAudioPlayArray.get(position, false)) {
-			btn.setBackgroundResource(R.drawable.comment_audio_play);
+			btn.setBackgroundResource(R.drawable.musicplayone);
 		} else {
-			btn.setBackgroundResource(R.drawable.comment_audio_selector);
+			btn.setBackgroundResource(R.drawable.musicplaytwo);
 		}
 		// 初始化时
 		if ("".equals(data.get(position - 1).get("com_voice").toString())) {
+			holder.commentMusicBottomBg.setVisibility(View.GONE);
+			holder.commentMusicTopBg.setVisibility(View.GONE);
 			btn.setVisibility(View.INVISIBLE);
+			
 		} else {
+			holder.commentMusicBottomBg.setVisibility(View.VISIBLE);
+			holder.commentMusicTopBg.setVisibility(View.VISIBLE);
 			btn.setVisibility(View.VISIBLE);
 		}
 	}
@@ -240,8 +253,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 		holder.indexTextDescribe.setText(inv.getWords());
 		holder.indexLocalsCountry.setText(inv.getPosition());
 		holder.indexLocalsTime.setText(inv.getTime());
-		//地方话
-		holder.home.setText(cityDao.getCityNameById(inv.getHome())+"话");
+		// 地方话
+		holder.home.setText(cityDao.getCityNameById(inv.getHome()) + "话");
 		holder.indexProgressbarTime.setText(inv.getVoiceDuration() + "s");
 		if (1 == inv.getIsHot()) {
 			holder.titleImage.setVisibility(View.GONE);
@@ -249,7 +262,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 			holder.home.setVisibility(View.GONE);
 			// 设置头像、昵称
 			holder.personUserNick.setText("乡乡话题");
-			CommonUtils.corner(context, R.drawable.ic_launcher, holder.personHeadImg);
+			CommonUtils.corner(context, R.drawable.ic_launcher,
+					holder.personHeadImg);
 		} else {
 			holder.titleImage.setVisibility(View.VISIBLE);
 			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
@@ -258,7 +272,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 			holder.indexLocalsCountry.setTextColor(context.getResources()
 					.getColor(R.color.indexbg));
 			// 设置头像、昵称
-			setUserInfo(inv.getuId(),holder.personUserNick,holder.personHeadImg);
+			setUserInfo(inv.getuId(), holder.personUserNick,
+					holder.personHeadImg);
 		}
 		if (inv.getPraiseNum() > 0) {
 			holder.indexSupportNum.setText(inv.getPraiseNum() + "");
@@ -275,17 +290,20 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	/**
 	 * 设置item的用户昵称
+	 * 
 	 * @param userName
 	 * @param nameTV
-	 * @param personHeadImg 
+	 * @param personHeadImg
 	 */
-	public void setUserInfo(String uId ,TextView nameTV, ImageButton personHeadImg){
+	public void setUserInfo(String uId, TextView nameTV,
+			ImageButton personHeadImg) {
 		LXHUser user = userDao.getNickAndHeadByUid(uId);
-		if(user != null){//如果本地数据库存在该用户
+		if (user != null) {// 如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
 			mImageLoader.loadCornerImage(user.getHeadUrl(), this, personHeadImg);
 		}
 	}
+
 	// 设置点赞等图片按钮
 	private void setSubBtn(viewHolder1 holder, Invitation inv) {
 		String invId = inv.getObjectId();
@@ -305,7 +323,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 		return new PraiseDao(context).selectPraiseInvitation(invId, uId);
 	}
 
-
 	class AudioListener implements OnClickListener {
 		private int position;
 
@@ -317,7 +334,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.comment_play_btn:
+			case R.id.comment_music_bottom_bg:
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
 					Log.i("playAudioComment", "点击了:" + position);
 					if (lastPosition == position) {
@@ -346,14 +363,19 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	// 播放已经录好的音
 	private void playAudio(final View v, final int position) {
-		stopInvitationAudio();//当播放评论录音时，确保帖子录音时关闭的
+		stopInvitationAudio();// 当播放评论录音时，确保帖子录音时关闭的
 		stopAudio(lastView, lastPosition);
 		lastView = v;
 		lastPosition = position;
 		isPlay = true;
 		// 解决按钮状态也被重用的问题
 		isAudioPlayArray.put(position, true);
-		v.setBackgroundResource(R.drawable.comment_audio_play);
+		
+//		v.setBackgroundResource(R.drawable.comment_audio_play);
+		v.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable)v.getBackground();
+		animationDrawable.start();
+		
 		String fileUrl = data.get(position - 1).get("com_voice").toString();
 		// 点击播放而已
 		try {
@@ -395,7 +417,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		isPlay = false;
 		if (v != null) {
-			v.setBackgroundResource(R.drawable.comment_audio_selector);
+//			v.setBackgroundResource(R.drawable.comment_audio_selector);
+			animationDrawable.stop();
 		}
 		isAudioPlayArray.put(position, false);
 		if (mp != null && mp.isPlaying()) {
@@ -411,11 +434,13 @@ public class CommentListViewAdapter extends BaseAdapter {
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageButton personHeadImg;// 头像
-		private TextView personUserNick;//昵称
-		private TextView home;//地方话
+		private TextView personUserNick;// 昵称
+		private TextView home;// 地方话
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
 		private ImageView commentImg;// 评论的图标
+		private RelativeLayout indexProgressbarLayout;// 录音的背景
+		private ImageView indexProgressbarTopImg;// 录音指向用户头像的背景
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
 		private TextView indexProgressbarTime;
 		private TextView indexTextDescribe;// 帖子内容文字
@@ -429,6 +454,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 		TextView commentTime; // 评论的时间
 		TextView commentTextContext; // 评论的文字内容
 		Button commentPlayId;// 语言的按钮
+		RelativeLayout commentMusicBottomBg;// 评论中的背景；
+		ImageView commentMusicTopBg;// 评论中指向用户头像的背景
 	}
 
 	class Listener implements OnClickListener {
@@ -456,7 +483,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 					dealSupportBtn(holder);
 				}
 				break;
-			case R.id.index_progressbar_btn:
+			case R.id.index_progressbar_layout:
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
 					if (!isInvitationPlay) {
 						playInvitationAudio(holder);// 播放语音
@@ -471,7 +498,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 		}
 
 	}
-
 
 	public void dealSupportBtn(viewHolder1 holder) {
 		// TODO Auto-generated method stub
@@ -562,15 +588,20 @@ public class CommentListViewAdapter extends BaseAdapter {
 	private int mCount = 0;// 进度条度数
 	private MediaPlayer mMeidaPlayer;
 	private viewHolder1 mHolder1;// 记录前一个holder，在停止时调用
+	private AnimationDrawable animationDrawable;
 
 	private void playInvitationAudio(viewHolder1 holder) {
 		// TODO Auto-generated method stub
-		stopAudio();//播放帖子录音时确保评论录音已经关闭
+		stopAudio();// 播放帖子录音时确保评论录音已经关闭
 		stopInvitationAudio(mHolder1);
 		// 重新获得
 		mHolder1 = holder;
-		mHolder1.indexProgressbarBtn
-				.setBackgroundResource(R.drawable.pause_ico);
+
+		mHolder1.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable) mHolder1.indexProgressbarBtn
+				.getBackground();
+		animationDrawable.start();
+
 		isInvitationPlay = true;
 		String audioUrl = inv.getVoice();
 		voiceDuration = inv.getVoiceDuration();
@@ -623,13 +654,14 @@ public class CommentListViewAdapter extends BaseAdapter {
 			mHandler.post(new Runnable() {
 				@Override
 				public void run() {
-//					// TODO Auto-generated method stub
-//					holder.indexProgressbarId.setProgress(0);
+					// // TODO Auto-generated method stub
+					// holder.indexProgressbarId.setProgress(0);
 				}
 			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
+			animationDrawable.stop();
 			holder.indexProgressbarBtn
-					.setBackgroundResource(R.drawable.play_ico);
+					.setBackgroundResource(R.drawable.musicplayone);
 		}
 		if (mCountDownTimer != null) {
 			mCountDownTimer.cancel();
@@ -667,7 +699,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 	// /进度条的处理
 	private void showIndeterDialog(int processtime) {
 		final int newprocesstime = processtime;
-		final int progrocessMax = 1000;;
+		final int progrocessMax = 1000;
+		;
 		mProgressTimer = new Timer();
 		mProgressTimer.schedule(new TimerTask() {
 
@@ -701,8 +734,9 @@ public class CommentListViewAdapter extends BaseAdapter {
 				mCount = 0;
 				mProgressTimer.cancel();
 				mHolder1.indexProgressbarTime.setText(voiceDuration + "s");
+				animationDrawable.stop();
 				mHolder1.indexProgressbarBtn
-						.setBackgroundResource(R.drawable.play_ico);
+						.setBackgroundResource(R.drawable.musicplayone);
 				isInvitationPlay = false;
 			}
 			super.handleMessage(msg);
