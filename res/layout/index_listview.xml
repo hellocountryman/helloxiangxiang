@@ -13,11 +13,11 @@
             android:id="@+id/index_user_head"
             android:layout_width="48.0dip"
             android:layout_height="48.0dip"
-            android:layout_marginTop="8.0dip"
             android:layout_marginBottom="8.0dip"
             android:clickable="true"
             android:contentDescription="@string/app_name"
             android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginTop="8.0dip"
             android:background="@drawable/ic_launcher" />
 
         <TextView
@@ -49,28 +49,38 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="8.0dip"
             android:layout_marginRight="16.0dip"
+            android:layout_marginTop="8.0dip"
             android:text="中山话"
             android:textColor="@color/grey"
             android:textSize="14sp" />
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/index_progressbar_top_img"
+        android:layout_width="match_parent"
+        android:layout_height="6.0dip"
+        android:layout_marginLeft="@dimen/margin_left_right"
+        android:layout_marginRight="@dimen/margin_left_right" 
+        android:background="@drawable/music_bg_top"/>
+
     <RelativeLayout
         android:id="@+id/index_progressbar_layout"
         android:layout_width="match_parent"
         android:layout_height="40.0dip"
+        android:clickable="true"
         android:layout_marginBottom="8.0dip"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:background="@drawable/musicback" >
+        android:background="@drawable/music_bg_button" >
 
         <ImageButton
             android:id="@+id/index_progressbar_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="16.0dip"
-            android:layout_marginTop="13.0dip"
+            android:clickable="false"
             android:background="@drawable/musicplayone" />
 
         <TextView
@@ -78,8 +88,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="16.0dip"
-            android:layout_marginTop="18.0dip"
             android:text="32s"
             android:textColor="@color/indexbg"
             android:textSize="12.0sp" />

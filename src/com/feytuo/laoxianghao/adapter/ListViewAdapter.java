@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.CountDownTimer;
@@ -58,7 +59,7 @@ import com.feytuo.laoxianghao.view.MyDialog;
  */
 @SuppressLint({ "HandlerLeak", "UseSparseArrays" })
 public class ListViewAdapter extends SimpleAdapter {
-	
+
 	private final String TAG = "ListViewAdapter";
 	private Context context;
 	private LayoutInflater m_Inflater;
@@ -68,14 +69,13 @@ public class ListViewAdapter extends SimpleAdapter {
 	private SparseArray<Boolean> collectionMap;// 标记收藏对象
 	private SparseArray<Boolean> isAudioPlayArray;// 记录是否正在播放音乐
 	private boolean isCurrentItemAudioPlay;
-	
+
 	private LXHUserDao userDao;
 	private CityDao cityDao;
 	private ImageLoader mImageLoader;
 
-	public ListViewAdapter(Context context,
-			List<Map<String, Object>> data, int resource, String[] from,
-			int[] to) {
+	public ListViewAdapter(Context context, List<Map<String, Object>> data,
+			int resource, String[] from, int[] to) {
 		super(context, data, resource, from, to);
 		this.list = data;
 		this.context = context;
@@ -108,6 +108,8 @@ public class ListViewAdapter extends SimpleAdapter {
 						.findViewById(R.id.index_comment_linerlayout);
 				holder.indexShareLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_share_linerlayout);
+				holder.indexProgressbarTopImg = (ImageView) convertView
+						.findViewById(R.id.index_progressbar_top_img);
 				holder.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_progressbar_layout);
 				holder.indexProgressbarBtn = (ImageButton) convertView
@@ -149,7 +151,7 @@ public class ListViewAdapter extends SimpleAdapter {
 		holder.indexSupportLinerlayout.setOnClickListener(listener);
 		holder.indexCommentLinerlayout.setOnClickListener(listener);
 		holder.indexShareLinerlayout.setOnClickListener(listener);
-		holder.indexProgressbarBtn.setOnClickListener(listener);
+		holder.indexProgressbarLayout.setOnClickListener(listener);
 		setSubBtn(holder, position);
 		setcontent(holder, position);
 		setAudioState(holder, position);
@@ -158,7 +160,11 @@ public class ListViewAdapter extends SimpleAdapter {
 
 	// 根据音乐是否播放设置item
 	private void setAudioState(final ViewHolder holder, final int position) {
-		// TODO Auto-generated method stub
+
+		holder.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable) holder.indexProgressbarBtn
+				.getBackground();
+
 		if (!isAudioPlayArray.get(position, false)) {// 没有播放的
 			if (mHolder != null && mHolder.equals(holder)) {
 				isCurrentItemAudioPlay = false;
@@ -173,14 +179,18 @@ public class ListViewAdapter extends SimpleAdapter {
 				});
 				holder.indexProgressbarTime.setText((Integer) list
 						.get(position).get("voice_duration") + "s");
-				holder.indexProgressbarBtn
-						.setBackgroundResource(R.drawable.play_ico);
-
+				Log.i("tangpeng", "stop");
+				// holder.indexProgressbarBtn
+				// .setBackgroundResource(R.drawable.musicplayone);
+				// AnimationDrawable animationDrawable = (AnimationDrawable)
+				// mHolder.indexProgressbarBtn
+				// .getBackground();
+				animationDrawable.stop();
+				 holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 			}
 		} else {// 正在播放的
 			isCurrentItemAudioPlay = true;
-			holder.indexProgressbarBtn
-					.setBackgroundResource(R.drawable.pause_ico);
+			animationDrawable.start();
 		}
 	}
 
@@ -192,24 +202,28 @@ public class ListViewAdapter extends SimpleAdapter {
 		// 地点
 		holder.indexLocalsCountry.setText(list.get(position).get("position")
 				.toString());
-		//地方话
-		holder.home.setText(cityDao.getCityNameById((int)list.get(position).get("home"))+"话");
+		// 地方话
+		holder.home.setText(cityDao.getCityNameById((int) list.get(position)
+				.get("home")) + "话");
 		// 设置昵称和头像
-		setUserInfo(list.get(position).get("uid").toString(),holder.personUserNick,holder.personHeadImg);
-		
+		setUserInfo(list.get(position).get("uid").toString(),
+				holder.personUserNick, holder.personHeadImg);
+
 		// 设置话题帖和普通帖
 		if (1 == (int) list.get(position).get("ishot")) {
-			//帖子底部栏、头像、时间、地方方言、地理位置、录音隐藏，昵称改为“热门话题”
+			// 帖子底部栏、头像、时间、地方方言、地理位置、录音隐藏，昵称改为“热门话题”
 			holder.indexBottomLinearlayout.setVisibility(View.GONE);
 			holder.personHeadImg.setVisibility(View.GONE);
 			holder.indexLocalsTime.setVisibility(View.GONE);
 			holder.home.setVisibility(View.GONE);
 			holder.indexLocalsCountry.setVisibility(View.GONE);
+			holder.indexProgressbarTopImg.setVisibility(View.GONE);
 			holder.indexProgressbarLayout.setVisibility(View.GONE);
 			holder.titleImage.setVisibility(View.GONE);
 			holder.personUserNick.setText("方言话题");
-			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.indexbg));
-		} else {//非方言话题类帖子
+			holder.personUserNick.setTextColor(context.getResources().getColor(
+					R.color.indexbg));
+		} else {// 非方言话题类帖子
 			holder.indexBottomLinearlayout.setVisibility(View.VISIBLE);
 			holder.titleImage.setBackgroundResource(R.drawable.geographical);
 			holder.indexLocalsCountry.setTextColor(context.getResources()
@@ -218,9 +232,11 @@ public class ListViewAdapter extends SimpleAdapter {
 			holder.indexLocalsTime.setVisibility(View.VISIBLE);
 			holder.home.setVisibility(View.VISIBLE);
 			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
+			holder.indexProgressbarTopImg.setVisibility(View.VISIBLE);
 			holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
 			holder.titleImage.setVisibility(View.VISIBLE);
-			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.head_color));
+			holder.personUserNick.setTextColor(context.getResources().getColor(
+					R.color.head_color));
 		}
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
@@ -277,45 +293,51 @@ public class ListViewAdapter extends SimpleAdapter {
 	private boolean isPraised(String invId, String uId) {
 		return new PraiseDao(context).selectPraiseInvitation(invId, uId);
 	}
-	
+
 	/**
 	 * 设置item的用户昵称
+	 * 
 	 * @param userName
 	 * @param nameTV
-	 * @param personHeadImg 
+	 * @param personHeadImg
 	 */
-	public void setUserInfo(String uId ,TextView nameTV, ImageButton personHeadImg){
+	public void setUserInfo(String uId, TextView nameTV,
+			ImageButton personHeadImg) {
 		LXHUser user = userDao.getNickAndHeadByUid(uId);
-		if(user != null){//如果本地数据库存在该用户
+		if (user != null) {// 如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
-			mImageLoader.loadCornerImage(context,user.getHeadUrl(), this, personHeadImg);
-		}else{//如果没有再从bmob上取
-			setUserInfoFromBmob(uId,nameTV,personHeadImg);
+			mImageLoader.loadCornerImage(context, user.getHeadUrl(), this,
+					personHeadImg);
+		} else {// 如果没有再从bmob上取
+			setUserInfoFromBmob(uId, nameTV, personHeadImg);
 		}
 	}
-	//从网络获取帖子作者昵称和头像
-	private void setUserInfoFromBmob(final String uId, final TextView nameTV,final ImageButton personHeadImg) {
+
+	// 从网络获取帖子作者昵称和头像
+	private void setUserInfoFromBmob(final String uId, final TextView nameTV,
+			final ImageButton personHeadImg) {
 		// TODO Auto-generated method stub
 		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
 		query.addWhereEqualTo("objectId", uId);
 		query.findObjects(context, new FindListener<LXHUser>() {
-			
+
 			@Override
 			public void onSuccess(List<LXHUser> arg0) {
 				// TODO Auto-generated method stub
-				if(arg0.size() > 0){
+				if (arg0.size() > 0) {
 					nameTV.setText(arg0.get(0).getNickName());
-					mImageLoader.loadCornerImage(context,arg0.get(0).getHeadUrl(), ListViewAdapter.this, personHeadImg);
+					mImageLoader.loadCornerImage(context, arg0.get(0)
+							.getHeadUrl(), ListViewAdapter.this, personHeadImg);
 					userDao.insertUser(arg0.get(0));
-				}else{
-					//没有改用户信息
+				} else {
+					// 没有改用户信息
 				}
 			}
-			
+
 			@Override
 			public void onError(int arg0, String arg1) {
 				// TODO Auto-generated method stub
-				Log.i(TAG, "帖子查找用户失败："+arg1);
+				Log.i(TAG, "帖子查找用户失败：" + arg1);
 			}
 		});
 	}
@@ -336,7 +358,7 @@ public class ListViewAdapter extends SimpleAdapter {
 
 			switch (v.getId()) {
 			case R.id.index_user_head:
-				//跳转到查看别人的个人中心
+				// 跳转到查看别人的个人中心
 				Log.i("tangpeng", "查看他人的消息");
 				String invId = list.get(position).get("inv_id").toString();
 				Intent intentToPerson = new Intent();
@@ -363,7 +385,7 @@ public class ListViewAdapter extends SimpleAdapter {
 					}
 				}
 				break;
-			case R.id.index_progressbar_btn:
+			case R.id.index_progressbar_layout:
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
 					if (lastPosition == position) {
 						if (!isPlay) {
@@ -382,7 +404,7 @@ public class ListViewAdapter extends SimpleAdapter {
 				break;
 			default:
 				if (App.isLogin()) {
-					turnToComment(holder,position);
+					turnToComment(holder, position);
 				}
 				break;
 			}
@@ -390,7 +412,7 @@ public class ListViewAdapter extends SimpleAdapter {
 	}
 
 	// 跳转到评论页面
-	private void turnToComment(ViewHolder holder,int position) {
+	private void turnToComment(ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
 		String invId = list.get(position).get("inv_id").toString();
 		Intent intentComment = new Intent();
@@ -488,12 +510,13 @@ public class ListViewAdapter extends SimpleAdapter {
 		private LinearLayout indexSupportLinerlayout;// 赞
 		private LinearLayout indexCommentLinerlayout;// 评论
 		private LinearLayout indexShareLinerlayout;// 分享
-		private RelativeLayout indexProgressbarLayout;
+		private RelativeLayout indexProgressbarLayout;// 点击录音的布局
+		private ImageView indexProgressbarTopImg;// 录音的布局上面指向头像的那块布局
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageButton personHeadImg;// 头像
-		private TextView personUserNick;//昵称
-		private TextView home;//地方话
+		private TextView personUserNick;// 昵称
+		private TextView home;// 地方话
 		private TextView indexSupportNum;// 点赞数
 		private TextView indexCommentNum;// 评论数
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
@@ -510,6 +533,7 @@ public class ListViewAdapter extends SimpleAdapter {
 	private boolean isPlay = false;
 	private ViewHolder mHolder;// 记录前一个holder，在停止时调用
 	private int lastPosition;// 记录上一个position，在点击播放按钮时判断是否有其它item在播放
+	private AnimationDrawable animationDrawable;
 
 	// 播放已经录好的音
 	public void playAudio(ViewHolder holder, int position) {
@@ -517,7 +541,11 @@ public class ListViewAdapter extends SimpleAdapter {
 		stopAudio(mHolder, lastPosition);
 		// 设置
 		mHolder = holder;
-		mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.pause_ico);
+		// mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.pause_ico);
+		mHolder.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable) mHolder.indexProgressbarBtn
+				.getBackground();
+		animationDrawable.start();
 
 		isPlay = true;
 		isCurrentItemAudioPlay = true;
@@ -586,8 +614,8 @@ public class ListViewAdapter extends SimpleAdapter {
 				}
 			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
-			holder.indexProgressbarBtn
-					.setBackgroundResource(R.drawable.play_ico);
+			animationDrawable.stop();
+			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 		}
 		if (mCountDownTimer != null) {
 			mCountDownTimer.cancel();
@@ -612,6 +640,7 @@ public class ListViewAdapter extends SimpleAdapter {
 			// 完成的时候提示
 			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(0 + "s");
+				mHandler.sendEmptyMessage(0);
 			}
 
 		}
@@ -663,19 +692,17 @@ public class ListViewAdapter extends SimpleAdapter {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
-				// 进度条走完
-				mProgressTimer.cancel();
-				// mHolder.indexProgressbarId.setProgress(0);
 				if (isCurrentItemAudioPlay) {
 					mHolder.indexProgressbarTime.setText(voiceDuration + "s");
-					mHolder.indexProgressbarBtn
-							.setBackgroundResource(R.drawable.play_ico);
+					animationDrawable.stop();
+					mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 				}
 				isAudioPlayArray.put(lastPosition, false);
 				isPlay = false;
 			}
 			super.handleMessage(msg);
 		}
+
 	};
 
 }
