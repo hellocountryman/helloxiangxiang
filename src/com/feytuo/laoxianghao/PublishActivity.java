@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
@@ -20,8 +21,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.datatype.BmobFile;
@@ -46,14 +48,15 @@ import com.umeng.analytics.MobclickAgent;
 public class PublishActivity extends Activity {
 
 	private Button publishButton;// 发布按钮
-	private Button publishRerecordButton;// 录音之后可以取消录音按钮
+	private ImageView publishRerecordButton;// 录音之后可以取消录音按钮
 	private ImageView publishPlayRecordImgbutton;// 录音之后进度条中出现播放按钮
 	private TextView publishHint;// 进度条中显示的文字提醒
 	private TextView publishRecordTime;
 	private TextView publishTitleLocation;
 	private TextView publishText;
 	private ImageView headImage;
-
+	private LinearLayout publishRecordingLinear;//点击录音的时候出现动画提示，
+	private ImageView  publishRecordingImg;////点击录音的时候出现动画提示，
 	private MediaPlayer mp = new MediaPlayer();
 	private String fileAudioName; // 保存的音频文件的名字
 	private MediaRecorder mediaRecorder; // 录音控制
@@ -69,7 +72,7 @@ public class PublishActivity extends Activity {
 	/**
 	 * 进度条
 	 */
-	private ProgressBar progress = null;
+	private	 Button progress = null;
 	/**
 	 * 当前进度的值
 	 */
@@ -114,21 +117,19 @@ public class PublishActivity extends Activity {
 		headChooseDialog = new HeadChooseDialog(this, R.style.MyDialog);
 		
 		listener listenerlist = new listener();
-		progress = (ProgressBar) findViewById(R.id.progressbar_id);
+		publishRecordingLinear=(LinearLayout)findViewById(R.id.publish_recording_linear);
+		publishRecordingImg=(ImageView)findViewById(R.id.publish_recording_img);
+		progress = (Button) findViewById(R.id.progressbar_id);
 		publishText = (TextView) findViewById(R.id.publish_text);
 		publishHint = (TextView) findViewById(R.id.publish_hint);
 		publishRecordTime = (TextView) findViewById(R.id.publish_record_time);
 		publishButton = (Button) findViewById(R.id.publish_button);
-		publishRerecordButton = (Button) findViewById(R.id.publish_rerecord_button);
+		publishRerecordButton = (ImageView) findViewById(R.id.publish_rerecord_button);
 		publishPlayRecordImgbutton = (ImageView) findViewById(R.id.publish_play_record_imgbutton);
-		headImage = (ImageView) findViewById(R.id.person_head_img);
-
-
 		progress.setOnClickListener(listenerlist);
 		publishButton.setOnClickListener(listenerlist);
 		publishRerecordButton.setOnClickListener(listenerlist);
 		publishPlayRecordImgbutton.setOnClickListener(listenerlist);
-		headImage.setOnClickListener(listenerlist);
 
 	}
 
@@ -186,18 +187,11 @@ public class PublishActivity extends Activity {
 			case R.id.publish_button: // 发布按钮
 				savePublish();
 				break;
-			case R.id.person_head_img://选择头像
-				chooseHead();
-				break;
 			}
 		}
 
 	}
-	//选择大头贴
-	public void chooseHead() {
-		// TODO Auto-generated method stub
-		headChooseDialog.show();
-	}
+
 	//设置大头贴
 	public void setHeadImg(int headResource){
 		headImage.setBackgroundResource(headResource);
@@ -340,12 +334,21 @@ public class PublishActivity extends Activity {
 			dialog.dismiss();
 		}
 	}
+	private AnimationDrawable animationDrawable;
 
 	/*
 	 * 
 	 * 开始录音
 	 */
 	private void startAudio() {
+
+		publishRecordingLinear.setVisibility(View.VISIBLE);//显示出录音时候的动画
+		publishRecordingImg.setBackgroundResource(R.anim.frame_comment_anim);// 正在录音的动画
+		publishHint.setText("点击结束");
+		animationDrawable = (AnimationDrawable) publishRecordingImg
+				.getBackground();
+		animationDrawable.start();
+		progress.setBackgroundResource(R.drawable.comment_record_press);
 		publishRerecordButton.setVisibility(View.INVISIBLE);
 		publishButton.setBackgroundResource(R.drawable.publish_btn_no);
 		publishButton.setTextColor(getResources().getColor(
@@ -380,7 +383,6 @@ public class PublishActivity extends Activity {
 			});
 			mediaRecorder.prepare();
 			mediaRecorder.start();
-			publishHint.setText("再点一下结束录音");
 
 			fileAudio = new File(filePath + "/" + fileAudioName);
 			isLuYin = true;
@@ -399,6 +401,10 @@ public class PublishActivity extends Activity {
 	 * 停止录制
 	 */
 	private void stopAudio() {
+		animationDrawable.stop();
+		publishRecordingLinear.setVisibility(View.GONE);//显示出录音时候的动画
+		publishHint.setText("点击试听");
+		progress.setBackgroundResource(R.drawable.comment_record_press);
 		publishButton.setBackgroundResource(R.drawable.corners_storke_white);
 		publishButton.setTextColor(getResources().getColor(R.color.white));
 		publishButton.setClickable(true);
@@ -412,7 +418,6 @@ public class PublishActivity extends Activity {
 			mCountUpTimer.cancel();
 			// 设置UI
 			publishPlayRecordImgbutton.setVisibility(View.VISIBLE);// 播放和重录的功能按钮显示
-			publishHint.setVisibility(View.GONE);
 			publishRerecordButton.setVisibility(View.VISIBLE);
 		}
 	}
@@ -420,7 +425,7 @@ public class PublishActivity extends Activity {
 	// 播放已经录好的音
 	private void playAudio() {
 		// 设置ui
-		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.pause_ico);
+//		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.pause_ico);
 		publishRerecordButton.setVisibility(View.INVISIBLE);
 		isReplay = true;
 		// 点击播放而已
@@ -437,7 +442,6 @@ public class PublishActivity extends Activity {
 			mCountDownTimer.start();
 			// 显示进度条
 			// showIndeterDialog(mp.getDuration() / 1000);
-			showIndeterDialog(mRecordTime);
 			// //
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -472,13 +476,14 @@ public class PublishActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				progress.setProgress(0);
+//				progress.setProgress(0);
 			}
 		});
-		Log.i("progress", "progress:"+progress.getProgress());
+//		Log.i("progress", "progress:"+progress.getProgress());
+		publishHint.setText("点击继续");
 		publishRecordTime.setText(mRecordTime + "s");
 		publishRerecordButton.setVisibility(View.VISIBLE);
-		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.play_ico);
+//		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.play_ico);
 		isReplay = false;
 	}
 
@@ -507,6 +512,7 @@ public class PublishActivity extends Activity {
 		public void onFinish() {
 			// 完成的时候提示
 			publishRecordTime.setText(0 + "s");
+			publishHint.setText("点击试听");
 		}
 
 		@Override
@@ -516,29 +522,7 @@ public class PublishActivity extends Activity {
 		}
 	}
 
-	// /进度条的处理
-	private void showIndeterDialog(int processtime) {
-		final long newprocesstime = processtime;
-		final int progrocessMax = 1000;
-		progress.setMax(progrocessMax);
-		progress.setProgress(0);
-		progress.setIndeterminate(false);
-		mProgressTimer = new Timer();
-		mProgressTimer.schedule(new TimerTask() {
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if (mCount <= progrocessMax) {
-					mCount++;
-					progress.setProgress(mCount);
-				} else {
-					mHandler.sendEmptyMessage(0);
-				}
-			}
-		}, 0l, newprocesstime);
-
-	}
 
 	/**
 	 * 计时器
@@ -567,11 +551,10 @@ public class PublishActivity extends Activity {
 				// 进度条走完
 				mCount = 0;
 				mProgressTimer.cancel();
-				progress.setProgress(0);
 				publishRerecordButton.setVisibility(View.VISIBLE);
 				publishRecordTime.setText(mRecordTime + "s");
-				publishPlayRecordImgbutton
-						.setBackgroundResource(R.drawable.play_ico);
+//				publishPlayRecordImgbutton
+//						.setBackgroundResource(R.drawable.play_ico);
 			}
 			super.handleMessage(msg);
 		}

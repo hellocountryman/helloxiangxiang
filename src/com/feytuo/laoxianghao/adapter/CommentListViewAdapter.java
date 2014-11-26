@@ -221,7 +221,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 			holder2.commentPosition.setText(map.get("com_position") + "");
 			holder2.commentTime.setText(map.get("com_time") + "");
 			holder2.commentTextContext.setText(map.get("com_words") + "");
-			holder2.commentMusicBottomBg.setOnClickListener(new AudioListener(position));
+			holder2.commentMusicBottomBg.setOnClickListener(new AudioListener(position,holder2));
 			break;
 		}
 		return convertView;
@@ -233,7 +233,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		if (isAudioPlayArray.get(position, false)) {
 			btn.setBackgroundResource(R.drawable.musicplayone);
 		} else {
-			btn.setBackgroundResource(R.drawable.musicplaytwo);
+			btn.setBackgroundResource(R.drawable.musicplayone);
 		}
 		// 初始化时
 		if ("".equals(data.get(position - 1).get("com_voice").toString())) {
@@ -333,12 +333,12 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	class AudioListener implements OnClickListener {
 		private int position;
-
-		public AudioListener(int position) {
+		private viewHolder2 holder;
+		public AudioListener(int position,viewHolder2 holder) {
 			// TODO Auto-generated constructor stub
 			this.position = position;
+			this.holder = holder;
 		}
-
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -347,12 +347,12 @@ public class CommentListViewAdapter extends BaseAdapter {
 					Log.i("playAudioComment", "点击了:" + position);
 					if (lastPosition == position) {
 						if (!isPlay) {
-							playAudio(v, position);// 播放语音
+							playAudio(holder, position);// 播放语音
 						} else {
-							stopAudio(v, position);
+							stopAudio(holder, position);
 						}
 					} else {
-						playAudio(v, position);// 播放语音
+						playAudio(holder, position);// 播放语音
 					}
 				}
 				break;
@@ -367,21 +367,21 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	private int lastPosition;
 	private boolean isPlay = false;
-	private View lastView;
+	private viewHolder2 lastView;
 
 	// 播放已经录好的音
-	private void playAudio(final View v, final int position) {
+	private void playAudio(final viewHolder2 holder, final int position) {
 		stopInvitationAudio();// 当播放评论录音时，确保帖子录音时关闭的
 		stopAudio(lastView, lastPosition);
-		lastView = v;
+		lastView = holder;
 		lastPosition = position;
 		isPlay = true;
 		// 解决按钮状态也被重用的问题
 		isAudioPlayArray.put(position, true);
 		
 //		v.setBackgroundResource(R.drawable.comment_audio_play);
-		v.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
-		animationDrawable = (AnimationDrawable)v.getBackground();
+		holder.commentPlayId.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable)holder.commentPlayId.getBackground();
 		animationDrawable.start();
 		
 		String fileUrl = data.get(position - 1).get("com_voice").toString();
@@ -402,7 +402,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					// TODO Auto-generated method stub
-					stopAudio(v, position);
+					stopAudio(holder, position);
 				}
 			});
 		} catch (IllegalArgumentException e) {
@@ -421,10 +421,10 @@ public class CommentListViewAdapter extends BaseAdapter {
 		stopAudio(lastView, lastPosition);
 	}
 
-	private void stopAudio(View v, int position) {
+	private void stopAudio(final viewHolder2 holder, int position) {
 		// TODO Auto-generated method stub
 		isPlay = false;
-		if (v != null) {
+		if (holder != null) {
 //			v.setBackgroundResource(R.drawable.comment_audio_selector);
 			animationDrawable.stop();
 		}
