@@ -12,6 +12,7 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
@@ -21,15 +22,16 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
@@ -65,12 +67,15 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private List<Map<String, Object>> listItems;
 	private CommentListViewAdapter adapter;
 	private EditText commentTextEdit;// 评论的输入框
+	private LinearLayout commentRecordingLinear;
+	private ImageView commentRecordingImg;// 按住录音的时候出现动画提示
+	private TextView commentRecordHintText;// 录音评论的时候文字提示
 	private ImageView commentAddImg; // 添加额外的录音
 	private Button commentCommentBtn;// 发送评论
 	private LinearLayout commentRecordLinear;// 按住录音的布局
 	private LinearLayout commentEditLinear;// 按住录音的布局
 	private Button commentRecordBtn; // 按住录音
-	private Button commentRerecordButton;// 录音之后可以取消录音按钮
+	private ImageView commentRerecordimg;// 录音之后可以取消录音按钮
 	private ImageButton commentPlayRecordImgbutton;// 录音的时候播放的小按钮
 	private MediaRecorder mediaRecorder; // 录音控制
 	private String fileAudioName; // 保存的音频文件的名字
@@ -144,6 +149,9 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private void initview() {
 
 		ClickListener listenerlist = new ClickListener();
+		commentRecordingLinear=(LinearLayout)findViewById(R.id.comment_recording_linear);// 按住录音的时候出现动画提示,带背景
+		commentRecordingImg = (ImageView) findViewById(R.id.comment_recording_img);// 按住录音的时候出现动画提示
+		commentRecordHintText = (TextView) findViewById(R.id.comment_record_hint_text);
 		commentTextEdit = (EditText) findViewById(R.id.comment_text_edit);
 		commentAddImg = (ImageView) findViewById(R.id.comment_add_img);
 		commentCommentBtn = (Button) findViewById(R.id.comment_comment_btn);// 发送评论按钮实例化
@@ -151,16 +159,26 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		commentRecordLinear = (LinearLayout) findViewById(R.id.comment_record_linearlayout);
 		commentRecordBtn = (Button) findViewById(R.id.comment_record_btn);// 录音按钮的实例化
 		commentPlayRecordImgbutton = (ImageButton) findViewById(R.id.comment_play_record_imgbutton);// 录音的时候播放的小按钮
-		commentRerecordButton = (Button) findViewById(R.id.comment_rerecord_btn);// 重录的按钮
+		commentRerecordimg = (ImageView) findViewById(R.id.comment_rerecord_btn);// 重录的按钮
 		commentListview = (XListView) findViewById(R.id.comment_listview);// 评论的listview
 
-		commentRerecordButton.setVisibility(View.INVISIBLE);// 载入重录的按钮不可见
+		commentTextEdit.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus)
+				{
+					commentRecordLinear.setVisibility(View.GONE);
+				}
+			}
+		});
+		commentRerecordimg.setVisibility(View.INVISIBLE);// 载入重录的按钮不可见
 		commentPlayRecordImgbutton.setVisibility(View.GONE);// 载入的时候录音播放按钮不可见
 
 		commentAddImg.setOnClickListener(listenerlist);// 增加录音的评论按钮
 		commentCommentBtn.setOnClickListener(listenerlist);// 发送按钮
 		commentRecordBtn.setOnTouchListener(new OnToucher());// 按住录音事件
-		commentRerecordButton.setOnClickListener(listenerlist);// 点击重录事件
+		commentRerecordimg.setOnClickListener(listenerlist);// 点击重录事件
 		commentPlayRecordImgbutton.setOnClickListener(listenerlist);// 录音播放试听
 	}
 
@@ -254,12 +272,12 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private void getDataFromNet(final int page, final int actionType) {
 		// TODO Auto-generated method stub
 		BmobQuery<Comment> query = new BmobQuery<Comment>();
-		/**********新版本过度获取，由于第一版只能通过id获取**********/
+		/********** 新版本过度获取，由于第一版只能通过id获取 **********/
 		query.addWhereEqualTo("invId", invId);
-		/**********新版本过度获取，由于第一版只能通过id获取**********/
-//		本来由于设置了外键需要用pointer来获取当前用户的帖子，但由于第一版本限制暂采用老方式
-//		query.addWhereRelatedTo("comment", new BmobPointer(mInv));
-		Log.i("CommentActivity", "invId:"+invId);
+		/********** 新版本过度获取，由于第一版只能通过id获取 **********/
+		// 本来由于设置了外键需要用pointer来获取当前用户的帖子，但由于第一版本限制暂采用老方式
+		// query.addWhereRelatedTo("comment", new BmobPointer(mInv));
+		Log.i("CommentActivity", "invId:" + invId);
 		query.order("createdAt");
 		query.setLimit(LIMIT); // 设置每页多少条数据
 		query.setSkip(page * LIMIT); // 从第几条数据开始
@@ -268,7 +286,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			@Override
 			public void onSuccess(List<Comment> arg0) {
 				// TODO Auto-generated method stub
-				Log.i("CommentActivity", "list大小："+arg0.size());
+				Log.i("CommentActivity", "list大小：" + arg0.size());
 				if (actionType == STATE_REFRESH) {
 					curPage = 0;
 					listItems.clear();
@@ -293,11 +311,11 @@ public class CommentActivity extends Activity implements IXListViewListener {
 				}
 				if (arg0.size() == 0) {
 					if (actionType == STATE_MORE) {
-						 Toast.makeText(CommentActivity.this, "没有更多内容",
-						 Toast.LENGTH_SHORT).show();
+						Toast.makeText(CommentActivity.this, "没有更多内容",
+								Toast.LENGTH_SHORT).show();
 					} else {
-						 Toast.makeText(CommentActivity.this, "暂无更新",
-						 Toast.LENGTH_SHORT).show();
+						Toast.makeText(CommentActivity.this, "暂无更新",
+								Toast.LENGTH_SHORT).show();
 					}
 				} else {
 					// 这里在每次加载完数据后，将当前页码+1，这样在上拉刷新的onPullUpToRefresh方法中就不需要操作curPage了
@@ -310,7 +328,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 				// TODO Auto-generated method stub
 				// Toast.makeText(CommentActivity.this, "查询失败：" + arg1,
 				// Toast.LENGTH_SHORT).show();
-				Log.i("CommentActivity", "查询失败:"+arg0+"="+arg1);
+				Log.i("CommentActivity", "查询失败:" + arg0 + "=" + arg1);
 			}
 		});
 	}
@@ -364,9 +382,14 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		public boolean onTouch(View v, MotionEvent event) {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
+				commentRecordBtn.setBackgroundResource(R.drawable.comment_record_press);
+				commentRecordHintText.setText("正在录音");
+				commentRecordingLinear.setVisibility(View.VISIBLE);
 				startAudio();
 				break;
 			case MotionEvent.ACTION_UP:
+				commentRecordHintText.setText("点击试听");
+				commentRecordingLinear.setVisibility(View.GONE);
 				stopAudio();
 				break;
 
@@ -392,28 +415,10 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			switch (v.getId()) {
 			case R.id.comment_add_img:// 点击增加录音的按钮
 				if (commentRecordLinear.getVisibility() == View.VISIBLE) {
-					commentAddImg.startAnimation(animationClose);
-					animationIn.setAnimationListener(new AnimationListener() {
-						@Override
-						public void onAnimationStart(Animation animation) {
-						}
 
-						@Override
-						public void onAnimationRepeat(Animation animation) {
-						}
-
-						@Override
-						public void onAnimationEnd(Animation animation) {
-							// TODO Auto-generated method stub
-							commentRecordLinear.setVisibility(View.GONE);
-						}
-					});
-					commentEditLinear.startAnimation(animationIn);
-					commentRecordLinear.startAnimation(animationIn);
+					commentRecordLinear.setVisibility(View.GONE);
 				} else {
-					commentAddImg.startAnimation(animationOpen);
-					commentRecordLinear.startAnimation(animationOut);
-					commentEditLinear.startAnimation(animationOut);
+
 					commentRecordLinear.setVisibility(View.VISIBLE);
 				}
 
@@ -498,7 +503,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
-				//将评论添加到关联的帖子中
+				// 将评论添加到关联的帖子中
 				addCommentToInvitation(comment);
 			}
 
@@ -519,13 +524,13 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		comments.add(comment);
 		mInv.setComment(comments);
 		mInv.update(this, new UpdateListener() {
-			
+
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
 				Log.i("PublishActivity", "上传评论基础信息成功");
-				Toast.makeText(CommentActivity.this, "发表成功",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(CommentActivity.this, "发表成功", Toast.LENGTH_SHORT)
+						.show();
 				// 服务器评论数加1
 				addCommentNum();
 				// 界面评论数+1
@@ -543,7 +548,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 						.putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, true)
 						.commit();
 			}
-			
+
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
@@ -598,12 +603,19 @@ public class CommentActivity extends Activity implements IXListViewListener {
 
 	private int recorderTime;
 	private Timer recorderTimer;
+	private AnimationDrawable animationDrawable;
 
 	/**
 	 * 
 	 * 开始录音
 	 */
 	private void startAudio() {
+
+		commentRecordingImg.setBackgroundResource(R.anim.frame_comment_anim);// 正在录音的动画
+		animationDrawable = (AnimationDrawable) commentRecordingImg
+				.getBackground();
+		animationDrawable.start();
+
 		stopAntherVoice();
 		recorderTime = 0;
 		recorderTimer = new Timer();
@@ -615,7 +627,6 @@ public class CommentActivity extends Activity implements IXListViewListener {
 				recorderTime++;
 			}
 		}, 1000l, 1000l);
-		commentRecordBtn.setText("松开停止录音");
 		// 创建录音频文件
 		// 这种创建方式生成的文件名是随机的
 		fileAudioName = "audio" + GetSystemDateTime.now()
@@ -646,8 +657,9 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	 * 停止录制
 	 */
 	private void stopAudio() {
-		commentRerecordButton.setVisibility(View.VISIBLE);// 录完音之后录音出现
-		commentPlayRecordImgbutton.setVisibility(View.VISIBLE);// 录音播放按钮可见
+		animationDrawable.stop();// 停止动画
+		commentRerecordimg.setVisibility(View.VISIBLE);// 录完音之后录音出现
+//		commentPlayRecordImgbutton.setVisibility(View.VISIBLE);// 录音播放按钮可见
 		if (recorderTime <= 1) {
 			Toast.makeText(this, "太短啦", Toast.LENGTH_SHORT).show();
 			recordAudio();
@@ -670,8 +682,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		if (mp.isPlaying()) {
 			mp.stop();
 		}
-		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.play_ico);
-		commentRerecordButton.setVisibility(View.VISIBLE);// 已经录好准备评论的声音后重放中暂停，重录按钮显示
+//		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.play_ico);
+		commentRerecordimg.setVisibility(View.VISIBLE);// 已经录好准备评论的声音后重放中暂停，重录按钮显示
 		isReplay = false;
 	}
 
@@ -687,9 +699,10 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			fileAudio.delete();// 文件删除
 			fileAudio = null;
 		}
+		commentRecordBtn.setBackgroundResource(R.drawable.comment_record_no);
+		commentRecordHintText.setText("按住录音");
 		commentPlayRecordImgbutton.setVisibility(View.GONE);
-		commentRecordBtn.setText("按住录音");
-		commentRerecordButton.setVisibility(View.INVISIBLE);
+		commentRerecordimg.setVisibility(View.INVISIBLE);
 
 	}
 
@@ -697,8 +710,9 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private void playAudio() {
 		stopAntherVoice();
 		// 设置ui
-		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.pause_ico);
-		commentRerecordButton.setVisibility(View.INVISIBLE);
+//		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.pause_ico);
+		
+		commentRerecordimg.setVisibility(View.INVISIBLE);
 		isReplay = true;
 		// 点击播放而已
 		try {
@@ -725,9 +739,9 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		@Override
 		public void onCompletion(MediaPlayer mp) {
 			// TODO Auto-generated method stub
-			commentPlayRecordImgbutton
-					.setBackgroundResource(R.drawable.play_ico);
-			commentRerecordButton.setVisibility(View.VISIBLE);
+//			commentPlayRecordImgbutton
+//					.setBackgroundResource(R.drawable.play_ico);
+			commentRerecordimg.setVisibility(View.VISIBLE);
 		}
 	};
 

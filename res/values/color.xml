@@ -17,6 +17,7 @@
     <color name="thinbule">#7DC7E9</color>
     <!-- 蓝色 -->
     <color name="black">#000000</color>
+    <color name="comment_hint">#92b1cd</color>
     <!-- 黑色 -->
     <color name="red" type="drawable">#fc0303</color>
     <color name="head_color">#676767</color>
