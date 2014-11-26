@@ -1,6 +1,7 @@
 package com.feytuo.laoxianghao;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -109,6 +110,9 @@ public class PersonUpdateInfoActivity extends Activity {
 				}else{//个性签名
 					new LXHUserDao(PersonUpdateInfoActivity.this).updateUserPersonSign(userId, et);
 				}
+				Intent intent = new Intent();
+				intent.putExtra("data", et);
+				setResult(Global.RESULT_OK,intent);
 				finish();
 			}
 			
@@ -121,6 +125,7 @@ public class PersonUpdateInfoActivity extends Activity {
 	}
 
 	public void personDetailsRetImg(View v) {
+		setResult(Global.RESULT_RETURN);
 		finish();
 	}
 }

@@ -63,6 +63,7 @@ import com.feytuo.chat.utils.CommonUtils;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.PublishActivity;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.WelcomeActivity;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.fragment.FindFragment;
 import com.feytuo.laoxianghao.fragment.MainFragment;
@@ -98,6 +99,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		((App)getApplication()).setMainActivity(this);
 		initShare(savedInstanceState);
 		initView(savedInstanceState);
 		inviteMessgeDao = new InviteMessgeDao(this);
@@ -879,7 +881,7 @@ public class MainActivity extends FragmentActivity implements
 								conflictBuilder = null;
 								finish();
 								startActivity(new Intent(MainActivity.this,
-										LoginActivity.class));
+										WelcomeActivity.class));
 							}
 						});
 				conflictBuilder.setCancelable(false);

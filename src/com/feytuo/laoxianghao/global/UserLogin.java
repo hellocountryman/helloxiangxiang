@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -42,11 +41,12 @@ import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.util.GetSystemDateTime;
 import com.feytuo.laoxianghao.util.SDcardTools;
 import com.feytuo.laoxianghao.util.StringTools;
+import com.feytuo.laoxianghao.view.OnloadDialog;
 
 public class UserLogin {
 
 	public static LXHUser gUser = null;
-	private ProgressDialog pd;
+	private OnloadDialog pd;
 	private boolean progressShow;
 	private LXHUserDao userDao;
 
@@ -97,8 +97,7 @@ public class UserLogin {
 		// TODO Auto-generated method stub
 		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
-				pd = new ProgressDialog(context);
-				pd.setMessage("正在获取登录信息...");
+				pd = new OnloadDialog(context);
 				pd.setCanceledOnTouchOutside(false);
 				pd.setOnCancelListener(new OnCancelListener() {
 
@@ -108,6 +107,7 @@ public class UserLogin {
 					}
 				});
 				pd.show();
+				pd.setMessage("正在获取登录信息...");
 			}
 		});
 

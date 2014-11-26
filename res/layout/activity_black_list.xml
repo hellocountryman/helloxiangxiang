@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#f2f0eb" >
+    android:background="@color/weibo_unline" >
 
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-        android:background="@color/top_bar_normal_bg"
+        android:background="@color/indexbg"
         android:gravity="center_vertical" >
 
         <include layout="@layout/commom_back_btn" />
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="黑名单"
-            android:textColor="#ffffff"
+            android:textColor="@color/black"
             android:textSize="20sp" />
 
         <!-- <RelativeLayout

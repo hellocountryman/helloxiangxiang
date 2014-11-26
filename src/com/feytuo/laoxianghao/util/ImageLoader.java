@@ -169,7 +169,7 @@ public class ImageLoader {
 		}
 		if (bitmap == null) {
 			ImageLoadTask imageLoadTask = new ImageLoadTask();
-			imageLoadTask.execute(url, adapter,iv);
+			imageLoadTask.execute(url, adapter,iv,0);
 		}else{
 			iv.setImageBitmap(bitmap);
 		}
@@ -195,7 +195,7 @@ public class ImageLoader {
 		}
 		if (bitmap == null) {
 			ImageLoadTask imageLoadTask = new ImageLoadTask();
-			imageLoadTask.execute(url, adapter,iv);
+			imageLoadTask.execute(url, adapter,iv,1);
 		} else {
 			CommonUtils.corner(context, bitmap, iv);
 		}
@@ -221,6 +221,7 @@ public class ImageLoader {
 		String url;
 		BaseAdapter adapter = null;
 		ImageView iv;
+		int type;//0为方形，1为圆形
 
 		@Override
 		protected Bitmap doInBackground(Object... params) {
@@ -231,6 +232,9 @@ public class ImageLoader {
 			if(params[2] != null){
 				iv = (ImageView)params[2];
 			}
+			if(params[3] != null){
+				type = (int)params[3];
+			}
 			Bitmap drawable = loadImageFromInternet(url);// 获取网络图片
 			return drawable;
 		}
@@ -239,8 +243,7 @@ public class ImageLoader {
 		protected void onPostExecute(Bitmap result) {
 			if (result == null) {
 				return;
-			}
-			if(result != null){
+			}else{
 				Log.i("ImageLoader", "从net中取出");
 			}
 			addImage2Cache(url, result);// 放入缓存
@@ -249,7 +252,11 @@ public class ImageLoader {
 				adapter.notifyDataSetChanged();// 触发getView方法执行，这个时候getView实际上会拿到刚刚缓存好的图片
 			}
 			if(result != null){
-				CommonUtils.corner(context, result, iv);
+				if(type == 0){
+					iv.setImageBitmap(result);
+				}else{
+					CommonUtils.corner(context, result, iv);
+				}
 			}
 		}
 	}

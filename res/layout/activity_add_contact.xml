@@ -52,13 +52,13 @@
         android:id="@+id/ll_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/mm_listitem"
+        android:background="@drawable/common_selector"
         android:visibility="gone" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/mm_listitem"
+            android:background="@drawable/common_selector"
             android:duplicateParentState="true" >
 
             <ImageView

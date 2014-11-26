@@ -81,6 +81,7 @@ import com.feytuo.chat.utils.ImageUtils;
 import com.feytuo.chat.utils.SmileUtils;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.util.ImageLoader;
 
@@ -121,6 +122,7 @@ public class MessageAdapter extends BaseAdapter{
 	private ImageLoader mImageLoader;
 	
 	private UserDao userDao;
+	private LXHUserDao lxhuserDao;
 
 	public MessageAdapter(Context context, String username, int chatType) {
 		this.username = username;
@@ -130,6 +132,7 @@ public class MessageAdapter extends BaseAdapter{
 		this.conversation = EMChatManager.getInstance().getConversation(username);
 		mImageLoader = new ImageLoader(context);
 		userDao = new UserDao(context);
+		lxhuserDao = new LXHUserDao(context);
 	}
 
 	// public void setUser(String user) {
@@ -392,7 +395,7 @@ public class MessageAdapter extends BaseAdapter{
 		if (message.direct == EMMessage.Direct.SEND) {
 			//设置头像，发送方设置本人头像
 //			holder.head_iv
-			setHead(App.getInstance().getUserName(),holder.head_iv);
+			setHead(App.getInstance().getUserName(),holder.head_iv,0);
 			View statusView = convertView.findViewById(R.id.msg_status);
 			// 重发按钮点击事件
 			statusView.setOnClickListener(new OnClickListener() {
@@ -423,7 +426,7 @@ public class MessageAdapter extends BaseAdapter{
 
 		} else {
 			//设置头像，接收方设置聊天对象头像
-			setHead(username, holder.head_iv);
+			setHead(username, holder.head_iv,1);
 			// 长按头像，移入黑名单
 			holder.head_iv.setOnLongClickListener(new OnLongClickListener() {
 
@@ -456,19 +459,29 @@ public class MessageAdapter extends BaseAdapter{
 		return convertView;
 	}
 
-	//设置头像
-	private void setHead(String userName, ImageView head_iv) {
+	/**
+	 * 设置头像
+	 * @param userName 用户id
+	 * @param head_iv 用户头像view
+	 * @param type 0为发送方(本人)，1为接收方(聊天对象)
+	 */
+	private void setHead(String userName, ImageView head_iv, int type) {
 		// TODO Auto-generated method stub
-		String headUrl = userDao.getUserHeadUrl(userName);
+		String headUrl = null;
+		if(type == 1){
+			headUrl = userDao.getUserHeadUrl(userName);
+		}else{
+			headUrl = lxhuserDao.getHeadByUidFromUser(userName);
+		}
 		Log.i(TAG, "send方的头像："+userName+"=="+headUrl);
 		if(headUrl != null && !TextUtils.isEmpty(headUrl)){//如果本地数据库存在该用户
 			mImageLoader.loadImage(headUrl, this, head_iv);
 		}else{
-			getHeadUrlFromBmob(userName,head_iv);
+			getHeadUrlFromBmob(userName,head_iv,type);
 		}
 	}
 
-	private void getHeadUrlFromBmob(final String userName,final ImageView head_iv) {
+	private void getHeadUrlFromBmob(final String userName,final ImageView head_iv,final int type) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
@@ -481,7 +494,11 @@ public class MessageAdapter extends BaseAdapter{
 				// TODO Auto-generated method stub
 				if(arg0.size() > 0 && !TextUtils.isEmpty(arg0.get(0).getHeadUrl())){
 					mImageLoader.loadImage(arg0.get(0).getHeadUrl(), MessageAdapter.this, head_iv);
-					userDao.updateHeadUrl2Conversation(userName, arg0.get(0).getHeadUrl());
+					if(type == 1){
+						userDao.updateHeadUrl2Conversation(userName, arg0.get(0).getHeadUrl());
+					}else{
+						lxhuserDao.updateUserHeadUrl(userName, arg0.get(0).getHeadUrl());
+					}
 				}
 			}
 			

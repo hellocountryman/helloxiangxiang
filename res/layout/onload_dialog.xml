@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200.0dip"
+    android:layout_width="match_parent"
     android:layout_height="50.0dip"
     android:alpha="0.7"
     android:background="@drawable/corners_storke_black"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:gravity="center" >
 
     <ProgressBar
@@ -15,6 +17,7 @@
         android:indeterminateDuration="2000" />
 
     <TextView
+        android:id="@+id/onload_dialog_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

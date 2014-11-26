@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
@@ -29,6 +30,7 @@ import com.feytuo.chat.db.UserDao;
 import com.feytuo.chat.domain.User;
 import com.feytuo.chat.receiver.VoiceCallReceiver;
 import com.feytuo.chat.utils.PreferenceUtils;
+import com.feytuo.laoxianghao.db.DatabaseHelper;
 import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.share_qq.Share_QQ;
 import com.feytuo.laoxianghao.share_sina.Share_Weibo;
@@ -42,6 +44,7 @@ public class App extends Application {
 
 	public static SharedPreferences pre;
 	public static Context applicationContext;
+	private Activity mainActivity;
 	private static App instance;
 	// login user name
 	public final String PREF_USERNAME = "username";
@@ -259,10 +262,28 @@ public class App extends Application {
 		// 先调用sdk logout，在清理app中自己的数据
 		EMChatManager.getInstance().logout();
 		DbOpenHelper.getInstance(applicationContext).closeDB();
+		DatabaseHelper.getInstance(applicationContext).closeDB();
 		// reset password to null
 		setPassword(null);
 		setContactList(null);
+		//preference里面清楚
+		pre.edit().putString(Global.IS_FIRST_USE, null)
+				.putString(Global.CURRENT_NATIVE, null)
+				.putString(Global.USER_HOME, null)
+				.putString(Global.USER_ID, null)
+				.putString(Global.NO_LOGIN, null)
+				.putString(Global.IS_MAIN_LIST_NEED_REFRESH, null).commit();
+		
 
+	}
+	/**
+	 * 关闭主界面
+	 */
+	public void finishMainActivity(){
+		//关闭mainactivity
+		if(mainActivity != null && !mainActivity.isFinishing()){
+			mainActivity.finish();
+		}
 	}
 
 	private String getAppName(int pID) {
@@ -319,5 +340,8 @@ public class App extends Application {
 		}
 	}
 
-	
+	public void setMainActivity(Activity mainActivity) {
+		this.mainActivity = mainActivity;
+	}
+
 }

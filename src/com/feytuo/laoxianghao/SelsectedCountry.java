@@ -2,7 +2,6 @@ package com.feytuo.laoxianghao;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -31,6 +30,7 @@ import com.feytuo.laoxianghao.sortlistview.SideBar;
 import com.feytuo.laoxianghao.sortlistview.SideBar.OnTouchingLetterChangedListener;
 import com.feytuo.laoxianghao.sortlistview.SortAdapter;
 import com.feytuo.laoxianghao.sortlistview.SortModel;
+import com.feytuo.laoxianghao.view.OnloadDialog;
 import com.umeng.analytics.MobclickAgent;
 
 public class SelsectedCountry extends Activity {
@@ -54,7 +54,7 @@ public class SelsectedCountry extends Activity {
 	private PinyinComparator pinyinComparator;
 	
 	//跳转路径
-	private int path;//0为从欢迎界面跳转，1为从主界面跳转
+	private int path;//0为从欢迎界面跳转，1为从设置跳转
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,12 +79,12 @@ public class SelsectedCountry extends Activity {
 		dialog = (TextView) findViewById(R.id.dialog);
 		sideBar.setTextView(dialog);
 
-		// //城市判断
+		titleTextSelect.setText("请选择家乡");
+		//城市判断
 		if (path == 0) {
-			titleTextSelect.setText("请选择家乡");
+			selectCountryReturnBtn.setVisibility(View.INVISIBLE);
 		} else {
-			selectCountryReturnBtn.setVisibility(View.VISIBLE);//
-			titleTextSelect.setText("请更改城市");
+			selectCountryReturnBtn.setVisibility(View.VISIBLE);
 		}
 
 		// 设置右侧触摸监听
@@ -114,7 +114,6 @@ public class SelsectedCountry extends Activity {
 				String city = ((SortModel) adapter.getItem(position))
 						.getName();
 				saveCurrentHome(city);
-				turnToMain(city);
 			}
 		});
 
@@ -152,20 +151,25 @@ public class SelsectedCountry extends Activity {
 	//跳转
 	private void turnToMain(String city){
 		// //城市判断
-		if (path == 0) {
-			/*********统计添加点击************/
-			HashMap<String,String> map = new HashMap<String,String>();
-			map.put("city", city);
-			MobclickAgent.onEvent(this, "Home",map);//添加操作
-		} else {
-			/*********统计添加点击************/
-			HashMap<String,String> map = new HashMap<String,String>();
-			map.put("city", city);
-			MobclickAgent.onEvent(this, "CityChange",map);//添加操作
-		}
+//		if (path == 0) {
+//			/*********统计添加点击************/
+//			HashMap<String,String> map = new HashMap<String,String>();
+//			map.put("city", city);
+//			MobclickAgent.onEvent(this, "Home",map);//添加操作
+//		} else {
+//			/*********统计添加点击************/
+//			HashMap<String,String> map = new HashMap<String,String>();
+//			map.put("city", city);
+//			MobclickAgent.onEvent(this, "CityChange",map);//添加操作
+//		}
 		Intent intent = new Intent();
-		intent.setClass(SelsectedCountry.this, com.feytuo.chat.activity.MainActivity.class);
-		startActivity(intent);
+		if(path == 0){
+			intent.setClass(SelsectedCountry.this, com.feytuo.chat.activity.MainActivity.class);
+			startActivity(intent);
+		}else{
+			intent.putExtra("data", city);
+			setResult(Global.RESULT_OK,intent);
+		}
 		finish();
 	}
 	/**
@@ -181,9 +185,13 @@ public class SelsectedCountry extends Activity {
 		App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
 	}
 
-	
+	private OnloadDialog pd;
 	private void updateCurrentUserHome(final String home) {
 		// TODO Auto-generated method stub
+		pd = new OnloadDialog(this);
+		pd.setCanceledOnTouchOutside(false);
+		pd.show();
+		pd.setMessage("正在更新信息...");
 		final String userId = App.pre.getString(Global.USER_ID, "");
 		//更新本地数据库
 		new LXHUserDao(SelsectedCountry.this).updateUserHome(userId, home);
@@ -195,12 +203,15 @@ public class SelsectedCountry extends Activity {
 			@Override
 			public void onSuccess() {
 				Log.i("SelectCountry", "更新home成功");
+				pd.dismiss();
+				turnToMain(home);
 			}
 			
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
 				Log.i("SelectCountry", "更新home失败");
+				pd.dismiss();
 			}
 		});
 	}
@@ -262,9 +273,7 @@ public class SelsectedCountry extends Activity {
 	}
 
 	public void selectcityret(View v) {
-		Intent intent = new Intent();
-		intent.setClass(SelsectedCountry.this, com.feytuo.chat.activity.MainActivity.class);
-		startActivity(intent);
+		setResult(Global.RESULT_RETURN);
 		finish();
 	}
 	

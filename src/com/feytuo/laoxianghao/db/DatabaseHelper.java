@@ -44,6 +44,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return  
      */  
     public boolean deleteDatabase(Context context) {  
-    return context.deleteDatabase(DBFileManager.DB_NAME);  
+    	return context.deleteDatabase(DBFileManager.DB_NAME);  
     }  
+    /**
+     * 关闭数据库
+     */
+    public void closeDB() {
+	    if (mInstance != null) {
+	        try {
+	            SQLiteDatabase db = mInstance.getWritableDatabase();
+	            db.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        mInstance = null;
+	    }
+	}
 }  

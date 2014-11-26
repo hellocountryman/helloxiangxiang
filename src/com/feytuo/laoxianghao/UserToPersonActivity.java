@@ -8,66 +8,87 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.GetListener;
 
 import com.feytuo.chat.activity.ChatActivity;
 import com.feytuo.laoxianghao.adapter.FindListViewAdapter;
-import com.feytuo.laoxianghao.dao.InvitationDao;
 import com.feytuo.laoxianghao.domain.Invitation;
+import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
-import com.feytuo.listviewonload.SimpleFooter;
-import com.feytuo.listviewonload.SimpleHeader;
-import com.feytuo.listviewonload.ZrcListView;
-import com.feytuo.listviewonload.ZrcListView.OnStartListener;
-import com.umeng.analytics.MobclickAgent;
+import com.feytuo.laoxianghao.util.ImageLoader;
 
 public class UserToPersonActivity extends Activity {
 
 	private FindListViewAdapter adapter;
 	private ListView userToPersonListView;
 	private List<Map<String, Object>> listItems;
-	private List<Invitation> listData;
 	private TextView toPersonHome;// 家乡;
-	private String userid;//用户id
+	private ImageView toPersonHeadImg;
+	private TextView toPersonNick;
+	private TextView toPersonSignText;
+	private String userId;//用户id
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_to_person_activity);
-		userid=getIntent().getStringExtra("userid");
+		userId=getIntent().getStringExtra("userid");
+		initView();
 		initlistview();
+		getUserInfo();//获取用户信息
+		getListData();//根据用户ID从网络上面获取到数据
 	}
 
+	//初始化view
+	private void initView() {
+		// TODO Auto-generated method stub
+		toPersonHeadImg = (ImageView)findViewById(R.id.to_person_head_img);
+		toPersonNick = (TextView)findViewById(R.id.to_person_nick);
+		toPersonHome = (TextView)findViewById(R.id.to_person_home);
+		toPersonSignText = (TextView)findViewById(R.id.to_person_sign_text);	
+	}
+
+	/**
+	 * 点击返回按钮
+	 * @param v
+	 */
 	public void toPersonReturnBtn(View v) {
 		finish();
 	}
-
-	// 跳转到查看他人的信息
-	public void toPersondetails(View v) {
-		Intent intent = new Intent();
-		intent.setClass(UserToPersonActivity.this,
-				PersonUpdateInfoActivity.class);
-		startActivity(intent);
+	/**
+	 * 点击聊天按钮
+	 * @param v
+	 */
+	public void toPersonChat(View v){
+		if(!App.pre.getString(Global.USER_ID, "").equals(userId)){
+			Intent intent = new Intent(this, ChatActivity.class);
+			intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
+			intent.putExtra("userId", userId);
+			startActivity(intent);
+		}else{
+			//不能和自己聊天
+		}
 	}
 
-	public void initlistview() {
+//	// 跳转到查看他人的信息
+//	public void toPersondetails(View v) {
+//		Intent intent = new Intent();
+//		intent.setClass(UserToPersonActivity.this,
+//				PersonUpdateInfoActivity.class);
+//		startActivity(intent);
+//	}
+
+	//初始化listview
+	private void initlistview() {
 
 		userToPersonListView = (ListView) findViewById(R.id.user_to_person_listview);
-
 		listItems = new ArrayList<Map<String, Object>>();
-		
-		getListData(userid);//根据用户ID从网络上面获取到数据
-		Log.i("tangpeng", listItems+"拉拉");
 		adapter = new FindListViewAdapter(UserToPersonActivity.this, listItems,
 				R.layout.index_listview, new String[] { "position", "words",
 						"time", "praise_num", "comment_num" }, new int[] {
@@ -76,8 +97,38 @@ public class UserToPersonActivity extends Activity {
 						R.id.index_comment_num });
 		userToPersonListView.setAdapter(adapter);
 	}
+	//获取用户信息
+	private void getUserInfo(){
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.getObject(this, userId, new GetListener<LXHUser>() {
+			
+			@Override
+			public void onSuccess(LXHUser arg0) {
+				// TODO Auto-generated method stub
+				setUserInfo(arg0);
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Toast.makeText(UserToPersonActivity.this, "用户信息加载失败，请检查网络", Toast.LENGTH_SHORT).show();
+				Log.i("UserToPersonActivity", "用户信息加载失败，请检查网络");
+			}
+		});
+	}
+	//设置用户信息
+	private void setUserInfo(LXHUser user) {
+		// TODO Auto-generated method stub
+		if(user != null){
+			new ImageLoader(this).loadCornerImage(user.getHeadUrl(), null, toPersonHeadImg);
+			toPersonNick.setText(user.getNickName());
+			toPersonHome.setText(user.getHome());
+			toPersonSignText.setText(user.getPersonSign());
+		}
+	}
 
-	private void getListData(final String userId) {
+	//获取用户帖子列表
+	private void getListData() {
 		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
 		query.addWhereEqualTo("uId", userId);
 		query.order("-createdAt");
@@ -109,7 +160,7 @@ public class UserToPersonActivity extends Activity {
 
 					@Override
 					public void onError(int arg0, String arg1) {
-						Log.i("MainActivity", "加载失败，请检查网络");
+						Log.i("UserToPersonActivity", "用户帖子加载失败，请检查网络");
 					}
 				});
 	}

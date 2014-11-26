@@ -26,7 +26,7 @@
             android:layout_height="68.0dip"
             android:layout_centerInParent="true"
             android:layout_marginTop="-50.0dip"
-            android:background="@drawable/ic_launcher" />
+            android:background="@drawable/default_avatar" />
 
         <TextView
             android:id="@+id/to_person_nick"
@@ -35,7 +35,7 @@
             android:layout_below="@+id/to_person_head_img"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="4.0dip"
-            android:text="唐小鹏同学"
+            android:text="昵称"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -46,7 +46,7 @@
             android:layout_below="@+id/to_person_nick"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="4.0dip"
-            android:text="好好学习，天天向上"
+            android:text="个性签名."
             android:textColor="@color/head_color"
             android:textSize="12sp" />
 
@@ -68,7 +68,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="8.0dip"
             android:layout_marginRight="8.0dip"
-            android:text="永州"
+            android:text="弗兰"
             android:textColor="@color/black"
             android:textSize="12sp" />
     </RelativeLayout>

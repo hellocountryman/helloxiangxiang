@@ -303,19 +303,27 @@ public class ListViewAdapter extends SimpleAdapter {
 	 */
 	public void setUserInfo(String uId, TextView nameTV,
 			ImageButton personHeadImg) {
-		LXHUser user = userDao.getNickAndHeadByUid(uId);
+		LXHUser user = null;
+		int type = -1;//0为当前用户，1为其他用户
+		if(App.pre.getString(Global.USER_ID, "").equals(uId)){//当前用户发的帖子
+			user = userDao.getNickAndHeadByUidFromUser(uId);
+			type = 0;
+		}else{//其它用户发的帖子
+			user = userDao.getNickAndHeadByUid(uId);
+			type = 1;
+		}
 		if (user != null) {// 如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
 			mImageLoader.loadCornerImage(user.getHeadUrl(), this,
 					personHeadImg);
 		} else {// 如果没有再从bmob上取
-			setUserInfoFromBmob(uId, nameTV, personHeadImg);
+			setUserInfoFromBmob(uId, nameTV, personHeadImg,type);
 		}
 	}
 
 	// 从网络获取帖子作者昵称和头像
 	private void setUserInfoFromBmob(final String uId, final TextView nameTV,
-			final ImageButton personHeadImg) {
+			final ImageButton personHeadImg,final int type) {
 		// TODO Auto-generated method stub
 		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
 		query.addWhereEqualTo("objectId", uId);
@@ -328,7 +336,11 @@ public class ListViewAdapter extends SimpleAdapter {
 					nameTV.setText(arg0.get(0).getNickName());
 					mImageLoader.loadCornerImage(arg0.get(0)
 							.getHeadUrl(), ListViewAdapter.this, personHeadImg);
-					userDao.insertUser(arg0.get(0));
+					if(type == 1){
+						userDao.insertUser(arg0.get(0));
+					}else{
+						userDao.insertCurrentUser(arg0.get(0));
+					}
 				} else {
 					// 没有改用户信息
 				}
@@ -360,7 +372,6 @@ public class ListViewAdapter extends SimpleAdapter {
 			case R.id.index_user_head:
 				// 跳转到查看别人的个人中心
 				String userid = list.get(position).get("uid").toString();
-				Log.i("tangpeng", userid+"拉拉");
 				Intent intentToPerson = new Intent();
 				intentToPerson.setClass(context, UserToPersonActivity.class);
 				intentToPerson.putExtra("userid", userid);

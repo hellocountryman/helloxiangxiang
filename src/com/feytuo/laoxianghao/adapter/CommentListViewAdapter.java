@@ -297,7 +297,15 @@ public class CommentListViewAdapter extends BaseAdapter {
 	 */
 	public void setUserInfo(String uId, TextView nameTV,
 			ImageButton personHeadImg) {
-		LXHUser user = userDao.getNickAndHeadByUid(uId);
+		LXHUser user = null;
+		int type = -1;//0为当前用户，1为其他用户
+		if(App.pre.getString(Global.USER_ID, "").equals(uId)){//当前用户发的帖子
+			user = userDao.getNickAndHeadByUidFromUser(uId);
+			type = 0;
+		}else{//其它用户发的帖子
+			user = userDao.getNickAndHeadByUid(uId);
+			type = 1;
+		}
 		if (user != null) {// 如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
 			mImageLoader.loadCornerImage(user.getHeadUrl(), this, personHeadImg);

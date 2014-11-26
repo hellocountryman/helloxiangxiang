@@ -141,4 +141,20 @@ private DatabaseHelper dbHelper;
 		cursor.close();
 		return user;
 	}
+	/**
+	 * 从当前用户表中根据id获取用户头像
+	 * @param uId
+	 * @return
+	 */
+	public String getHeadByUidFromUser(String uId){
+		db = dbHelper.getReadableDatabase();
+		String headUrl = null;
+		String sqlStr = "select u_headurl from user where uid=?";
+		Cursor cursor = db.rawQuery(sqlStr, new String[]{uId});
+		while(cursor.moveToNext()){
+			headUrl = cursor.getString(cursor.getColumnIndex("u_headurl"));
+		}
+		cursor.close();
+		return headUrl;
+	}
 }

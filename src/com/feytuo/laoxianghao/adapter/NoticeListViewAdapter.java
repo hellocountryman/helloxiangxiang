@@ -416,7 +416,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 				if (arg0.size() > 0) {
 					nameTV.setText(arg0.get(0).getNickName());
 					mImageLoader.loadCornerImage(arg0.get(0).getHeadUrl(), NoticeListViewAdapter.this, personHeadImg);
-					userDao.insertUser(arg0.get(0));
+					userDao.insertCurrentUser(arg0.get(0));
 				} else {
 					// 没有改用户信息
 				}

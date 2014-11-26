@@ -21,4 +21,7 @@ public interface Global {
 	public static final String WEIXIN_APPID = "wx5f6483b251ab08e7";//微信
 	public static final String QQ_APPID = "1102486695";//qq
 	public static final String WEIBO_APPID = "3750147705";//新浪微博
+	
+	public static final int RESULT_RETURN = 0;//forResultActivity直接返回标记
+	public static final int RESULT_OK = 1;//forResultActivity返回OK标记
 }

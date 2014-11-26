@@ -84,9 +84,9 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			convertView.setTag(holder);
 		}
 		if (position % 2 == 0) {
-			holder.list_item_layout.setBackgroundResource(R.drawable.mm_listitem);
+			holder.list_item_layout.setBackgroundResource(R.drawable.common_selector);
 		} else {
-			holder.list_item_layout.setBackgroundResource(R.drawable.mm_listitem_grey);
+			holder.list_item_layout.setBackgroundResource(R.drawable.common_gray_selector);
 		}
 
 		// 获取与此用户/群组的会话

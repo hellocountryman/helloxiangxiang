@@ -3,14 +3,18 @@ package com.feytuo.laoxianghao.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.feytuo.laoxianghao.R;
 
 public class OnloadDialog extends Dialog {
 	Context context;
+	private TextView messageTextView;
 
 	public OnloadDialog(Context context) {
-		super(context);
+		super(context,R.style.LoadDialog);
 		// TODO Auto-generated constructor stub
 		this.context = context;
 	}
@@ -26,6 +30,15 @@ public class OnloadDialog extends Dialog {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.onload_dialog);
+		messageTextView = (TextView)findViewById(R.id.onload_dialog_message);
+		Log.i("OnloadDialog","onCreate:"+messageTextView);
 	}
 
+	public void setMessage(String message){
+		if(!TextUtils.isEmpty(message)){
+			messageTextView.setText(message);
+		}else{
+			messageTextView.setText("正在加载，请稍候...");
+		}
+	}
 }

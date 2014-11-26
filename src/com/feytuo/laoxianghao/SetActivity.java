@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
 import com.feytuo.chat.activity.BlacklistActivity;
-import com.feytuo.chat.activity.DiagnoseActivity;
-import com.feytuo.chat.activity.LoginActivity;
 import com.feytuo.chat.utils.PreferenceUtils;
 
 public class SetActivity extends Activity implements OnClickListener {
@@ -83,10 +81,10 @@ public class SetActivity extends Activity implements OnClickListener {
 
 	private EMChatOptions chatOptions;
 
-	/**
-	 * 诊断
-	 */
-	private LinearLayout llDiagnose;
+//	/**
+//	 * 诊断
+//	 */
+//	private LinearLayout llDiagnose;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,23 +105,19 @@ public class SetActivity extends Activity implements OnClickListener {
 		iv_switch_open_speaker = (ImageView) findViewById(R.id.iv_switch_open_speaker);
 		iv_switch_close_speaker = (ImageView) findViewById(R.id.iv_switch_close_speaker);
 		logoutBtn = (Button) findViewById(R.id.btn_logout);
-		// if(!TextUtils.isEmpty(EMChatManager.getInstance().getCurrentUser())){
-		// logoutBtn.setText(getString(R.string.button_logout) + "(" +
-		// EMChatManager.getInstance().getCurrentUser() + ")");
-		// }
 
 		textview1 = (TextView) findViewById(R.id.textview1);
 		textview2 = (TextView) findViewById(R.id.textview2);
 
 		blacklistContainer = (LinearLayout) findViewById(R.id.ll_black_list);
-		llDiagnose = (LinearLayout) findViewById(R.id.ll_diagnose);
+//		llDiagnose = (LinearLayout) findViewById(R.id.ll_diagnose);
 		blacklistContainer.setOnClickListener(this);
 		rl_switch_notification.setOnClickListener(this);
 		rl_switch_sound.setOnClickListener(this);
 		rl_switch_vibrate.setOnClickListener(this);
 		rl_switch_speaker.setOnClickListener(this);
 		logoutBtn.setOnClickListener(this);
-		llDiagnose.setOnClickListener(this);
+//		llDiagnose.setOnClickListener(this);
 		chatOptions = EMChatManager.getInstance().getChatOptions();
 		if (chatOptions.getNotificationEnable()) {
 			iv_switch_open_notification.setVisibility(View.VISIBLE);
@@ -234,21 +228,22 @@ public class SetActivity extends Activity implements OnClickListener {
 				chatOptions.setUseSpeaker(true);
 				EMChatManager.getInstance().setChatOptions(chatOptions);
 				PreferenceUtils.getInstance(SetActivity.this)
-						.setSettingMsgVibrate(true);
+						.setSettingMsgSpeaker(true);
 			}
 			break;
 		case R.id.btn_logout:
 			App.getInstance().logout();
+			App.getInstance().finishMainActivity();
 			// 重新显示登陆页面
 			finish();
-			startActivity(new Intent(SetActivity.this, LoginActivity.class));
+			startActivity(new Intent(SetActivity.this, WelcomeActivity.class));
 			break;
 		case R.id.ll_black_list:
 			startActivity(new Intent(SetActivity.this, BlacklistActivity.class));
 			break;
-		case R.id.ll_diagnose:
-			startActivity(new Intent(SetActivity.this, DiagnoseActivity.class));
-			break;
+//		case R.id.ll_diagnose:
+//			startActivity(new Intent(SetActivity.this, DiagnoseActivity.class));
+//			break;
 		default:
 			break;
 		}

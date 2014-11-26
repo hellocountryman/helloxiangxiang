@@ -51,6 +51,7 @@ import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.PersonInvitationActivity;
 import com.feytuo.laoxianghao.PersonUpdateInfoActivity;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.SelsectedCountry;
 import com.feytuo.laoxianghao.SetActivity;
 import com.feytuo.laoxianghao.dao.InvitationDao;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
@@ -72,6 +73,9 @@ public class SettingsFragment extends Fragment {
 	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;
 	private static final int PHOTO_REQUEST_GALLERY = 2;
 	private static final int PHOTO_REQUEST_CUT = 3;
+	private static final int UPDATE_NICK_NAME = 4;
+	private static final int UPDATE_PERSON_SIGN = 5;
+	private static final int UPDATE_HOME = 6;
 	private final String TEMP_HEAD_IMAGE = "temp_head_mage.png";
 	
 	private RelativeLayout personNickRela;// 修改昵称
@@ -80,6 +84,7 @@ public class SettingsFragment extends Fragment {
 	private RelativeLayout personSignRela;// 修改个性签名
 	private TextView personSignText;// 用于显示个性签名
 	
+	private RelativeLayout personHomeRela;//修改家乡
 	private TextView personHomeText;//显示家乡
 
 	private RelativeLayout personTieziRela;
@@ -111,12 +116,13 @@ public class SettingsFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		mImageLoader = new ImageLoader(getActivity());
 		initview();
+		setViewContent();
 	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		getMyCommentNotice();
-		setViewContent();
+//		setViewContent();
 		super.onResume();
 	}
 
@@ -138,6 +144,8 @@ public class SettingsFragment extends Fragment {
 				R.id.person_tiezi_rela);
 		personSetRela = (RelativeLayout) getView().findViewById(
 				R.id.person_set_rela);
+		personHomeRela = (RelativeLayout) getView().findViewById(
+				R.id.person_home_rela);
 
 		Linstener linstener = new Linstener();
 		personHeadImg.setOnClickListener(linstener);
@@ -145,6 +153,7 @@ public class SettingsFragment extends Fragment {
 		personSignRela.setOnClickListener(linstener);
 		personTieziRela.setOnClickListener(linstener);
 		personSetRela.setOnClickListener(linstener);
+		personHomeRela.setOnClickListener(linstener);
 	}
 
 	private void setViewContent() {
@@ -243,12 +252,12 @@ public class SettingsFragment extends Fragment {
 			case R.id.person_nick_rela:
 				intent.setClass(getActivity(), PersonUpdateInfoActivity.class);
 				intent.putExtra("type", "nick");//
-				getActivity().startActivity(intent);
+				startActivityForResult(intent, UPDATE_NICK_NAME);
 				break;
 			case R.id.person_sign_rela:
 				intent.setClass(getActivity(), PersonUpdateInfoActivity.class);
 				intent.putExtra("type", "sign");
-				getActivity().startActivity(intent);
+				startActivityForResult(intent, UPDATE_PERSON_SIGN);
 				break;
 			case R.id.person_tiezi_rela:
 				redPoint.setVisibility(View.GONE);
@@ -259,7 +268,11 @@ public class SettingsFragment extends Fragment {
 				intent.setClass(getActivity(), SetActivity.class);
 				getActivity().startActivity(intent);
 				break;
-
+			case R.id.person_home_rela:
+				intent.setClass(getActivity(), SelsectedCountry.class);
+				intent.putExtra("isfromtocity", 1);
+				startActivityForResult(intent, UPDATE_HOME);
+				break;
 			default:
 				break;
 			}
@@ -286,6 +299,21 @@ public class SettingsFragment extends Fragment {
 			if (data != null)
 				setPicToView(data);
 			break;
+		}
+		if(resultCode == Global.RESULT_OK){
+			String resultData = data.getStringExtra("data").toString().trim();
+			switch(requestCode){
+			case UPDATE_NICK_NAME:
+				personNickText.setText(resultData);
+				personHeadNick.setText(resultData);
+				break;
+			case UPDATE_PERSON_SIGN:
+				personSignText.setText(resultData);
+				break;
+			case UPDATE_HOME:
+				personHomeText.setText(resultData);
+				break;
+			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -359,7 +387,7 @@ public class SettingsFragment extends Fragment {
 					// TODO Auto-generated method stub
 					Toast.makeText(getActivity(), "网络或服务器有问题，请稍候再试...",
 							Toast.LENGTH_SHORT).show();
-					Log.i("UserLogin", "上传头像失败：" + arg1);
+					Log.i("SettingsFragment", "上传头像失败：" + arg1);
 					pd.dismiss();
 				}
 			});
