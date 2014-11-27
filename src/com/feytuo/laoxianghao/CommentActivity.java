@@ -11,6 +11,7 @@ import java.util.TimerTask;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -26,6 +27,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -70,6 +72,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private LinearLayout commentRecordingLinear;
 	private ImageView commentRecordingImg;// 按住录音的时候出现动画提示
 	private TextView commentRecordHintText;// 录音评论的时候文字提示
+	private TextView commentTextFocus;//textview、这里没有什么用，主要是用来失去edittext焦点
 	private ImageView commentAddImg; // 添加额外的录音
 	private Button commentCommentBtn;// 发送评论
 	private LinearLayout commentRecordLinear;// 按住录音的布局
@@ -154,6 +157,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		commentTextEdit = (EditText) findViewById(R.id.comment_text_edit);
 		commentAddImg = (ImageView) findViewById(R.id.comment_add_img);
 		commentCommentBtn = (Button) findViewById(R.id.comment_comment_btn);// 发送评论按钮实例化
+		commentCommentBtn.setClickable(false);
 		commentEditLinear = (LinearLayout) findViewById(R.id.comment_edit_linearlayout);
 		commentRecordLinear = (LinearLayout) findViewById(R.id.comment_record_linearlayout);
 		commentRecordBtn = (Button) findViewById(R.id.comment_record_btn);// 录音按钮的实例化
@@ -167,8 +171,20 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if(hasFocus)
 				{
+					//当聚焦的时候改变输入框的背景色和边框，把录音的布局给隐藏起来，发送按钮可以点击
+					commentTextEdit.setBackgroundResource(R.drawable.corners_storke_edit_press);
 					commentRecordLinear.setVisibility(View.GONE);
+					commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_press);
+					commentCommentBtn.setClickable(true);
 				}
+			}
+		});
+		commentTextEdit.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				commentRecordLinear.setVisibility(View.GONE);
+				return false;
 			}
 		});
 		commentRerecordimg.setVisibility(View.INVISIBLE);// 载入重录的按钮不可见
@@ -179,6 +195,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		commentRecordBtn.setOnTouchListener(new OnToucher());// 按住录音事件
 		commentRerecordimg.setOnClickListener(listenerlist);// 点击重录事件
 		commentPlayRecordImgbutton.setOnClickListener(listenerlist);// 录音播放试听
+		
 	}
 
 	/**
@@ -381,14 +398,19 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		public boolean onTouch(View v, MotionEvent event) {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
+				commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_no);
 				commentRecordBtn.setBackgroundResource(R.drawable.comment_record_press);
 				commentRecordHintText.setText("正在录音");
 				commentRecordingLinear.setVisibility(View.VISIBLE);
 				startAudio();
 				break;
 			case MotionEvent.ACTION_UP:
+				
 				commentRecordHintText.setText("点击试听");
 				commentRecordingLinear.setVisibility(View.GONE);
+				//发送按钮可以点击
+				commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_press);
+				commentCommentBtn.setClickable(true);
 				stopAudio();
 				break;
 
@@ -413,9 +435,12 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.comment_add_img:// 点击增加录音的按钮
+				// 隐藏输入法
+				HideKeyboard(v);			
 				if (commentRecordLinear.getVisibility() == View.VISIBLE) {
 
 					commentRecordLinear.setVisibility(View.GONE);
+					
 				} else {
 
 					commentRecordLinear.setVisibility(View.VISIBLE);
@@ -430,6 +455,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 				break;
 			case R.id.comment_play_record_imgbutton:// 录音后试听
 				if (!isReplay) {
+					
 					playAudio();
 				} else {
 					pauseAudio();
@@ -611,8 +637,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private void startAudio() {
 
 		commentRecordingImg.setBackgroundResource(R.anim.frame_comment_anim);// 正在录音的动画
-		animationDrawable = (AnimationDrawable) commentRecordingImg
-				.getBackground();
+		animationDrawable = (AnimationDrawable) commentRecordingImg.getBackground();
 		animationDrawable.start();
 
 		stopAntherVoice();
@@ -658,7 +683,9 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private void stopAudio() {
 		animationDrawable.stop();// 停止动画
 		commentRerecordimg.setVisibility(View.VISIBLE);// 录完音之后录音出现
-//		commentPlayRecordImgbutton.setVisibility(View.VISIBLE);// 录音播放按钮可见
+		
+		commentPlayRecordImgbutton.setVisibility(View.VISIBLE);// 录音播放按钮可见
+		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);//出现试听的按钮
 		if (recorderTime <= 1) {
 			Toast.makeText(this, "太短啦", Toast.LENGTH_SHORT).show();
 			recordAudio();
@@ -681,7 +708,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		if (mp.isPlaying()) {
 			mp.stop();
 		}
-//		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.play_ico);
+		commentRecordHintText.setText("点击继续");
+		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);
 		commentRerecordimg.setVisibility(View.VISIBLE);// 已经录好准备评论的声音后重放中暂停，重录按钮显示
 		isReplay = false;
 	}
@@ -698,6 +726,11 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			fileAudio.delete();// 文件删除
 			fileAudio = null;
 		}
+		//发送按钮不可以点击
+		commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_no);
+		commentCommentBtn.setClickable(false);
+		
+		commentPlayRecordImgbutton.setVisibility(View.GONE);// 录音播放按钮不可见
 		commentRecordBtn.setBackgroundResource(R.drawable.comment_record_no);
 		commentRecordHintText.setText("按住录音");
 		commentPlayRecordImgbutton.setVisibility(View.GONE);
@@ -709,8 +742,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private void playAudio() {
 		stopAntherVoice();
 		// 设置ui
-//		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.pause_ico);
-		
+		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_pause);
+		commentRecordHintText.setText("正在播放");
 		commentRerecordimg.setVisibility(View.INVISIBLE);
 		isReplay = true;
 		// 点击播放而已
@@ -734,12 +767,12 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	}
 
 	private OnCompletionListener onCompletionListener = new OnCompletionListener() {
-
 		@Override
 		public void onCompletion(MediaPlayer mp) {
 			// TODO Auto-generated method stub
-//			commentPlayRecordImgbutton
-//					.setBackgroundResource(R.drawable.play_ico);
+			commentRecordHintText.setText("点击试听");
+			commentPlayRecordImgbutton
+					.setBackgroundResource(R.drawable.comment_record_play);
 			commentRerecordimg.setVisibility(View.VISIBLE);
 		}
 	};
@@ -780,4 +813,14 @@ public class CommentActivity extends Activity implements IXListViewListener {
 													// 之前调用,因为 onPause 中会保存信息
 		MobclickAgent.onPause(this);
 	}
+	
+	//隐藏虚拟键盘
+    public static void HideKeyboard(View v)
+    {
+        InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );     
+      if ( imm.isActive( ) ) {     
+          imm.hideSoftInputFromWindow( v.getApplicationWindowToken( ) , 0 );   
+          
+      }    
+    }
 }

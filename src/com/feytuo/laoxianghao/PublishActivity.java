@@ -16,11 +16,14 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,7 +56,7 @@ public class PublishActivity extends Activity {
 	private TextView publishHint;// 进度条中显示的文字提醒
 	private TextView publishRecordTime;
 	private TextView publishTitleLocation;
-	private TextView publishText;
+	private EditText publishText;
 	private ImageView headImage;
 	private LinearLayout publishRecordingLinear;//点击录音的时候出现动画提示，
 	private ImageView  publishRecordingImg;////点击录音的时候出现动画提示，
@@ -64,7 +67,7 @@ public class PublishActivity extends Activity {
 	private boolean isLuYin; // 是否在录音 true 是 false否
 	private File fileAudio; // 录音文件
 	private boolean isReplay = false;
-
+	private TextView publishwordnumText;// 还能输入多少字
 	private CountDownTimer mCountDownTimer;
 	private Timer mCountUpTimer;
 	private Timer mProgressTimer;
@@ -120,7 +123,30 @@ public class PublishActivity extends Activity {
 		publishRecordingLinear=(LinearLayout)findViewById(R.id.publish_recording_linear);
 		publishRecordingImg=(ImageView)findViewById(R.id.publish_recording_img);
 		progress = (Button) findViewById(R.id.progressbar_id);
-		publishText = (TextView) findViewById(R.id.publish_text);
+		publishwordnumText=(TextView)findViewById(R.id.publish_wordnum_text);
+		publishText = (EditText) findViewById(R.id.publish_text);
+		//还能够输入多少字
+		publishText.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				publishwordnumText.setText(42-s.length()+"/42");	
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		publishHint = (TextView) findViewById(R.id.publish_hint);
 		publishRecordTime = (TextView) findViewById(R.id.publish_record_time);
 		publishButton = (Button) findViewById(R.id.publish_button);
@@ -418,6 +444,7 @@ public class PublishActivity extends Activity {
 			mCountUpTimer.cancel();
 			// 设置UI
 			publishPlayRecordImgbutton.setVisibility(View.VISIBLE);// 播放和重录的功能按钮显示
+			publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);//点击播放
 			publishRerecordButton.setVisibility(View.VISIBLE);
 		}
 	}
@@ -425,7 +452,7 @@ public class PublishActivity extends Activity {
 	// 播放已经录好的音
 	private void playAudio() {
 		// 设置ui
-//		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.pause_ico);
+		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_pause);//点击暂停
 		publishRerecordButton.setVisibility(View.INVISIBLE);
 		isReplay = true;
 		// 点击播放而已
@@ -435,7 +462,7 @@ public class PublishActivity extends Activity {
 			mp.prepare();
 			mp.seekTo(0);
 			mp.start();
-			publishHint.setText("录音正在播放...");
+			publishHint.setText("录音正在播放");
 			// //实现倒计时
 			// mCountDownTimer = new MyCount(mp.getDuration(), 1000);
 			mCountDownTimer = new MyCount((mRecordTime) * 1000 + 50, 1000);
@@ -483,7 +510,7 @@ public class PublishActivity extends Activity {
 		publishHint.setText("点击继续");
 		publishRecordTime.setText(mRecordTime + "s");
 		publishRerecordButton.setVisibility(View.VISIBLE);
-//		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.play_ico);
+		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);
 		isReplay = false;
 	}
 
@@ -493,6 +520,7 @@ public class PublishActivity extends Activity {
 		publishHint.setVisibility(View.VISIBLE);
 		publishPlayRecordImgbutton.setVisibility(View.GONE);
 		publishRerecordButton.setVisibility(View.INVISIBLE);
+		publishRerecordButton.setBackgroundResource(R.drawable.comment_record_no);
 		// 初始化录音
 		mRecordTime = 0;
 		publishRecordTime.setText(mRecordTime + "s");
@@ -511,7 +539,8 @@ public class PublishActivity extends Activity {
 		@Override
 		public void onFinish() {
 			// 完成的时候提示
-			publishRecordTime.setText(0 + "s");
+			publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);//点击暂停
+			publishRecordTime.setText(mRecordTime + "s");
 			publishHint.setText("点击试听");
 		}
 
