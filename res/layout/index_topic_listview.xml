@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/index_topic_top_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:background="@drawable/index_topic_common_selector"
         android:clickable="true"
         android:layout_height="40dp" >

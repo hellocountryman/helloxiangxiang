@@ -96,7 +96,11 @@ public class ListViewAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return list.size()+1;
+		if(list.size() < 2){
+			return list.size();
+		}else{
+			return list.size()+1;
+		}
 	}
 
 	@Override
