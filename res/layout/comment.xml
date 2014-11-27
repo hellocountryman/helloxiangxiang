@@ -48,10 +48,10 @@
             android:layout_height="200.0dip"
             android:layout_centerInParent="true"
             android:alpha="0.5"
-            android:visibility="gone"
             android:background="@drawable/corners_blackbg"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <ImageView
                 android:id="@+id/comment_recording_img"
@@ -70,11 +70,16 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/weibo_unline_3d" />
+
     <LinearLayout
         android:id="@+id/comment_edit_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/main_bottom_item_bg"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -89,11 +94,11 @@
         <EditText
             android:id="@+id/comment_text_edit"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30.0dip"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:layout_weight="5"
-            android:background="@drawable/corners_storke_indexbg"
+            android:background="@drawable/corners_storke_edit_no"
             android:inputType="textMultiLine"
             android:padding="3dp"
             android:singleLine="false" />
@@ -103,8 +108,9 @@
             android:layout_width="60.0dip"
             android:layout_height="30.0dip"
             android:layout_margin="8dp"
-            android:background="@drawable/corners_storke_indexbg"
+            android:background="@drawable/corners_storke_edit"
             android:text="@string/comment"
+            android:textColor="#9d9d9d"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -112,7 +118,7 @@
         android:id="@+id/comment_record_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="200.0dip"
-        android:background="@drawable/main_bottom_item_bg"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone" >

@@ -125,7 +125,7 @@
             android:name="com.feytuo.laoxianghao.PublishActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.feytuo.laoxianghao.CommentActivity"

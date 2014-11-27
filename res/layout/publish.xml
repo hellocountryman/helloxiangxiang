@@ -51,13 +51,12 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="0.0dip"
+        android:layout_weight="4" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50.0dip"
-            android:layout_marginLeft="8.0dip"
-            android:layout_marginRight="8.0dip"
             android:background="@color/white" >
 
             <ImageView
@@ -89,8 +88,6 @@
             android:id="@+id/publish_select_home_rela"
             android:layout_width="fill_parent"
             android:layout_height="50.0dip"
-            android:layout_marginLeft="8.0dip"
-            android:layout_marginRight="8.0dip"
             android:layout_marginTop="51.0dip"
             android:background="@drawable/common_selector"
             android:clickable="true" >
@@ -126,20 +123,29 @@
         <EditText
             android:id="@+id/publish_text"
             android:layout_width="match_parent"
-            android:layout_height="200dip"
-            android:layout_marginLeft="8.0dip"
-            android:layout_marginRight="8.0dip"
+            android:layout_height="match_parent"
             android:layout_marginTop="110.0dip"
             android:background="@drawable/corners_storke_weibo"
             android:gravity="top"
             android:hint="请用一段话描述语音"
             android:inputType="textMultiLine"
+            android:maxLength="42"
             android:padding="2.0dip"
             android:singleLine="false"
             android:textSize="16.0sp" >
 
             <requestFocus />
         </EditText>
+
+        <TextView
+            android:id="@+id/publish_wordnum_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16.0dip"
+            android:layout_marginRight="16dip"
+            android:text="0/42" />
 
         <LinearLayout
             android:id="@+id/publish_recording_linear"
@@ -177,8 +183,9 @@
     <LinearLayout
         android:id="@+id/comment_record_linearlayout"
         android:layout_width="match_parent"
-        android:layout_height="200.0dip"
-        android:background="@color/weibo_unline"
+        android:layout_height="0.0dip"
+        android:layout_weight="4"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="visible" >
@@ -220,16 +227,17 @@
                 android:layout_toLeftOf="@id/progressbar_id"
                 android:text="0s"
                 android:textColor="@color/comment_hint" />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/publish_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="16.0dip"
-            android:text="点击录音"
-            android:textColor="@color/comment_hint" />
+            <TextView
+                android:id="@+id/publish_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/progressbar_id"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="64.0dip"
+                android:text="点击录音"
+                android:textColor="@color/comment_hint" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
