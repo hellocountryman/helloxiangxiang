@@ -83,7 +83,11 @@ public class ChatAndContactFragment extends Fragment {
 			@Override
 			public void onPageSelected(int arg0) {
 				// TODO Auto-generated method stub
-
+				if(arg0 == 0){
+					leftcolor();
+				}else{
+					rightcolor();
+				}
 			}
 
 			@Override
@@ -93,8 +97,8 @@ public class ChatAndContactFragment extends Fragment {
 					currentOffset = arg0 * cursorOffset;
 				} else {
 					// 图片移动偏移量
-					Log.i("ChatAndContactFragment", "当前移动总量："
-							+ (currentOffset + cursorOffset * arg1));
+//					Log.i("ChatAndContactFragment", "当前移动总量："
+//							+ (currentOffset + cursorOffset * arg1));
 					final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cursorImage
 							.getLayoutParams();
 					if (arg0 == 0 && arg2 == 0) {
@@ -150,16 +154,16 @@ public class ChatAndContactFragment extends Fragment {
 	 * viewpager在左边的时候
 	 */
 	private void leftcolor() {
-		btnConversation.setTextColor(R.color.indexbg);
-		btnAddressList.setTextColor(R.color.grey);//
+		btnConversation.setTextColor(getResources().getColor(R.color.indexbg));
+		btnAddressList.setTextColor(getResources().getColor(R.color.grey));
 	}
 
 	/*
-	 * viewpager在右边边的时候
+	 * viewpager在右边的时候
 	 */
 	private void rightcolor() {
-		btnConversation.setTextColor(R.color.grey);
-		btnAddressList.setTextColor(R.color.indexbg);//
+		btnConversation.setTextColor(getResources().getColor(R.color.grey));
+		btnAddressList.setTextColor(getResources().getColor(R.color.indexbg));
 	}
 
 	private void initCursor(View view) {
@@ -182,11 +186,13 @@ public class ChatAndContactFragment extends Fragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_container_conversation: // 会话按钮
+				leftcolor();
 				setCursor(viewPager.getCurrentItem(), 0);
 				viewPager.setCurrentItem(0, false);
 				currentTabInCAC = 0;
 				break;
 			case R.id.btn_container_address_list:// 好友列表按钮
+				rightcolor();
 				setCursor(viewPager.getCurrentItem(), 1);
 				viewPager.setCurrentItem(1, false);
 				currentTabInCAC = 1;

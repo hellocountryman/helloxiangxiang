@@ -58,7 +58,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class CommentActivity extends Activity implements IXListViewListener {
 	private String invId;// 当前评论的帖子id
-	private int enterFrom;// 从0主界面|1我的帖子|2收藏中进入，在获取帖子信息时有区别
+	private int enterFrom;// 从0主界面|1我的帖子|2主界面话题帖中进入，在获取帖子信息时有区别
 	private final int STATE_REFRESH = 0;// 下拉刷新
 	private final int STATE_MORE = 1;// 加载更多
 	private final int LIMIT = 10;// 每页的数据是10条
@@ -122,13 +122,12 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	}
 
 	private Invitation getInvitationInfo(String invId) {
-		if (enterFrom == 0) {// 从主界面进入
+		if (enterFrom == 0) {// 从主界面普通帖子进入
 			return new InvitationDao(this).getInvitationById(invId);
 		} else if (enterFrom == 1) {// 从我的帖子进入
 			return new InvitationDao(this).getInvitationFromMyById(invId);
-		} else if (enterFrom == 2) {// 从收藏进入
-			return new InvitationDao(this)
-					.getInvitationFromCollectionById(invId);
+		} else if (enterFrom == 2) {// 从主界面话题帖中进入
+			return new InvitationDao(this).getTypeInvitationFromClass(invId);
 		} else {
 			return null;
 		}

@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/ll_loading"
-                 android:background="@drawable/common_selector"
+                android:background="@color/weibo_unline"
                 android:cacheColorHint="#00000000"
                 android:descendantFocusability="afterDescendants"
                 android:divider="@color/divider_list"

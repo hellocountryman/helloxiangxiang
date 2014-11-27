@@ -18,6 +18,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -26,11 +27,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
@@ -39,6 +40,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.CommentActivity;
+import com.feytuo.laoxianghao.FindDetailsActivity;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.UserToPersonActivity;
 import com.feytuo.laoxianghao.dao.CityDao;
@@ -58,13 +60,15 @@ import com.feytuo.laoxianghao.view.MyDialog;
  * 
  */
 @SuppressLint({ "HandlerLeak", "UseSparseArrays" })
-public class ListViewAdapter extends SimpleAdapter {
+public class ListViewAdapter extends BaseAdapter {
 
 	private final String TAG = "ListViewAdapter";
+	private final int TYPE_1 = 0;
+	private final int TYPE_2 = 1;
 	private Context context;
 	private LayoutInflater m_Inflater;
-	private int resource;
 	private List<Map<String, Object>> list;// 声明List容器对象
+	private Invitation topicInv;//话题帖子
 	private SparseArray<Boolean> praiseMap; // 标记点赞对象
 	private SparseArray<Boolean> collectionMap;// 标记收藏对象
 	private SparseArray<Boolean> isAudioPlayArray;// 记录是否正在播放音乐
@@ -75,11 +79,10 @@ public class ListViewAdapter extends SimpleAdapter {
 	private ImageLoader mImageLoader;
 
 	public ListViewAdapter(Context context, List<Map<String, Object>> data,
-			int resource, String[] from, int[] to) {
-		super(context, data, resource, from, to);
+			Invitation topicInvitation) {
 		this.list = data;
+		this.topicInv = topicInvitation;
 		this.context = context;
-		this.resource = resource;
 		m_Inflater = LayoutInflater.from(context);
 		praiseMap = new SparseArray<>();
 		collectionMap = new SparseArray<>();
@@ -89,77 +92,178 @@ public class ListViewAdapter extends SimpleAdapter {
 		mImageLoader = new ImageLoader(context);
 	}
 
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return list.size()+1;
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		if(position < 2){
+			return list.get(position);
+		}else if(position == 2){
+			return topicInv;
+		}else{
+			return list.get(position-1);
+		}
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+	// getItemViewType(int) – 根据position返回相应的Item
+	public int getItemViewType(int position) {
+		int p = position;
+		if (p != 2) {
+			return TYPE_1;
+		} else {//第三个位置
+			return TYPE_2;
+		}
+	}
+	// getViewTypeCount() – 该方法返回多少个不同的布局
+	public int getViewTypeCount() {
+		// TODO Auto-generated method stub
+		return 2;
+	}
 	@Override
 	// 获取listitem下面的view的值
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
+		ViewHolder holder1 = null;
+		ViewHolder holder2 = null;
+		int type = getItemViewType(position);
 		// ViewHolder不是Android的开发API，而是一种设计方法，就是设计个静态类，缓存一下，省得Listview更新的时候，还要重新操作。
-		if (convertView == null) {
-			holder = new ViewHolder();
-			convertView = m_Inflater.inflate(resource, null);
-
-			if (resource == R.layout.index_listview) {
-
-				holder.indexBottomLinearlayout = (LinearLayout) convertView
-						.findViewById(R.id.index_bottom_linearlayout);
-				holder.indexSupportLinerlayout = (LinearLayout) convertView
+		switch(type){
+		case TYPE_1:{
+			if (convertView == null) {
+				holder1 = new ViewHolder();
+				convertView = m_Inflater.inflate(R.layout.index_listview, null);
+				holder1.indexSupportLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_support_linerlayout);
-				holder.indexCommentLinerlayout = (LinearLayout) convertView
+				holder1.indexCommentLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_comment_linerlayout);
-				holder.indexShareLinerlayout = (LinearLayout) convertView
+				holder1.indexShareLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_share_linerlayout);
-				holder.indexProgressbarTopImg = (ImageView) convertView
-						.findViewById(R.id.index_progressbar_top_img);
-				holder.indexProgressbarLayout = (RelativeLayout) convertView
+				holder1.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_progressbar_layout);
-				holder.indexProgressbarBtn = (ImageButton) convertView
+				holder1.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
 
-				holder.titleImage = (ImageView) convertView
-						.findViewById(R.id.title_img_id);
-				holder.supportImg = (ImageView) convertView
+				holder1.supportImg = (ImageView) convertView
 						.findViewById(R.id.support_img);
-				holder.personHeadImg = (ImageButton) convertView
+				holder1.personHeadImg = (ImageButton) convertView
 						.findViewById(R.id.index_user_head);
-				holder.personUserNick = (TextView) convertView
+				holder1.personUserNick = (TextView) convertView
 						.findViewById(R.id.index_user_nick);
-				holder.home = (TextView) convertView
+				holder1.home = (TextView) convertView
 						.findViewById(R.id.index_home_textview);
-				holder.indexSupportNum = (TextView) convertView
+				holder1.indexSupportNum = (TextView) convertView
 						.findViewById(R.id.index_support_num);
-				holder.indexCommentNum = (TextView) convertView
+				holder1.indexCommentNum = (TextView) convertView
 						.findViewById(R.id.index_comment_num);
-				holder.indexProgressbarTime = (TextView) convertView
+				holder1.indexProgressbarTime = (TextView) convertView
 						.findViewById(R.id.index_progressbar_time);
 
-				holder.indexTextDescribe = (TextView) convertView
+				holder1.indexTextDescribe = (TextView) convertView
 						.findViewById(R.id.index_text_describe);
-				holder.indexLocalsCountry = (TextView) convertView
+				holder1.indexLocalsCountry = (TextView) convertView
 						.findViewById(R.id.index_locals_country);
-				holder.indexLocalsTime = (TextView) convertView
+				holder1.indexLocalsTime = (TextView) convertView
 						.findViewById(R.id.index_locals_time);
-				convertView.setTag(holder);
+				convertView.setTag(holder1);
 				// Tag从本质上来讲是就是相关联的view的额外的信息。它们经常用来存储(set）一些view的数据，用的时候（get）这样做非常方便而不用存入另外的单独结构。
+			} else {
+				holder1 = (ViewHolder) convertView.getTag();
 			}
-		} else {
-			holder = (ViewHolder) convertView.getTag();
+			/**
+			 * 因为话题有可能为不可见，这里需要复原可见
+			 */
+			if(!convertView.isShown()){
+				convertView.setVisibility(View.VISIBLE);
+			}
+			int listIndex;//数据的下表，当大于2时需要position-1
+			if(position < 2){
+				listIndex = position;
+			}else{
+				listIndex = position - 1;
+			}
+			Listener listener = new Listener(holder1, position,listIndex);
+			convertView.setClickable(true);
+			convertView.setOnClickListener(listener);
+			holder1.personHeadImg.setOnClickListener(listener);
+			holder1.indexSupportLinerlayout.setOnClickListener(listener);
+			holder1.indexCommentLinerlayout.setOnClickListener(listener);
+			holder1.indexShareLinerlayout.setOnClickListener(listener);
+			holder1.indexProgressbarLayout.setOnClickListener(listener);
+			setSubBtn(holder1, position,listIndex);
+			setcontent(holder1, position,listIndex);
+			setAudioState(holder1, position,listIndex);
 		}
-		Listener listener = new Listener(holder, position);
-		convertView.setClickable(true);
-		convertView.setOnClickListener(listener);
-		holder.personHeadImg.setOnClickListener(listener);
-		holder.indexSupportLinerlayout.setOnClickListener(listener);
-		holder.indexCommentLinerlayout.setOnClickListener(listener);
-		holder.indexShareLinerlayout.setOnClickListener(listener);
-		holder.indexProgressbarLayout.setOnClickListener(listener);
-		setSubBtn(holder, position);
-		setcontent(holder, position);
-		setAudioState(holder, position);
+			break;
+		case TYPE_2:{
+			if(convertView == null){
+				holder2 = new ViewHolder();
+				convertView = m_Inflater.inflate(R.layout.index_topic_listview, null);
+				holder2.indexTopicTopLayout = (RelativeLayout) convertView
+						.findViewById(R.id.index_topic_top_layout);
+				holder2.indexSupportLinerlayout = (LinearLayout) convertView
+						.findViewById(R.id.index_topic_support_linerlayout);
+				holder2.indexCommentLinerlayout = (LinearLayout) convertView
+						.findViewById(R.id.index_topic_comment_linerlayout);
+				holder2.indexShareLinerlayout = (LinearLayout) convertView
+						.findViewById(R.id.index_topic_share_linerlayout);
+				holder2.indexProgressbarLayout = (RelativeLayout) convertView
+						.findViewById(R.id.index_topic_progressbar_layout);
+				holder2.indexProgressbarBtn = (ImageButton) convertView
+						.findViewById(R.id.index_topic_progressbar_btn);
+				
+				holder2.supportImg = (ImageView) convertView
+						.findViewById(R.id.support_topic_img);
+				holder2.personUserNick = (TextView) convertView
+						.findViewById(R.id.index_topic_user_nick);
+				holder2.indexSupportNum = (TextView) convertView
+						.findViewById(R.id.index_topic_support_num);
+				holder2.indexCommentNum = (TextView) convertView
+						.findViewById(R.id.index_topic_comment_num);
+				holder2.indexProgressbarTime = (TextView) convertView
+						.findViewById(R.id.index_topic_progressbar_time);
+				
+				holder2.indexTextDescribe = (TextView) convertView
+						.findViewById(R.id.index_topic_text_describe);
+				holder2.indexLocalsTime = (TextView) convertView
+						.findViewById(R.id.index_topic_locals_time);
+				convertView.setTag(holder2);
+			}else{
+				holder2 = (ViewHolder)convertView.getTag();
+			}
+			if(TextUtils.isEmpty(topicInv.getObjectId())){
+				convertView.setVisibility(View.GONE);
+			}else{
+				Listener listener = new Listener(holder2, position,-1);
+				holder2.indexSupportLinerlayout.setOnClickListener(listener);
+				holder2.indexCommentLinerlayout.setOnClickListener(listener);
+				holder2.indexShareLinerlayout.setOnClickListener(listener);
+				holder2.indexProgressbarLayout.setOnClickListener(listener);
+				holder2.indexTopicTopLayout.setOnClickListener(listener);
+				setSubBtn(holder2, position,-1);
+				setcontent(holder2, position,-1);
+				setAudioState(holder2, position,-1);
+			}
+		}
+			break;
+		}
+		Log.i(TAG, "convertView:"+convertView);
 		return convertView;
 	}
 
+
+
 	// 根据音乐是否播放设置item
-	private void setAudioState(final ViewHolder holder, final int position) {
+	private void setAudioState(final ViewHolder holder, final int position,int listIndex) {
 
 		holder.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
 		animationDrawable = (AnimationDrawable) holder.indexProgressbarBtn
@@ -168,23 +272,12 @@ public class ListViewAdapter extends SimpleAdapter {
 		if (!isAudioPlayArray.get(position, false)) {// 没有播放的
 			if (mHolder != null && mHolder.equals(holder)) {
 				isCurrentItemAudioPlay = false;
-				mHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						// holder.indexProgressbarId.setProgress(0);
-						// Log.i("progressbar", "主界面progress:"
-						// + holder.indexProgressbarId.getProgress());
-					}
-				});
-				holder.indexProgressbarTime.setText((Integer) list
-						.get(position).get("voice_duration") + "s");
-				Log.i("tangpeng", "stop");
-				// holder.indexProgressbarBtn
-				// .setBackgroundResource(R.drawable.musicplayone);
-				// AnimationDrawable animationDrawable = (AnimationDrawable)
-				// mHolder.indexProgressbarBtn
-				// .getBackground();
+				if(getItemViewType(position) == TYPE_1){
+					holder.indexProgressbarTime.setText((Integer) list
+							.get(listIndex).get("voice_duration") + "s");
+				}else{
+					holder.indexProgressbarTime.setText(topicInv.getVoiceDuration() + "s");
+				}
 				animationDrawable.stop();
 				 holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 			}
@@ -195,83 +288,88 @@ public class ListViewAdapter extends SimpleAdapter {
 	}
 
 	@SuppressLint("SimpleDateFormat")
-	private void setcontent(ViewHolder holder, int position) {
+	private void setcontent(ViewHolder holder, int position,int listIndex) {
 		// TODO Auto-generated method stub
-		// 文字
-		holder.indexTextDescribe.setText(list.get(position).get("words") + "");
-		// 地点
-		holder.indexLocalsCountry.setText(list.get(position).get("position")
-				.toString());
-		// 地方话
-		holder.home.setText(cityDao.getCityNameById((int) list.get(position)
-				.get("home")) + "话");
-		// 设置昵称和头像
-		setUserInfo(list.get(position).get("uid").toString(),
-				holder.personUserNick, holder.personHeadImg);
-
-		// 设置话题帖和普通帖
-		if (1 == (int) list.get(position).get("ishot")) {
-			// 帖子底部栏、头像、时间、地方方言、地理位置、录音隐藏，昵称改为“热门话题”
-			holder.indexBottomLinearlayout.setVisibility(View.GONE);
-			holder.personHeadImg.setVisibility(View.GONE);
-			holder.indexLocalsTime.setVisibility(View.GONE);
-			holder.home.setVisibility(View.GONE);
-			holder.indexLocalsCountry.setVisibility(View.GONE);
-			holder.indexProgressbarTopImg.setVisibility(View.GONE);
-			holder.indexProgressbarLayout.setVisibility(View.GONE);
-			holder.titleImage.setVisibility(View.GONE);
-			holder.personUserNick.setText("方言话题");
-			holder.personUserNick.setTextColor(context.getResources().getColor(
-					R.color.indexbg));
-		} else {// 非方言话题类帖子
-			holder.indexBottomLinearlayout.setVisibility(View.VISIBLE);
-			holder.titleImage.setBackgroundResource(R.drawable.geographical);
-			holder.indexLocalsCountry.setTextColor(context.getResources()
-					.getColor(R.color.indexbg));
-			holder.personHeadImg.setVisibility(View.VISIBLE);
-			holder.indexLocalsTime.setVisibility(View.VISIBLE);
-			holder.home.setVisibility(View.VISIBLE);
-			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
-			holder.indexProgressbarTopImg.setVisibility(View.VISIBLE);
-			holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
-			holder.titleImage.setVisibility(View.VISIBLE);
-			holder.personUserNick.setTextColor(context.getResources().getColor(
-					R.color.head_color));
-		}
-
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
-		Date date = null;
-		try {
-			date = df.parse(list.get(position).get("time") + "");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		holder.indexLocalsTime.setText(StringTools.getTimeFormatText(date));
-		holder.indexProgressbarTime.setText(list.get(position).get(
-				"voice_duration")
-				+ "s");
-		// 点赞数
-		if ((Integer) (list.get(position).get("praise_num")) > 0) {
-			holder.indexSupportNum.setText(list.get(position).get("praise_num")
+		if(getItemViewType(position) == TYPE_1){
+			// 文字
+			holder.indexTextDescribe.setText(list.get(listIndex).get("words") + "");
+			// 地点
+			holder.indexLocalsCountry.setText(list.get(listIndex).get("position")
 					.toString());
-		} else {
-			holder.indexSupportNum.setText("赞");
+			// 地方话
+			holder.home.setText(cityDao.getCityNameById((int) list.get(listIndex)
+					.get("home")) + "话");
+			// 设置昵称和头像
+			setUserInfo(list.get(listIndex).get("uid").toString(),
+					holder.personUserNick, holder.personHeadImg);
+
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
+			Date date = null;
+			try {
+				date = df.parse(list.get(listIndex).get("time") + "");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			holder.indexLocalsTime.setText(StringTools.getTimeFormatText(date));
+			holder.indexProgressbarTime.setText(list.get(listIndex).get(
+					"voice_duration")
+					+ "s");
+			// 点赞数
+			if ((Integer) (list.get(listIndex).get("praise_num")) > 0) {
+				holder.indexSupportNum.setText(list.get(listIndex).get("praise_num")
+						.toString());
+			} else {
+				holder.indexSupportNum.setText("赞");
+			}
+			// 评论数
+			if ((Integer) (list.get(listIndex).get("comment_num")) > 0) {
+				holder.indexCommentNum.setText(list.get(listIndex)
+						.get("comment_num").toString());
+				// holder.commentImg.setBackgroundResource(R.drawable.comment_press);
+			} else {
+				holder.indexCommentNum.setText("评论");
+			}
+		}else{//话题板块
+			// 文字
+			holder.indexTextDescribe.setText(topicInv.getWords());
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
+			Date date = null;
+			try {
+				date = df.parse(topicInv.getTime());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			holder.indexLocalsTime.setText(StringTools.getTimeFormatText(date));
+			holder.indexProgressbarTime.setText(topicInv.getVoiceDuration()+ "s");
+			// 点赞数
+			if (topicInv.getPraiseNum() > 0) {
+				holder.indexSupportNum.setText(topicInv.getPraiseNum()
+						.toString());
+			} else {
+				holder.indexSupportNum.setText("赞");
+			}
+			// 评论数
+			if (topicInv.getCommentNum() > 0) {
+				holder.indexCommentNum.setText(topicInv.getCommentNum().toString());
+				// holder.commentImg.setBackgroundResource(R.drawable.comment_press);
+			} else {
+				holder.indexCommentNum.setText("评论");
+			}
 		}
-		// 评论数
-		if ((Integer) (list.get(position).get("comment_num")) > 0) {
-			holder.indexCommentNum.setText(list.get(position)
-					.get("comment_num").toString());
-			// holder.commentImg.setBackgroundResource(R.drawable.comment_press);
-		} else {
-			holder.indexCommentNum.setText("评论");
-		}
+		
 	}
 
 	// 设置点赞等图片按钮
-	private void setSubBtn(ViewHolder holder, int position) {
+	private void setSubBtn(ViewHolder holder, int position,int listIndex) {
 		if (App.isLogin()) {
-			String invId = (String) list.get(position).get("inv_id");
+			String invId;
+			if(getItemViewType(position) == TYPE_1){
+				invId = (String) list.get(listIndex).get("inv_id"); 
+			}else{
+				invId = topicInv.getObjectId();
+			}
 			String uId = App.pre.getString(Global.USER_ID, "");
 			// 判断该帖子是否在点赞表里
 			if (isPraised(invId, uId)) {
@@ -357,11 +455,13 @@ public class ListViewAdapter extends SimpleAdapter {
 	class Listener implements OnClickListener {
 
 		private int position;
+		private int listIndex;
 		private ViewHolder holder;
 
-		public Listener(ViewHolder holder, int position) {
+		public Listener(ViewHolder holder, int position,int listIndex) {
 			this.position = position;
 			this.holder = holder;
+			this.listIndex = listIndex;
 		}
 
 		@Override
@@ -371,31 +471,39 @@ public class ListViewAdapter extends SimpleAdapter {
 			switch (v.getId()) {
 			case R.id.index_user_head:
 				// 跳转到查看别人的个人中心
-				String userid = list.get(position).get("uid").toString();
+				String userid = list.get(listIndex).get("uid").toString();
 				Intent intentToPerson = new Intent();
 				intentToPerson.setClass(context, UserToPersonActivity.class);
 				intentToPerson.putExtra("userid", userid);
 				context.startActivity(intentToPerson);
 				break;
+			case R.id.index_topic_share_linerlayout:
 			case R.id.index_share_linerlayout:
-				Dialog dialog = new MyDialog(context, list.get(position),
-						R.style.MyDialog);
+				Dialog dialog;
+				if(getItemViewType(position) == TYPE_1){
+					dialog = new MyDialog(context, list.get(listIndex),
+							R.style.MyDialog);
+				}else{
+					dialog = new MyDialog(context, topicInv,
+							R.style.MyDialog);
+				}
 				dialog.show();
 				break;
+			case R.id.index_topic_comment_linerlayout:
 			case R.id.index_comment_linerlayout:
 				if (App.isLogin()) {
-					turnToComment(holder, position);
+					turnToComment(holder, position,listIndex);
 				}
-				// Toast.makeText(context, "点击了所在" + position + "的评论",
-				// Toast.LENGTH_SHORT).show();
 				break;
+			case R.id.index_topic_support_linerlayout://话题点赞按钮与普通帖相同操作
 			case R.id.index_support_linerlayout:
 				if (App.isLogin()) {
 					if (NetUtil.isNetConnect(context)) {// 检查是否联网
-						dealSupportBtn(holder, position);
+						dealSupportBtn(holder, position,listIndex);
 					}
 				}
 				break;
+			case R.id.index_topic_progressbar_layout:
 			case R.id.index_progressbar_layout:
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
 					if (lastPosition == position) {
@@ -403,37 +511,47 @@ public class ListViewAdapter extends SimpleAdapter {
 							// Toast.makeText(context, "你点击了录音的播放按钮" + position,
 							// Toast.LENGTH_SHORT).show();
 
-							playAudio(holder, position);// 播放语音
+							playAudio(holder, position,listIndex);// 播放语音
 
 						} else {
 							stopAudio(holder, position);
 						}
 					} else {
-						playAudio(holder, position);// 播放语音
+						playAudio(holder, position,listIndex);// 播放语音
 					}
 				}
 				break;
+			case R.id.index_topic_top_layout:
+				Intent intent = new Intent();
+				intent.setClass(context, FindDetailsActivity.class);
+				intent.putExtra("type", 1);
+				context.startActivity(intent);
+				break;
 			default:
-				if (App.isLogin()) {
-					turnToComment(holder, position);
-				}
+				turnToComment(holder, position,listIndex);
 				break;
 			}
 		}
 	}
 
 	// 跳转到评论页面
-	private void turnToComment(ViewHolder holder, int position) {
+	private void turnToComment(ViewHolder holder, int position,int listIndex) {
 		// TODO Auto-generated method stub
-		String invId = list.get(position).get("inv_id").toString();
+		String invId;
 		Intent intentComment = new Intent();
+		if(getItemViewType(position) == TYPE_1){
+			invId = list.get(listIndex).get("inv_id").toString();
+			intentComment.putExtra("enterFrom", 0);
+		}else{
+			invId = topicInv.getObjectId();
+			intentComment.putExtra("enterFrom", 2);
+		}
 		intentComment.setClass(context, CommentActivity.class);
 		intentComment.putExtra("invId", invId);
-		intentComment.putExtra("enterFrom", 0);
 		context.startActivity(intentComment);
 	}
 
-	public void dealSupportBtn(ViewHolder holder, int position) {
+	public void dealSupportBtn(ViewHolder holder, int position,int listIndex) {
 		// TODO Auto-generated method stub
 		// 点赞+1的动态效果
 		Animation animation = AnimationUtils.loadAnimation(context, R.anim.nn);
@@ -448,7 +566,7 @@ public class ListViewAdapter extends SimpleAdapter {
 						+ "");
 			}
 			praiseMap.put(position, true);
-			addPraise(position);
+			addPraise(position,listIndex);
 		} else {// 取消点赞
 			holder.supportImg.setBackgroundResource(R.drawable.support_no);
 			String number = holder.indexSupportNum.getText().toString();
@@ -461,22 +579,28 @@ public class ListViewAdapter extends SimpleAdapter {
 						+ "");
 			}
 			praiseMap.put(position, false);
-			deletePraise(position);
+			deletePraise(position,listIndex);
 		}
 	}
 
 	// 向服务器和本地数据库添加点赞数据
-	private void addPraise(final int position) {
+	private void addPraise(int position,int listIndex) {
 		// TODO Auto-generated method stub
-		String invId = list.get(position).get("inv_id").toString();
+		String invId;
+		if(getItemViewType(position) == TYPE_1){
+			invId = list.get(listIndex).get("inv_id").toString();
+			int praiseNum = (Integer) (list.get(listIndex).get("praise_num"));
+			list.get(listIndex).put("praise_num", praiseNum + 1);
+		}else{
+			invId = topicInv.getObjectId();
+			topicInv.setPraiseNum(topicInv.getPraiseNum()+1);
+		}
 		// 该贴点赞数+1
 		Invitation inv = new Invitation();
 		inv.increment("praiseNum", 1);
 		inv.update(context, invId, new UpdateListener() {
 			@Override
 			public void onSuccess() {
-				int praiseNum = (Integer) (list.get(position).get("praise_num"));
-				list.get(position).put("praise_num", praiseNum + 1);
 				// Toast.makeText(context, "点赞数+1", Toast.LENGTH_SHORT).show();
 			}
 
@@ -488,20 +612,26 @@ public class ListViewAdapter extends SimpleAdapter {
 		});
 
 		new PraiseDao(context).insertPraise(
-				App.pre.getString(Global.USER_ID, ""), invId);
+				invId,App.pre.getString(Global.USER_ID, ""));
 	}
 
-	private void deletePraise(final int position) {
+	private void deletePraise(int position,int listIndex) {
 		// TODO Auto-generated method stub
-		String invId = list.get(position).get("inv_id").toString();
+		String invId;
+		if(getItemViewType(position) == TYPE_1){
+			invId = list.get(listIndex).get("inv_id").toString();
+			int praiseNum = (Integer) (list.get(listIndex).get("praise_num"));
+			list.get(listIndex).put("praise_num", praiseNum - 1);
+		}else{
+			invId = topicInv.getObjectId();
+			topicInv.setPraiseNum(topicInv.getPraiseNum()-1);
+		}
 		// 该贴点赞数-1
 		Invitation inv = new Invitation();
 		inv.increment("praiseNum", -1);
 		inv.update(context, invId, new UpdateListener() {
 			@Override
 			public void onSuccess() {
-				int praiseNum = (Integer) (list.get(position).get("praise_num"));
-				list.get(position).put("praise_num", praiseNum - 1);
 				// Toast.makeText(context, "点赞数-1", Toast.LENGTH_SHORT).show();
 			}
 
@@ -517,13 +647,14 @@ public class ListViewAdapter extends SimpleAdapter {
 	}
 
 	class ViewHolder {
-		private LinearLayout indexBottomLinearlayout;// 帖子底部栏
+//		private LinearLayout indexBottomLinearlayout;// 帖子底部栏
+		private RelativeLayout indexTopicTopLayout;//话题顶部栏
 		private LinearLayout indexSupportLinerlayout;// 赞
 		private LinearLayout indexCommentLinerlayout;// 评论
 		private LinearLayout indexShareLinerlayout;// 分享
 		private RelativeLayout indexProgressbarLayout;// 点击录音的布局
-		private ImageView indexProgressbarTopImg;// 录音的布局上面指向头像的那块布局
-		private ImageView titleImage;// 热门/地理位置图标
+//		private ImageView indexProgressbarTopImg;// 录音的布局上面指向头像的那块布局
+//		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageButton personHeadImg;// 头像
 		private TextView personUserNick;// 昵称
@@ -547,7 +678,7 @@ public class ListViewAdapter extends SimpleAdapter {
 	private AnimationDrawable animationDrawable;
 
 	// 播放已经录好的音
-	public void playAudio(ViewHolder holder, int position) {
+	public void playAudio(ViewHolder holder, int position,int listIndex) {
 
 		stopAudio(mHolder, lastPosition);
 		// 设置
@@ -566,9 +697,14 @@ public class ListViewAdapter extends SimpleAdapter {
 		lastPosition = position;
 
 		// 重新获得
-		String audioUrl = list.get(position).get("voice").toString();
-		Log.i("tangpeng", audioUrl + "音频文件");
-		voiceDuration = (Integer) list.get(position).get("voice_duration");
+		String audioUrl ="";
+		if(getItemViewType(position) == TYPE_1){
+			audioUrl = list.get(listIndex).get("voice").toString();
+			voiceDuration = (Integer) list.get(listIndex).get("voice_duration");
+		}else{
+			audioUrl = topicInv.getVoice();
+			voiceDuration = topicInv.getVoiceDuration();
+		}
 		// 点击播放而已
 		try {
 			mp.reset();
@@ -668,34 +804,6 @@ public class ListViewAdapter extends SimpleAdapter {
 			}
 		}
 	}
-
-	// // /进度条的处理
-	// private void showIndeterDialog(int processtime) {
-	// final long newprocesstime = processtime * 10;
-	// final int progrocessMax = 100;
-	// mHolder.indexProgressbarId.setMax(progrocessMax);
-	// mHolder.indexProgressbarId.setProgress(0);
-	// mHolder.indexProgressbarId.setIndeterminate(false);
-	// mProgressTimer = new Timer();
-	// mProgressTimer.schedule(new TimerTask() {
-	//
-	// @Override
-	// public void run() {
-	// // TODO Auto-generated method stub
-	// if (mCount <= progrocessMax) {
-	// mCount++;
-	// if (isCurrentItemAudioPlay) {
-	// // TODO Auto-generated method stub
-	// mHolder.indexProgressbarId.setProgress(mCount);
-	// Log.i("progressbar", "子线程progress:"
-	// + mHolder.indexProgressbarId.getProgress());
-	// }
-	// } else {
-	// mHandler.sendEmptyMessage(0);
-	// }
-	// }
-	// }, 0l, newprocesstime);
-	// }
 
 	/**
 	 * Handler消息处理

@@ -46,7 +46,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class MainFragment extends Fragment {
 
-//	private final String TAG = "MainFragment";
+	private final String TAG = "MainFragment";
 	private TextView indexCitySelect;// 选择城市的按钮
 	private ImageView publishImgview;// 发布
 	private ImageView messageImgview;// 消息按钮
@@ -59,6 +59,7 @@ public class MainFragment extends Fragment {
 
 	private List<Map<String, Object>> listItems;
 	private List<Invitation> listData;
+	private Invitation topicInvitation;
 
 	private final int STATE_REFRESH = 0;// 下拉刷新
 	private final int STATE_MORE = 1;// 加载更多
@@ -80,133 +81,20 @@ public class MainFragment extends Fragment {
 		// TODO Auto-generated method stub
 		initview();
 		initlistview();
-		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);////
-		// 固定竖屏
-		// 如果用户已经登录
-		if (App.isLogin()) {
-			// getPraiseStateFromeNet();
-			getMyCommentNotice();
-			getMyCollectionNotice();
-		}
 		// 先从本地加载数据
 		getListDataFromLocal();
 		indexListView.refresh();
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	
-
-	/**
-	 * "我的帖子"的评论数是否有更新
-	 * 
-	 * @return
-	 */
-	private void getMyCommentNotice() {
-		// TODO Auto-generated method stub
-		final List<Integer> localCommentNum = new ArrayList<Integer>();
-		final List<Integer> netCommentNum = new ArrayList<Integer>();
-		final List<String> myInvIds = new ArrayList<String>();
-		new InvitationDao(getActivity()).getAllCommentNum(localCommentNum, myInvIds);
-
-		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
-		query.addWhereContainedIn("objectId", myInvIds);
-		query.addQueryKeys("commentNum");
-		query.findObjects(getActivity(), new FindListener<Invitation>() {
-			@Override
-			public void onSuccess(List<Invitation> arg0) {
-				// TODO Auto-generated method stub
-				for (Invitation inv : arg0) {
-					netCommentNum.add(inv.getCommentNum());
-				}
-				// 对比本地和服务器评论数是否有不同
-				for (int i = 0; i < netCommentNum.size(); i++) {
-					int idIndex = 0;
-					for (int j = 0; j < myInvIds.size(); j++) {
-						if (arg0.get(i).getObjectId().equals(myInvIds.get(j))) {
-							idIndex = j;
-							break;
-						}
-					}
-					Log.i("comment_notice", arg0.get(i).getObjectId() + "=="
-							+ myInvIds.get(idIndex));
-					if (netCommentNum.get(i) != localCommentNum.get(idIndex)) {
-						// 添加修改UI代码
-						messageImgview
-								.setBackgroundResource(R.drawable.notice_selector);
-						Log.i("comment_notice", "有更新:");
-						break;
-					} else {
-						Log.i("comment_notice", "无");
-					}
-				}
-			}
-
-			@Override
-			public void onError(int arg0, String arg1) {
-				// TODO Auto-generated method stub
-				Log.i("comment_notice", "查询我贴评论数失败:" + arg1);
-			}
-		});
-	}
-
-	/**
-	 * "我的收藏"的评论数是否有更新
-	 */
-	private void getMyCollectionNotice() {
-		// TODO Auto-generated method stub
-		final List<Integer> localCollectionNum = new ArrayList<Integer>();
-		final List<Integer> netCollectionNum = new ArrayList<Integer>();
-		final List<String> myInvIds = new ArrayList<String>();
-		new InvitationDao(getActivity()).getAllCommentNumFromCollection(
-				localCollectionNum, myInvIds);
-
-		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
-		query.addWhereContainedIn("objectId", myInvIds);
-		query.addQueryKeys("commentNum");
-		query.findObjects(getActivity(), new FindListener<Invitation>() {
-			@Override
-			public void onSuccess(List<Invitation> arg0) {
-				// TODO Auto-generated method stub
-				for (Invitation inv : arg0) {
-					netCollectionNum.add(inv.getCommentNum());
-				}
-				// 对比本地和服务器评论数是否有不同
-				for (int i = 0; i < netCollectionNum.size(); i++) {
-					int idIndex = 0;
-					for (int j = 0; j < myInvIds.size(); j++) {
-						if (arg0.get(i).getObjectId().equals(myInvIds.get(j))) {
-							idIndex = j;
-							break;
-						}
-					}
-					Log.i("collect_notice", arg0.get(i).getObjectId() + "=="
-							+ myInvIds.get(idIndex));
-					if (netCollectionNum.get(i) != localCollectionNum
-							.get(idIndex)) {
-						// 添加修改UI代码
-						messageImgview
-								.setBackgroundResource(R.drawable.notice_selector);
-						Log.i("collect_notice", "有更新:");
-						break;
-					} else {
-						Log.i("collect_notice", "无");
-					}
-				}
-			}
-
-			@Override
-			public void onError(int arg0, String arg1) {
-				// TODO Auto-generated method stub
-				Log.i("collect_notice", "查询收藏贴评论数失败:" + arg1);
-			}
-		});
-	}
 
 	// 从本地数据库获取数据
 	private void getListDataFromLocal() {
 		// TODO Auto-generated method stub
-		listData = new InvitationDao(getActivity()).getAllInfo(App.pre.getInt(
-				Global.CURRENT_NATIVE, 0));
+		InvitationDao invDao = new InvitationDao(getActivity());
+		listData = invDao.getAllInfo(App.pre.getInt(Global.CURRENT_NATIVE, 0));
+		invDao.setTypeInvitationFromClass(topicInvitation ,1);//获取本地保存的最新的一条话题
+		Log.i(TAG, "本地的话题："+topicInvitation);
 		for (Invitation inv : listData) {
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("inv_id", inv.getObjectId());
@@ -295,13 +183,10 @@ public class MainFragment extends Fragment {
 			}
 		});
 
+		topicInvitation = new Invitation();
 		listItems = new ArrayList<Map<String, Object>>();
 		adapter = new ListViewAdapter(getActivity(), listItems,
-				R.layout.index_listview, new String[] { "position",
-						"words", "time", "praise_num", "comment_num" },
-				new int[] { R.id.index_locals_country,
-						R.id.index_text_describe, R.id.index_locals_time,
-						R.id.index_support_num, R.id.index_comment_num });
+				topicInvitation);
 		indexListView.setLayoutAnimation(getListAnim());
 		indexListView.setAdapter(adapter);
 	}
@@ -334,6 +219,7 @@ public class MainFragment extends Fragment {
 			@Override
 			public void run() {
 				adapter.stopAudio();
+				getTopicInvitation();
 				getListData(0, STATE_REFRESH);
 			}
 		}, 2 * 1000);
@@ -440,6 +326,46 @@ public class MainFragment extends Fragment {
 		}
 	}
 
+
+	//获取最新话题帖子
+	private void getTopicInvitation() {
+		// TODO Auto-generated method stub
+		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
+		query.addWhereEqualTo("isHot", 1);//不包括话题
+		query.order("-createdAt");
+		query.setLimit(LIMIT); // 设置每页多少条数据
+		query.findObjects(getActivity(), new FindListener<Invitation>() {
+			@Override
+			public void onSuccess(List<Invitation> arg0) {
+				if(arg0.size() > 0 ){
+					// 存入本地数据库
+					InvitationDao inv = new InvitationDao(getActivity());
+					inv.insert2InvitationClass(arg0, 1, false);
+					topicInvitation.setPosition(arg0.get(0).getPosition());
+					topicInvitation.setWords(arg0.get(0).getWords());
+					topicInvitation.setVoice(arg0.get(0).getVoice());
+					topicInvitation.setVoiceDuration(arg0.get(0).getVoiceDuration());
+					topicInvitation.setTime(arg0.get(0).getCreatedAt());
+					topicInvitation.setPraiseNum(arg0.get(0).getPraiseNum());
+					topicInvitation.setCommentNum(arg0.get(0).getCommentNum());
+					topicInvitation.setObjectId(arg0.get(0).getObjectId());
+					topicInvitation.setuId(arg0.get(0).getuId());
+					topicInvitation.setHome(arg0.get(0).getHome());
+					topicInvitation.setIsHot(arg0.get(0).getIsHot());
+					topicInvitation.setShareNum(arg0.get(0).getShareNum());
+					topicInvitation.setHeadId(arg0.get(0).getHeadId());
+					adapter.notifyDataSetChanged();
+				}
+			}
+
+			@Override
+			public void onError(int arg0, String arg1) {
+				Log.i("MainActivity", "话题查询失败");
+				indexListView.setRefreshFail("刷新失败，请检查网络...");
+			}
+		});
+	}
+	//获取最新帖子
 	private void getListData(final int page, final int actionType) {
 		// 获取当前城市
 		int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 0);
@@ -447,6 +373,7 @@ public class MainFragment extends Fragment {
 		if(homeId > 0){
 			query.addWhereEqualTo("home", homeId);
 		}
+		query.addWhereNotEqualTo("isHot", 1);//不包括话题
 		query.order("-createdAt");
 		query.setLimit(LIMIT); // 设置每页多少条数据
 		query.setSkip(page * LIMIT); // 从第几条数据开始
@@ -510,7 +437,7 @@ public class MainFragment extends Fragment {
 //				Toast.makeText(MainActivity.getActivity(), "查询失败：" + arg1,
 //						Toast.LENGTH_SHORT).show();
 				Log.i("MainActivity", "查询失败");
-				indexListView.setRefreshFail("暂无更新");
+				indexListView.setRefreshFail("刷新失败，请检查网络...");
 			}
 		});
 	}
