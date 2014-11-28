@@ -47,7 +47,7 @@ public class PersonUpdateInfoActivity extends Activity {
 		else
 		{
 			titleTypeText.setText("修改签名");
-			typeTint.setText("签名即个性。秀出你的个性吧");
+			typeTint.setText("签名即个性，秀出你的个性吧");
 		}
 		rela = (RelativeLayout) findViewById(R.id.edittext_rela);
 		wordnumText=(TextView)findViewById(R.id.wordnumtext);

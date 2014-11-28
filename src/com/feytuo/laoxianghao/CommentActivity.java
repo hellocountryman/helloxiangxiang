@@ -709,7 +709,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		if (mp.isPlaying()) {
 			mp.stop();
 		}
-		commentRecordHintText.setText("点击继续");
+		commentRecordHintText.setText("点击播放");
 		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);
 		commentRerecordimg.setVisibility(View.VISIBLE);// 已经录好准备评论的声音后重放中暂停，重录按钮显示
 		isReplay = false;
@@ -774,6 +774,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			commentRecordHintText.setText("点击试听");
 			commentPlayRecordImgbutton
 					.setBackgroundResource(R.drawable.comment_record_play);
+			isReplay = false;
 			commentRerecordimg.setVisibility(View.VISIBLE);
 		}
 	};

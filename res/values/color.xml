@@ -21,13 +21,18 @@
     <color name="black">#000000</color>
     <color name="comment_hint">#92b1cd</color>
     <!-- 黑色 -->
+    
     <color name="red" type="drawable">#fc0303</color>
     <color name="head_color">#676767</color>
+    
     <!-- app主题色 -->
     <color name="indexbg">#00a0e9</color>
     <!-- 00a0e9,fe6b75,f3f3f3,e6dfd5,F25D33 -->
     <!-- app主题pressed颜色 -->
     <color name="indexbg_pressed">#006c9e</color>
+    
+    <!-- 一般的问题内容颜色，不为黑 -->
+    <color name="content_color">#1C2B35</color>
 
     <!-- 微博的itme与item的间距)颜色 -->
     <color name="weibo_unline">#EDEDED</color>

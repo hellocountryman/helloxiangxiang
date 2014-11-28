@@ -430,7 +430,6 @@ public class PublishActivity extends Activity {
 		animationDrawable.stop();
 		publishRecordingLinear.setVisibility(View.GONE);//显示出录音时候的动画
 		publishHint.setText("点击试听");
-		progress.setBackgroundResource(R.drawable.comment_record_press);
 		publishButton.setBackgroundResource(R.drawable.corners_storke_white);
 		publishButton.setTextColor(getResources().getColor(R.color.white));
 		publishButton.setClickable(true);
@@ -484,6 +483,7 @@ public class PublishActivity extends Activity {
 
 	// 停止当前播放的录音
 	private void pauseAudio() {
+		Log.i("tangpeng", "停止录音的");
 		// TODO Auto-generated method stub
 		if (mp.isPlaying()) {
 			mp.stop();
@@ -507,7 +507,7 @@ public class PublishActivity extends Activity {
 			}
 		});
 //		Log.i("progress", "progress:"+progress.getProgress());
-		publishHint.setText("点击继续");
+		publishHint.setText("点击播放");
 		publishRecordTime.setText(mRecordTime + "s");
 		publishRerecordButton.setVisibility(View.VISIBLE);
 		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);
@@ -520,7 +520,7 @@ public class PublishActivity extends Activity {
 		publishHint.setVisibility(View.VISIBLE);
 		publishPlayRecordImgbutton.setVisibility(View.GONE);
 		publishRerecordButton.setVisibility(View.INVISIBLE);
-		publishRerecordButton.setBackgroundResource(R.drawable.comment_record_no);
+		progress.setBackgroundResource(R.drawable.comment_record_no);
 		// 初始化录音
 		mRecordTime = 0;
 		publishRecordTime.setText(mRecordTime + "s");
@@ -539,9 +539,12 @@ public class PublishActivity extends Activity {
 		@Override
 		public void onFinish() {
 			// 完成的时候提示
-			publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);//点击暂停
+			isReplay = false;
+			publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);//点击播放
+			publishRerecordButton.setVisibility(View.VISIBLE);
 			publishRecordTime.setText(mRecordTime + "s");
 			publishHint.setText("点击试听");
+			Log.i("tangpeng", "试听完成的时候");
 		}
 
 		@Override

@@ -215,6 +215,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="128dp"
+                android:visibility="invisible"
                 android:layout_toRightOf="@id/progressbar_id"
                 android:background="@drawable/rerecord_selector" />
 
