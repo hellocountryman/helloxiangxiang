@@ -45,6 +45,7 @@ import com.feytuo.laoxianghao.dao.PraiseDao;
 import com.feytuo.laoxianghao.domain.Invitation;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
+import com.feytuo.laoxianghao.util.CommonUtils;
 import com.feytuo.laoxianghao.util.ImageLoader;
 import com.feytuo.laoxianghao.util.NetUtil;
 import com.feytuo.laoxianghao.util.StringTools;
@@ -194,35 +195,25 @@ public class FindListViewAdapter extends SimpleAdapter {
 				.toString());
 		//地方话
 		holder.home.setText(cityDao.getCityNameById((int)list.get(position).get("home"))+"话");
-		// 设置昵称和头像
-		setUserInfo(list.get(position).get("uid").toString(),holder.personUserNick,holder.personHeadImg);
-		
-		// 设置话题帖和普通帖
 		if (1 == (int) list.get(position).get("ishot")) {
-			//帖子底部栏、头像、时间、地方方言、地理位置、录音隐藏，昵称改为“热门话题”
-			holder.indexBottomLinearlayout.setVisibility(View.GONE);
-			holder.personHeadImg.setVisibility(View.GONE);
-			holder.indexLocalsTime.setVisibility(View.GONE);
-			holder.home.setVisibility(View.GONE);
-			holder.indexLocalsCountry.setVisibility(View.GONE);
-			holder.indexProgressbarLayout.setVisibility(View.GONE);
 			holder.titleImage.setVisibility(View.GONE);
-			holder.personUserNick.setText("方言话题");
-			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.indexbg));
-		} else {//非方言话题类帖子
-			holder.indexBottomLinearlayout.setVisibility(View.VISIBLE);
+			holder.indexLocalsCountry.setVisibility(View.GONE);
+			holder.home.setVisibility(View.GONE);
+			// 设置头像、昵称
+			holder.personUserNick.setText("乡乡话题");
+			CommonUtils.corner(context, R.drawable.ic_launcher,
+					holder.personHeadImg);
+		} else {
+			holder.titleImage.setVisibility(View.VISIBLE);
+			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
+			holder.home.setVisibility(View.VISIBLE);
 			holder.titleImage.setBackgroundResource(R.drawable.geographical);
 			holder.indexLocalsCountry.setTextColor(context.getResources()
 					.getColor(R.color.indexbg));
-			holder.personHeadImg.setVisibility(View.VISIBLE);
-			holder.indexLocalsTime.setVisibility(View.VISIBLE);
-			holder.home.setVisibility(View.VISIBLE);
-			holder.indexLocalsCountry.setVisibility(View.VISIBLE);
-			holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
-			holder.titleImage.setVisibility(View.VISIBLE);
-			holder.personUserNick.setTextColor(context.getResources().getColor(R.color.head_color));
+			// 设置头像、昵称
+			setUserInfo((String) list.get(position).get("uid"), holder.personUserNick,
+					holder.personHeadImg);
 		}
-
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
 		Date date = null;
 		try {

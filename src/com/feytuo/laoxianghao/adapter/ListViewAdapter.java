@@ -248,6 +248,8 @@ public class ListViewAdapter extends BaseAdapter {
 				convertView.setVisibility(View.GONE);
 			}else{
 				Listener listener = new Listener(holder2, position,-1);
+				convertView.setClickable(true);
+				convertView.setOnClickListener(listener);
 				holder2.indexSupportLinerlayout.setOnClickListener(listener);
 				holder2.indexCommentLinerlayout.setOnClickListener(listener);
 				holder2.indexShareLinerlayout.setOnClickListener(listener);
