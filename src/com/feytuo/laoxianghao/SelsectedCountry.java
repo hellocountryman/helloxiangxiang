@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -41,6 +42,8 @@ public class SelsectedCountry extends Activity {
 	private SortAdapter adapter;
 	private ClearEditText mClearEditText;
 	private Button selectCountryReturnBtn;
+	private Button selectCityHot1, selectCityHot2, selectCityHot3,
+			selectCityHot4;// 几个热门城市;
 	/**
 	 * 汉字转换成拼音的类
 	 */
@@ -52,13 +55,13 @@ public class SelsectedCountry extends Activity {
 	 * 根据拼音来排列ListView里面的数据类
 	 */
 	private PinyinComparator pinyinComparator;
-	
-	//跳转路径
-	private int path;//0为从欢迎界面跳转，1为从设置跳转
+
+	// 跳转路径
+	private int path;// 0为从欢迎界面跳转，1为从设置跳转
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.selected_country);
+		setContentView(R.layout.selected_hotcountry);
 		path = getIntent().getIntExtra("isfromtocity", -1);
 		initCity();
 		initViews();
@@ -73,17 +76,30 @@ public class SelsectedCountry extends Activity {
 		// 实例化汉字转拼音类
 		characterParser = CharacterParser.getInstance();
 		pinyinComparator = new PinyinComparator();
+
+		listener list = new listener();
+		selectCityHot1 = (Button) findViewById(R.id.select_city_hot_1);
+		selectCityHot2 = (Button) findViewById(R.id.select_city_hot_2);
+		selectCityHot3 = (Button) findViewById(R.id.select_city_hot_3);
+		selectCityHot4 = (Button) findViewById(R.id.select_city_hot_4);
+		selectCityHot1.setOnClickListener(list);
+		selectCityHot2.setOnClickListener(list);
+		selectCityHot3.setOnClickListener(list);
+		selectCityHot4.setOnClickListener(list);
+
 		selectCountryReturnBtn = (Button) findViewById(R.id.select_country_return_btn);
 		titleTextSelect = (TextView) findViewById(R.id.title_text_select);
 		sideBar = (SideBar) findViewById(R.id.sidrbar);
 		dialog = (TextView) findViewById(R.id.dialog);
 		sideBar.setTextView(dialog);
 
-		titleTextSelect.setText("请选择家乡");
-		//城市判断
+		
+		// 城市判断
 		if (path == 0) {
+			titleTextSelect.setText("请选择家乡");
 			selectCountryReturnBtn.setVisibility(View.INVISIBLE);
 		} else {
+			titleTextSelect.setText("请选择话系");
 			selectCountryReturnBtn.setVisibility(View.VISIBLE);
 		}
 
@@ -107,12 +123,11 @@ public class SelsectedCountry extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-//				Toast.makeText(getApplication(),
-//						((SortModel) adapter.getItem(position)).getName(),
-//						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplication(),
+				// ((SortModel) adapter.getItem(position)).getName(),
+				// Toast.LENGTH_SHORT).show();
 				// 保存当前方言地
-				String city = ((SortModel) adapter.getItem(position))
-						.getName();
+				String city = ((SortModel) adapter.getItem(position)).getName();
 				saveCurrentHome(city);
 			}
 		});
@@ -148,30 +163,54 @@ public class SelsectedCountry extends Activity {
 		});
 	}
 
-	//跳转
-	private void turnToMain(String city){
+	class listener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.select_city_hot_1:
+				saveCurrentHome("北京");
+				break;
+			case R.id.select_city_hot_2:
+				saveCurrentHome("长沙");
+				break;
+			case R.id.select_city_hot_3:
+				saveCurrentHome("广州");
+				break;
+			default:
+				saveCurrentHome("成都");
+				break;
+			}
+		}
+
+	}
+
+	// 跳转
+	private void turnToMain(String city) {
 		// //城市判断
-//		if (path == 0) {
-//			/*********统计添加点击************/
-//			HashMap<String,String> map = new HashMap<String,String>();
-//			map.put("city", city);
-//			MobclickAgent.onEvent(this, "Home",map);//添加操作
-//		} else {
-//			/*********统计添加点击************/
-//			HashMap<String,String> map = new HashMap<String,String>();
-//			map.put("city", city);
-//			MobclickAgent.onEvent(this, "CityChange",map);//添加操作
-//		}
+		// if (path == 0) {
+		// /*********统计添加点击************/
+		// HashMap<String,String> map = new HashMap<String,String>();
+		// map.put("city", city);
+		// MobclickAgent.onEvent(this, "Home",map);//添加操作
+		// } else {
+		// /*********统计添加点击************/
+		// HashMap<String,String> map = new HashMap<String,String>();
+		// map.put("city", city);
+		// MobclickAgent.onEvent(this, "CityChange",map);//添加操作
+		// }
 		Intent intent = new Intent();
-		if(path == 0){
-			intent.setClass(SelsectedCountry.this, com.feytuo.chat.activity.MainActivity.class);
+		if (path == 0) {
+			intent.setClass(SelsectedCountry.this,
+					com.feytuo.chat.activity.MainActivity.class);
 			startActivity(intent);
-		}else{
+		} else {
 			intent.putExtra("data", city);
-			setResult(Global.RESULT_OK,intent);
+			setResult(Global.RESULT_OK, intent);
 		}
 		finish();
 	}
+
 	/**
 	 * 保留当前方言地id
 	 * 
@@ -179,13 +218,14 @@ public class SelsectedCountry extends Activity {
 	 */
 	protected void saveCurrentHome(String home) {
 		// TODO Auto-generated method stub
-		//更新当前用户home属性
+		// 更新当前用户home属性
 		updateCurrentUserHome(home);
 		int cityId = new CityDao(this).getCityIdByName(home);
 		App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
 	}
 
 	private OnloadDialog pd;
+
 	private void updateCurrentUserHome(final String home) {
 		// TODO Auto-generated method stub
 		pd = new OnloadDialog(this);
@@ -193,20 +233,20 @@ public class SelsectedCountry extends Activity {
 		pd.show();
 		pd.setMessage("正在更新信息...");
 		final String userId = App.pre.getString(Global.USER_ID, "");
-		//更新本地数据库
+		// 更新本地数据库
 		new LXHUserDao(SelsectedCountry.this).updateUserHome(userId, home);
-		//更新服务器数据库
+		// 更新服务器数据库
 		LXHUser user = new LXHUser();
 		user.setHome(home);
 		user.update(this, userId, new UpdateListener() {
-			
+
 			@Override
 			public void onSuccess() {
 				Log.i("SelectCountry", "更新home成功");
 				pd.dismiss();
 				turnToMain(home);
 			}
-			
+
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
@@ -276,7 +316,7 @@ public class SelsectedCountry extends Activity {
 		setResult(Global.RESULT_RETURN);
 		finish();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

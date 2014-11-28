@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,23 +19,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 import com.feytuo.laoxianghao.App;
-import com.feytuo.laoxianghao.FeedbackActivity;
-import com.feytuo.laoxianghao.PublishActivity;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.SelsectedCountry;
 import com.feytuo.laoxianghao.adapter.ListViewAdapter;
-import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.dao.InvitationDao;
 import com.feytuo.laoxianghao.domain.Invitation;
 import com.feytuo.laoxianghao.global.Global;
-import com.feytuo.laoxianghao.util.ScreenUtils;
 import com.feytuo.listviewonload.SimpleFooter;
 import com.feytuo.listviewonload.SimpleHeader;
 import com.feytuo.listviewonload.ZrcListView;
@@ -47,16 +40,10 @@ import com.umeng.analytics.MobclickAgent;
 public class MainFragment extends Fragment {
 
 	private final String TAG = "MainFragment";
-	private TextView indexCitySelect;// 选择城市的按钮
-	private ImageView publishImgview;// 发布
-	private ImageView messageImgview;// 消息按钮
-	private ImageView moreImgview;// 更多的按钮点击
-	// private LinearLayout pullDownId;// actionbar
-	private LinearLayout indexFeedbackLinerlayout;// 分享的
 	private ListViewAdapter adapter;
 	private ZrcListView indexListView;
 	private Handler handler;
-
+	private Button indexSelectCity;// 选择城市
 	private List<Map<String, Object>> listItems;
 	private List<Invitation> listData;
 	private Invitation topicInvitation;
@@ -75,7 +62,7 @@ public class MainFragment extends Fragment {
 		App.pre.edit().putBoolean(Global.IS_FIRST_USE, false).commit();
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -87,14 +74,13 @@ public class MainFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 
-
 	// 从本地数据库获取数据
 	private void getListDataFromLocal() {
 		// TODO Auto-generated method stub
 		InvitationDao invDao = new InvitationDao(getActivity());
 		listData = invDao.getAllInfo(App.pre.getInt(Global.CURRENT_NATIVE, 0));
-		invDao.setTypeInvitationFromClass(topicInvitation ,1);//获取本地保存的最新的一条话题
-		Log.i(TAG, "本地的话题："+topicInvitation);
+		invDao.setTypeInvitationFromClass(topicInvitation, 1);// 获取本地保存的最新的一条话题
+		Log.i(TAG, "本地的话题：" + topicInvitation);
 		for (Invitation inv : listData) {
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("inv_id", inv.getObjectId());
@@ -116,22 +102,35 @@ public class MainFragment extends Fragment {
 	}
 
 	public void initview() {
-
-		indexCitySelect = (TextView) getActivity().findViewById(R.id.index_city_select);
-		publishImgview = (ImageView) getActivity().findViewById(R.id.publish_imgview);
-		messageImgview = (ImageView) getActivity().findViewById(R.id.message_imgview);
-		indexListView = (ZrcListView) getActivity().findViewById(R.id.index_listview);
+		indexSelectCity = (Button) getActivity().findViewById(
+				R.id.index_select_city);
+		indexSelectCity.setOnClickListener(new listener());
+		indexListView = (ZrcListView) getActivity().findViewById(
+				R.id.index_listview);
 
 		// 设置方言地选择textview
 		setIndexCitySelect();
-
-		listener listenerlist = new listener();
-		indexCitySelect.setOnClickListener(listenerlist);
-		moreImgview = (ImageView) getActivity().findViewById(R.id.more_imgview);
-		publishImgview.setOnClickListener(listenerlist);
-		messageImgview.setOnClickListener(listenerlist);
-		moreImgview.setOnClickListener(listenerlist);
 	}
+
+	 class listener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.index_select_city:
+				Intent intentselsectcity = new Intent();
+				intentselsectcity.putExtra("isfromtocity", 1);// 判断是从那里进入的城市选择
+				intentselsectcity.setClass(getActivity(), SelsectedCountry.class);
+				startActivity(intentselsectcity);
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+	}
+
 
 	/**
 	 * 
@@ -139,9 +138,10 @@ public class MainFragment extends Fragment {
 	 * 设置方言地选择textview
 	 */
 	private void setIndexCitySelect() {
-		int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 1);
-		String homeName = new CityDao(getActivity()).getCityNameById(homeId);
-		indexCitySelect.setText(homeName.substring(0, homeName.length()) + "话");
+		// int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 1);
+		// String homeName = new CityDao(getActivity()).getCityNameById(homeId);
+		// indexCitySelect.setText(homeName.substring(0, homeName.length()) +
+		// "话");
 
 	}
 
@@ -185,8 +185,7 @@ public class MainFragment extends Fragment {
 
 		topicInvitation = new Invitation();
 		listItems = new ArrayList<Map<String, Object>>();
-		adapter = new ListViewAdapter(getActivity(), listItems,
-				topicInvitation);
+		adapter = new ListViewAdapter(getActivity(), listItems, topicInvitation);
 		indexListView.setLayoutAnimation(getListAnim());
 		indexListView.setAdapter(adapter);
 	}
@@ -237,114 +236,25 @@ public class MainFragment extends Fragment {
 		}, 2 * 1000);
 	}
 
-	/**
-	 * 
-	 * 按钮监听
-	 * 
-	 * @author tangpeng
-	 * 
-	 */
-	class listener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			switch (v.getId()) {
-			case R.id.publish_imgview:// 点击发布的按钮
-				if (App.isLogin()) {// 判断是否登录
-					Intent intentpublish = new Intent();
-					intentpublish.setClass(getActivity(),
-							PublishActivity.class);
-					startActivity(intentpublish);
-				}
-				break;
-			case R.id.message_imgview:// 点击消息按钮
-//				if (App.isLogin()) {// 判断是否登录
-//					messageImgview
-//							.setBackgroundResource(R.drawable.notice_normal_selector);
-//					Intent intentmessage = new Intent();
-//					intentmessage.setClass(getActivity(),
-//							MessageCellectActivity.class);
-//					startActivity(intentmessage);
-//				}
-//				break;
-			case R.id.more_imgview:// 点击更多按钮
-				showPopUp(moreImgview);
-				break;
-			case R.id.index_city_select:// 点击左上角的选择城市
-//				Intent intentselsectcity = new Intent();
-//				intentselsectcity.putExtra("isfromtocity", 1);// 判断是从那里进入的城市选择
-//				intentselsectcity.setClass(getActivity(),
-//						SelsectedCountry.class);
-//				startActivity(intentselsectcity);
-//				finish();
-				break;
-			default:
-				break;
-			}
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	private void showPopUp(View v) {
-		View root = getActivity().getLayoutInflater().inflate(R.layout.pull_down, null);
-		// 对于一个没有被载入或者想要动态载入的界面, 都需要使用inflate来载入.
-		indexFeedbackLinerlayout = (LinearLayout) root
-				.findViewById(R.id.index_feedback_linerlayout);
-
-		popupWindow = new PopupWindow(root, ScreenUtils.dip2px(getActivity(), 100),
-				ScreenUtils.dip2px(getActivity(), 46));
-		// 把宽和高转化成dip
-		popupWindow.setFocusable(true);
-		popupWindow.setOutsideTouchable(true);
-		popupWindow.setBackgroundDrawable(new BitmapDrawable());
-		int[] location = new int[2];
-		v.getLocationOnScreen(location);
-		popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0],
-				location[1] + ScreenUtils.dip2px(getActivity(), 46));// //把宽和高转化成dip
-		indexFeedbackLinerlayout.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-//				Toast.makeText(MainActivity.getActivity(), "popwindow点击",
-//						Toast.LENGTH_SHORT).show();
-				// TODO Auto-generated method stub
-				Intent intentfeedback = new Intent();
-				intentfeedback.setClass(getActivity(),
-						FeedbackActivity.class);
-				startActivity(intentfeedback);
-				dismissPop();
-			}
-		});
-
-	}
-
-	// pop消失
-	private void dismissPop() {
-		if (popupWindow != null && popupWindow.isShowing()) {
-			popupWindow.dismiss();
-		}
-	}
-
-
-	//获取最新话题帖子
+	// 获取最新话题帖子
 	private void getTopicInvitation() {
 		// TODO Auto-generated method stub
 		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
-		query.addWhereEqualTo("isHot", 1);//不包括话题
+		query.addWhereEqualTo("isHot", 1);// 不包括话题
 		query.order("-createdAt");
 		query.setLimit(LIMIT); // 设置每页多少条数据
 		query.findObjects(getActivity(), new FindListener<Invitation>() {
 			@Override
 			public void onSuccess(List<Invitation> arg0) {
-				if(arg0.size() > 0 ){
+				if (arg0.size() > 0) {
 					// 存入本地数据库
 					InvitationDao inv = new InvitationDao(getActivity());
 					inv.insert2InvitationClass(arg0, 1, false);
 					topicInvitation.setPosition(arg0.get(0).getPosition());
 					topicInvitation.setWords(arg0.get(0).getWords());
 					topicInvitation.setVoice(arg0.get(0).getVoice());
-					topicInvitation.setVoiceDuration(arg0.get(0).getVoiceDuration());
+					topicInvitation.setVoiceDuration(arg0.get(0)
+							.getVoiceDuration());
 					topicInvitation.setTime(arg0.get(0).getCreatedAt());
 					topicInvitation.setPraiseNum(arg0.get(0).getPraiseNum());
 					topicInvitation.setCommentNum(arg0.get(0).getCommentNum());
@@ -365,15 +275,16 @@ public class MainFragment extends Fragment {
 			}
 		});
 	}
-	//获取最新帖子
+
+	// 获取最新帖子
 	private void getListData(final int page, final int actionType) {
 		// 获取当前城市
 		int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 0);
 		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
-		if(homeId > 0){
+		if (homeId > 0) {
 			query.addWhereEqualTo("home", homeId);
 		}
-		query.addWhereNotEqualTo("isHot", 1);//不包括话题
+		query.addWhereNotEqualTo("isHot", 1);// 不包括话题
 		query.order("-createdAt");
 		query.setLimit(LIMIT); // 设置每页多少条数据
 		query.setSkip(page * LIMIT); // 从第几条数据开始
@@ -417,12 +328,13 @@ public class MainFragment extends Fragment {
 				}
 				if (arg0.size() == 0) {
 					if (actionType == STATE_MORE) {
-//						Toast.makeText(MainActivity.getActivity(), "没有啦,要么...来几句？",
-//								Toast.LENGTH_SHORT).show();
+						// Toast.makeText(MainActivity.getActivity(),
+						// "没有啦,要么...来几句？",
+						// Toast.LENGTH_SHORT).show();
 						indexListView.stopLoadMore();// 关闭上拉加载的功能
 					} else {
-//						Toast.makeText(MainActivity.getActivity(), "暂无更新",
-//								Toast.LENGTH_SHORT).show();
+						// Toast.makeText(MainActivity.getActivity(), "暂无更新",
+						// Toast.LENGTH_SHORT).show();
 						indexListView.setRefreshSuccess("暂无更新");
 						indexListView.startLoadMore(); // 开启LoadingMore功能
 					}
@@ -434,8 +346,8 @@ public class MainFragment extends Fragment {
 			@Override
 			public void onError(int arg0, String arg1) {
 				// TODO Auto-generated method stub
-//				Toast.makeText(MainActivity.getActivity(), "查询失败：" + arg1,
-//						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(MainActivity.getActivity(), "查询失败：" + arg1,
+				// Toast.LENGTH_SHORT).show();
 				Log.i("MainActivity", "查询失败");
 				indexListView.setRefreshFail("刷新失败，请检查网络...");
 			}
@@ -446,12 +358,13 @@ public class MainFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		//是否需要更新列表
-		if(App.pre.getBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, false)){
-			if(indexListView != null){
+		// 是否需要更新列表
+		if (App.pre.getBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, false)) {
+			if (indexListView != null) {
 				indexListView.refresh();
 			}
-			App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, false).commit();
+			App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, false)
+					.commit();
 		}
 		MobclickAgent.onPageStart("MainActivity"); // 友盟统计页面
 		MobclickAgent.onResume(getActivity());
@@ -463,7 +376,7 @@ public class MainFragment extends Fragment {
 		super.onPause();
 		adapter.stopAudio();
 		MobclickAgent.onPageEnd("MainActivity");// 友盟保证 onPageEnd 在onPause
-													// 之前调用,因为 onPause 中会保存信息
+												// 之前调用,因为 onPause 中会保存信息
 		MobclickAgent.onPause(getActivity());
 	}
 

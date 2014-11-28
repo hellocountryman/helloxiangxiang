@@ -55,11 +55,12 @@ public class PublishActivity extends Activity {
 	private ImageView publishPlayRecordImgbutton;// 录音之后进度条中出现播放按钮
 	private TextView publishHint;// 进度条中显示的文字提醒
 	private TextView publishRecordTime;
+	private TextView publishTypeText;// 发布的类型
 	private TextView publishTitleLocation;
 	private EditText publishText;
 	private ImageView headImage;
-	private LinearLayout publishRecordingLinear;//点击录音的时候出现动画提示，
-	private ImageView  publishRecordingImg;////点击录音的时候出现动画提示，
+	private LinearLayout publishRecordingLinear;// 点击录音的时候出现动画提示，
+	private ImageView publishRecordingImg;// //点击录音的时候出现动画提示，
 	private MediaPlayer mp = new MediaPlayer();
 	private String fileAudioName; // 保存的音频文件的名字
 	private MediaRecorder mediaRecorder; // 录音控制
@@ -72,10 +73,11 @@ public class PublishActivity extends Activity {
 	private Timer mCountUpTimer;
 	private Timer mProgressTimer;
 	private int mRecordTime;
+	private int type;// 0为全部，2为方言段子，3为方言KTV，4为方言秀场
 	/**
 	 * 进度条
 	 */
-	private	 Button progress = null;
+	private Button progress = null;
 	/**
 	 * 当前进度的值
 	 */
@@ -83,10 +85,10 @@ public class PublishActivity extends Activity {
 
 	// 百度定位
 	private Location_Baidu locationBaidu;
-	//初始化大头贴选择对话框
+	// 初始化大头贴选择对话框
 	private HeadChooseDialog headChooseDialog;
-	
-	//用户信息
+
+	// 用户信息
 	private LXHUser mUser;
 
 	@Override
@@ -94,6 +96,8 @@ public class PublishActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.publish);
 		mUser = UserLogin.getCurrentUser();
+
+		initViewType();
 		initView();
 		// 初始化录音
 		initData();
@@ -111,6 +115,22 @@ public class PublishActivity extends Activity {
 		locationBaidu.start();
 	}
 
+	public void initViewType() {
+		// 判断是发布的类型的那一个版块
+		type = getIntent().getIntExtra("type", 0);
+		publishTypeText = (TextView) findViewById(R.id.publish_type_text);// 发布的类型
+		if (type == 2) {
+			publishTypeText.setText("发布到方言段子");
+		} else if (type == 3) {
+			publishTypeText.setText("发布到方言KTV");
+		} else if (type == 4) {
+			publishTypeText.setText("发布到方言秀场");
+		} else {
+			publishTypeText.setText("发布到首页");
+		}
+
+	}
+
 	/*
 	 * 
 	 * 初始化数据
@@ -120,31 +140,32 @@ public class PublishActivity extends Activity {
 		headChooseDialog = new HeadChooseDialog(this, R.style.MyDialog);
 		
 		listener listenerlist = new listener();
-		publishRecordingLinear=(LinearLayout)findViewById(R.id.publish_recording_linear);
-		publishRecordingImg=(ImageView)findViewById(R.id.publish_recording_img);
+		publishRecordingLinear = (LinearLayout) findViewById(R.id.publish_recording_linear);
+		publishRecordingImg = (ImageView) findViewById(R.id.publish_recording_img);
 		progress = (Button) findViewById(R.id.progressbar_id);
-		publishwordnumText=(TextView)findViewById(R.id.publish_wordnum_text);
+		publishwordnumText = (TextView) findViewById(R.id.publish_wordnum_text);
 		publishText = (EditText) findViewById(R.id.publish_text);
-		//还能够输入多少字
+		// 还能够输入多少字
 		publishText.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 				// TODO Auto-generated method stub
-				publishwordnumText.setText(42-s.length()+"/42");	
+				publishwordnumText.setText(42 - s.length() + "/42");
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		publishHint = (TextView) findViewById(R.id.publish_hint);
@@ -218,8 +239,8 @@ public class PublishActivity extends Activity {
 
 	}
 
-	//设置大头贴
-	public void setHeadImg(int headResource){
+	// 设置大头贴
+	public void setHeadImg(int headResource) {
 		headImage.setBackgroundResource(headResource);
 	}
 
@@ -241,11 +262,11 @@ public class PublishActivity extends Activity {
 		}
 	}
 
-
 	private Dialog dialog;
+
 	private void uploadAudioFile() {
-		dialog = new OnloadDialog(PublishActivity.this,
-				R.style.LoadDialog, true);
+		dialog = new OnloadDialog(PublishActivity.this, R.style.LoadDialog,
+				true);
 		dialog.show();
 		// TODO Auto-generated method stub
 		if (fileAudio != null && fileAudio.exists()) {
@@ -256,9 +277,9 @@ public class PublishActivity extends Activity {
 				public void onSuccess() {
 					// TODO Auto-generated method stub
 					// 获取文件url后上传基本信息
-//					Toast.makeText(PublishActivity.this,
-//							"上传成功：" + bmobFile.getFileUrl(), Toast.LENGTH_SHORT)
-//							.show();
+					// Toast.makeText(PublishActivity.this,
+					// "上传成功：" + bmobFile.getFileUrl(), Toast.LENGTH_SHORT)
+					// .show();
 					Log.i("PublishActivity", "上传录音文件成功");
 					uploadBaseInfo(bmobFile.getFileUrl());
 				}
@@ -267,15 +288,15 @@ public class PublishActivity extends Activity {
 				public void onFailure(int arg0, String arg1) {
 					// TODO Auto-generated method stub
 					closeProgressDialog();
-//					Toast.makeText(PublishActivity.this, "上传失败：" + arg1,
-//							Toast.LENGTH_SHORT).show();
+
 					Log.i("PublishActivity", "上传失败");
 				}
 			});
 		} else {
 			// 没有录音，也要上传基本信息
-//			Toast.makeText(PublishActivity.this, "没有录音文件", Toast.LENGTH_SHORT)
-//					.show();
+			// Toast.makeText(PublishActivity.this, "没有录音文件",
+			// Toast.LENGTH_SHORT)
+			// .show();
 			Log.i("PublishActivity", "没有录音文件");
 			uploadBaseInfo("");
 		}
@@ -283,7 +304,7 @@ public class PublishActivity extends Activity {
 
 	private void uploadBaseInfo(String fileUrl) {
 		// TODO Auto-generated method stub
-		if(mUser == null || TextUtils.isEmpty(mUser.getObjectId())){
+		if (mUser == null || TextUtils.isEmpty(mUser.getObjectId())) {
 			return;
 		}
 		// 保存到服务器
@@ -294,7 +315,7 @@ public class PublishActivity extends Activity {
 		inv.setWords(publishText.getText().toString());
 		inv.setVoice(fileUrl);
 		inv.setVoiceDuration(mRecordTime);
-		inv.setIsHot(0);
+		inv.setIsHot(type);// 保存不同类型的帖子
 		inv.setPraiseNum(0);
 		inv.setShareNum(0);
 		inv.setCommentNum(0);
@@ -306,41 +327,41 @@ public class PublishActivity extends Activity {
 			public void onSuccess() {
 				// TODO Auto-generated method stub
 				Log.i("PublishActivity", "上传基础信息成功");
-				addInvitationToUser(inv);//添加到服务器我的帖子中
+				addInvitationToUser(inv);// 添加到服务器我的帖子中
 			}
 
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
 				closeProgressDialog();
-				Log.i("PublishActivity", "上传失败1"+arg1);
+				Log.i("PublishActivity", "上传失败1" + arg1);
 			}
 		});
 	}
 
-	//添加到用户帖子中去
+	// 添加到用户帖子中去
 	private void addInvitationToUser(final Invitation inv) {
 		// TODO Auto-generated method stub
-		if(mUser == null || TextUtils.isEmpty(mUser.getObjectId())){
+		if (mUser == null || TextUtils.isEmpty(mUser.getObjectId())) {
 			return;
 		}
 		BmobRelation invs = new BmobRelation();
 		invs.add(inv);
 		mUser.setMyInvitation(invs);
 		mUser.update(this, new UpdateListener() {
-			
+
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
 				saveInLocalDB(inv);
 				Log.i("PublishActivity", "上传基础信息成功");
 			}
-			
+
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
 				closeProgressDialog();
-				Log.i("PublishActivity", "上传失败2"+arg1);
+				Log.i("PublishActivity", "上传失败2" + arg1);
 			}
 		});
 	}
@@ -348,9 +369,10 @@ public class PublishActivity extends Activity {
 	private void saveInLocalDB(Invitation invitation) {
 		new InvitationDao(this).insert2Invitation(invitation);
 		closeProgressDialog();
-		//主列表需要刷新
-		App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, true).commit();
-		//提示发布成功
+		// 主列表需要刷新
+		App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, true)
+				.commit();
+		// 提示发布成功
 		Toast.makeText(PublishActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
 		finish();
 	}
@@ -360,6 +382,7 @@ public class PublishActivity extends Activity {
 			dialog.dismiss();
 		}
 	}
+
 	private AnimationDrawable animationDrawable;
 
 	/*
@@ -367,8 +390,8 @@ public class PublishActivity extends Activity {
 	 * 开始录音
 	 */
 	private void startAudio() {
-
-		publishRecordingLinear.setVisibility(View.VISIBLE);//显示出录音时候的动画
+		publishRecordTime.setVisibility(View.VISIBLE);
+		publishRecordingLinear.setVisibility(View.VISIBLE);// 显示出录音时候的动画
 		publishRecordingImg.setBackgroundResource(R.anim.frame_comment_anim);// 正在录音的动画
 		publishHint.setText("点击结束");
 		animationDrawable = (AnimationDrawable) publishRecordingImg
@@ -376,7 +399,6 @@ public class PublishActivity extends Activity {
 		animationDrawable.start();
 		progress.setBackgroundResource(R.drawable.comment_record_press);
 		publishRerecordButton.setVisibility(View.INVISIBLE);
-		publishButton.setBackgroundResource(R.drawable.publish_btn_no);
 		publishButton.setTextColor(getResources().getColor(
 				R.color.publish_btn_no_color));
 		publishButton.setClickable(false);
@@ -397,13 +419,14 @@ public class PublishActivity extends Activity {
 		mediaRecorder.setOutputFile(filePath + "/" + fileAudioName);
 		try {
 			mediaRecorder.setOnErrorListener(new OnErrorListener() {
-				
+
 				@Override
 				public void onError(MediaRecorder mr, int what, int extra) {
 					// TODO Auto-generated method stub
 					stopAudio();
-//					Toast.makeText(PublishActivity.this, "录音错误，请稍候再试", Toast.LENGTH_SHORT)
-//					.show();
+					// Toast.makeText(PublishActivity.this, "录音错误，请稍候再试",
+					// Toast.LENGTH_SHORT)
+					// .show();
 					Log.i("PublishActivity", "录音错误");
 				}
 			});
@@ -428,9 +451,8 @@ public class PublishActivity extends Activity {
 	 */
 	private void stopAudio() {
 		animationDrawable.stop();
-		publishRecordingLinear.setVisibility(View.GONE);//显示出录音时候的动画
+		publishRecordingLinear.setVisibility(View.GONE);// 显示出录音时候的动画
 		publishHint.setText("点击试听");
-		publishButton.setBackgroundResource(R.drawable.corners_storke_white);
 		publishButton.setTextColor(getResources().getColor(R.color.white));
 		publishButton.setClickable(true);
 		if (null != mediaRecorder) {
@@ -443,7 +465,8 @@ public class PublishActivity extends Activity {
 			mCountUpTimer.cancel();
 			// 设置UI
 			publishPlayRecordImgbutton.setVisibility(View.VISIBLE);// 播放和重录的功能按钮显示
-			publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);//点击播放
+			publishPlayRecordImgbutton
+					.setBackgroundResource(R.drawable.comment_record_play);// 点击播放
 			publishRerecordButton.setVisibility(View.VISIBLE);
 		}
 	}
@@ -451,7 +474,8 @@ public class PublishActivity extends Activity {
 	// 播放已经录好的音
 	private void playAudio() {
 		// 设置ui
-		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_pause);//点击暂停
+		publishPlayRecordImgbutton
+				.setBackgroundResource(R.drawable.comment_record_pause);// 点击暂停
 		publishRerecordButton.setVisibility(View.INVISIBLE);
 		isReplay = true;
 		// 点击播放而已
@@ -497,25 +521,27 @@ public class PublishActivity extends Activity {
 			mProgressTimer.cancel();
 		}
 		mCount = 0;
-		
+
 		mHandler.post(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-//				progress.setProgress(0);
+				// progress.setProgress(0);
 			}
 		});
-//		Log.i("progress", "progress:"+progress.getProgress());
+		// Log.i("progress", "progress:"+progress.getProgress());
 		publishHint.setText("点击播放");
 		publishRecordTime.setText(mRecordTime + "s");
 		publishRerecordButton.setVisibility(View.VISIBLE);
-		publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);
+		publishPlayRecordImgbutton
+				.setBackgroundResource(R.drawable.comment_record_play);
 		isReplay = false;
 	}
 
 	// 重新录音
 	private void recordAudio() {
+		publishRecordTime.setVisibility(View.GONE);
 		publishHint.setText("点一下开始录音");
 		publishHint.setVisibility(View.VISIBLE);
 		publishPlayRecordImgbutton.setVisibility(View.GONE);
@@ -540,7 +566,8 @@ public class PublishActivity extends Activity {
 		public void onFinish() {
 			// 完成的时候提示
 			isReplay = false;
-			publishPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);//点击播放
+			publishPlayRecordImgbutton
+					.setBackgroundResource(R.drawable.comment_record_play);// 点击播放
 			publishRerecordButton.setVisibility(View.VISIBLE);
 			publishRecordTime.setText(mRecordTime + "s");
 			publishHint.setText("点击试听");
@@ -553,8 +580,6 @@ public class PublishActivity extends Activity {
 			publishRecordTime.setText(millisUntilFinished / 1000 + "s");
 		}
 	}
-
-
 
 	/**
 	 * 计时器
@@ -585,8 +610,8 @@ public class PublishActivity extends Activity {
 				mProgressTimer.cancel();
 				publishRerecordButton.setVisibility(View.VISIBLE);
 				publishRecordTime.setText(mRecordTime + "s");
-//				publishPlayRecordImgbutton
-//						.setBackgroundResource(R.drawable.play_ico);
+				// publishPlayRecordImgbutton
+				// .setBackgroundResource(R.drawable.play_ico);
 			}
 			super.handleMessage(msg);
 		}
@@ -611,7 +636,7 @@ public class PublishActivity extends Activity {
 		}
 		super.onDestroy();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

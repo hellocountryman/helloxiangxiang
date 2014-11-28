@@ -109,9 +109,19 @@
             android:name="com.feytuo.laoxianghao.PersonUpdateInfoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-        </activity>s
+        </activity>
+         <activity
+            android:name="com.feytuo.laoxianghao.MeAboutUsPrivacyPolicyActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name="com.feytuo.laoxianghao.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.feytuo.laoxianghao.AboutUsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

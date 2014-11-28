@@ -47,6 +47,7 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
+import com.feytuo.laoxianghao.AboutUsActivity;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.PersonInvitationActivity;
 import com.feytuo.laoxianghao.PersonUpdateInfoActivity;
@@ -89,6 +90,7 @@ public class SettingsFragment extends Fragment {
 
 	private RelativeLayout personTieziRela;
 	private RelativeLayout personSetRela;
+	private RelativeLayout personAboutRela;//个人中心出现关于乡乡
 
 	private ImageView personHeadImg;// 个人中心的头像
 	private TextView personHeadNick;// 个人中心头像下面的昵称
@@ -146,12 +148,14 @@ public class SettingsFragment extends Fragment {
 				R.id.person_set_rela);
 		personHomeRela = (RelativeLayout) getView().findViewById(
 				R.id.person_home_rela);
-
+		personAboutRela= (RelativeLayout) getView().findViewById(
+				R.id.person_about_rela);
 		Linstener linstener = new Linstener();
 		personHeadImg.setOnClickListener(linstener);
 		personNickRela.setOnClickListener(linstener);
 		personSignRela.setOnClickListener(linstener);
 		personTieziRela.setOnClickListener(linstener);
+		personAboutRela.setOnClickListener(linstener);
 		personSetRela.setOnClickListener(linstener);
 		personHomeRela.setOnClickListener(linstener);
 	}
@@ -263,6 +267,10 @@ public class SettingsFragment extends Fragment {
 			case R.id.person_tiezi_rela:
 				redPoint.setVisibility(View.GONE);
 				intent.setClass(getActivity(), PersonInvitationActivity.class);
+				getActivity().startActivity(intent);
+				break;
+			case R.id.person_about_rela:
+				intent.setClass(getActivity(), AboutUsActivity.class);
 				getActivity().startActivity(intent);
 				break;
 			case R.id.person_set_rela:
