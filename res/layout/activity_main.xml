@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/title_hight"
         android:layout_alignParentBottom="true"
         android:background="@color/bottom_bar_normal_bg"
         android:baselineAligned="false"
@@ -65,14 +65,11 @@
 
             <Button
                 android:id="@+id/btn_publish"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/main_bottom_item_bg"
-                android:drawableTop="@drawable/tab_publish_bg"
+                android:layout_width="48.0dip"
+                android:layout_height="48.0dip"
+                android:background="@drawable/tab_publish_bg"              
                 android:onClick="onTabpublishClicked"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/main_botton_text_color"
                 android:textSize="12sp" />
         </RelativeLayout>

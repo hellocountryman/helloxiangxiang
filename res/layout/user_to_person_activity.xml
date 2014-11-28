@@ -8,10 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="2"
-        android:background="@drawable/person_head_bg"
-        android:clickable="true" >
+        android:layout_height="@dimen/title_hight"
+        android:background="@color/indexbg" >
 
         <Button
             android:id="@+id/to_person_return_btn"
@@ -20,22 +18,38 @@
             android:background="@drawable/return_selector"
             android:onClick="toPersonReturnBtn" />
 
+        <Button
+            android:layout_width="96.0dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/common_tab_bg"
+            android:text="添加好友"
+            android:textColor="@color/white"
+            android:textSize="@dimen/city_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80.0dip"
+        android:background="@color/white"
+        android:clickable="true" >
+
         <ImageView
             android:id="@+id/to_person_head_img"
-            android:layout_width="68dp"
-            android:layout_height="68.0dip"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="-50.0dip"
-            android:background="@drawable/default_avatar" />
+            android:layout_width="64dp"
+            android:layout_height="64.0dip"
+            android:layout_margin="8.0dip"
+             />
 
         <TextView
             android:id="@+id/to_person_nick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/to_person_head_img"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4.0dip"
-            android:text="昵称"
+            android:layout_marginLeft="80.0dip"
+            android:layout_marginRight="8.0dip"
+            android:layout_marginTop="12.0dip"
+            
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -44,19 +58,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/to_person_nick"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4.0dip"
-            android:text="个性签名."
-            android:textColor="@color/head_color"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8.0dip"
-            android:layout_toLeftOf="@+id/to_person_home"
-            android:text="家乡："
+            android:layout_marginLeft="80.0dip"
+            android:layout_marginRight="8.0dip"
+            android:layout_marginTop="10.0dip"
+            
             android:textColor="@color/head_color"
             android:textSize="12sp" />
 
@@ -64,19 +69,33 @@
             android:id="@+id/to_person_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="12.0dip"
+            android:layout_toLeftOf="@+id/person_text"
+            
+            android:textColor="@color/head_color"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/person_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="8.0dip"
-            android:layout_marginRight="8.0dip"
-            android:text="弗兰"
-            android:textColor="@color/black"
+            android:layout_marginRight="38.0dip"
+            android:layout_marginTop="12.0dip"
+            
+            android:textColor="@color/head_color"
             android:textSize="12sp" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="10.0dip"
+        android:background="@color/weibo_unline" />
 
     <ListView
         android:id="@+id/user_to_person_listview"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="match_parent"
         android:layout_weight="3"
         android:clickable="true"
         android:divider="@color/weibo_unline"

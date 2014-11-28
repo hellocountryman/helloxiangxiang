@@ -120,7 +120,7 @@ public class UserToPersonActivity extends Activity {
 	private void setUserInfo(LXHUser user) {
 		// TODO Auto-generated method stub
 		if(user != null){
-			new ImageLoader(this).loadCornerImage(user.getHeadUrl(), null, toPersonHeadImg);
+			new ImageLoader(this).loadNoImage(user.getHeadUrl(), null, toPersonHeadImg);
 			toPersonNick.setText(user.getNickName());
 			toPersonHome.setText(user.getHome());
 			toPersonSignText.setText(user.getPersonSign());

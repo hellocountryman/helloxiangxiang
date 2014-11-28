@@ -81,7 +81,6 @@ public class MainActivity extends FragmentActivity implements
 		IWeiboHandler.Response {
 
 	public static final String TAG = "MainActivity";
-
 	private Button[] mTabs;
 	public ChatAndContactFragment cacFragment;// 乡聊
 	private SettingsFragment settingFragment;// 设置

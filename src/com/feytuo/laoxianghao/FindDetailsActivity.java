@@ -6,15 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.TextView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
@@ -41,7 +44,8 @@ public class FindDetailsActivity extends Activity {
 	private final int STATE_MORE = 1;// 加载更多
 	private final int LIMIT = 10;// 每页的数据是10条
 	private int curPage = 0;// 当前页的编号，从0开始
-	private int type;//帖子类型
+	private int type;// 帖子类型
+	private Button findPublishBtn;// 在find中发布帖子
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +60,13 @@ public class FindDetailsActivity extends Activity {
 
 	public void initview() {
 		findTypeText = (TextView) findViewById(R.id.find_type_text);
+		findPublishBtn = (Button) findViewById(R.id.find_publish_btn);
+
+		//判断是find的那一个版块
 		type = getIntent().getIntExtra("type", 0);
 		if (type == 1) {
 			findTypeText.setText("方言话题");
+			findPublishBtn.setVisibility(View.GONE);// 方言话题中不能有发布
 		} else if (type == 2) {
 			findTypeText.setText("方言段子");
 		} else if (type == 3) {
@@ -66,8 +74,29 @@ public class FindDetailsActivity extends Activity {
 		} else if (type == 4) {
 			findTypeText.setText("方言秀场");
 		} else {
-			findTypeText.setText("全部方言");
+			findTypeText.setText("发方言");
 		}
+
+		//不同的发布type
+		findPublishBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(FindDetailsActivity.this, PublishActivity.class);
+				switch (v.getId()) {
+				case R.id.find_publish_btn:
+					if (type == 2) {
+						intent.putExtra("type", 2);
+					} else if (type == 3) {
+						intent.putExtra("type", 3);
+					} else if (type == 4) {
+						intent.putExtra("type", 4);
+					}
+					startActivity(intent);
+					break;
+				}
+			}
+		});
 	}
 
 	public void findDetailsReturnBtn(View v) {
@@ -195,7 +224,7 @@ public class FindDetailsActivity extends Activity {
 	}
 
 	private void getListData(final int page, final int actionType) {
-		BmobQuery<Invitation> query = new BmobQuery<Invitation>(); 
+		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
 		query.addWhereEqualTo("isHot", type);
 		query.order("-createdAt");
 		query.setLimit(LIMIT); // 设置每页多少条数据
@@ -233,11 +262,11 @@ public class FindDetailsActivity extends Activity {
 						InvitationDao invDao = new InvitationDao(
 								FindDetailsActivity.this);
 						if (actionType == STATE_REFRESH) {
-							invDao.insert2InvitationClass(arg0, type,false);
+							invDao.insert2InvitationClass(arg0, type, false);
 							findListView.setRefreshSuccess("加载成功");
 							findListView.startLoadMore(); // 开启LoadingMore功能
 						} else if (actionType == STATE_MORE) {
-							invDao.insert2InvitationClass(arg0, type,true);
+							invDao.insert2InvitationClass(arg0, type, true);
 							findListView.setLoadMoreSuccess();
 						}
 						if (arg0.size() == 0) {

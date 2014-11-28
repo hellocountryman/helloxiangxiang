@@ -4,7 +4,7 @@
     <dimen name="activity_horizontal_margin">16dip</dimen>
     <dimen name="title_hight">48.0dip</dimen>
     <!-- QQ,zaker,豆瓣，网易云音乐 ，weixi -->
-    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="title_text_size">16sp</dimen>
     <!-- 标题的文字大小 -->
     <dimen name="title_city_size">20sp</dimen>
     <!-- 标题城市文字的大小 -->

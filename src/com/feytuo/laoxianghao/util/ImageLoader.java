@@ -210,7 +210,34 @@ public class ImageLoader {
 		}
 		
 	}
-
+	/**
+	 * 加载图片，如果缓存中有就直接从缓存中拿，缓存中没有就下载
+	 * 
+	 * @param url
+	 * @param adapter
+	 * @param holder
+	 */
+	public void loadNoImage(String url, BaseAdapter adapter, ImageView iv) {
+		imageViews.put(iv, url);
+		resetPurgeTimer();
+		Bitmap bitmap = getBitmapFromCache(url);// 从缓存中读取
+		if(bitmap != null){
+			Log.i("ImageLoader", "从cache中取出");
+		}
+		if(bitmap == null){
+			bitmap = fileCache.getImage(url);//从文件中获取
+			if(bitmap != null){
+				Log.i("ImageLoader", "从文件中取出");
+			}
+		}
+		if (bitmap == null) {
+			ImageLoadTask imageLoadTask = new ImageLoadTask();
+			imageLoadTask.execute(url, adapter,iv,1);
+		} else {
+			CommonUtils.cornersmall(context, bitmap, iv);
+		}
+		
+	}
 	/**
 	 * 放入缓存
 	 * 

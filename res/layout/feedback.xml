@@ -40,7 +40,7 @@
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/publish_text"
+        android:id="@+id/feedback_publish_text"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_marginTop="8.0dip"

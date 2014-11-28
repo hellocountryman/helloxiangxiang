@@ -34,11 +34,11 @@
 
         <Button
             android:id="@+id/fragment_contact_viewpager_iv_new_contact"
-            android:layout_width="54dp"
-            android:layout_height="match_parent"
+             android:layout_width="@dimen/title_hight"
+            android:layout_height="@dimen/title_hight"
+            android:background="@drawable/common_tab_bg"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/common_tab_bg"
             android:onClick="searchContact"
             android:text="添加"
             android:textColor="#fff"

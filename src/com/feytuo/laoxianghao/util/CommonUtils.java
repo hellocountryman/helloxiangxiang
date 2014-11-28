@@ -23,12 +23,20 @@ public class CommonUtils {
 		corner(context,bitmap,imgbtn);
 	}
 	
+	//设置成90圆角
 	@SuppressWarnings("deprecation")
 	public static void corner(Context context,Bitmap bitmap, ImageView imgbtn){
 		BitmapDrawable drawable = new BitmapDrawable(context.getResources(), toRoundCorner(bitmap,90));
 		imgbtn.setBackgroundDrawable(drawable);
 	}
 	
+	
+	//设置成一点点的圆角
+	@SuppressWarnings("deprecation")
+	public static void cornersmall(Context context,Bitmap bitmap, ImageView imgbtn){
+		BitmapDrawable drawable = new BitmapDrawable(context.getResources(), toRoundCorner(bitmap,10));
+		imgbtn.setBackgroundDrawable(drawable);
+	}
 	
 	/**
 	 * 获取圆角位图的方法
