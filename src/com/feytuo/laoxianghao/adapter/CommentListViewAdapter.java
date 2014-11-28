@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 import com.feytuo.laoxianghao.App;
@@ -52,6 +54,7 @@ import com.feytuo.laoxianghao.view.MyDialog;
  * 
  */
 public class CommentListViewAdapter extends BaseAdapter {
+	private final String TAG = "CommentListViewAdapter";
 	private Context context;
 	private LayoutInflater m_Inflater;
 	private List<? extends Map<String, ?>> data;// 声明List容器对象
@@ -138,8 +141,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 				holder1.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
-				holder1.indexProgressbarTopImg = (ImageView) convertView
-						.findViewById(R.id.index_progressbar_top_img);
+//				holder1.indexProgressbarTopImg = (ImageView) convertView
+//						.findViewById(R.id.index_progressbar_top_img);
 				holder1.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_progressbar_layout);
 
@@ -183,9 +186,9 @@ public class CommentListViewAdapter extends BaseAdapter {
 				// 实例化holder以及控件
 				holder2 = new viewHolder2();
 				holder2.commentUserHead = (ImageView) convertView
-						.findViewById(R.id.comment_floor);
-				holder2.commentPosition = (TextView) convertView
-						.findViewById(R.id.comment_position);
+						.findViewById(R.id.comment_head_image);
+				holder2.commentNickName = (TextView) convertView
+						.findViewById(R.id.comment_nick_name);
 				holder2.commentTime = (TextView) convertView
 						.findViewById(R.id.comment_time_date);
 				holder2.commentTextContext = (TextView) convertView
@@ -216,11 +219,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 			holder1.indexProgressbarLayout.setOnClickListener(listener);
 			break;
 		case TYPE_2:
-			setAudioPlayBtn(holder2,holder2.commentPlayId, position);
-			Map<String, ?> map = data.get(position - 1);
-			holder2.commentPosition.setText(map.get("com_position") + "");
-			holder2.commentTime.setText(map.get("com_time") + "");
-			holder2.commentTextContext.setText(map.get("com_words") + "");
+			setAudioPlayBtn(holder2, position);
+			setCommentContent(holder2,position);
 			holder2.commentMusicBottomBg.setOnClickListener(new AudioListener(position,holder2));
 			break;
 		}
@@ -228,26 +228,102 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	}
 
-	private void setAudioPlayBtn(viewHolder2 holder,Button btn, int position) {
-		// 播放时的修改
-		if (isAudioPlayArray.get(position, false)) {
-			btn.setBackgroundResource(R.drawable.musicplayone);
-		} else {
-			btn.setBackgroundResource(R.drawable.musicplayone);
+	//评论的设置内容
+	private void setCommentContent(viewHolder2 holder2, int position) {
+		// TODO Auto-generated method stub
+		Map<String, ?> map = data.get(position - 1);
+		//设置用户头像和昵称
+		setUserInfo(map.get("uid").toString(),
+				holder2.commentNickName, holder2.commentUserHead);
+		
+		holder2.commentTime.setText(map.get("com_time") + "");
+		holder2.commentTextContext.setText(map.get("com_words") + "");
+	}
+
+	/**
+	 * 设置item的用户昵称
+	 * 
+	 * @param userName
+	 * @param nameTV
+	 * @param personHeadImg
+	 */
+	public void setUserInfo(String uId, TextView nameTV,
+			ImageView personHeadImg) {
+		LXHUser user = null;
+		int type = -1;//0为当前用户，1为其他用户
+		if(App.pre.getString(Global.USER_ID, "").equals(uId)){//当前用户发的帖子
+			user = userDao.getNickAndHeadByUidFromUser(uId);
+			type = 0;
+		}else{//其它用户发的帖子
+			user = userDao.getNickAndHeadByUid(uId);
+			type = 1;
 		}
+		if (user != null) {// 如果本地数据库存在该用户
+			nameTV.setText(user.getNickName());
+			mImageLoader.loadCornerImage(user.getHeadUrl(), this,
+					personHeadImg);
+		} else {// 如果没有再从bmob上取
+			setUserInfoFromBmob(uId, nameTV, personHeadImg,type);
+		}
+	}
+
+	// 从网络获取帖子作者昵称和头像
+	private void setUserInfoFromBmob(final String uId, final TextView nameTV,
+			final ImageView personHeadImg,final int type) {
+		// TODO Auto-generated method stub
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.addWhereEqualTo("objectId", uId);
+		query.findObjects(context, new FindListener<LXHUser>() {
+
+			@Override
+			public void onSuccess(List<LXHUser> arg0) {
+				// TODO Auto-generated method stub
+				if (arg0.size() > 0) {
+					nameTV.setText(arg0.get(0).getNickName());
+					mImageLoader.loadCornerImage(arg0.get(0)
+							.getHeadUrl(), CommentListViewAdapter.this, personHeadImg);
+					if(type == 1){
+						userDao.insertUser(arg0.get(0));
+					}else{
+						userDao.insertCurrentUser(arg0.get(0));
+					}
+				} else {
+					// 没有改用户信息
+				}
+			}
+
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "帖子查找用户失败：" + arg1);
+			}
+		});
+	}
+	//评论的播音按钮设置
+	private void setAudioPlayBtn(viewHolder2 holder, int position) {
+		
 		// 初始化时
 		if ("".equals(data.get(position - 1).get("com_voice").toString())) {
 			holder.commentMusicBottomBg.setVisibility(View.GONE);
 			holder.commentMusicTopBg.setVisibility(View.GONE);
-			btn.setVisibility(View.INVISIBLE);
-			
+			holder.commentPlayId.setVisibility(View.INVISIBLE);
 		} else {
 			holder.commentMusicBottomBg.setVisibility(View.VISIBLE);
 			holder.commentMusicTopBg.setVisibility(View.VISIBLE);
-			btn.setVisibility(View.VISIBLE);
+			holder.commentPlayId.setVisibility(View.VISIBLE);
+			// 播放时的修改
+			if (isAudioPlayArray.get(position, false)) {
+				holder.commentPlayId.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+				animationDrawable = (AnimationDrawable) holder.commentPlayId
+						.getBackground();
+				animationDrawable.start();
+			} else {
+				holder.commentPlayId.setBackgroundResource(R.drawable.musicplayone);
+			}
 		}
 	}
 
+	//帖子的内容设置
 	private void setcontent(viewHolder1 holder, Invitation inv) {
 		// TODO Auto-generated method stub
 		holder.indexTextDescribe.setText(inv.getWords());
@@ -298,13 +374,10 @@ public class CommentListViewAdapter extends BaseAdapter {
 	public void setUserInfo(String uId, TextView nameTV,
 			ImageButton personHeadImg) {
 		LXHUser user = null;
-		int type = -1;//0为当前用户，1为其他用户
 		if(App.pre.getString(Global.USER_ID, "").equals(uId)){//当前用户发的帖子
 			user = userDao.getNickAndHeadByUidFromUser(uId);
-			type = 0;
 		}else{//其它用户发的帖子
 			user = userDao.getNickAndHeadByUid(uId);
-			type = 1;
 		}
 		if (user != null) {// 如果本地数据库存在该用户
 			nameTV.setText(user.getNickName());
@@ -365,9 +438,9 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	}
 
-	private int lastPosition;
+	private int lastPosition;//上一个播放录音的view
 	private boolean isPlay = false;
-	private viewHolder2 lastView;
+	private viewHolder2 lastView;//上一个播放录音的viewholder
 
 	// 播放已经录好的音
 	private void playAudio(final viewHolder2 holder, final int position) {
@@ -426,6 +499,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		isPlay = false;
 		if (holder != null) {
 //			v.setBackgroundResource(R.drawable.comment_audio_selector);
+			holder.commentPlayId.setBackgroundResource(R.drawable.musicplayone);
 			animationDrawable.stop();
 		}
 		isAudioPlayArray.put(position, false);
@@ -448,7 +522,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		private TextView indexCommentNum;// 评论数
 		private ImageView commentImg;// 评论的图标
 		private RelativeLayout indexProgressbarLayout;// 录音的背景
-		private ImageView indexProgressbarTopImg;// 录音指向用户头像的背景
+//		private ImageView indexProgressbarTopImg;// 录音指向用户头像的背景
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
 		private TextView indexProgressbarTime;
 		private TextView indexTextDescribe;// 帖子内容文字
@@ -458,7 +532,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	class viewHolder2 {
 		ImageView commentUserHead;// 楼层
-		TextView commentPosition; // 评论的用户所在的位置
+		TextView commentNickName; // 评论的用户所在的位置
 		TextView commentTime; // 评论的时间
 		TextView commentTextContext; // 评论的文字内容
 		Button commentPlayId;// 语言的按钮
@@ -592,8 +666,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 	private boolean isInvitationPlay;
 	private int voiceDuration;
 	private MyCount mCountDownTimer;// 当前录音倒计时
-	private Timer mProgressTimer;// 当前进度条进度计时
-	private int mCount = 0;// 进度条度数
+//	private Timer mProgressTimer;// 当前进度条进度计时
+//	private int mCount = 0;// 进度条度数
 	private MediaPlayer mMeidaPlayer;
 	private viewHolder1 mHolder1;// 记录前一个holder，在停止时调用
 	private AnimationDrawable animationDrawable;
@@ -628,8 +702,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 					mCountDownTimer = new MyCount((voiceDuration) * 1000 + 50,
 							1000);
 					mCountDownTimer.start();
-					// 显示进度条
-					showIndeterDialog(voiceDuration);
+//					// 显示进度条
+//					showIndeterDialog(voiceDuration);
 				}
 			});
 
@@ -652,20 +726,10 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 	private void stopInvitationAudio(final viewHolder1 holder) {
 		// TODO Auto-generated method stub
-		// 进度条走完
-		mCount = 0;
+//		 进度条走完
+//		mCount = 0;
 		isInvitationPlay = false;
-		if (mProgressTimer != null) {
-			mProgressTimer.cancel();
-		}
 		if (holder != null) {
-			mHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					// // TODO Auto-generated method stub
-					// holder.indexProgressbarId.setProgress(0);
-				}
-			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
 			animationDrawable.stop();
 			holder.indexProgressbarBtn
@@ -693,41 +757,21 @@ public class CommentListViewAdapter extends BaseAdapter {
 		public void onFinish() {
 			// 完成的时候提示
 			mHolder1.indexProgressbarTime.setText(0 + "s");
-
+			mHandler.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					mHandler.sendEmptyMessage(0);
+				}
+			}, 1000l);
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {
-			// Log.i("countdown", millisUntilFinished + "");
 			mHolder1.indexProgressbarTime.setText(millisUntilFinished / 1000
 					+ "s");
 		}
-	}
-
-	// /进度条的处理
-	private void showIndeterDialog(int processtime) {
-		final int newprocesstime = processtime;
-		final int progrocessMax = 1000;
-		;
-		mProgressTimer = new Timer();
-		mProgressTimer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if (mCount <= progrocessMax) {
-					mCount++;
-					mHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-						}
-					});
-				} else {
-					mHandler.sendEmptyMessage(0);
-				}
-			}
-		}, 0l, newprocesstime);
 	}
 
 	/**
@@ -738,9 +782,6 @@ public class CommentListViewAdapter extends BaseAdapter {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
-				// 进度条走完
-				mCount = 0;
-				mProgressTimer.cancel();
 				mHolder1.indexProgressbarTime.setText(voiceDuration + "s");
 				animationDrawable.stop();
 				mHolder1.indexProgressbarBtn

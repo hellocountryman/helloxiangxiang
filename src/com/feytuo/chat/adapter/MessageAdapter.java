@@ -81,6 +81,7 @@ import com.feytuo.chat.utils.ImageUtils;
 import com.feytuo.chat.utils.SmileUtils;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
+import com.feytuo.laoxianghao.UserToPersonActivity;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.util.ImageLoader;
@@ -438,6 +439,17 @@ public class MessageAdapter extends BaseAdapter{
 					intent.putExtra("position", position);
 					activity.startActivityForResult(intent, ChatActivity.REQUEST_CODE_ADD_TO_BLACKLIST);
 					return true;
+				}
+			});
+			holder.head_iv.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intentToPerson = new Intent();
+					intentToPerson.setClass(context, UserToPersonActivity.class);
+					intentToPerson.putExtra("userid", username);
+					context.startActivity(intentToPerson);
 				}
 			});
 		}

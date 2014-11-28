@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -465,14 +463,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		if (!isAudioPlayArray.get(position, false)) {// 没有播放的
 			if (mHolder != null && mHolder.equals(holder)) {
 				isCurrentItemAudioPlay = false;
-				mHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						// holder.indexProgressbarId.setProgress(0);
-
-					}
-				});
 				holder.indexProgressbarTime.setText((Integer) list
 						.get(position).get("voice_duration") + "s");
 				// holder.indexProgressbarBtn
@@ -717,8 +707,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	}
 
 	private MyCount mCountDownTimer;// 当前录音倒计时
-	private Timer mProgressTimer;// 当前进度条进度计时
-	private int mCount = 0;// 进度条度数
 	private MediaPlayer mp;
 	private int voiceDuration;
 	private boolean isPlay = false;
@@ -764,8 +752,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 					mCountDownTimer = new MyCount((voiceDuration) * 1000 + 50,
 							1000);
 					mCountDownTimer.start();
-					// 显示进度条
-					showIndeterDialog(voiceDuration);
 				}
 			});
 
@@ -788,24 +774,10 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 
 	public void stopAudio(final ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
-		// 进度条走完
-		mCount = 0;
 		isPlay = false;
 		isAudioPlayArray.put(position, false);
-		if (mProgressTimer != null) {
-			mProgressTimer.cancel();
-		}
 		if (holder != null) {
-			mHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					// holder.indexProgressbarId.setProgress(0);
-				}
-			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
-//			holder.indexProgressbarBtn
-//					.setBackgroundResource(R.drawable.play_ico);
 			animationDrawable.stop();
 			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 		}
@@ -830,9 +802,17 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		@Override
 		public void onFinish() {
 			// 完成的时候提示
-			if (isCurrentItemAudioPlay) {
+//			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(0 + "s");
-			}
+				mHandler.postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						mHandler.sendEmptyMessage(0);
+					}
+				}, 1000l);
+//			}
 
 		}
 
@@ -848,27 +828,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		}
 	}
 
-	// /进度条的处理
-	private void showIndeterDialog(int processtime) {
-		final int newprocesstime = processtime * 10;
-		final int progrocessMax = 100;
-		mProgressTimer = new Timer();
-		mProgressTimer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if (mCount <= progrocessMax) {
-					mCount++;
-					if (isCurrentItemAudioPlay) {
-						// mHolder.indexProgressbarId.setProgress(mCount);
-					}
-				} else {
-					mHandler.sendEmptyMessage(0);
-				}
-			}
-		}, 0l, newprocesstime);
-	}
 
 	/**
 	 * Handler消息处理
@@ -877,9 +836,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
-				// 进度条走完
-				mCount = 0;
-				mProgressTimer.cancel();
 				// mHolder.indexProgressbarId.setProgress(0);
 				if (isCurrentItemAudioPlay) {
 					mHolder.indexProgressbarTime.setText(voiceDuration + "s");

@@ -416,15 +416,10 @@ public class MainFragment extends Fragment {
 					indexListView.setLoadMoreSuccess();
 				}
 				if (arg0.size() == 0) {
-					if (actionType == STATE_MORE) {
-//						Toast.makeText(MainActivity.getActivity(), "没有啦,要么...来几句？",
-//								Toast.LENGTH_SHORT).show();
+					if (actionType == STATE_MORE) {//没有更多内容
 						indexListView.stopLoadMore();// 关闭上拉加载的功能
-					} else {
-//						Toast.makeText(MainActivity.getActivity(), "暂无更新",
-//								Toast.LENGTH_SHORT).show();
+					} else {//该版块没有一点内容
 						indexListView.setRefreshSuccess("暂无更新");
-						indexListView.startLoadMore(); // 开启LoadingMore功能
 					}
 				}
 				// 这里在每次加载完数据后，将当前页码+1，这样在上拉刷新的onPullUpToRefresh方法中就不需要操作curPage了

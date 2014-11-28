@@ -6,12 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.CountDownTimer;
@@ -68,6 +68,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 	private SparseArray<Boolean> collectionMap;// 标记收藏对象
 	private SparseArray<Boolean> isAudioPlayArray;// 记录是否正在播放音乐
 	private boolean isCurrentItemAudioPlay;
+	private AnimationDrawable animationDrawable;
 	
 	private LXHUserDao userDao;
 	private CityDao cityDao;
@@ -100,8 +101,6 @@ public class FindListViewAdapter extends SimpleAdapter {
 
 			if (resource == R.layout.index_listview) {
 
-				holder.indexBottomLinearlayout = (LinearLayout) convertView
-						.findViewById(R.id.index_bottom_linearlayout);
 				holder.indexSupportLinerlayout = (LinearLayout) convertView
 						.findViewById(R.id.index_support_linerlayout);
 				holder.indexCommentLinerlayout = (LinearLayout) convertView
@@ -148,9 +147,10 @@ public class FindListViewAdapter extends SimpleAdapter {
 		holder.indexSupportLinerlayout.setOnClickListener(listener);
 		holder.indexCommentLinerlayout.setOnClickListener(listener);
 		holder.indexShareLinerlayout.setOnClickListener(listener);
+		holder.indexProgressbarLayout.setOnClickListener(listener);
 		// holder.indexProgressbarBtn.setOnClickListener(listener);
 		// holder.indexProgressbarId.setOnClickListener(listener);
-		holder.indexProgressbarBtn.setOnClickListener(listener);
+//		holder.indexProgressbarBtn.setOnClickListener(listener);
 		setSubBtn(holder, position);
 		setcontent(holder, position);
 		setAudioState(holder, position);
@@ -160,28 +160,21 @@ public class FindListViewAdapter extends SimpleAdapter {
 	// 根据音乐是否播放设置item
 	private void setAudioState(final ViewHolder holder, final int position) {
 		// TODO Auto-generated method stub
+		holder.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable) holder.indexProgressbarBtn
+				.getBackground();
 		if (!isAudioPlayArray.get(position, false)) {// 没有播放的
 			if (mHolder != null && mHolder.equals(holder)) {
 				isCurrentItemAudioPlay = false;
-				mHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						// holder.indexProgressbarId.setProgress(0);
-						// Log.i("progressbar", "主界面progress:"
-						// + holder.indexProgressbarId.getProgress());
-					}
-				});
 				holder.indexProgressbarTime.setText((Integer) list
 						.get(position).get("voice_duration") + "s");
-				holder.indexProgressbarBtn
-						.setBackgroundResource(R.drawable.play_ico);
+				animationDrawable.stop();
+				holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 
 			}
 		} else {// 正在播放的
 			isCurrentItemAudioPlay = true;
-			holder.indexProgressbarBtn
-					.setBackgroundResource(R.drawable.pause_ico);
+			animationDrawable.start();
 		}
 	}
 
@@ -357,7 +350,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 					}
 				}
 				break;
-			case R.id.index_progressbar_btn:
+			case R.id.index_progressbar_layout:
 				if (NetUtil.isNetConnect(context)) {// 检查是否联网
 					if (lastPosition == position) {
 						if (!isPlay) {
@@ -478,7 +471,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 	}
 
 	class ViewHolder {
-		private LinearLayout indexBottomLinearlayout;// 帖子底部栏
+//		private LinearLayout indexBottomLinearlayout;// 帖子底部栏
 		private LinearLayout indexSupportLinerlayout;// 赞
 		private LinearLayout indexCommentLinerlayout;// 评论
 		private LinearLayout indexShareLinerlayout;// 分享
@@ -498,7 +491,6 @@ public class FindListViewAdapter extends SimpleAdapter {
 	}
 
 	private MyCount mCountDownTimer;// 当前录音倒计时
-	private Timer mProgressTimer;// 当前进度条进度计时
 	private MediaPlayer mp;
 	private int voiceDuration;
 	private boolean isPlay = false;
@@ -511,18 +503,19 @@ public class FindListViewAdapter extends SimpleAdapter {
 		stopAudio(mHolder, lastPosition);
 		// 设置
 		mHolder = holder;
-		mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.pause_ico);
+		mHolder.indexProgressbarBtn.setBackgroundResource(R.anim.frameanim);// 播放录音的动画
+		animationDrawable = (AnimationDrawable) mHolder.indexProgressbarBtn
+				.getBackground();
+		animationDrawable.start();
 
 		isPlay = true;
 		isCurrentItemAudioPlay = true;
-		Log.i("ListViewAdapter", "1:" + isCurrentItemAudioPlay);
 		// 解决按钮状态也被重用的问题
 		isAudioPlayArray.put(position, true);
 		lastPosition = position;
 
 		// 重新获得
 		String audioUrl = list.get(position).get("voice").toString();
-		Log.i("tangpeng", audioUrl + "音频文件");
 		voiceDuration = (Integer) list.get(position).get("voice_duration");
 		// 点击播放而已
 		try {
@@ -567,21 +560,11 @@ public class FindListViewAdapter extends SimpleAdapter {
 		// 进度条走完
 		isPlay = false;
 		isAudioPlayArray.put(position, false);
-		if (mProgressTimer != null) {
-			mProgressTimer.cancel();
-		}
 		if (holder != null) {
-			mHandler.post(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					// holder.indexProgressbarId.setProgress(0);
-				}
-			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
-			holder.indexProgressbarBtn
-					.setBackgroundResource(R.drawable.play_ico);
+			animationDrawable.stop();
+			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
+			
 		}
 		if (mCountDownTimer != null) {
 			mCountDownTimer.cancel();
@@ -604,16 +587,24 @@ public class FindListViewAdapter extends SimpleAdapter {
 		@Override
 		public void onFinish() {
 			// 完成的时候提示
-			if (isCurrentItemAudioPlay) {
+//			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(0 + "s");
-			}
+				mHandler.postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						mHandler.sendEmptyMessage(0);
+					}
+				}, 1000l);
+//			}
 
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// Log.i("countdown", millisUntilFinished + "");
-			Log.i("ListViewAdapter", "isCurrentItemAudioPlay:"
+			Log.i("FindListViewAdapter", "isCurrentItemAudioPlay:"
 					+ isCurrentItemAudioPlay);
 			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(millisUntilFinished / 1000
@@ -622,34 +613,6 @@ public class FindListViewAdapter extends SimpleAdapter {
 		}
 	}
 
-	// // /进度条的处理
-	// private void showIndeterDialog(int processtime) {
-	// final long newprocesstime = processtime * 10;
-	// final int progrocessMax = 100;
-	// mHolder.indexProgressbarId.setMax(progrocessMax);
-	// mHolder.indexProgressbarId.setProgress(0);
-	// mHolder.indexProgressbarId.setIndeterminate(false);
-	// mProgressTimer = new Timer();
-	// mProgressTimer.schedule(new TimerTask() {
-	//
-	// @Override
-	// public void run() {
-	// // TODO Auto-generated method stub
-	// if (mCount <= progrocessMax) {
-	// mCount++;
-	// if (isCurrentItemAudioPlay) {
-	// // TODO Auto-generated method stub
-	// mHolder.indexProgressbarId.setProgress(mCount);
-	// Log.i("progressbar", "子线程progress:"
-	// + mHolder.indexProgressbarId.getProgress());
-	// }
-	// } else {
-	// mHandler.sendEmptyMessage(0);
-	// }
-	// }
-	// }, 0l, newprocesstime);
-	// }
-
 	/**
 	 * Handler消息处理
 	 */
@@ -657,13 +620,10 @@ public class FindListViewAdapter extends SimpleAdapter {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
-				// 进度条走完
-				mProgressTimer.cancel();
-				// mHolder.indexProgressbarId.setProgress(0);
 				if (isCurrentItemAudioPlay) {
 					mHolder.indexProgressbarTime.setText(voiceDuration + "s");
-					mHolder.indexProgressbarBtn
-							.setBackgroundResource(R.drawable.play_ico);
+					animationDrawable.stop();
+					mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 				}
 				isAudioPlayArray.put(lastPosition, false);
 				isPlay = false;

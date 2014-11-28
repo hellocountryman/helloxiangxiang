@@ -783,6 +783,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	}
 
 	protected void onDestroy() {
+		super.onDestroy();
 		if (mp != null) {
 			mp.release();
 		}
@@ -793,7 +794,6 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			fileAudio.delete();
 		}
 		locationBaidu.stop();
-		super.onDestroy();
 	}
 
 	@Override

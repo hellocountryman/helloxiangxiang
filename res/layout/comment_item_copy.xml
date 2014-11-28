@@ -14,7 +14,7 @@
         android:layout_marginTop="8.0dip" >
 
         <ImageView
-            android:id="@+id/comment_floor"
+            android:id="@+id/comment_head_image"
             android:layout_width="30.0dip"
             android:layout_height="30.0dip"
             android:layout_centerVertical="true"
@@ -23,11 +23,12 @@
             android:textSize="16.0sp" />
 
         <TextView
-            android:id="@+id/comment_position"
+            android:id="@+id/comment_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8.0dip"
-            android:layout_toRightOf="@+id/comment_floor"
+            android:layout_toRightOf="@+id/comment_head_image"
+            android:layout_centerVertical="true"
             android:text="刘家小二"
             android:textColor="@color/head_color"
             android:textSize="14.0sp" />

@@ -242,16 +242,9 @@ public class FindDetailsActivity extends Activity {
 						}
 						if (arg0.size() == 0) {
 							if (actionType == STATE_MORE) {
-								// Toast.makeText(MainActivity.getActivity(),
-								// "没有啦,要么...来几句？",
-								// Toast.LENGTH_SHORT).show();
 								findListView.stopLoadMore();// 关闭上拉加载的功能
 							} else {
-								// Toast.makeText(MainActivity.getActivity(),
-								// "暂无更新",
-								// Toast.LENGTH_SHORT).show();
 								findListView.setRefreshSuccess("暂无更新");
-								findListView.startLoadMore(); // 开启LoadingMore功能
 							}
 						}
 						// 这里在每次加载完数据后，将当前页码+1，这样在上拉刷新的onPullUpToRefresh方法中就不需要操作curPage了

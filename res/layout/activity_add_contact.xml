@@ -47,7 +47,16 @@
         android:singleLine="true"
         android:textColorHint="#b3b3b3"
         android:textSize="18sp" />
-
+    <ListView
+        android:id="@+id/add_contact_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/weibo_unline"
+        android:divider="@null"
+        >
+        
+    </ListView>
+<!-- 
     <LinearLayout
         android:id="@+id/ll_user"
         android:layout_width="match_parent"
@@ -96,5 +105,5 @@
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
-
+ -->
 </LinearLayout>

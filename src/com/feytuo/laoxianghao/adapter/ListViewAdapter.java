@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -262,7 +261,7 @@ public class ListViewAdapter extends BaseAdapter {
 		}
 			break;
 		}
-		Log.i(TAG, "convertView:"+convertView);
+//		Log.i(TAG, "convertView:"+convertView);
 		return convertView;
 	}
 
@@ -675,7 +674,6 @@ public class ListViewAdapter extends BaseAdapter {
 	}
 
 	private MyCount mCountDownTimer;// 当前录音倒计时
-	private Timer mProgressTimer;// 当前进度条进度计时
 	private MediaPlayer mp;
 	private int voiceDuration;
 	private boolean isPlay = false;
@@ -697,7 +695,6 @@ public class ListViewAdapter extends BaseAdapter {
 
 		isPlay = true;
 		isCurrentItemAudioPlay = true;
-		Log.i("ListViewAdapter", "1:" + isCurrentItemAudioPlay);
 		// 解决按钮状态也被重用的问题
 		isAudioPlayArray.put(position, true);
 		lastPosition = position;
@@ -751,26 +748,13 @@ public class ListViewAdapter extends BaseAdapter {
 
 	public void stopAudio(final ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
-		// 进度条走完
-		isPlay = false;
-		isAudioPlayArray.put(position, false);
-		if (mProgressTimer != null) {
-			mProgressTimer.cancel();
-		}
 		if (holder != null) {
-			mHandler.post(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					// holder.indexProgressbarId.setProgress(0);
-				}
-			});
 			holder.indexProgressbarTime.setText(voiceDuration + "s");
 			animationDrawable.stop();
 			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
-
 		}
+		isPlay = false;
+		isAudioPlayArray.put(position, false);
 		if (mCountDownTimer != null) {
 			mCountDownTimer.cancel();
 		}
@@ -792,18 +776,24 @@ public class ListViewAdapter extends BaseAdapter {
 		@Override
 		public void onFinish() {
 			// 完成的时候提示
-			if (isCurrentItemAudioPlay) {
+//			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(0 + "s");
-				mHandler.sendEmptyMessage(0);
-			}
+				mHandler.postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						mHandler.sendEmptyMessage(0);
+					}
+				}, 1000l);
+				
+//			}
 
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {
-			// Log.i("countdown", millisUntilFinished + "");
-			Log.i("ListViewAdapter", "isCurrentItemAudioPlay:"
-					+ isCurrentItemAudioPlay);
+			 Log.i(TAG, "isCurrentItemAudioPlay:"+isCurrentItemAudioPlay);
 			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(millisUntilFinished / 1000
 						+ "s");

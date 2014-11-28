@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,13 +22,9 @@ import cn.bmob.v3.listener.FindListener;
 
 import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
-import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
-import com.feytuo.laoxianghao.adapter.ListViewAdapter;
-import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
-import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.util.ImageLoader;
 
 /**
