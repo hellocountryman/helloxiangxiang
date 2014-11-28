@@ -184,6 +184,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				commentRecordLinear.setVisibility(View.GONE);
+				commentCommentBtn.setClickable(true);
 				return false;
 			}
 		});
@@ -708,7 +709,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		if (mp.isPlaying()) {
 			mp.stop();
 		}
-		commentRecordHintText.setText("点击继续");
+		commentRecordHintText.setText("点击播放");
 		commentPlayRecordImgbutton.setBackgroundResource(R.drawable.comment_record_play);
 		commentRerecordimg.setVisibility(View.VISIBLE);// 已经录好准备评论的声音后重放中暂停，重录按钮显示
 		isReplay = false;
@@ -729,7 +730,6 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		//发送按钮不可以点击
 		commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_no);
 		commentCommentBtn.setClickable(false);
-		
 		commentPlayRecordImgbutton.setVisibility(View.GONE);// 录音播放按钮不可见
 		commentRecordBtn.setBackgroundResource(R.drawable.comment_record_no);
 		commentRecordHintText.setText("按住录音");
@@ -773,6 +773,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			commentRecordHintText.setText("点击试听");
 			commentPlayRecordImgbutton
 					.setBackgroundResource(R.drawable.comment_record_play);
+			isReplay = false;
 			commentRerecordimg.setVisibility(View.VISIBLE);
 		}
 	};

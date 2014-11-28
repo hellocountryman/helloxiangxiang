@@ -159,6 +159,7 @@ public class SettingsFragment extends Fragment {
 	private void setViewContent() {
 		// TODO Auto-generated method stub
 		user = new LXHUserDao(getActivity()).getCurrentUserInfo(App.pre.getString(Global.USER_ID, ""));
+		
 		CommonUtils.corner(getActivity(), R.drawable.default_avatar, personHeadImg);// 设置圆角
 		if(user != null){
 			personHeadNick.setText(user.getNickName());
