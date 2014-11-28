@@ -313,7 +313,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		// TODO Auto-generated method stub
 		InvitationDao invDao = new InvitationDao(context);
 		invDao.deleteInInvitationMy(inv.getObjectId());
-		invDao.deleteInInvitationCollection(inv.getObjectId());
+//		invDao.deleteInInvitationCollection(inv.getObjectId());
 	}
 
 	// 设置其他显示信息

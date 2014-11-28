@@ -59,6 +59,7 @@ import com.feytuo.laoxianghao.R;
  * 
  */
 public class ContactlistFragment extends Fragment {
+	private final String TAG = "ContactlistFragment";
 	private ContactAdapter adapter;
 	private List<User> contactList;
 	private ListView listView;
@@ -142,9 +143,7 @@ public class ContactlistFragment extends Fragment {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		// 长按前两个不弹menu
-		if (((AdapterContextMenuInfo) menuInfo).position > 0) {
-			getActivity().getMenuInflater().inflate(R.menu.context_contact_list, menu);
-		}
+		getActivity().getMenuInflater().inflate(R.menu.context_contact_list, menu);
 	}
 
 	@Override
@@ -246,11 +245,12 @@ public class ContactlistFragment extends Fragment {
 							Toast.makeText(getActivity(), "移入黑名单成功", Toast.LENGTH_SHORT).show();
 						}
 					});
-				} catch (EaseMobException e) {
+				} catch (final EaseMobException e) {
 					e.printStackTrace();
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
+							Log.i(TAG, "黑名单失败："+e.getMessage());
 							Toast.makeText(getActivity(), "移入黑名单失败", Toast.LENGTH_SHORT).show();
 						}
 					});

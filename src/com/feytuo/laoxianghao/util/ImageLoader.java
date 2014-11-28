@@ -6,8 +6,11 @@ import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import android.content.Context;
@@ -21,6 +24,7 @@ import android.widget.ImageView;
 /**
  * 图片加载辅助类
  * 通过一级本地map缓存和二级SoftReference缓存获取图片加快图片的加载
+ * 在通过本地SD卡文件读取
  * 若本地没有缓存则根据url从网络获取
  * @author feytuo
  *
@@ -31,6 +35,9 @@ public class ImageLoader {
 	
 	private ImageFileCache  fileCache=new ImageFileCache();
 	private Context context;
+	//用于防止图片异步加载错位问题
+	private Map<ImageView, String> imageViews = Collections
+            .synchronizedMap(new WeakHashMap<ImageView, String>());
 
 	// 0.75是加载因子为经验值，true则表示按照最近访问量的高低排序，false则表示按照插入顺序排序
 	private HashMap<String, Bitmap> mFirstLevelCache = new LinkedHashMap<String, Bitmap>(
@@ -156,6 +163,7 @@ public class ImageLoader {
 	 * @param holder
 	 */
 	public void loadImage(String url, BaseAdapter adapter, ImageView iv) {
+		imageViews.put(iv, url);
 		resetPurgeTimer();
 		Bitmap bitmap = getBitmapFromCache(url);// 从缓存中读取
 		if(bitmap != null){
@@ -182,6 +190,7 @@ public class ImageLoader {
 	 * @param holder
 	 */
 	public void loadCornerImage(String url, BaseAdapter adapter, ImageView iv) {
+		imageViews.put(iv, url);
 		resetPurgeTimer();
 		Bitmap bitmap = getBitmapFromCache(url);// 从缓存中读取
 		if(bitmap != null){
@@ -241,6 +250,9 @@ public class ImageLoader {
 
 		@Override
 		protected void onPostExecute(Bitmap result) {
+			if(imageviewReused(iv,url)){
+				return;
+			}
 			if (result == null) {
 				return;
 			}else{
@@ -261,6 +273,20 @@ public class ImageLoader {
 		}
 	}
 
+	/**
+	 * 防止图片异步加载过程中从网络获取后
+	 * 因listview重用的view导致的错位
+	 * @param iv
+	 * @param url
+	 * @return
+	 */
+	private boolean imageviewReused(ImageView iv,String url){
+		String tag = imageViews.get(iv);
+		if(tag == null || !tag.equals(url)){
+			return true;
+		}
+		return false;
+	}
 	public Bitmap loadImageFromInternet(String url) {
 		URL imageUrl;
 		InputStream i = null;

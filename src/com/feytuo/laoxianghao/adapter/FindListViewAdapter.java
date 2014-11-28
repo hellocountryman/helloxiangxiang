@@ -399,7 +399,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 		Intent intentComment = new Intent();
 		intentComment.setClass(context, CommentActivity.class);
 		intentComment.putExtra("invId", invId);
-		intentComment.putExtra("enterFrom", 0);
+		intentComment.putExtra("enterFrom", 2);
 		context.startActivity(intentComment);
 	}
 

@@ -31,7 +31,7 @@ public class PraiseDao {
 	 * 
 	 * @param praise
 	 */
-	public void insertPraise(String uId,String invId) {
+	public void insertPraise(String invId,String uId) {
 		String sqlStr = "insert into praise(uid,inv_id) values(?,?)";
 		db.execSQL(sqlStr, new Object[] {uId,invId });
 	}
