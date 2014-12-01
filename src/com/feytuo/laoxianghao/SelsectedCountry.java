@@ -58,12 +58,12 @@ public class SelsectedCountry extends Activity {
 	private PinyinComparator pinyinComparator;
 
 	// 跳转路径
-	private int path;// 0为从欢迎界面跳转，1为从设置跳转
+	private int path;// 0为从欢迎界面，1为从筛选跳转，或2选择家乡
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.selected_hotcountry);
-		path = getIntent().getIntExtra("isfromtocity", -1);
+		path = getIntent().getIntExtra("isfromtocity", 2);
 		initCity();
 		initViews();
 	}
@@ -80,15 +80,15 @@ public class SelsectedCountry extends Activity {
 
 		hotCityLinear=(LinearLayout)findViewById(R.id.hotcitylinear);
 		
-		listener list = new listener();
+		Listener listener = new Listener();
 		selectCityHot1 = (Button) findViewById(R.id.select_city_hot_1);
 		selectCityHot2 = (Button) findViewById(R.id.select_city_hot_2);
 		selectCityHot3 = (Button) findViewById(R.id.select_city_hot_3);
 		selectCityHot4 = (Button) findViewById(R.id.select_city_hot_4);
-		selectCityHot1.setOnClickListener(list);
-		selectCityHot2.setOnClickListener(list);
-		selectCityHot3.setOnClickListener(list);
-		selectCityHot4.setOnClickListener(list);
+		selectCityHot1.setOnClickListener(listener);
+		selectCityHot2.setOnClickListener(listener);
+		selectCityHot3.setOnClickListener(listener);
+		selectCityHot4.setOnClickListener(listener);
 
 		selectCountryReturnBtn = (Button) findViewById(R.id.select_country_return_btn);
 		titleTextSelect = (TextView) findViewById(R.id.title_text_select);
@@ -97,7 +97,7 @@ public class SelsectedCountry extends Activity {
 		sideBar.setTextView(dialog);
 
 		// 城市判断
-		if (path == 0) {
+		if (path == 0 || path == 2) {
 			titleTextSelect.setText("请选择家乡");
 			hotCityLinear.setVisibility(View.GONE);
 			selectCountryReturnBtn.setVisibility(View.INVISIBLE);
@@ -166,7 +166,7 @@ public class SelsectedCountry extends Activity {
 		});
 	}
 
-	class listener implements OnClickListener {
+	class Listener implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
@@ -180,7 +180,7 @@ public class SelsectedCountry extends Activity {
 			case R.id.select_city_hot_3:
 				saveCurrentHome("广州");
 				break;
-			default:
+			case R.id.select_city_hot_4:
 				saveCurrentHome("成都");
 				break;
 			}
@@ -190,24 +190,12 @@ public class SelsectedCountry extends Activity {
 
 	// 跳转
 	private void turnToMain(String city) {
-		// //城市判断
-		// if (path == 0) {
-		// /*********统计添加点击************/
-		// HashMap<String,String> map = new HashMap<String,String>();
-		// map.put("city", city);
-		// MobclickAgent.onEvent(this, "Home",map);//添加操作
-		// } else {
-		// /*********统计添加点击************/
-		// HashMap<String,String> map = new HashMap<String,String>();
-		// map.put("city", city);
-		// MobclickAgent.onEvent(this, "CityChange",map);//添加操作
-		// }
 		Intent intent = new Intent();
-		if (path == 0) {
+		if (path == 0) {//选择家乡
 			intent.setClass(SelsectedCountry.this,
 					com.feytuo.chat.activity.MainActivity.class);
 			startActivity(intent);
-		} else {
+		} else{//修改家乡或者筛选
 			intent.putExtra("data", city);
 			setResult(Global.RESULT_OK, intent);
 		}
@@ -221,10 +209,15 @@ public class SelsectedCountry extends Activity {
 	 */
 	protected void saveCurrentHome(String home) {
 		// TODO Auto-generated method stub
-		// 更新当前用户home属性
-		updateCurrentUserHome(home);
 		int cityId = new CityDao(this).getCityIdByName(home);
-		App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
+		if(path == 0 || path == 2){//欢迎界面跳转
+			// 更新当前用户home属性
+			App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
+			updateCurrentUserHome(home);
+		}else if(path == 1){
+			App.pre.edit().putInt(Global.CURRENT_NATIVE, cityId).commit();
+			turnToMain(home);
+		}
 	}
 
 	private OnloadDialog pd;

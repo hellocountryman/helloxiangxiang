@@ -49,6 +49,7 @@ public class MainFragment extends Fragment {
 
 	private final int STATE_REFRESH = 0;// 下拉刷新
 	private final int STATE_MORE = 1;// 加载更多
+	private final int REQUEST_CODE= 2;// 筛选序号
 	private final int LIMIT = 10;// 每页的数据是10条
 	private int curPage = 0;// 当前页的编号，从0开始
 
@@ -106,8 +107,6 @@ public class MainFragment extends Fragment {
 		indexListView = (ZrcListView) getActivity().findViewById(
 				R.id.index_listview);
 
-		// 设置方言地选择textview
-		setIndexCitySelect();
 	}
 
 	 class listener implements OnClickListener {
@@ -119,28 +118,32 @@ public class MainFragment extends Fragment {
 				Intent intentselsectcity = new Intent();
 				intentselsectcity.putExtra("isfromtocity", 1);// 判断是从那里进入的城市选择
 				intentselsectcity.setClass(getActivity(), SelsectedCountry.class);
-				startActivity(intentselsectcity);
+				startActivityForResult(intentselsectcity, REQUEST_CODE);
 				break;
-
 			default:
 				break;
 			}
 		}
 		
 	}
-
-
-	/**
-	 * 
-	 * 
-	 * 设置方言地选择textview
-	 */
-	private void setIndexCitySelect() {
-		// int homeId = App.pre.getInt(Global.CURRENT_NATIVE, 1);
-		// String homeName = new CityDao(getActivity()).getCityNameById(homeId);
-		// indexCitySelect.setText(homeName.substring(0, homeName.length()) +
-		// "话");
-
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if(requestCode == REQUEST_CODE){
+			if(resultCode == Global.RESULT_OK){
+				if(indexListView.getCount() < 3){
+					Log.i(TAG, "筛选刷新了");
+					adapter.stopAudio();
+					getTopicInvitation();
+					getListData(0, STATE_REFRESH);
+				}else{
+					Log.i(TAG, "筛选自动刷新了");
+					indexListView.setSelection(0);
+					indexListView.refresh();
+				}
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	public void initlistview() {

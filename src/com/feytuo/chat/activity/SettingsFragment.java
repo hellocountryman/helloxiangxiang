@@ -279,7 +279,7 @@ public class SettingsFragment extends Fragment {
 				break;
 			case R.id.person_home_rela:
 				intent.setClass(getActivity(), SelsectedCountry.class);
-				intent.putExtra("isfromtocity", 1);
+				intent.putExtra("isfromtocity", 2);
 				startActivityForResult(intent, UPDATE_HOME);
 				break;
 			default:
@@ -309,19 +309,21 @@ public class SettingsFragment extends Fragment {
 				setPicToView(data);
 			break;
 		}
-		if(resultCode == Global.RESULT_OK){
-			String resultData = data.getStringExtra("data").toString().trim();
-			switch(requestCode){
-			case UPDATE_NICK_NAME:
-				personNickText.setText(resultData);
-				personHeadNick.setText(resultData);
-				break;
-			case UPDATE_PERSON_SIGN:
-				personSignText.setText(resultData);
-				break;
-			case UPDATE_HOME:
-				personHomeText.setText(resultData);
-				break;
+		if(requestCode == UPDATE_HOME){
+			if(resultCode == Global.RESULT_OK){
+				String resultData = data.getStringExtra("data").toString().trim();
+				switch(requestCode){
+				case UPDATE_NICK_NAME:
+					personNickText.setText(resultData);
+					personHeadNick.setText(resultData);
+					break;
+				case UPDATE_PERSON_SIGN:
+					personSignText.setText(resultData);
+					break;
+				case UPDATE_HOME:
+					personHomeText.setText(resultData);
+					break;
+				}
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
