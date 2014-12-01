@@ -58,7 +58,7 @@ public class SelsectedCountry extends Activity {
 	private PinyinComparator pinyinComparator;
 
 	// 跳转路径
-	private int path;// 0为从欢迎界面跳转，1为从设置跳转
+	private int path;// 0为从欢迎界面跳转，1为从设置跳转，从主页筛选跳转，从发布跳转
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,7 +101,7 @@ public class SelsectedCountry extends Activity {
 			titleTextSelect.setText("请选择家乡");
 			hotCityLinear.setVisibility(View.GONE);
 			selectCountryReturnBtn.setVisibility(View.INVISIBLE);
-		} else {
+		} else{
 			titleTextSelect.setText("请选择话系");
 			selectCountryReturnBtn.setVisibility(View.VISIBLE);
 		}

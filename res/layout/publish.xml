@@ -79,6 +79,7 @@
                 android:text="地球"
                 android:textColor="@color/text_num_color"
                 android:textSize="16.0sp" />
+              <include layout="@layout/viewintimg" />
         </RelativeLayout>
 
         <View
