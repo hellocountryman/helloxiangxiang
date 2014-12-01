@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.bmob.v3.listener.UpdateListener;
@@ -50,7 +51,7 @@ public class SelsectedCountry extends Activity {
 	private CharacterParser characterParser;
 	private List<SortModel> SourceDateList;
 	private List<String> cityNameList;
-
+	private LinearLayout hotCityLinear;
 	/**
 	 * 根据拼音来排列ListView里面的数据类
 	 */
@@ -77,6 +78,8 @@ public class SelsectedCountry extends Activity {
 		characterParser = CharacterParser.getInstance();
 		pinyinComparator = new PinyinComparator();
 
+		hotCityLinear=(LinearLayout)findViewById(R.id.hotcitylinear);
+		
 		listener list = new listener();
 		selectCityHot1 = (Button) findViewById(R.id.select_city_hot_1);
 		selectCityHot2 = (Button) findViewById(R.id.select_city_hot_2);
@@ -93,10 +96,10 @@ public class SelsectedCountry extends Activity {
 		dialog = (TextView) findViewById(R.id.dialog);
 		sideBar.setTextView(dialog);
 
-		
 		// 城市判断
 		if (path == 0) {
 			titleTextSelect.setText("请选择家乡");
+			hotCityLinear.setVisibility(View.GONE);
 			selectCountryReturnBtn.setVisibility(View.INVISIBLE);
 		} else {
 			titleTextSelect.setText("请选择话系");

@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/index_ico_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/headico"
+            android:layout_height="@dimen/headico"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8.0dip"
             android:background="@drawable/title_ic_launcher"

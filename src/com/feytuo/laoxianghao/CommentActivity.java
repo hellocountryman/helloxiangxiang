@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -58,6 +59,7 @@ import com.feytuo.listviewonload.XListView;
 import com.feytuo.listviewonload.XListView.IXListViewListener;
 import com.umeng.analytics.MobclickAgent;
 
+@SuppressLint("ResourceAsColor")
 public class CommentActivity extends Activity implements IXListViewListener {
 	private String invId;// 当前评论的帖子id
 	private int enterFrom;// 从0主界面|1我的帖子|2主界面话题帖中进入，在获取帖子信息时有区别
@@ -175,6 +177,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 					commentTextEdit.setBackgroundResource(R.drawable.corners_storke_edit_press);
 					commentRecordLinear.setVisibility(View.GONE);
 					commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_press);
+					commentCommentBtn.setTextColor(getResources().getColor(
+							R.color.indexbg));
 					commentCommentBtn.setClickable(true);
 				}
 			}
@@ -184,6 +188,9 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				commentRecordLinear.setVisibility(View.GONE);
+				commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_press);
+				commentCommentBtn.setTextColor(getResources().getColor(
+						R.color.indexbg));
 				commentCommentBtn.setClickable(true);
 				return false;
 			}
@@ -400,6 +407,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_no);
+				commentCommentBtn.setTextColor(getResources().getColor(
+						R.color.button_no));
 				commentRecordBtn.setBackgroundResource(R.drawable.comment_record_press);
 				commentRecordHintText.setText("正在录音");
 				commentRecordingLinear.setVisibility(View.VISIBLE);
@@ -411,6 +420,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 				commentRecordingLinear.setVisibility(View.GONE);
 				//发送按钮可以点击
 				commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_press);
+				commentCommentBtn.setTextColor(getResources().getColor(
+						R.color.indexbg));
 				commentCommentBtn.setClickable(true);
 				stopAudio();
 				break;
@@ -730,6 +741,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		//发送按钮不可以点击
 		commentCommentBtn.setBackgroundResource(R.drawable.corners_storke_edit_no);
 		commentCommentBtn.setClickable(false);
+		commentCommentBtn.setTextColor(getResources().getColor(
+				R.color.button_no));
 		commentPlayRecordImgbutton.setVisibility(View.GONE);// 录音播放按钮不可见
 		commentRecordBtn.setBackgroundResource(R.drawable.comment_record_no);
 		commentRecordHintText.setText("按住录音");

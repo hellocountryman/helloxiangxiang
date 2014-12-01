@@ -108,9 +108,9 @@
             android:layout_width="60.0dip"
             android:layout_height="30.0dip"
             android:layout_margin="8dp"
-            android:background="@drawable/corners_storke_edit"
+            android:background="@drawable/corners_storke_edit_no"
             android:text="@string/comment"
-            android:textColor="#9d9d9d"
+            android:textColor="@color/button_no"
             android:textSize="14sp" />
     </LinearLayout>
 

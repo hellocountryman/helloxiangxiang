@@ -111,7 +111,7 @@
                 android:layout_marginLeft="10.0dip"
                 android:layout_weight="1.0"
                 android:autoLink="all"
-                android:text="分享给好友"
+                android:text="推荐给好友"
                 android:textColor="@color/black"
                 android:textSize="16.0sp" />
 
