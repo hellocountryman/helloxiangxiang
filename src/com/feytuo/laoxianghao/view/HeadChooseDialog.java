@@ -44,19 +44,19 @@ public class HeadChooseDialog extends Dialog {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.head_choose_dialog);
 
-		initData();
+//		initData();
 		initGridView();
 	}
-
-	private void initData() {
-		// TODO Auto-generated method stub
-		data = new ArrayList<Map<String, Integer>>();
-		for (int head : HeadImageChoose.HEAD_IDS) {
-			HashMap<String, Integer> map = new HashMap<String, Integer>();
-			map.put("head", head);
-			data.add(map);
-		}
-	}
+//
+//	private void initData() {
+//		// TODO Auto-generated method stub
+//		data = new ArrayList<Map<String, Integer>>();
+//		for (int head : HeadImageChoose.HEAD_IDS) {
+//			HashMap<String, Integer> map = new HashMap<String, Integer>();
+//			map.put("head", head);
+//			data.add(map);
+//		}
+//	}
 
 	private void initGridView() {
 		// TODO Auto-generated method stub
@@ -75,7 +75,7 @@ public class HeadChooseDialog extends Dialog {
 //				Toast.makeText(context, "position:"+position, Toast.LENGTH_SHORT).show();
 				setPosition(position);
 				if(context instanceof PublishActivity){
-					((PublishActivity)context).setHeadImg(HeadImageChoose.HEAD_IDS[position]);
+//					((PublishActivity)context).setHeadImg(HeadImageChoose.HEAD_IDS[position]);
 				}
 				HeadChooseDialog.this.dismiss();
 			}

@@ -8,7 +8,7 @@
     <!-- 标题的文字大小 -->
     <dimen name="title_city_size">20sp</dimen>
     <!-- 标题城市文字的大小 -->
-
+ 
     <dimen name="city_list_size">16sp</dimen>
     <!-- 城市列表 -->
     <dimen name="city_text_size">16sp</dimen>
@@ -39,7 +39,7 @@
     <dimen name="find_picture">30.0dip</dimen>
     <dimen name="find_text_size">16.0sp</dimen>
     
-    <dimen name="height_top_bar">46dp</dimen>
+    <dimen name="height_top_bar">48dp</dimen>
     <dimen name="padding_search_bar">5dp</dimen>
     <dimen name="height_row_weixin">59dp</dimen>
     <dimen name="size_avatar">40dp</dimen> 
@@ -54,4 +54,7 @@
     <dimen name="image_thumbnail_size">100dp</dimen>
     <dimen name="image_thumbnail_spacing">1dp</dimen>
 
+     <dimen name="headico">22dip</dimen>
+    <!-- 主页头部左上角的图标的大小 -->
+    
 </resources>
