@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +35,7 @@ import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import com.feytuo.laoxianghao.dao.InvitationDao;
+import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.Invitation;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
@@ -44,8 +44,8 @@ import com.feytuo.laoxianghao.util.GetSystemDateTime;
 import com.feytuo.laoxianghao.util.Location_Baidu;
 import com.feytuo.laoxianghao.util.SDcardTools;
 import com.feytuo.laoxianghao.util.StringTools;
-import com.feytuo.laoxianghao.view.HeadChooseDialog;
 import com.feytuo.laoxianghao.view.OnloadDialog;
+import com.feytuo.laoxianghao.view.PositionChooseDialog;
 import com.umeng.analytics.MobclickAgent;
 
 public class PublishActivity extends Activity {
@@ -57,6 +57,7 @@ public class PublishActivity extends Activity {
 	private TextView publishRecordTime;
 	private TextView publishTypeText;// 发布的类型
 	private TextView publishTitleLocation;
+	private TextView publishHomeText;//方言地
 	private EditText publishText;
 	private ImageView headImage;
 	private LinearLayout publishRecordingLinear;// 点击录音的时候出现动画提示，
@@ -78,15 +79,11 @@ public class PublishActivity extends Activity {
 	 * 进度条
 	 */
 	private Button progress = null;
-	/**
-	 * 当前进度的值
-	 */
-	private int mCount = 0;
 
 	// 百度定位
 	private Location_Baidu locationBaidu;
-	// 初始化大头贴选择对话框
-	private HeadChooseDialog headChooseDialog;
+	// 初始化所在地选择对话框
+	private PositionChooseDialog positionChooseDialog;
 
 	// 用户信息
 	private LXHUser mUser;
@@ -103,6 +100,14 @@ public class PublishActivity extends Activity {
 		initData();
 		// 开始定位
 		initLocation();
+		//初始化家乡话
+		initHome();
+	}
+
+	private void initHome() {
+		// TODO Auto-generated method stub
+		LXHUser user = new LXHUserDao(this).getCurrentUserInfo(App.pre.getString(Global.USER_ID, ""));
+		publishHomeText.setText(user.getHome()+"话");
 	}
 
 	/*
@@ -113,6 +118,19 @@ public class PublishActivity extends Activity {
 		publishTitleLocation = (TextView) findViewById(R.id.publish_title_location);
 		locationBaidu = new Location_Baidu(this, publishTitleLocation);
 		locationBaidu.start();
+	}
+	/**
+	 * 点击设置所在地按钮
+	 * @param v
+	 */
+	public void setPosition(View v){
+		positionChooseDialog = new PositionChooseDialog(this,publishTitleLocation.getText().toString());
+		positionChooseDialog.show();
+	}
+	public void setPosition(String location){
+		if(!TextUtils.isEmpty(location)){
+			publishTitleLocation.setText(location);
+		}
 	}
 
 	public void initViewType() {
@@ -126,7 +144,7 @@ public class PublishActivity extends Activity {
 		} else if (type == 4) {
 			publishTypeText.setText("发布到方言秀场");
 		} else {
-			publishTypeText.setText("发布到首页");
+			publishTypeText.setText("发布");
 		}
 
 	}
@@ -137,14 +155,13 @@ public class PublishActivity extends Activity {
 	 */
 	public void initView() {
 
-		headChooseDialog = new HeadChooseDialog(this, R.style.MyDialog);
-		
 		listener listenerlist = new listener();
 		publishRecordingLinear = (LinearLayout) findViewById(R.id.publish_recording_linear);
 		publishRecordingImg = (ImageView) findViewById(R.id.publish_recording_img);
 		progress = (Button) findViewById(R.id.progressbar_id);
 		publishwordnumText = (TextView) findViewById(R.id.publish_wordnum_text);
 		publishText = (EditText) findViewById(R.id.publish_text);
+		publishHomeText = (TextView)findViewById(R.id.publish_home_text);
 		// 还能够输入多少字
 		publishText.addTextChangedListener(new TextWatcher() {
 
@@ -256,7 +273,7 @@ public class PublishActivity extends Activity {
 			// 2、上传基本信息
 			// 3、保存到本地数据库
 			if ("".equals(publishText.getText().toString())) {
-				publishText.setText("分享语音");
+				publishText.setText("");
 			}
 			uploadAudioFile();
 		}
@@ -319,7 +336,7 @@ public class PublishActivity extends Activity {
 		inv.setPraiseNum(0);
 		inv.setShareNum(0);
 		inv.setCommentNum(0);
-		inv.setHeadId(headChooseDialog.getPosition());
+		inv.setHeadId(1);
 		inv.setUser(UserLogin.gUser);
 		inv.save(this, new SaveListener() {
 
@@ -520,7 +537,6 @@ public class PublishActivity extends Activity {
 		if (mProgressTimer != null) {
 			mProgressTimer.cancel();
 		}
-		mCount = 0;
 
 		mHandler.post(new Runnable() {
 
@@ -605,8 +621,6 @@ public class PublishActivity extends Activity {
 				mRecordTime++;
 				publishRecordTime.setText(mRecordTime + "s");
 			} else if (msg.what == 0) {
-				// 进度条走完
-				mCount = 0;
 				mProgressTimer.cancel();
 				publishRerecordButton.setVisibility(View.VISIBLE);
 				publishRecordTime.setText(mRecordTime + "s");

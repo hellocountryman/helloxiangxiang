@@ -250,6 +250,7 @@ public class ChatAllHistoryFragment extends Fragment {
 		super.onHiddenChanged(hidden);
 		this.hidden = hidden;
 		if (!hidden && isInitialized) {
+			Log.i("ChatAllHistoryFragment", "HiddenChanged");
 			refresh();
 		}
 	}
@@ -261,6 +262,7 @@ public class ChatAllHistoryFragment extends Fragment {
 			initView();
 		}
 		if (!hidden && isInitialized) {
+			Log.i("ChatAllHistoryFragment", "onResume");
 			refresh();
 		}
 	}

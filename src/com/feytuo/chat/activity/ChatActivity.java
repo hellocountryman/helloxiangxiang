@@ -18,8 +18,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +45,7 @@ import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -64,6 +68,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.GetListener;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
@@ -81,13 +86,16 @@ import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
+import com.easemob.util.HanziToPinyin;
 import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
+import com.feytuo.chat.Constant;
 import com.feytuo.chat.adapter.ExpressionAdapter;
 import com.feytuo.chat.adapter.ExpressionPagerAdapter;
 import com.feytuo.chat.adapter.MessageAdapter;
 import com.feytuo.chat.adapter.VoicePlayClickListener;
 import com.feytuo.chat.db.UserDao;
+import com.feytuo.chat.domain.User;
 import com.feytuo.chat.utils.CommonUtils;
 import com.feytuo.chat.utils.ImageUtils;
 import com.feytuo.chat.utils.SmileUtils;
@@ -96,6 +104,7 @@ import com.feytuo.chat.widget.PasteEditText;
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.domain.LXHUser;
+import com.feytuo.laoxianghao.view.OnloadDialog;
 
 /**
  * 聊天页面
@@ -335,7 +344,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 		} else {
 			// 群聊
 			findViewById(R.id.container_to_group).setVisibility(View.VISIBLE);
-			findViewById(R.id.container_remove).setVisibility(View.GONE);
+//			findViewById(R.id.container_remove).setVisibility(View.GONE);
 			findViewById(R.id.container_voice_call).setVisibility(View.GONE);
 			toChatUsername = getIntent().getStringExtra("groupId");
 			group = EMGroupManager.getInstance().getGroup(toChatUsername);
@@ -394,6 +403,10 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 		if (forward_msg_id != null) {
 			// 显示发送要转发的消息
 			forwardMessage(forward_msg_id);
+		}
+		//添加好友按钮初始化
+		if(App.getInstance().getContactList().containsKey(toChatUsername)){
+			findViewById(R.id.chat_add_friend_btn).setVisibility(View.INVISIBLE);
 		}
 
 	}
@@ -1009,7 +1022,115 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 				new Intent(this, AlertDialog.class).putExtra("titleIsCancel", true).putExtra("msg", "是否清空所有聊天记录").putExtra("cancel", true),
 				REQUEST_CODE_EMPTY_HISTORY);
 	}
-
+	/**
+	 * 点击添加为好友
+	 * 
+	 * @param view
+	 */
+	public void addFriend(View view) {
+		addContact();
+	}
+	private OnloadDialog pd;
+	/**
+	 *  添加contact
+	 * @param view
+	 */
+	public void addContact(){
+		pd = new OnloadDialog(this);
+		pd.setCanceledOnTouchOutside(false);
+		pd.show();
+		pd.setMessage("正在发送请求...");
+		
+		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
+		query.getObject(this, toChatUsername, new GetListener<LXHUser>() {
+			
+			@Override
+			public void onSuccess(final LXHUser arg0) {
+				// TODO Auto-generated method stub
+				new Thread(new Runnable() {
+					public void run() {
+						
+						try {
+							//demo写死了个reason，实际应该让用户手动填入
+							EMContactManager.getInstance().addContact(arg0.getObjectId(), "加个好友呗");
+							//将添加的好友持久到本地数据库
+							addToLocalDB(arg0.getObjectId(),arg0.getNickName(),arg0.getHeadUrl());
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(ChatActivity.this, "成功添加"+arg0.getNickName(), Toast.LENGTH_SHORT).show();
+								}
+							});
+						} catch (final Exception e) {
+							runOnUiThread(new Runnable() {
+								public void run() {
+									pd.dismiss();
+									Toast.makeText(ChatActivity.this, "添加好友失败,请稍候再试...", Toast.LENGTH_SHORT).show();
+									Log.i("AddContactActivity","添加好友失败：" + e.getMessage());
+								}
+							});
+						}
+					}
+				}).start();
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Toast.makeText(ChatActivity.this, "添加好友失败,请稍候再试...", Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+		
+	}
+	
+	
+	private void addToLocalDB(String username,String userNick,String headUrl){
+		// 保存增加的联系人
+		Map<String, User> localUsers = App.getInstance()
+				.getContactList();
+		Map<String, User> toAddUsers = new HashMap<String, User>();
+		User user = new User();
+		user.setUsername(username);
+		user.setNickName(userNick);
+		user.setHeadUrl(headUrl);
+		setUserHead(user);
+		// 暂时有个bug，添加好友时可能会回调added方法两次
+		UserDao userDao = new UserDao(this);
+		if (!localUsers.containsKey(username)) {
+			userDao.saveContact(user);
+		}
+		toAddUsers.put(username, user);
+		localUsers.putAll(toAddUsers);
+		pd.dismiss();
+	}
+	/**
+	 * set head
+	 * 
+	 * @param username
+	 * @return
+	 */
+	void setUserHead(User user) {
+		String headerName = null;
+		String username = user.getUsername();
+		if (!TextUtils.isEmpty(user.getNickName())) {
+			headerName = user.getNickName();
+		} else {
+			headerName = username;
+		}
+		if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
+			user.setHeader("");
+		} else if (Character.isDigit(headerName.charAt(0))) {
+			user.setHeader("#");
+		} else {
+			user.setHeader(HanziToPinyin.getInstance()
+					.get(headerName.substring(0, 1)).get(0).target.substring(0,
+					1).toUpperCase());
+			char header = user.getHeader().toLowerCase().charAt(0);
+			if (header < 'a' || header > 'z') {
+				user.setHeader("#");
+			}
+		}
+	}
 	/**
 	 * 点击进入群组详情
 	 * 

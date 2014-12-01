@@ -3,8 +3,6 @@ package com.feytuo.laoxianghao.adapter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -16,6 +14,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -141,8 +140,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 
 				holder1.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
-//				holder1.indexProgressbarTopImg = (ImageView) convertView
-//						.findViewById(R.id.index_progressbar_top_img);
+				holder1.indexProgressbarTopImg = (ImageView) convertView
+						.findViewById(R.id.index_progressbar_top_img);
 				holder1.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_progressbar_layout);
 
@@ -326,6 +325,22 @@ public class CommentListViewAdapter extends BaseAdapter {
 	//帖子的内容设置
 	private void setcontent(viewHolder1 holder, Invitation inv) {
 		// TODO Auto-generated method stub
+		//录音模块是否可见
+		if(TextUtils.isEmpty(inv.getVoice())){
+			holder.indexProgressbarLayout.setVisibility(View.GONE);
+			holder.indexProgressbarTopImg.setVisibility(View.GONE);
+		}else{
+			holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
+			holder.indexProgressbarTopImg.setVisibility(View.VISIBLE);
+		}
+		//文字是否可见
+		if(TextUtils.isEmpty(inv.getWords())){
+			holder.indexTextDescribe.setVisibility(View.GONE);
+		}else{
+			holder.indexTextDescribe.setVisibility(View.VISIBLE);
+			// 文字
+			holder.indexTextDescribe.setText(inv.getWords());
+		}
 		holder.indexTextDescribe.setText(inv.getWords());
 		holder.indexLocalsCountry.setText(inv.getPosition());
 		holder.indexLocalsTime.setText(inv.getTime());
@@ -522,7 +537,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		private TextView indexCommentNum;// 评论数
 		private ImageView commentImg;// 评论的图标
 		private RelativeLayout indexProgressbarLayout;// 录音的背景
-//		private ImageView indexProgressbarTopImg;// 录音指向用户头像的背景
+		private ImageView indexProgressbarTopImg;// 录音指向用户头像的背景
 		private ImageButton indexProgressbarBtn;// 在进度条中的播放停止按钮
 		private TextView indexProgressbarTime;
 		private TextView indexTextDescribe;// 帖子内容文字

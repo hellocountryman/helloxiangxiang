@@ -17,6 +17,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -109,6 +110,8 @@ public class FindListViewAdapter extends SimpleAdapter {
 						.findViewById(R.id.index_share_linerlayout);
 				holder.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_progressbar_layout);
+				holder.indexProgressbarTopImg = (ImageView) convertView
+						.findViewById(R.id.index_progressbar_top_img);
 				holder.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
 
@@ -181,8 +184,22 @@ public class FindListViewAdapter extends SimpleAdapter {
 	@SuppressLint("SimpleDateFormat")
 	private void setcontent(ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
-		// 文字
-		holder.indexTextDescribe.setText(list.get(position).get("words") + "");
+		//录音模块是否可见
+		if(list.get(position).get("voice") == null || TextUtils.isEmpty(list.get(position).get("voice").toString())){
+			holder.indexProgressbarLayout.setVisibility(View.GONE);
+			holder.indexProgressbarTopImg.setVisibility(View.GONE);
+		}else{
+			holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
+			holder.indexProgressbarTopImg.setVisibility(View.VISIBLE);
+		}
+		//文字是否可见
+		if(list.get(position).get("words") == null || TextUtils.isEmpty(list.get(position).get("words").toString())){
+			holder.indexTextDescribe.setVisibility(View.GONE);
+		}else{
+			holder.indexTextDescribe.setVisibility(View.VISIBLE);
+			// 文字
+			holder.indexTextDescribe.setText(list.get(position).get("words") + "");
+		}
 		// 地点
 		holder.indexLocalsCountry.setText(list.get(position).get("position")
 				.toString());
@@ -476,6 +493,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 		private LinearLayout indexCommentLinerlayout;// 评论
 		private LinearLayout indexShareLinerlayout;// 分享
 		private RelativeLayout indexProgressbarLayout;
+		private ImageView indexProgressbarTopImg;
 		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageButton personHeadImg;// 头像

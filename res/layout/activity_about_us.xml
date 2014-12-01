@@ -70,6 +70,7 @@
             android:layout_height="@dimen/title_hight"
             android:background="@drawable/common_selector"
             android:clickable="true"
+            android:onClick="cleanCache"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
@@ -100,6 +101,7 @@
             android:layout_height="@dimen/title_hight"
             android:background="@drawable/common_selector"
             android:clickable="true"
+             android:onClick="shareToFriends"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
@@ -109,7 +111,7 @@
                 android:layout_marginLeft="10.0dip"
                 android:layout_weight="1.0"
                 android:autoLink="all"
-                android:text="关于我们"
+                android:text="分享给好友"
                 android:textColor="@color/black"
                 android:textSize="16.0sp" />
 

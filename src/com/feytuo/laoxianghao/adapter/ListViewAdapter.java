@@ -153,6 +153,7 @@ public class ListViewAdapter extends BaseAdapter {
 						.findViewById(R.id.index_share_linerlayout);
 				holder1.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_progressbar_layout);
+				holder1.indexProgressbarTopImg = (ImageView)convertView.findViewById(R.id.index_progressbar_top_img);
 				holder1.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_progressbar_btn);
 
@@ -221,6 +222,7 @@ public class ListViewAdapter extends BaseAdapter {
 						.findViewById(R.id.index_topic_share_linerlayout);
 				holder2.indexProgressbarLayout = (RelativeLayout) convertView
 						.findViewById(R.id.index_topic_progressbar_layout);
+				holder2.indexProgressbarTopImg = (ImageView)convertView.findViewById(R.id.index_topic_progressbar_top_img);
 				holder2.indexProgressbarBtn = (ImageButton) convertView
 						.findViewById(R.id.index_topic_progressbar_btn);
 				
@@ -296,8 +298,22 @@ public class ListViewAdapter extends BaseAdapter {
 	private void setcontent(ViewHolder holder, int position,int listIndex) {
 		// TODO Auto-generated method stub
 		if(getItemViewType(position) == TYPE_1){
-			// 文字
-			holder.indexTextDescribe.setText(list.get(listIndex).get("words") + "");
+			//录音模块是否可见
+			if(list.get(listIndex).get("voice") == null || TextUtils.isEmpty(list.get(listIndex).get("voice").toString())){
+				holder.indexProgressbarLayout.setVisibility(View.GONE);
+				holder.indexProgressbarTopImg.setVisibility(View.GONE);
+			}else{
+				holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
+				holder.indexProgressbarTopImg.setVisibility(View.VISIBLE);
+			}
+			//文字是否可见
+			if(list.get(listIndex).get("words") == null || TextUtils.isEmpty(list.get(listIndex).get("words").toString())){
+				holder.indexTextDescribe.setVisibility(View.GONE);
+			}else{
+				holder.indexTextDescribe.setVisibility(View.VISIBLE);
+				// 文字
+				holder.indexTextDescribe.setText(list.get(listIndex).get("words") + "");
+			}
 			// 地点
 			holder.indexLocalsCountry.setText(list.get(listIndex).get("position")
 					.toString());
@@ -336,8 +352,22 @@ public class ListViewAdapter extends BaseAdapter {
 				holder.indexCommentNum.setText("评论");
 			}
 		}else{//话题板块
-			// 文字
-			holder.indexTextDescribe.setText(topicInv.getWords());
+			//录音模块是否可见
+			if(TextUtils.isEmpty(topicInv.getVoice())){
+				holder.indexProgressbarLayout.setVisibility(View.GONE);
+				holder.indexProgressbarTopImg.setVisibility(View.GONE);
+			}else{
+				holder.indexProgressbarLayout.setVisibility(View.VISIBLE);
+				holder.indexProgressbarTopImg.setVisibility(View.VISIBLE);
+			}
+			//文字是否可见
+			if(TextUtils.isEmpty(topicInv.getWords())){
+				holder.indexTextDescribe.setVisibility(View.GONE);
+			}else{
+				holder.indexTextDescribe.setVisibility(View.VISIBLE);
+				// 文字
+				holder.indexTextDescribe.setText(topicInv.getWords());
+			}
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 如果要奖Sring转为达特型需要用的到方法
 			Date date = null;
 			try {
@@ -658,7 +688,7 @@ public class ListViewAdapter extends BaseAdapter {
 		private LinearLayout indexCommentLinerlayout;// 评论
 		private LinearLayout indexShareLinerlayout;// 分享
 		private RelativeLayout indexProgressbarLayout;// 点击录音的布局
-//		private ImageView indexProgressbarTopImg;// 录音的布局上面指向头像的那块布局
+		private ImageView indexProgressbarTopImg;// 录音的布局上面指向头像的那块布局
 //		private ImageView titleImage;// 热门/地理位置图标
 		private ImageView supportImg;// 点赞的图标
 		private ImageButton personHeadImg;// 头像

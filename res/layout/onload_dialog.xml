@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16.0dip"
+        android:layout_marginLeft="8.0dip"
         android:layout_toRightOf="@+id/loadprogresabar_pro"
         android:text="@string/wait"
         android:textColor="@color/indexbg" />

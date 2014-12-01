@@ -14,6 +14,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -453,7 +454,6 @@ public class UserLogin {
 					EMLog.e("UserLogin", "update current user nick fail");
 				}
 
-				pd.dismiss();
 				// 登录成功，设置登录成功标示
 				App.pre.edit().putString(Global.USER_ID, username).commit();
 				// 注册聊天广播和监听,初始化联系人列表
@@ -472,11 +472,22 @@ public class UserLogin {
 //							}
 //						});
 //					}
-					Intent intent = new Intent();
-					intent.putExtra("isfromtocity", 0);// 判断是从那里进入的城市选择
-					intent.setClass(context, SelsectedCountry.class);
-					context.startActivity(intent);
-					((SimpleSelsectedCountry)context).finish();
+					pd.progressFinish("登录成功");
+					
+					new Handler().postDelayed(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							pd.dismiss();
+							Intent intent = new Intent();
+							intent.putExtra("isfromtocity", 0);// 判断是从那里进入的城市选择
+							intent.setClass(context, SelsectedCountry.class);
+							context.startActivity(intent);
+							((SimpleSelsectedCountry)context).finish();
+						}
+					}, 1000l);
+					
 				}
 			}
 

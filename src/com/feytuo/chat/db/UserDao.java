@@ -217,4 +217,15 @@ public class UserDao {
 		}
 	}
 	
+	/**
+	 * 删除会话用户表中所有用户信息
+	 */
+	public void deleteAllUserInfoInConversation(){
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		String sql = "delete from " +CONVERSATION_TABLE_NAME;
+		if(db.isOpen()){
+			db.execSQL(sql);
+		}
+	}
+	
 }

@@ -19,13 +19,16 @@
             android:onClick="toPersonReturnBtn" />
 
         <Button
-            android:layout_width="96.0dip"
+            android:id="@+id/user_info_add_friend_btn"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:padding="5dp"
             android:background="@drawable/common_tab_bg"
-            android:text="添加好友"
+            android:text="加为好友"
             android:textColor="@color/white"
+            android:onClick="addFriend"
             android:textSize="@dimen/city_text_size" />
     </RelativeLayout>
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.feytuo.laoxianghao.R;
@@ -39,6 +40,13 @@ public class OnloadDialog extends Dialog {
 			messageTextView.setText(message);
 		}else{
 			messageTextView.setText("正在加载，请稍候...");
+		}
+	}
+	
+	public void progressFinish(String message){
+		if(isShowing()){
+			findViewById(R.id.loadprogresabar_pro).setVisibility(View.GONE);
+			messageTextView.setText(message);
 		}
 	}
 }

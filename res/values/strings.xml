@@ -17,7 +17,7 @@
     <string name="mycollect">收藏</string>
     <string name="myshare_to">把消息分享到</string>
     <string name="pealseselectlogin">请选择登录方式</string>
-    <string name="head_choose_dialog">请选择大头贴</string>
+    <string name="position_choose_dialog">请选择所在地</string>
     <string name="publish_hint">请用一段话描述语音</string>
     <string name="feedback_hint">敢吐槽几句吗？</string>
     <string name="pressskeak">按住说话</string>

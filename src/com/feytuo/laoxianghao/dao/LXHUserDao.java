@@ -47,6 +47,14 @@ private DatabaseHelper dbHelper;
 				user.getHome(),user.getPersonSign()});
 	}
 	
+	/**
+	 * 清空帖子用户表中所有数据
+	 */
+	public void deleteAllUserInfo(){
+		db = dbHelper.getWritableDatabase();
+		String sql = "delete from invitation_user";
+		db.execSQL(sql);
+	}
 	/*************************主人用户表********************************/
 	/**
 	 * 主人表插入一个用户

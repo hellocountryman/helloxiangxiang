@@ -200,30 +200,6 @@
                 android:background="@color/weibo_unline" />
 
             <RelativeLayout
-                android:id="@+id/person_about_rela"
-                android:layout_width="fill_parent"
-                android:layout_height="50.0dip"
-                android:background="@drawable/common_selector"
-                android:clickable="true" >
-
-                <include layout="@layout/viewintimg" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16.0dip"
-                    android:text="关于乡乡"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/find_text_size" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/weibo_unline_3d" />
-
-            <RelativeLayout
                 android:id="@+id/person_set_rela"
                 android:layout_width="fill_parent"
                 android:layout_height="50.0dip"
@@ -238,6 +214,35 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
                     android:text="设置"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/find_text_size" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/weibo_unline_3d" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/weibo_unline" />
+
+            
+            <RelativeLayout
+                android:id="@+id/person_about_rela"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:background="@drawable/common_selector"
+                android:clickable="true" >
+
+                <include layout="@layout/viewintimg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16.0dip"
+                    android:text="关于乡乡"
                     android:textColor="@color/black"
                     android:textSize="@dimen/find_text_size" />
             </RelativeLayout>

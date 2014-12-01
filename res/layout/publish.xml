@@ -57,7 +57,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50.0dip"
-            android:background="@color/white" >
+            android:clickable="true"
+            android:onClick="setPosition"
+            android:background="@drawable/common_selector">
 
             <ImageView
                 android:id="@+id/publish_title_img_id"
@@ -100,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16.0dip"
-                android:text="我的家乡:"
+                android:text="我的方言:"
                 android:textColor="@color/text_num_color"
                 android:textSize="@dimen/find_text_size" />
 
@@ -110,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/publish_myhome"
-                android:text="永州"
+                android:text="长沙"
                 android:textColor="@color/text_num_color"
                 android:textSize="@dimen/find_text_size" />
         </RelativeLayout>
