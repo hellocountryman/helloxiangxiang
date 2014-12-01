@@ -3,6 +3,5 @@
 
     <item android:drawable="@drawable/publish_press" android:state_checked="true"/>
     <item android:drawable="@drawable/publish_press" android:state_pressed="true"/>
-    <item android:drawable="@drawable/publish_no" />
 
 </selector>

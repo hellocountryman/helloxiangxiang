@@ -8,10 +8,12 @@ import java.util.TimerTask;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -26,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.datatype.BmobFile;
@@ -75,6 +78,8 @@ public class PublishActivity extends Activity {
 	private Timer mProgressTimer;
 	private int mRecordTime;
 	private int type;// 0为全部，2为方言段子，3为方言KTV，4为方言秀场
+	private RelativeLayout publishHomeRela;//选择城市
+	private static final int UPDATE_HOME = 6;
 	/**
 	 * 进度条
 	 */
@@ -146,7 +151,7 @@ public class PublishActivity extends Activity {
 		} else {
 			publishTypeText.setText("发布");
 		}
-
+		
 	}
 
 	/*
@@ -161,6 +166,7 @@ public class PublishActivity extends Activity {
 		progress = (Button) findViewById(R.id.progressbar_id);
 		publishwordnumText = (TextView) findViewById(R.id.publish_wordnum_text);
 		publishText = (EditText) findViewById(R.id.publish_text);
+		publishHomeRela = (RelativeLayout)findViewById(R.id.publish_select_home_rela);
 		publishHomeText = (TextView)findViewById(R.id.publish_home_text);
 		// 还能够输入多少字
 		publishText.addTextChangedListener(new TextWatcher() {
@@ -190,6 +196,7 @@ public class PublishActivity extends Activity {
 		publishButton = (Button) findViewById(R.id.publish_button);
 		publishRerecordButton = (ImageView) findViewById(R.id.publish_rerecord_button);
 		publishPlayRecordImgbutton = (ImageView) findViewById(R.id.publish_play_record_imgbutton);
+		publishHomeRela.setOnClickListener(listenerlist);
 		progress.setOnClickListener(listenerlist);
 		publishButton.setOnClickListener(listenerlist);
 		publishRerecordButton.setOnClickListener(listenerlist);
@@ -231,6 +238,12 @@ public class PublishActivity extends Activity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
+			case R.id.publish_select_home_rela:
+				Intent intentselsectcity = new Intent();
+				intentselsectcity.putExtra("isfromtocity", 1);// 判断是从那里进入的城市选择
+				intentselsectcity.setClass(PublishActivity.this, SelsectedCountry.class);
+				startActivityForResult(intentselsectcity, UPDATE_HOME);
+				break;
 			case R.id.progressbar_id:// 开始录音-结束录音按钮
 				if (null != mediaRecorder) {
 					stopAudio();
@@ -255,7 +268,20 @@ public class PublishActivity extends Activity {
 		}
 
 	}
+	// 接收data返回的值
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if(resultCode == Global.RESULT_OK){
+			String resultData = data.getStringExtra("data").toString().trim();
+			switch(requestCode){
+			case UPDATE_HOME:
+				publishHomeText.setText(resultData);
+				break;
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 
+	}
 	// 设置大头贴
 	public void setHeadImg(int headResource) {
 		headImage.setBackgroundResource(headResource);

@@ -101,7 +101,7 @@ public class SelsectedCountry extends Activity {
 			titleTextSelect.setText("请选择家乡");
 			hotCityLinear.setVisibility(View.GONE);
 			selectCountryReturnBtn.setVisibility(View.INVISIBLE);
-		} else {
+		} else{
 			titleTextSelect.setText("请选择话系");
 			selectCountryReturnBtn.setVisibility(View.VISIBLE);
 		}
