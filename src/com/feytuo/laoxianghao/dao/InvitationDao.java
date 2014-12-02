@@ -51,30 +51,29 @@ public class InvitationDao {
 	 * @param invId
 	 * @return
 	 */
-	public Invitation getInvitationById(String invId){
-		Invitation inv = null;
-		String sqlStr = "select position,words,"
-				+ "voice,voice_duration,time,praise_num,"
-				+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation where inv_id=?";
-		Cursor cursor = db.rawQuery(sqlStr,new String[]{invId});
-		while(cursor.moveToNext()){
-			inv = new Invitation();
-			inv.setPosition(cursor.getString(0));
-			inv.setWords(cursor.getString(1));
-			inv.setVoice(cursor.getString(2));
-			inv.setVoiceDuration(cursor.getInt(3));
-			inv.setTime(cursor.getString(4));
-			inv.setPraiseNum(cursor.getInt(5));
-			inv.setCommentNum(cursor.getInt(6));
-			inv.setObjectId(cursor.getString(7));
-			inv.setuId(cursor.getString(8));
-			inv.setHome(cursor.getInt(9));
-			inv.setIsHot(cursor.getInt(10));
-			inv.setShareNum(cursor.getInt(11));
-			inv.setHeadId(cursor.getInt(12));
+	public void getInvitationById(Invitation inv,String invId){
+		if(inv != null){
+			String sqlStr = "select position,words,"
+					+ "voice,voice_duration,time,praise_num,"
+					+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation where inv_id=?";
+			Cursor cursor = db.rawQuery(sqlStr,new String[]{invId});
+			while(cursor.moveToNext()){
+				inv.setPosition(cursor.getString(0));
+				inv.setWords(cursor.getString(1));
+				inv.setVoice(cursor.getString(2));
+				inv.setVoiceDuration(cursor.getInt(3));
+				inv.setTime(cursor.getString(4));
+				inv.setPraiseNum(cursor.getInt(5));
+				inv.setCommentNum(cursor.getInt(6));
+				inv.setObjectId(cursor.getString(7));
+				inv.setuId(cursor.getString(8));
+				inv.setHome(cursor.getInt(9));
+				inv.setIsHot(cursor.getInt(10));
+				inv.setShareNum(cursor.getInt(11));
+				inv.setHeadId(cursor.getInt(12));
+			}
+			cursor.close();
 		}
-		cursor.close();
-		return inv;
 	}
 	
 	/**
@@ -153,30 +152,29 @@ public class InvitationDao {
 	 * @param invId
 	 * @return
 	 */
-	public Invitation getInvitationFromMyById(String invId){
-		Invitation inv = null;
-		String sqlStr = "select position,words,"
-				+ "voice,voice_duration,time,praise_num,"
-				+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation_my where inv_id=?";
-		Cursor cursor = db.rawQuery(sqlStr,new String[]{invId});
-		while(cursor.moveToNext()){
-			inv = new Invitation();
-			inv.setPosition(cursor.getString(0));
-			inv.setWords(cursor.getString(1));
-			inv.setVoice(cursor.getString(2));
-			inv.setVoiceDuration(cursor.getInt(3));
-			inv.setTime(cursor.getString(4));
-			inv.setPraiseNum(cursor.getInt(5));
-			inv.setCommentNum(cursor.getInt(6));
-			inv.setObjectId(cursor.getString(7));
-			inv.setuId(cursor.getString(8));
-			inv.setHome(cursor.getInt(9));
-			inv.setIsHot(cursor.getInt(10));
-			inv.setShareNum(cursor.getInt(11));
-			inv.setHeadId(cursor.getInt(12));
+	public void getInvitationFromMyById(Invitation inv,String invId){
+		if(inv != null){
+			String sqlStr = "select position,words,"
+					+ "voice,voice_duration,time,praise_num,"
+					+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation_my where inv_id=?";
+			Cursor cursor = db.rawQuery(sqlStr,new String[]{invId});
+			while(cursor.moveToNext()){
+				inv.setPosition(cursor.getString(0));
+				inv.setWords(cursor.getString(1));
+				inv.setVoice(cursor.getString(2));
+				inv.setVoiceDuration(cursor.getInt(3));
+				inv.setTime(cursor.getString(4));
+				inv.setPraiseNum(cursor.getInt(5));
+				inv.setCommentNum(cursor.getInt(6));
+				inv.setObjectId(cursor.getString(7));
+				inv.setuId(cursor.getString(8));
+				inv.setHome(cursor.getInt(9));
+				inv.setIsHot(cursor.getInt(10));
+				inv.setShareNum(cursor.getInt(11));
+				inv.setHeadId(cursor.getInt(12));
+			}
+			cursor.close();
 		}
-		cursor.close();
-		return inv;
 	}
 	
 	/**
@@ -441,30 +439,29 @@ public class InvitationDao {
 	 * @param invId 帖子id
 	 * @return
 	 */
-	public Invitation getTypeInvitationFromClass(String invId){
-		Invitation inv = null;
-		String sqlStr = "select position,words,"
-				+ "voice,voice_duration,time,praise_num,"
-				+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation_class where inv_id=?";
-		Cursor cursor = db.rawQuery(sqlStr,new String[]{invId});
-		if(cursor.moveToNext()){//只取第一组数据
-			inv = new Invitation();
-			inv.setPosition(cursor.getString(0));
-			inv.setWords(cursor.getString(1));
-			inv.setVoice(cursor.getString(2));
-			inv.setVoiceDuration(cursor.getInt(3));
-			inv.setTime(cursor.getString(4));
-			inv.setPraiseNum(cursor.getInt(5));
-			inv.setCommentNum(cursor.getInt(6));
-			inv.setObjectId(cursor.getString(7));
-			inv.setuId(cursor.getString(8));
-			inv.setHome(cursor.getInt(9));
-			inv.setIsHot(cursor.getInt(10));
-			inv.setShareNum(cursor.getInt(11));
-			inv.setHeadId(cursor.getInt(12));
+	public void getTypeInvitationFromClass(Invitation inv,String invId){
+		if(inv != null){
+			String sqlStr = "select position,words,"
+					+ "voice,voice_duration,time,praise_num,"
+					+ "comment_num,inv_id,uid,home,ishot,share_num,head_id from invitation_class where inv_id=?";
+			Cursor cursor = db.rawQuery(sqlStr,new String[]{invId});
+			if(cursor.moveToNext()){//只取第一组数据
+				inv.setPosition(cursor.getString(0));
+				inv.setWords(cursor.getString(1));
+				inv.setVoice(cursor.getString(2));
+				inv.setVoiceDuration(cursor.getInt(3));
+				inv.setTime(cursor.getString(4));
+				inv.setPraiseNum(cursor.getInt(5));
+				inv.setCommentNum(cursor.getInt(6));
+				inv.setObjectId(cursor.getString(7));
+				inv.setuId(cursor.getString(8));
+				inv.setHome(cursor.getInt(9));
+				inv.setIsHot(cursor.getInt(10));
+				inv.setShareNum(cursor.getInt(11));
+				inv.setHeadId(cursor.getInt(12));
+			}
+			cursor.close();
 		}
-		cursor.close();
-		return inv;
 	}
 	
 	/**
@@ -486,7 +483,7 @@ public class InvitationDao {
 				db.execSQL(
 						sqlStr,
 						new Object[] { inv.getObjectId(), inv.getuId(), inv.getHome(),
-								inv.getPosition(), inv.getWords(), inv.getVoice(),inv.getVoiceDuration(), inv.getTime(),
+								inv.getPosition(), inv.getWords(), inv.getVoice(),inv.getVoiceDuration(), inv.getCreatedAt(),
 								inv.getIsHot(), inv.getPraiseNum(), inv.getShareNum(),
 								inv.getCommentNum(),inv.getHeadId()});
 			}

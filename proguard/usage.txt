@@ -746,6 +746,8 @@ cn.bmob.push.lib.util.LogUtil:
     public static void p()
 cn.bmob.push.lib.util.NetworkUtil:
     public NetworkUtil()
+cn.thinkit.libtmfe.test.JNI:
+    public JNI()
 cn.volley.AuthFailureError
 cn.volley.Cache
 cn.volley.Cache$Entry
@@ -815,9 +817,244 @@ cn.volley.toolbox.PoolingByteArrayOutputStream
 cn.volley.toolbox.RequestFuture
 cn.volley.toolbox.StringRequest
 cn.volley.toolbox.Volley
+com.feytuo.chat.Constant
+com.feytuo.chat.activity.AlertDialog:
+    private java.lang.String voicePath
+com.feytuo.chat.activity.BaiduMapActivity:
+    private static final java.lang.String TAG
+    public static final java.lang.String strKey
+    static final double x_pi
+    361:366:public static com.baidu.platform.comapi.basestruct.GeoPoint gcjToBaidu(double,double)
+    370:375:public static com.baidu.platform.comapi.basestruct.GeoPoint baiduToGcj(double,double)
+com.feytuo.chat.activity.BaiduMapActivity$MyLocationListenner:
+    302:305:public void onReceivePoi(com.baidu.location.BDLocation)
+com.feytuo.chat.activity.BaiduMapActivity$NotifyLister:
+    final synthetic com.feytuo.chat.activity.BaiduMapActivity this$0
+    308:308:public BaiduMapActivity$NotifyLister(com.feytuo.chat.activity.BaiduMapActivity)
+com.feytuo.chat.activity.ChatActivity:
+    private static final int REQUEST_CODE_EMPTY_HISTORY
+    public static final int REQUEST_CODE_CONTEXT_MENU
+    private static final int REQUEST_CODE_MAP
+    public static final int REQUEST_CODE_TEXT
+    public static final int REQUEST_CODE_VOICE
+    public static final int REQUEST_CODE_PICTURE
+    public static final int REQUEST_CODE_LOCATION
+    public static final int REQUEST_CODE_NET_DISK
+    public static final int REQUEST_CODE_FILE
+    public static final int REQUEST_CODE_COPY_AND_PASTE
+    public static final int REQUEST_CODE_PICK_VIDEO
+    public static final int REQUEST_CODE_DOWNLOAD_VIDEO
+    public static final int REQUEST_CODE_VIDEO
+    public static final int REQUEST_CODE_DOWNLOAD_VOICE
+    public static final int REQUEST_CODE_SELECT_USER_CARD
+    public static final int REQUEST_CODE_SEND_USER_CARD
+    public static final int REQUEST_CODE_CAMERA
+    public static final int REQUEST_CODE_LOCAL
+    public static final int REQUEST_CODE_CLICK_DESTORY_IMG
+    public static final int REQUEST_CODE_GROUP_DETAIL
+    public static final int REQUEST_CODE_SELECT_VIDEO
+    public static final int REQUEST_CODE_SELECT_FILE
+    public static final int REQUEST_CODE_ADD_TO_BLACKLIST
+    public static final int RESULT_CODE_COPY
+    public static final int RESULT_CODE_DELETE
+    public static final int RESULT_CODE_FORWARD
+    public static final int RESULT_CODE_OPEN
+    public static final int RESULT_CODE_DWONLOAD
+    public static final int RESULT_CODE_TO_CLOUD
+    public static final int RESULT_CODE_EXIT_GROUP
+    public static final int CHATTYPE_SINGLE
+    public static final int CHATTYPE_GROUP
+    public static final java.lang.String COPY_IMAGE
+    private int position
+    1623:1623:public java.lang.String getToChatUsername()
+com.feytuo.chat.activity.ChatAndContactFragment:
+    247:247:public int getCurrentTabInCAC()
+com.feytuo.chat.activity.ContactlistFragment:
+    308:308:public boolean isActivityCreated()
+com.feytuo.chat.activity.GroupDetailsActivity:
+    private static final java.lang.String TAG
+    private static final int REQUEST_CODE_ADD_USER
+    private static final int REQUEST_CODE_EXIT
+    private static final int REQUEST_CODE_EXIT_DELETE
+    private static final int REQUEST_CODE_CLEAR_ALL_HISTORY
+com.feytuo.chat.activity.ImageGridActivity:
+    private static final java.lang.String TAG
+com.feytuo.chat.activity.ImageGridFragment:
+    private static final java.lang.String TAG
+com.feytuo.chat.activity.LoginActivity:
+    public static final int REQUEST_CODE_SETNICK
+com.feytuo.chat.activity.MainActivity:
+    public static final java.lang.String TAG
+com.feytuo.chat.activity.RecorderVideoActivity:
+    private static final java.lang.String CLASS_LABEL
+com.feytuo.chat.activity.SettingsFragment:
+    private static final int PHOTO_REQUEST_TAKEPHOTO
+    private static final int PHOTO_REQUEST_GALLERY
+    private static final int PHOTO_REQUEST_CUT
+    private static final int UPDATE_NICK_NAME
+    private static final int UPDATE_PERSON_SIGN
+    private static final int UPDATE_HOME
+com.feytuo.chat.activity.VoiceCallActivity:
+    private java.text.SimpleDateFormat dateFormat
+    private android.view.WindowManager windowManager
+com.feytuo.chat.adapter.ChooseVideoAdapter
+com.feytuo.chat.adapter.ChooseVideoAdapter$1
+com.feytuo.chat.adapter.ChooseVideoAdapter$2
+com.feytuo.chat.adapter.ChooseVideoAdapter$ViewHolder
+com.feytuo.chat.adapter.MessageAdapter:
+    private static final java.lang.String TAG
+    private static final int MESSAGE_TYPE_RECV_TXT
+    private static final int MESSAGE_TYPE_SENT_TXT
+    private static final int MESSAGE_TYPE_SENT_IMAGE
+    private static final int MESSAGE_TYPE_SENT_LOCATION
+    private static final int MESSAGE_TYPE_RECV_LOCATION
+    private static final int MESSAGE_TYPE_RECV_IMAGE
+    private static final int MESSAGE_TYPE_SENT_VOICE
+    private static final int MESSAGE_TYPE_RECV_VOICE
+    private static final int MESSAGE_TYPE_SENT_VIDEO
+    private static final int MESSAGE_TYPE_RECV_VIDEO
+    private static final int MESSAGE_TYPE_SENT_FILE
+    private static final int MESSAGE_TYPE_RECV_FILE
+    private static final int MESSAGE_TYPE_SENT_VOICE_CALL
+    private static final int MESSAGE_TYPE_RECV_VOICE_CALL
+    public static final java.lang.String IMAGE_DIR
+    public static final java.lang.String VOICE_DIR
+    public static final java.lang.String VIDEO_DIR
+com.feytuo.chat.db.DbOpenHelper:
+    private static final int DATABASE_VERSION
+    private static final java.lang.String DB_NAME
+    private static final java.lang.String USERNAME_TABLE_CREATE
+    private static final java.lang.String CONVERSATION_USERNAME_TABLE_CREATE
+    private static final java.lang.String INIVTE_MESSAGE_TABLE_CREATE
+com.feytuo.chat.db.InviteMessgeDao:
+    public static final java.lang.String TABLE_NAME
+    public static final java.lang.String COLUMN_NAME_ID
+    public static final java.lang.String COLUMN_NAME_FROM
+    public static final java.lang.String COLUMN_NAME_GROUP_ID
+    public static final java.lang.String COLUMN_NAME_GROUP_Name
+    public static final java.lang.String COLUMN_NAME_TIME
+    public static final java.lang.String COLUMN_NAME_REASON
+    public static final java.lang.String COLUMN_NAME_STATUS
+    public static final java.lang.String COLUMN_NAME_ISINVITEFROMME
+com.feytuo.chat.db.UserDao:
+    public static final java.lang.String TABLE_NAME
+    public static final java.lang.String CONVERSATION_TABLE_NAME
+    public static final java.lang.String COLUMN_NAME_ID
+    public static final java.lang.String COLUMN_NAME_NICK
+    public static final java.lang.String COLUMN_HEAD_URL
+    public static final java.lang.String COLUMN_NAME_IS_STRANGER
+com.feytuo.chat.task.AsyncImageLoader
+com.feytuo.chat.task.AsyncImageLoader$1
+com.feytuo.chat.task.AsyncImageLoader$2
+com.feytuo.chat.task.AsyncImageLoader$3
+com.feytuo.chat.task.AsyncImageLoader$4
+com.feytuo.chat.task.AsyncImageLoader$OnImageLoadListener
+com.feytuo.chat.task.DownloadImageTask:
+    android.graphics.Bitmap bitmap
+    public boolean downloadThumbnail
+    com.easemob.chat.EMMessage message
+    private java.lang.String remoteDir
+    29:32:public DownloadImageTask(java.lang.String,com.feytuo.chat.task.DownloadImageTask$DownloadFileCallback)
+com.feytuo.chat.utils.CommonUtils:
+    24:24:public CommonUtils()
+com.feytuo.chat.utils.ImageUtils:
+    19:19:public ImageUtils()
+com.feytuo.chat.utils.PreferenceUtils:
+    public static final java.lang.String PREFERENCE_NAME
+com.feytuo.chat.video.util.AsyncTask:
+    private static final java.lang.String LOG_TAG
+    private static final int CORE_POOL_SIZE
+    private static final int MAXIMUM_POOL_SIZE
+    private static final int KEEP_ALIVE
+    private static final int MESSAGE_POST_RESULT
+    private static final int MESSAGE_POST_PROGRESS
+    125:126:public static void init()
+    130:131:public static void setDefaultExecutor(java.util.concurrent.Executor)
+    188:188:public final com.feytuo.chat.video.util.AsyncTask$Status getStatus()
+    364:364:public final java.lang.Object get()
+    389:389:public final java.lang.Object get(long,java.util.concurrent.TimeUnit)
+    503:504:public static void execute(java.lang.Runnable)
+    522:526:protected final varargs void publishProgress(java.lang.Object[])
+com.feytuo.chat.video.util.ImageCache:
+    private static final java.lang.String TAG
+    private static final int DEFAULT_MEM_CACHE_SIZE
+    private static final int DEFAULT_COMPRESS_QUALITY
+    private static final boolean DEFAULT_MEM_CACHE_ENABLED
+    private static final boolean DEFAULT_INIT_DISK_CACHE_ON_CREATE
+    253:283:protected android.graphics.Bitmap getBitmapFromReusableSet(android.graphics.BitmapFactory$Options)
+    352:367:private static boolean canUseForInBitmap(android.graphics.Bitmap,android.graphics.BitmapFactory$Options)
+    379:388:private static int getBytesPerPixel(android.graphics.Bitmap$Config)
+    404:409:public static java.io.File getDiskCacheDir(android.content.Context,java.lang.String)
+    419:425:public static java.lang.String hashKeyForDisk(java.lang.String)
+    430:438:private static java.lang.String bytesToHexString(byte[])
+    477:480:public static boolean isExternalStorageRemovable()
+    492:499:public static java.io.File getExternalCacheDir(android.content.Context)
+com.feytuo.chat.video.util.ImageResizer:
+    private static final java.lang.String TAG
+    31:33:public ImageResizer(android.content.Context,int,int)
+    79:79:private android.graphics.Bitmap processBitmap(int)
+    114:130:public static android.graphics.Bitmap decodeSampledBitmapFromResource(android.content.res.Resources,int,int,int,com.feytuo.chat.video.util.ImageCache)
+    154:169:public static android.graphics.Bitmap decodeSampledBitmapFromFile(java.lang.String,int,int,com.feytuo.chat.video.util.ImageCache)
+    194:210:public static android.graphics.Bitmap decodeSampledBitmapFromDescriptor(java.io.FileDescriptor,int,int,com.feytuo.chat.video.util.ImageCache)
+    220:231:private static void addInBitmapOptions(android.graphics.BitmapFactory$Options,com.feytuo.chat.video.util.ImageCache)
+    255:290:public static int calculateInSampleSize(android.graphics.BitmapFactory$Options,int,int)
+com.feytuo.chat.video.util.ImageWorker:
+    private static final java.lang.String TAG
+    private static final int FADE_IN_TIME
+    private static final int MESSAGE_CLEAR
+    private static final int MESSAGE_INIT_DISK_CACHE
+    private static final int MESSAGE_FLUSH
+    private static final int MESSAGE_CLOSE
+    109:110:public void setLoadingImage(android.graphics.Bitmap)
+    139:140:public void setImageFadeIn(boolean)
+    162:162:protected com.feytuo.chat.video.util.ImageCache getImageCache()
+    170:178:public static void cancelWork(android.widget.ImageView)
+    434:435:public void flushCache()
+com.feytuo.chat.video.util.RecyclingBitmapDrawable:
+    static final java.lang.String TAG
+com.feytuo.chat.video.util.Utils:
+    18:19:private Utils()
+    23:47:public static void enableStrictMode()
+    50:50:public static boolean hasFroyo()
+    55:55:public static boolean hasGingerbread()
+    71:71:public static boolean hasKitKat()
+com.feytuo.chat.widget.photoview.Compat:
+    private static final int SIXTY_FPS_INTERVAL
+    20:20:public Compat()
+com.feytuo.chat.widget.photoview.IPhotoView
+com.feytuo.chat.widget.photoview.PhotoView:
+    69:69:public boolean canZoom()
+    183:184:public void zoomTo(float,float,float)
+com.feytuo.chat.widget.photoview.PhotoViewAttacher:
+    static final java.lang.String LOG_TAG
+    static final int EDGE_NONE
+    static final int EDGE_LEFT
+    static final int EDGE_RIGHT
+    static final int EDGE_BOTH
+    public static final float DEFAULT_MAX_SCALE
+    public static final float DEFAULT_MIN_SCALE
+    197:197:public final boolean canZoom()
+com.feytuo.chat.widget.photoview.PhotoViewAttacher$AnimatedZoomRunnable:
+    static final float ANIMATION_SCALE_PER_ITERATION_IN
+    static final float ANIMATION_SCALE_PER_ITERATION_OUT
+com.feytuo.chat.widget.photoview.SDK16:
+    35:35:public SDK16()
+com.feytuo.chat.widget.photoview.VersionedGestureDetector:
+    static final java.lang.String LOG_TAG
+com.feytuo.chat.widget.photoview.VersionedGestureDetector$EclairDetector:
+    private static final int INVALID_POINTER_ID
+com.feytuo.laoxianghao.App:
+    private static final java.lang.String PREF_PWD
+    201:201:public void setStrangerList(java.util.Map)
 com.feytuo.laoxianghao.BuildConfig
+com.feytuo.laoxianghao.Manifest
+com.feytuo.laoxianghao.Manifest$permission
+com.feytuo.laoxianghao.PublishActivity:
+    private android.widget.ImageView headImage
+    private static final int CHOOSE_CITY
+    290:291:public void setHeadImg(int)
 com.feytuo.laoxianghao.dao.InvitationDao:
-    184:191:public int getCommentNumByInvid(java.lang.String)
+    222:229:public int getCommentNumByInvid(java.lang.String)
 com.feytuo.laoxianghao.dao.PraiseDao:
     25:27:public void deleteAllPraise(java.lang.String)
     59:66:public java.lang.String getPraiseId(java.lang.String,java.lang.String)
@@ -827,21 +1064,35 @@ com.feytuo.laoxianghao.db.DBFileManager:
 com.feytuo.laoxianghao.db.DatabaseHelper:
     private static final int DATABASE_VERSION
     47:47:public boolean deleteDatabase(android.content.Context)
-com.feytuo.laoxianghao.fragment.Fragment2:
-    public android.view.View rootView
 com.feytuo.laoxianghao.global.Global
-com.feytuo.laoxianghao.global.HeadImageChoose:
-    5:5:public HeadImageChoose()
-com.feytuo.laoxianghao.global.UserLogin:
-    14:14:public UserLogin()
 com.feytuo.laoxianghao.share_qq.Share_QQ:
-    60:61:public void qqLogout()
-    93:106:public void shareToQQ()
-    112:126:public void shareToQzone1()
-    132:149:public void shareToQzone2()
-    174:183:private void doShareToQzone(android.os.Bundle)
-com.feytuo.laoxianghao.share_qq.Share_QQ$3
-com.feytuo.laoxianghao.share_qq.Util
+    59:60:public void qqLogout(android.app.Activity)
+com.feytuo.laoxianghao.share_qq.Util:
+    private static final java.lang.String TAG
+    private static android.app.Dialog mProgressDialog
+    private static android.widget.Toast mToast
+    private static final int MAX_DECODE_PICTURE_SIZE
+    28:28:public Util()
+    40:52:public static java.lang.String bytesToHexString(byte[])
+    61:72:public static byte[] hexStringToBytes(java.lang.String)
+    80:80:private static byte charToByte(char)
+    93:101:public static java.lang.String toHexString(java.lang.String)
+    107:132:public static java.lang.String hexToString(java.lang.String)
+    136:149:public static byte[] bmpToByteArray(android.graphics.Bitmap,boolean)
+    153:170:public static byte[] getHtmlByteArray(java.lang.String)
+    175:187:public static byte[] inputStreamToByte(java.io.InputStream)
+    191:232:public static byte[] readFromFile(java.lang.String,int,int)
+    239:261:public static int computeSampleSize(android.graphics.BitmapFactory$Options,int,int)
+    268:302:private static int computeInitialSampleSize(android.graphics.BitmapFactory$Options,int,int)
+    312:321:public static android.graphics.Bitmap readBitmap(java.lang.String)
+    327:402:public static android.graphics.Bitmap extractThumbNail(java.lang.String,int,int,boolean)
+    407:412:public static final void showResultDialog(android.content.Context,java.lang.String,java.lang.String)
+    416:424:public static final void showProgressDialog(android.content.Context,java.lang.String,java.lang.String)
+    427:431:public static final void dismissDialog()
+    443:462:public static final void toastMessage(android.app.Activity,java.lang.String,java.lang.String)
+    474:475:public static final void toastMessage(android.app.Activity,java.lang.String)
+    33:33:static synthetic android.widget.Toast access$0()
+    33:33:static synthetic void access$1(android.widget.Toast)
 com.feytuo.laoxianghao.share_qq.Util$1
 com.feytuo.laoxianghao.share_sina.AbsOpenAPI:
     protected static final java.lang.String API_SERVER
@@ -857,7 +1108,6 @@ com.feytuo.laoxianghao.share_sina.AccessTokenKeeper:
     31:31:public AccessTokenKeeper()
     83:91:public static void clear(android.content.Context)
 com.feytuo.laoxianghao.share_sina.Constants
-com.feytuo.laoxianghao.share_sina.ErrorInfo
 com.feytuo.laoxianghao.share_sina.Geo:
     52:64:public static com.feytuo.laoxianghao.share_sina.Geo parse(java.lang.String)
 com.feytuo.laoxianghao.share_sina.Status:
@@ -899,7 +1149,6 @@ com.feytuo.laoxianghao.share_sina.StatusesAPI:
     274:284:private com.sina.weibo.sdk.net.WeiboParameters buildMentionsParams(long,long,int,int,int,int,int,boolean)
 com.feytuo.laoxianghao.share_sina.User:
     public com.feytuo.laoxianghao.share_sina.Status status
-    107:113:public static com.feytuo.laoxianghao.share_sina.User parse(java.lang.String)
 com.feytuo.laoxianghao.share_sina.Visible:
     public static final int VISIBLE_NORMAL
     public static final int VISIBLE_PRIVACY
@@ -916,9 +1165,31 @@ com.feytuo.laoxianghao.sortlistview.ClearEditText:
 com.feytuo.laoxianghao.util.AppInfoUtil:
     13:13:public AppInfoUtil()
     34:41:public static int getAppVersionCode(android.content.Context)
+com.feytuo.laoxianghao.util.CleanCache
+com.feytuo.laoxianghao.util.CommonUtils:
+    17:17:public CommonUtils()
+    77:128:public static android.graphics.Bitmap toRoundBitmap(android.graphics.Bitmap)
+com.feytuo.laoxianghao.util.DataCleanManager:
+    17:17:public DataCleanManager()
+    25:27:public static void cleanDatabases(android.content.Context)
+    34:36:public static void cleanSharedPreference(android.content.Context)
+    40:41:public static void cleanDatabaseByName(android.content.Context,java.lang.String)
+    45:46:public static void cleanFiles(android.content.Context)
+    66:74:public static varargs void cleanApplicationData(android.content.Context,java.lang.String[])
 com.feytuo.laoxianghao.util.GetSystemDateTime:
     11:11:public GetSystemDateTime()
     23:25:public static java.lang.String getDate()
+com.feytuo.laoxianghao.util.ImageFileCache:
+    private static final java.lang.String CACHDIR
+    private static final java.lang.String WHOLESALE_CONV
+    private static final int MB
+    private static final int CACHE_SIZE
+    private static final int FREE_SD_SPACE_NEEDED_TO_CACHE
+com.feytuo.laoxianghao.util.ImageLoader:
+    private static final int MAX_CAPACITY
+    private static final long DELAY_BEFORE_PURGE
+com.feytuo.laoxianghao.util.ImageLoader$1:
+    private static final long serialVersionUID
 com.feytuo.laoxianghao.util.NetUtil:
     8:8:public NetUtil()
 com.feytuo.laoxianghao.util.SDcardTools:
@@ -927,6 +1198,7 @@ com.feytuo.laoxianghao.util.SDcardTools:
     83:100:public static java.util.List getFileFormSDcard(java.io.File,java.lang.String)
 com.feytuo.laoxianghao.util.ScreenUtils:
     23:25:private ScreenUtils()
+    32:33:public static int dip2px(android.content.Context,float)
     40:41:public static int px2dip(android.content.Context,float)
     51:55:public static int getScreenWidth(android.content.Context)
     65:69:public static int getScreenHeight(android.content.Context)
@@ -941,16 +1213,12 @@ com.feytuo.laoxianghao.util.StringTools:
     private static final long year
     11:11:public StringTools()
     49:80:public static java.lang.String getTimeGap(java.lang.String,java.lang.String)
-com.feytuo.laoxianghao.view.HeadChooseDialog:
-    30:33:public HeadChooseDialog(android.content.Context)
 com.feytuo.laoxianghao.view.ListViewForScrollView:
     8:9:public ListViewForScrollView(android.content.Context)
 com.feytuo.laoxianghao.view.MyDialog:
-    35:38:public MyDialog(android.content.Context)
-com.feytuo.laoxianghao.view.MyLoginDialog:
-    18:21:public MyLoginDialog(android.content.Context)
-com.feytuo.laoxianghao.view.OnloadDialog:
-    13:16:public OnloadDialog(android.content.Context)
+    36:39:public MyDialog(android.content.Context)
+com.feytuo.laoxianghao.view.PositionChooseDialog:
+    37:39:public PositionChooseDialog(android.content.Context,int)
 com.feytuo.listviewonload.APIUtil:
     5:5:public APIUtil()
 com.feytuo.listviewonload.Headable:
@@ -1063,6 +1331,58 @@ com.feytuo.listviewonload.ZrcListView$OnScrollStateListener:
     public static final int EDGE
     public static final int DOWN
     public static final int UP
+com.novell.sasl.client.DigestChallenge:
+    public static final int QOP_AUTH
+    public static final int QOP_AUTH_INT
+    public static final int QOP_AUTH_CONF
+    public static final int QOP_UNRECOGNIZED
+    private static final int CIPHER_3DES
+    private static final int CIPHER_DES
+    private static final int CIPHER_RC4_40
+    private static final int CIPHER_RC4
+    private static final int CIPHER_RC4_56
+    private static final int CIPHER_UNRECOGNIZED
+    private static final int CIPHER_RECOGNIZED_MASK
+    public boolean getStaleFlag()
+    public int getMaxBuf()
+    public java.lang.String getCharacterSet()
+    public int getCipherOptions()
+com.novell.sasl.client.DigestMD5SaslClient:
+    private static final int STATE_INITIAL
+    private static final int STATE_DIGEST_RESPONSE_SENT
+    private static final int STATE_VALID_SERVER_RESPONSE
+    private static final int STATE_INVALID_SERVER_RESPONSE
+    private static final int STATE_DISPOSED
+    private static final int NONCE_BYTE_COUNT
+    private static final int NONCE_HEX_COUNT
+    private static final java.lang.String DIGEST_METHOD
+com.novell.sasl.client.DirectiveList:
+    private static final int STATE_LOOKING_FOR_FIRST_DIRECTIVE
+    private static final int STATE_LOOKING_FOR_DIRECTIVE
+    private static final int STATE_SCANNING_NAME
+    private static final int STATE_LOOKING_FOR_EQUALS
+    private static final int STATE_LOOKING_FOR_VALUE
+    private static final int STATE_LOOKING_FOR_COMMA
+    private static final int STATE_SCANNING_QUOTED_STRING_VALUE
+    private static final int STATE_SCANNING_TOKEN_VALUE
+    private static final int STATE_NO_UTF8_SUPPORT
+    private java.lang.String m_curName
+com.novell.sasl.client.ExternalSaslClient:
+    private static final int STATE_INITIAL
+    private static final int STATE_VALID_SERVER_RESPONSE
+    private static final int STATE_INVALID_SERVER_RESPONSE
+    private static final int STATE_DISPOSED
+com.novell.sasl.client.ParsedDirective:
+    public static final int QUOTED_STRING_VALUE
+    public static final int TOKEN_VALUE
+    int getValueType()
+com.novell.sasl.client.TokenParser:
+    private static final int STATE_LOOKING_FOR_FIRST_TOKEN
+    private static final int STATE_LOOKING_FOR_TOKEN
+    private static final int STATE_SCANNING_TOKEN
+    private static final int STATE_LOOKING_FOR_COMMA
+    private static final int STATE_PARSING_ERROR
+    private static final int STATE_DONE
 com.tencent.a.a.d:
     60:61:public static final void c(java.lang.String,java.lang.String)
 com.tencent.a.b.a:
@@ -1090,9 +1410,7 @@ com.tencent.connect.a.a:
     20:20:public a()
 com.tencent.connect.auth.AuthConstants
 com.tencent.connect.auth.QQAuth:
-    153:155:public int login(android.support.v4.app.Fragment,java.lang.String,com.tencent.tauth.IUiListener,java.lang.String)
     248:249:public int reAuth(android.app.Activity,java.lang.String,com.tencent.tauth.IUiListener)
-    260:269:public void logout(android.content.Context)
     343:346:public boolean onActivityResult(int,int,android.content.Intent)
 com.tencent.connect.auth.QQToken:
     public static final int AUTH_WEB
@@ -1390,13 +1708,10 @@ com.tencent.open.yyb.AppbarActivity:
     private int titlebarTop
     413:430:public void showFloatingDialog()
     433:439:private int getTitbarTop()
-    461:522:public void login()
     649:650:public void setShareVisibility(boolean)
     653:654:public void setAppbarTitle(java.lang.String)
     657:658:public void setShareModel(com.tencent.open.yyb.ShareModel)
     661:661:private java.lang.String buildTransaction(java.lang.String)
-com.tencent.open.yyb.AppbarActivity$2:
-    463:463:AppbarActivity$2(com.tencent.open.yyb.AppbarActivity)
 com.tencent.open.yyb.AppbarAgent
 com.tencent.open.yyb.AppbarJsBridge:
     public static final java.lang.String CALLBACK_LOGIN
@@ -1564,7 +1879,6 @@ com.tencent.tauth.AuthActivity:
 com.tencent.tauth.Tencent:
     private com.tencent.open.LocationApi mLocationApi
     private com.tencent.open.yyb.AppbarAgent mAgent
-    134:134:public int login(android.support.v4.app.Fragment,java.lang.String,com.tencent.tauth.IUiListener)
     150:150:public int loginWithOEM(android.app.Activity,java.lang.String,com.tencent.tauth.IUiListener,java.lang.String,java.lang.String,java.lang.String)
     159:159:public int reAuth(android.app.Activity,java.lang.String,com.tencent.tauth.IUiListener)
     163:165:public int invite(android.app.Activity,android.os.Bundle,com.tencent.tauth.IUiListener)
@@ -1746,6 +2060,50 @@ com.umeng.analytics.social.c
 com.umeng.analytics.social.d
 com.umeng.analytics.social.e
 com.umeng.analytics.social.f
+com.xonami.javaBells.IceAgent:
+    static final int MIN_STREAM_PORT
+    static final int MAX_STREAM_PORT
+    public org.ice4j.ice.IceProcessingState getState()
+    public void removeAgentStateChangeListener(java.beans.PropertyChangeListener)
+    public boolean hasCandidatesForAllStreams()
+com.xonami.javaBells.JingleActionEnum
+com.xonami.javaBells.NameAndTransportAddress
+com.xonami.javaBells.StunTurnAddress:
+    private java.lang.Thread addressFetchThread
+    public static com.xonami.javaBells.StunTurnAddress getAddress(org.jivesoftware.smack.XMPPConnection)
+    protected StunTurnAddress(java.lang.String[])
+    private synchronized void completeAddressFetch()
+    public org.ice4j.TransportAddress[] getStunAddresses()
+    public org.ice4j.TransportAddress[] getTurnAddresses()
+com.xonami.javaBells.package-info
+de.measite.smack.AndroidDebugger:
+    private java.text.SimpleDateFormat dateFormatter
+    public AndroidDebugger(org.jivesoftware.smack.Connection,java.io.Writer,java.io.Reader)
+    private void createDebug()
+    static synthetic java.text.SimpleDateFormat access$000(de.measite.smack.AndroidDebugger)
+    static synthetic org.jivesoftware.smack.Connection access$100(de.measite.smack.AndroidDebugger)
+de.measite.smack.AndroidDebugger$1
+de.measite.smack.AndroidDebugger$2
+de.measite.smack.AndroidDebugger$3
+de.measite.smack.AndroidDebugger$4
+de.measite.smack.Sasl:
+    private static final java.lang.String CLIENTFACTORYSRV
+    private static final java.lang.String SERVERFACTORYSRV
+    public static final java.lang.String POLICY_NOPLAINTEXT
+    public static final java.lang.String POLICY_NOACTIVE
+    public static final java.lang.String POLICY_NODICTIONARY
+    public static final java.lang.String POLICY_NOANONYMOUS
+    public static final java.lang.String POLICY_FORWARD_SECRECY
+    public static final java.lang.String POLICY_PASS_CREDENTIALS
+    public static final java.lang.String MAX_BUFFER
+    public static final java.lang.String RAW_SEND_SIZE
+    public static final java.lang.String REUSE
+    public static final java.lang.String QOP
+    public static final java.lang.String STRENGTH
+    public static final java.lang.String SERVER_AUTH
+    public Sasl()
+    public static java.util.Enumeration getSaslServerFactories()
+    public static org.apache.harmony.javax.security.sasl.SaslServer createSaslServer(java.lang.String,java.lang.String,java.lang.String,java.util.Map,org.apache.harmony.javax.security.auth.callback.CallbackHandler)
 f.thing:
     7:7:public thing()
 g.Tempest:
@@ -1754,14 +2112,140 @@ g.mine:
     8:8:private mine()
 g.thing:
     27:27:public thing()
+gov.nist.core.GenericObjectList:
+    protected static final java.lang.String SEMICOLON
+    protected static final java.lang.String COLON
+    protected static final java.lang.String COMMA
+    protected static final java.lang.String SLASH
+    protected static final java.lang.String SP
+    protected static final java.lang.String EQUALS
+    protected static final java.lang.String STAR
+    protected static final java.lang.String NEWLINE
+    protected static final java.lang.String RETURN
+    protected static final java.lang.String LESS_THAN
+    protected static final java.lang.String GREATER_THAN
+    protected static final java.lang.String AT
+    protected static final java.lang.String DOT
+    protected static final java.lang.String QUESTION
+    protected static final java.lang.String POUND
+    protected static final java.lang.String AND
+    protected static final java.lang.String LPAREN
+    protected static final java.lang.String RPAREN
+    protected static final java.lang.String DOUBLE_QUOTE
+    protected static final java.lang.String QUOTE
+    protected static final java.lang.String HT
+    protected static final java.lang.String PERCENT
+    protected static boolean isCloneable(java.lang.Object)
+    public void setMyClass(java.lang.Class)
+    protected GenericObjectList(java.lang.String)
+    protected GenericObjectList(java.lang.String,java.lang.String)
+    protected GenericObjectList(java.lang.String,java.lang.Class)
+    protected gov.nist.core.GenericObject next(java.util.ListIterator)
+    protected void concatenate(gov.nist.core.GenericObjectList)
+    protected void concatenate(gov.nist.core.GenericObjectList,boolean)
+    public void mergeObjects(gov.nist.core.GenericObjectList)
+gov.nist.core.InternalErrorHandler:
+    public InternalErrorHandler()
+    public static void handleException(java.lang.Exception,gov.nist.core.StackLogger)
+    public static void handleException(java.lang.String)
+    public static void handleException(java.lang.String,gov.nist.core.StackLogger)
+gov.nist.core.LogLevels
+gov.nist.core.NameValue:
+    private static final long serialVersionUID
+    public NameValue(java.lang.String,java.lang.Object,boolean)
+    public NameValue(java.lang.String,java.lang.Object)
+    public void setQuotedValue()
+    public boolean isValueQuoted()
+gov.nist.core.PackageNames
+gov.nist.core.Separators
+gov.nist.core.StackLogger
+gov.nist.javax.sdp.fields.SDPFieldNames
 h.method:
     35:37:public method(java.lang.String)
+internal.org.apache.http.entity.mime.Header:
+    public java.util.List getFields()
+    public java.util.List getFields(java.lang.String)
+    public int removeFields(java.lang.String)
+    public void setField(internal.org.apache.http.entity.mime.MinimalField)
+internal.org.apache.http.entity.mime.HttpMultipart:
+    public HttpMultipart(java.lang.String,java.nio.charset.Charset,java.lang.String)
+    public HttpMultipart(java.lang.String,java.lang.String)
+    public java.lang.String getSubType()
+    public java.nio.charset.Charset getCharset()
+    public internal.org.apache.http.entity.mime.HttpMultipartMode getMode()
+internal.org.apache.http.entity.mime.MIME:
+    public static final java.lang.String CONTENT_TYPE
+    public static final java.lang.String CONTENT_TRANSFER_ENC
+    public static final java.lang.String CONTENT_DISPOSITION
+    public static final java.lang.String ENC_8BIT
+    public static final java.lang.String ENC_BINARY
+    public MIME()
+internal.org.apache.http.entity.mime.content.AbstractContentBody:
+    public java.lang.String getMediaType()
+    public java.lang.String getSubType()
+internal.org.apache.http.entity.mime.content.ByteArrayBody
+internal.org.apache.http.entity.mime.content.ContentDescriptor:
+    public abstract java.lang.String getMediaType()
+    public abstract java.lang.String getSubType()
+internal.org.apache.http.entity.mime.content.FileBody:
+    public FileBody(java.io.File,java.lang.String,java.lang.String)
+    public FileBody(java.io.File,java.lang.String)
+    public FileBody(java.io.File)
+    public java.io.InputStream getInputStream()
+    public java.io.File getFile()
+internal.org.apache.http.entity.mime.content.Header
+internal.org.apache.http.entity.mime.content.InputStreamBody
+internal.org.apache.http.entity.mime.content.StringBody:
+    public static internal.org.apache.http.entity.mime.content.StringBody create(java.lang.String,java.lang.String,java.nio.charset.Charset)
+    public static internal.org.apache.http.entity.mime.content.StringBody create(java.lang.String,java.nio.charset.Charset)
+    public static internal.org.apache.http.entity.mime.content.StringBody create(java.lang.String)
+    public StringBody(java.lang.String,java.nio.charset.Charset)
+    public java.io.Reader getReader()
 j.II:
     private static final long serialVersionUID
 j.method:
     static final long serialVersionUID
 j.yet:
     private static final long serialVersionUID
+javax.sdp.Attribute:
+    public abstract java.lang.String getName()
+    public abstract void setName(java.lang.String)
+    public abstract boolean hasValue()
+    public abstract java.lang.String getValue()
+    public abstract void setValue(java.lang.String)
+javax.sdp.BandWidth
+javax.sdp.Connection
+javax.sdp.EMail
+javax.sdp.Field:
+    public abstract char getTypeChar()
+    public abstract java.lang.Object clone()
+javax.sdp.Info
+javax.sdp.Key
+javax.sdp.Media
+javax.sdp.Origin
+javax.sdp.Phone
+javax.sdp.RepeatTime
+javax.sdp.SdpConstants
+javax.sdp.SdpEncoder
+javax.sdp.SdpException:
+    public SdpException(java.lang.String,java.lang.Throwable)
+    public SdpException(java.lang.Throwable)
+    public java.lang.Throwable getRootCause()
+javax.sdp.SdpFactoryException
+javax.sdp.SdpParseException:
+    private int lineNumber
+    private int charOffset
+    public SdpParseException(int,int,java.lang.String,java.lang.Throwable)
+    public SdpParseException(int,int,java.lang.String)
+    public int getLineNumber()
+    public int getCharOffset()
+javax.sdp.SessionDescription
+javax.sdp.SessionName
+javax.sdp.Time
+javax.sdp.TimeDescription
+javax.sdp.TimeZoneAdjustment
+javax.sdp.URI
+javax.sdp.Version
 k.This
 l.I:
     76:76:private java.lang.Object writeReplace()

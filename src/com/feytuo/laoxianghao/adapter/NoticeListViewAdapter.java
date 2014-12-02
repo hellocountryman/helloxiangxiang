@@ -78,7 +78,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 	private SparseArray<Boolean> isAudioPlayArray;// 记录是否正在播放音乐
 	private SparseArray<Boolean> commentArray;// 记录是否正在播放音乐
 	private boolean isCurrentItemAudioPlay;
-	private int isMyOrCollection;// 标记是从1我的帖子还是从2收藏中进来,与评论中enterFrom对应
 
 	private LXHUserDao userDao;
 	private CityDao cityDao;
@@ -93,7 +92,6 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		this.resource = resource;
 		if (fragment instanceof Fragment1) {
 			commentArray = ((Fragment1) fragment).getCommentMap();
-			isMyOrCollection = 1;
 		}
 		m_Inflater = LayoutInflater.from(context);
 		praiseMap = new SparseArray<>();
@@ -163,18 +161,16 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		Listener listener = new Listener(holder, position);
 		convertView.setClickable(true);
 		convertView.setOnClickListener(listener);
-		if (isMyOrCollection == 1) {// 如果是我的帖子
-			convertView.setOnLongClickListener(new OnLongClickListener() {
+		convertView.setOnLongClickListener(new OnLongClickListener() {
 
-				@Override
-				public boolean onLongClick(View v) {
-					// TODO Auto-generated method stub
-					// 当进入我的帖子中时，长按删除当前发的帖子
-					showDeleteEnsureDialog(position);
-					return true;
-				}
-			});
-		}
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				// 当进入我的帖子中时，长按删除当前发的帖子
+				showDeleteEnsureDialog(position);
+				return true;
+			}
+		});
 		holder.indexSupportLinerlayout.setOnClickListener(listener);
 		holder.indexCommentLinerlayout.setOnClickListener(listener);
 		holder.indexShareLinerlayout.setOnClickListener(listener);
@@ -565,7 +561,7 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 		Intent intentComment = new Intent();
 		intentComment.setClass(context, CommentActivity.class);
 		intentComment.putExtra("invId", invId);
-		intentComment.putExtra("enterFrom", isMyOrCollection);
+		intentComment.putExtra("enterFrom", 1);
 		context.startActivity(intentComment);
 	}
 

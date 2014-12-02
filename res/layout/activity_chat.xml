@@ -33,7 +33,7 @@
             android:text="@string/add_friends"
             android:textColor="@color/white"
             android:textSize="@dimen/city_text_size"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/container_to_group"
@@ -67,7 +67,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/gray_normal" />
+            android:background="@color/weibo_unline" />
 
         <LinearLayout
             android:id="@+id/rl_bottom"

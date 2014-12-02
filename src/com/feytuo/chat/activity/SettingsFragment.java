@@ -62,6 +62,7 @@ import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.util.CommonUtils;
 import com.feytuo.laoxianghao.util.ImageLoader;
 import com.feytuo.laoxianghao.util.SDcardTools;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 设置界面
@@ -119,13 +120,6 @@ public class SettingsFragment extends Fragment {
 		mImageLoader = new ImageLoader(getActivity());
 		initview();
 		setViewContent();
-	}
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		getMyCommentNotice();
-//		setViewContent();
-		super.onResume();
 	}
 
 	public void initview() {
@@ -309,21 +303,19 @@ public class SettingsFragment extends Fragment {
 				setPicToView(data);
 			break;
 		}
-		if(requestCode == UPDATE_HOME){
-			if(resultCode == Global.RESULT_OK){
-				String resultData = data.getStringExtra("data").toString().trim();
-				switch(requestCode){
-				case UPDATE_NICK_NAME:
-					personNickText.setText(resultData);
-					personHeadNick.setText(resultData);
-					break;
-				case UPDATE_PERSON_SIGN:
-					personSignText.setText(resultData);
-					break;
-				case UPDATE_HOME:
-					personHomeText.setText(resultData);
-					break;
-				}
+		if(resultCode == Global.RESULT_OK){
+			String resultData = data.getStringExtra("data").toString().trim();
+			switch(requestCode){
+			case UPDATE_NICK_NAME:
+				personNickText.setText(resultData);
+				personHeadNick.setText(resultData);
+				break;
+			case UPDATE_PERSON_SIGN:
+				personSignText.setText(resultData);
+				break;
+			case UPDATE_HOME:
+				personHomeText.setText(resultData);
+				break;
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -496,5 +488,20 @@ public class SettingsFragment extends Fragment {
 				Log.i("comment_notice", "查询我贴评论数失败:" + arg1);
 			}
 		});
+	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		getMyCommentNotice();
+		MobclickAgent.onPageStart("SettingsFragment"); // 统计页面
+	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd("SettingsFragment");
 	}
 }

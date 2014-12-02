@@ -14,10 +14,19 @@ public class LXHUser extends BmobObject{
 	private String uName;//openId
 	private String uKey;//登录密匙或者记号
 	private BmobRelation myInvitation;//用户发的帖子
+	private BmobRelation myFeedBack;//用户的反馈
 	private String nickName;//昵称，获取QQ或者新浪昵称，聊天是显示
 	private String headUrl;//从QQ上取下来存在自己的服务器上的头像url
 	private String personSign;//个性签名
 	private String home;//家乡
+	
+	
+	public BmobRelation getMyFeedBack() {
+		return myFeedBack;
+	}
+	public void setMyFeedBack(BmobRelation myFeedBack) {
+		this.myFeedBack = myFeedBack;
+	}
 	public BmobRelation getMyInvitation() {
 		return myInvitation;
 	}

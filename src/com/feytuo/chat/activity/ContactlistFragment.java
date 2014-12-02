@@ -149,12 +149,24 @@ public class ContactlistFragment extends Fragment {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.delete_contact) {
-			User tobeDeleteUser = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
+			final User tobeDeleteUser = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
 			// 删除此联系人
 			deleteContact(tobeDeleteUser);
 			// 删除相关的邀请消息
 			InviteMessgeDao dao = new InviteMessgeDao(getActivity());
 			dao.deleteMessage(tobeDeleteUser.getUsername());
+			
+			// 删除db和内存中此用户的数据
+			UserDao userDao = new UserDao(getActivity());
+			userDao.deleteContact(tobeDeleteUser.getUsername());
+			App.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
+			//列表中
+			getActivity().runOnUiThread(new Runnable() {
+				public void run() {
+					adapter.remove(tobeDeleteUser);
+					adapter.notifyDataSetChanged();
+				}
+			});
 			return true;
 		}else if(item.getItemId() == R.id.add_to_blacklist){
 			User user = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
@@ -200,24 +212,10 @@ public class ContactlistFragment extends Fragment {
 			public void run() {
 				try {
 					EMContactManager.getInstance().deleteContact(tobeDeleteUser.getUsername());
-					// 删除db和内存中此用户的数据
-					UserDao dao = new UserDao(getActivity());
-					dao.deleteContact(tobeDeleteUser.getUsername());
-					App.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
-					getActivity().runOnUiThread(new Runnable() {
-						public void run() {
-							pd.dismiss();
-							adapter.remove(tobeDeleteUser);
-							adapter.notifyDataSetChanged();
-						}
-					});
+					pd.dismiss();
 				} catch (final Exception e) {
-					getActivity().runOnUiThread(new Runnable() {
-						public void run() {
-							pd.dismiss();
-							Toast.makeText(getActivity(), "删除失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-						}
-					});
+					pd.dismiss();
+					Log.i(TAG, "删除失败: " + e.getMessage());
 
 				}
 

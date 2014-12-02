@@ -304,7 +304,7 @@ public class FindDetailsActivity extends Activity {
 			App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, false)
 					.commit();
 		}
-		MobclickAgent.onPageStart("MainActivity"); // 友盟统计页面
+		MobclickAgent.onPageStart("FindDetailsActivity"); // 友盟统计页面
 		MobclickAgent.onResume(FindDetailsActivity.this);
 	}
 
@@ -313,7 +313,7 @@ public class FindDetailsActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		adapter.stopAudio();
-		MobclickAgent.onPageEnd("MainActivity");// 友盟保证 onPageEnd 在onPause
+		MobclickAgent.onPageEnd("FindDetailsActivity");// 友盟保证 onPageEnd 在onPause
 												// 之前调用,因为 onPause 中会保存信息
 		MobclickAgent.onPause(FindDetailsActivity.this);
 	}

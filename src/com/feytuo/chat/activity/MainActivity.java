@@ -70,6 +70,7 @@ import com.feytuo.laoxianghao.fragment.MainFragment;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 主界面
@@ -828,6 +829,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MobclickAgent.onResume(this);
 		if (!isConflict && App.isLogin()) {
 			updateUnreadLabel();
 			updateUnreadAddressLable();
@@ -960,5 +962,12 @@ public class MainActivity extends FragmentActivity implements
 		// {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
 		// mWeiboShareAPI.handleWeiboResponse(intent, getActivity());
 		App.shareWeibo.getmWeiboShareAPI().handleWeiboResponse(intent, this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

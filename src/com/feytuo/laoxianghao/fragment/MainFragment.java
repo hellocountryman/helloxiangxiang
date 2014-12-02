@@ -361,8 +361,7 @@ public class MainFragment extends Fragment {
 			App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, false)
 					.commit();
 		}
-		MobclickAgent.onPageStart("MainActivity"); // 友盟统计页面
-		MobclickAgent.onResume(getActivity());
+		MobclickAgent.onPageStart("MainFragment"); // 友盟统计页面
 	}
 
 	@Override
@@ -370,9 +369,8 @@ public class MainFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onPause();
 		adapter.stopAudio();
-		MobclickAgent.onPageEnd("MainActivity");// 友盟保证 onPageEnd 在onPause
+		MobclickAgent.onPageEnd("MainFragment");// 友盟保证 onPageEnd 在onPause
 												// 之前调用,因为 onPause 中会保存信息
-		MobclickAgent.onPause(getActivity());
 	}
 
 }

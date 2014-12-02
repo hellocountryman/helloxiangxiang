@@ -66,7 +66,7 @@ public class PositionChooseDialog extends Dialog {
 		HashMap<String, String> map7 = new HashMap<String, String>();
 		map7.put("position", "月球");
 		HashMap<String, String> map8 = new HashMap<String, String>();
-		map8.put("position", "银河系");
+		map8.put("position", location);
 		data.add(map1);
 		data.add(map2);
 		data.add(map3);
@@ -74,7 +74,9 @@ public class PositionChooseDialog extends Dialog {
 		data.add(map5);
 		data.add(map6);
 		data.add(map7);
-		data.add(map8);
+		if(!"火星".equals(location)){
+			data.add(map8);
+		}
 	}
 
 	private void initListView() {

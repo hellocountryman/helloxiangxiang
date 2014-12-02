@@ -32,6 +32,7 @@ import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.util.ImageLoader;
 import com.feytuo.laoxianghao.view.OnloadDialog;
+import com.umeng.analytics.MobclickAgent;
 
 public class UserToPersonActivity extends Activity {
 
@@ -273,11 +274,23 @@ public class UserToPersonActivity extends Activity {
 			}
 		}
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart("UserToPersonActivity"); // 友盟统计页面
+		MobclickAgent.onResume(this);
+	}
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		adapter.stopAudio();
+		MobclickAgent.onPageEnd("UserToPersonActivity");// 友盟保证 onPageEnd 在onPause
+													// 之前调用,因为 onPause 中会保存信息
+		MobclickAgent.onPause(this);
 	}
 
 }

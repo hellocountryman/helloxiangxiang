@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.feytuo.laoxianghao.R;
+import com.umeng.analytics.MobclickAgent;
 
 @SuppressLint({ "ResourceAsColor", "CutPasteId" })
 public class ChatAndContactFragment extends Fragment {
@@ -260,6 +261,19 @@ public class ChatAndContactFragment extends Fragment {
 
 	public TextView getUnreadAddressLable() {
 		return unreadAddressLable;
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart("ChatAndContactFragment"); // 统计页面
+	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd("ChatAndContactFragment");
 	}
 
 }

@@ -20,14 +20,13 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +39,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.GetListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
@@ -74,11 +74,10 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private LinearLayout commentRecordingLinear;
 	private ImageView commentRecordingImg;// 按住录音的时候出现动画提示
 	private TextView commentRecordHintText;// 录音评论的时候文字提示
-	private TextView commentTextFocus;//textview、这里没有什么用，主要是用来失去edittext焦点
+//	private TextView commentTextFocus;//textview、这里没有什么用，主要是用来失去edittext焦点
 	private ImageView commentAddImg; // 添加额外的录音
 	private Button commentCommentBtn;// 发送评论
 	private LinearLayout commentRecordLinear;// 按住录音的布局
-	private LinearLayout commentEditLinear;// 按住录音的布局
 	private Button commentRecordBtn; // 按住录音
 	private ImageView commentRerecordimg;// 录音之后可以取消录音按钮
 	private ImageButton commentPlayRecordImgbutton;// 录音的时候播放的小按钮
@@ -87,12 +86,6 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	private String filePath; // 音频保存的文件路径
 	private File fileAudio; // 录音文件
 	private MediaPlayer mp = new MediaPlayer();
-	// private CountDownTimer mCountDownTimer;// /记录录音的时间
-	// 动画效果
-	private Animation animationOpen;
-	private Animation animationClose;
-	private Animation animationOut;
-	private Animation animationIn;
 	private boolean isReplay = false;
 	private Handler mHandlerlist;// listview的处理
 	private boolean isLuYin; // 是否在录音 true 是 false否
@@ -112,7 +105,6 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		initLocation();// 开启定位
 		initview();// 初始化布局文件
 		initData();
-		initAnimation();
 		initlistview();// listview初始化
 		initListViewData();
 	}
@@ -126,28 +118,57 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		locationBaidu.start();
 	}
 
-	private Invitation getInvitationInfo(String invId) {
-		if (enterFrom == 0) {// 从主界面普通帖子进入
-			return new InvitationDao(this).getInvitationById(invId);
-		} else if (enterFrom == 1) {// 从我的帖子进入
-			return new InvitationDao(this).getInvitationFromMyById(invId);
-		} else if (enterFrom == 2) {// 从主界面话题帖中进入
-			return new InvitationDao(this).getTypeInvitationFromClass(invId);
-		} else {
-			return null;
+	private void getInvitationInfo() {
+		if(!TextUtils.isEmpty(invId)){
+			InvitationDao invDao = new InvitationDao(this);
+			if (enterFrom == 0) {// 从主界面普通帖子进入
+				invDao.getInvitationById(mInv,invId);
+			} else if (enterFrom == 1) {// 从我的帖子进入
+				invDao.getInvitationFromMyById(mInv ,invId);
+			} else if (enterFrom == 2) {// 从发现帖中进入
+				invDao.getTypeInvitationFromClass(mInv,invId);
+			} else if(enterFrom == 3){//用户详情中
+				getFromServer();
+			}else{
+			}
 		}
 	}
 
-	private void initAnimation() {
+	//从服务器获取帖子信息
+	private void getFromServer() {
 		// TODO Auto-generated method stub
-		animationOpen = AnimationUtils.loadAnimation(this,
-				R.anim.comment_turn_open);
-		animationClose = AnimationUtils.loadAnimation(this,
-				R.anim.comment_turn_closed);
-		animationOut = AnimationUtils.loadAnimation(this,
-				R.anim.comment_record_out);
-		animationIn = AnimationUtils.loadAnimation(this,
-				R.anim.comment_record_in);
+		BmobQuery<Invitation> query = new BmobQuery<Invitation>();
+		query.getObject(this, invId, new GetListener<Invitation>() {
+			
+			@Override
+			public void onSuccess(Invitation arg0) {
+				// TODO Auto-generated method stub
+				if(arg0 != null){
+					mInv.setPosition(arg0.getPosition());
+					mInv.setWords(arg0.getWords());
+					mInv.setVoice(arg0.getVoice());
+					mInv.setVoiceDuration(arg0.getVoiceDuration());
+					mInv.setTime(arg0.getCreatedAt());
+					mInv.setPraiseNum(arg0.getPraiseNum());
+					mInv.setCommentNum(arg0.getCommentNum());
+					mInv.setObjectId(arg0.getObjectId());
+					mInv.setuId(arg0.getuId());
+					mInv.setHome(arg0.getHome());
+					mInv.setIsHot(arg0.getIsHot());
+					mInv.setShareNum(arg0.getShareNum());
+					mInv.setHeadId(arg0.getHeadId());
+					if(adapter != null){
+						adapter.notifyDataSetChanged();
+					}
+				}
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	private void initview() {
@@ -160,7 +181,6 @@ public class CommentActivity extends Activity implements IXListViewListener {
 		commentAddImg = (ImageView) findViewById(R.id.comment_add_img);
 		commentCommentBtn = (Button) findViewById(R.id.comment_comment_btn);// 发送评论按钮实例化
 		commentCommentBtn.setClickable(false);
-		commentEditLinear = (LinearLayout) findViewById(R.id.comment_edit_linearlayout);
 		commentRecordLinear = (LinearLayout) findViewById(R.id.comment_record_linearlayout);
 		commentRecordBtn = (Button) findViewById(R.id.comment_record_btn);// 录音按钮的实例化
 		commentPlayRecordImgbutton = (ImageButton) findViewById(R.id.comment_play_record_imgbutton);// 录音的时候播放的小按钮
@@ -211,6 +231,7 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	 * 初始化数据
 	 */
 	private void initData() {
+		mInv = new Invitation();
 		if (!SDcardTools.isHaveSDcard()) {
 			Toast.makeText(CommentActivity.this, "请插入SD卡以便存储录音",
 					Toast.LENGTH_LONG).show();
@@ -232,11 +253,8 @@ public class CommentActivity extends Activity implements IXListViewListener {
 	 * 初始化list数据
 	 */
 	private void initlistview() {
-		mInv = getInvitationInfo(invId);
+		getInvitationInfo();
 		if (mInv != null) {
-			// 设置数据统计
-			setDataStatistics(mInv.getIsHot(), mInv.getObjectId(),
-					mInv.getWords());
 			listItems = new ArrayList<Map<String, Object>>();
 			commentListview.setPullLoadEnable(true);// 设置让它上拉，FALSE为不让上拉，便不加载更多数据
 			adapter = new CommentListViewAdapter(CommentActivity.this,
@@ -244,24 +262,6 @@ public class CommentActivity extends Activity implements IXListViewListener {
 			commentListview.setAdapter(adapter);
 			commentListview.setXListViewListener(this);
 			mHandlerlist = new Handler();
-		}
-	}
-
-	// 设置数据统计普通和热门话题评论查看数
-	private void setDataStatistics(int isHot, String invId, String words) {
-		// TODO Auto-generated method stub
-		if (isHot == 1) {
-			/********* 统计添加点击 ************/
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("invId", invId);
-			map.put("content", words);
-			MobclickAgent.onEvent(this, "HotInvitation", map);// 添加操作
-		} else {
-			/********* 统计添加点击 ************/
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("invId", invId);
-			map.put("content", words);
-			MobclickAgent.onEvent(this, "CommonInvitation", map);// 添加操作
 		}
 	}
 

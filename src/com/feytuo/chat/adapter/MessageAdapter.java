@@ -84,6 +84,7 @@ import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.UserToPersonActivity;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
+import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.util.ImageLoader;
 
 public class MessageAdapter extends BaseAdapter{
@@ -446,10 +447,12 @@ public class MessageAdapter extends BaseAdapter{
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					Intent intentToPerson = new Intent();
-					intentToPerson.setClass(context, UserToPersonActivity.class);
-					intentToPerson.putExtra("userid", username);
-					context.startActivity(intentToPerson);
+					if(!App.pre.getString(Global.USER_ID, "").equals(username)){
+						Intent intentToPerson = new Intent();
+						intentToPerson.setClass(context, UserToPersonActivity.class);
+						intentToPerson.putExtra("userid", username);
+						context.startActivity(intentToPerson);
+					}
 				}
 			});
 		}

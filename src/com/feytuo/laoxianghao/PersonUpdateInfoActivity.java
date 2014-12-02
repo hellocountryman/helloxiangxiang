@@ -16,6 +16,7 @@ import com.feytuo.chat.widget.PasteEditText;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
+import com.umeng.analytics.MobclickAgent;
 
 public class PersonUpdateInfoActivity extends Activity {
 	private TextView titleTypeText;//显示昵称还是个性签名
@@ -127,5 +128,22 @@ public class PersonUpdateInfoActivity extends Activity {
 	public void personDetailsRetImg(View v) {
 		setResult(Global.RESULT_RETURN);
 		finish();
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart("PersonUpdateInfoActivity"); // 友盟统计页面
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd("PersonUpdateInfoActivity");// 友盟保证 onPageEnd 在onPause
+													// 之前调用,因为 onPause 中会保存信息
+		MobclickAgent.onPause(this);
 	}
 }

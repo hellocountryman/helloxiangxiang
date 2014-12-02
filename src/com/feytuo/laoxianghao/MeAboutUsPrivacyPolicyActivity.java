@@ -1,5 +1,7 @@
 package com.feytuo.laoxianghao;
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Html;
@@ -26,6 +28,22 @@ public class MeAboutUsPrivacyPolicyActivity extends Activity {
 
 	public void me_about_us_privacy_policy_ret(View v) {
 		finish();
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart("MeAboutUsPrivacyPolicyActivity"); // 友盟统计页面
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd("MeAboutUsPrivacyPolicyActivity");// 友盟保证 onPageEnd 在onPause
+													// 之前调用,因为 onPause 中会保存信息
+		MobclickAgent.onPause(this);
 	}
 
 }

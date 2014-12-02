@@ -10,6 +10,14 @@ public class FeedBack extends BmobObject{
 	private static final long serialVersionUID = 7904296773303495482L;
 	private String content;
 	private String version;
+	private LXHUser user;
+	
+	public LXHUser getUser() {
+		return user;
+	}
+	public void setUser(LXHUser user) {
+		this.user = user;
+	}
 	public String getContent() {
 		return content;
 	}
