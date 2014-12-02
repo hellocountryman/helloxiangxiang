@@ -61,7 +61,8 @@
     <string name="cilck_record">点击录音</string>
     <string name="maxmun">0/42</string>
     <string name="describedrecord">请用一段话描述语音</string>
-    <string name="my_fanyan">我的方言</string>
+    <string name="my_fanyan">我要说</string>
+    <string name="my_position">火星</string>
     <string name="zan">赞</string>
 <string name="hot_city">热门城市</string>
     <string name="inputkey">请输入关键字</string>

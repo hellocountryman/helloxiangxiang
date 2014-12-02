@@ -40,6 +40,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -66,6 +67,7 @@ public class ContactlistFragment extends Fragment {
 	private boolean hidden;
 	private Sidebar sidebar;
 	private InputMethodManager inputMethodManager;
+	private ImageView noFriendImageView;
 	
 	private boolean isInitialized = false;
 	private boolean isActivityCreated = false;
@@ -91,6 +93,7 @@ public class ContactlistFragment extends Fragment {
 		Log.i("ContactlistFragment", "-->initView");
 		isInitialized = true;
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		noFriendImageView = (ImageView)getView().findViewById(R.id.contact_list_no_friend_img);
 		listView = (ListView) getView().findViewById(R.id.list);
 		sidebar = (Sidebar) getView().findViewById(R.id.sidebar);
 		sidebar.setListView(listView);
@@ -136,8 +139,16 @@ public class ContactlistFragment extends Fragment {
 			}
 		});
 		registerForContextMenu(listView);
+		setNoFriendBackGround();
 	}
 
+	private void setNoFriendBackGround(){
+		if(adapter != null && adapter.getCount() == 0){
+			noFriendImageView.setVisibility(View.VISIBLE);
+		}else{
+			noFriendImageView.setVisibility(View.GONE);
+		}
+	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -165,6 +176,7 @@ public class ContactlistFragment extends Fragment {
 				public void run() {
 					adapter.remove(tobeDeleteUser);
 					adapter.notifyDataSetChanged();
+					setNoFriendBackGround();
 				}
 			});
 			return true;
@@ -266,6 +278,7 @@ public class ContactlistFragment extends Fragment {
 				public void run() {
 					getContactList();
 					adapter.notifyDataSetChanged();
+					setNoFriendBackGround();
 				}
 			});
 		} catch (Exception e) {

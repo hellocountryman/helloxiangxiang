@@ -370,16 +370,19 @@ public class UserLogin {
 				}
 
 				@Override
-				public void onError(int code, final String message) {
+				public void onError(final int code, final String message) {
 					if (!progressShow) {
 						return;
 					}
 					((Activity) context).runOnUiThread(new Runnable() {
 						public void run() {
-							pd.dismiss();
-							Toast.makeText(context, "登录失败: " + message,
-									Toast.LENGTH_SHORT).show();
-
+							Log.i("UserLogin", "登录失败: " + code +message);
+							if(code == -1005 && "用户名或密码错误".equals(message)){
+								registerHX(context, username, pwd, nickName);
+							}else{
+								pd.dismiss();
+								Toast.makeText(context, "登录失败",Toast.LENGTH_SHORT).show();
+							}
 						}
 					});
 				}

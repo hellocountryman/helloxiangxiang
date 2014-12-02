@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class ChatAllHistoryFragment extends Fragment {
 	private ChatAllHistoryAdapter adapter;
 //	private EditText query;
 //	private ImageButton clearSearch;
+	private ImageView noChatImageView;
 	public RelativeLayout errorItem;
 	public TextView errorText;
 	private boolean hidden;
@@ -80,9 +82,9 @@ public class ChatAllHistoryFragment extends Fragment {
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		// contact list
 //		contactList = App.getInstance().getContactList();
+		noChatImageView = (ImageView)getView().findViewById(R.id.conversation_no_chat_img);
 		listView = (ListView) getView().findViewById(R.id.list);
 		adapter = new ChatAllHistoryAdapter(getActivity(), 1, loadConversationsWithRecentChat());
-
 		groups = EMGroupManager.getInstance().getAllGroups();
 
 		// 设置adapter
@@ -162,6 +164,17 @@ public class ChatAllHistoryFragment extends Fragment {
 //
 //			}
 //		});
+		setNoChatBackGround();
+	}
+
+	//设置没有会话时的背景
+	private void setNoChatBackGround() {
+		// TODO Auto-generated method stub
+		if(adapter != null && adapter.getCount() == 0){
+			noChatImageView.setVisibility(View.VISIBLE);
+		}else{
+			noChatImageView.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -182,6 +195,7 @@ public class ChatAllHistoryFragment extends Fragment {
 			inviteMessgeDao.deleteMessage(tobeDeleteCons.getUserName());
 			adapter.remove(tobeDeleteCons);
 			adapter.notifyDataSetChanged();
+			setNoChatBackGround();
 
 			// 更新消息未读数
 			((MainActivity) getActivity()).updateUnreadLabel();
@@ -199,6 +213,7 @@ public class ChatAllHistoryFragment extends Fragment {
 		adapter = new ChatAllHistoryAdapter(getActivity(), R.layout.row_chat_history, loadConversationsWithRecentChat());
 		listView.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
+		setNoChatBackGround();
 	}
 
 	/**

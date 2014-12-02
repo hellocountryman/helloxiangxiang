@@ -77,6 +77,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="8.0dip"
                 android:layout_toRightOf="@+id/publish_title_img_id"
+                android:text="@string/my_position"
                 android:textColor="@color/text_num_color"
                 android:textSize="16.0sp" />
               <include layout="@layout/viewintimg" />

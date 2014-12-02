@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.listener.UpdateListener;
 
+import com.easemob.chat.EMChatManager;
+import com.easemob.util.EMLog;
 import com.feytuo.chat.widget.PasteEditText;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.LXHUser;
@@ -108,6 +110,12 @@ public class PersonUpdateInfoActivity extends Activity {
 				// TODO Auto-generated method stub
 				if("nick".equals(type)){//昵称
 					new LXHUserDao(PersonUpdateInfoActivity.this).updateUserNickName(userId, et);
+					//更新环信上的昵称
+					boolean updatenick = EMChatManager.getInstance()
+							.updateCurrentUserNick(et);
+					if (!updatenick) {
+						EMLog.e("PersonUpdateInfo", "update current user nick fail");
+					}
 				}else{//个性签名
 					new LXHUserDao(PersonUpdateInfoActivity.this).updateUserPersonSign(userId, et);
 				}
