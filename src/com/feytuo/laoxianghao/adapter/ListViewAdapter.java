@@ -245,9 +245,12 @@ public class ListViewAdapter extends BaseAdapter {
 			}else{
 				holder2 = (ViewHolder)convertView.getTag();
 			}
+			Log.i(TAG, "topiciNV:"+topicInv);
+			Log.i(TAG, "topicInv.getObjectId():"+topicInv.getObjectId());
 			if(TextUtils.isEmpty(topicInv.getObjectId())){
 				convertView.setVisibility(View.GONE);
 			}else{
+				convertView.setVisibility(View.VISIBLE);
 				Listener listener = new Listener(holder2, position,-1);
 				convertView.setClickable(true);
 				convertView.setOnClickListener(listener);
@@ -507,10 +510,16 @@ public class ListViewAdapter extends BaseAdapter {
 			case R.id.index_user_head:
 				// 跳转到查看别人的个人中心
 				String userid = list.get(listIndex).get("uid").toString();
-				Intent intentToPerson = new Intent();
-				intentToPerson.setClass(context, UserToPersonActivity.class);
-				intentToPerson.putExtra("userid", userid);
-				context.startActivity(intentToPerson);
+				if(!App.pre.getString(Global.USER_ID, "").equals(userid)){
+					if(NetUtil.isNetConnect(context)){
+						Intent intentToPerson = new Intent();
+						intentToPerson.setClass(context, UserToPersonActivity.class);
+						intentToPerson.putExtra("userid", userid);
+						context.startActivity(intentToPerson);
+					}else{
+						Toast.makeText(context, "网络不给力啊",Toast.LENGTH_SHORT).show();
+					}
+				}
 				break;
 			case R.id.index_topic_share_linerlayout:
 			case R.id.index_share_linerlayout:

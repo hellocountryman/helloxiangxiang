@@ -2,6 +2,7 @@ package com.feytuo.laoxianghao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -58,7 +59,7 @@ public class SelsectedCountry extends Activity {
 	private PinyinComparator pinyinComparator;
 
 	// 跳转路径
-	private int path;// 0为从欢迎界面，1为从筛选跳转，或2选择家乡
+	private int path;// 0为从欢迎界面，1为从筛选跳转，2选择家乡,3发布选择话系
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -190,16 +191,33 @@ public class SelsectedCountry extends Activity {
 
 	// 跳转
 	private void turnToMain(String city) {
+		setUmenData(city);
 		Intent intent = new Intent();
 		if (path == 0) {//选择家乡
 			intent.setClass(SelsectedCountry.this,
 					com.feytuo.chat.activity.MainActivity.class);
 			startActivity(intent);
-		} else{//修改家乡或者筛选
+		} else{//修改家乡、筛选、发布
 			intent.putExtra("data", city);
 			setResult(Global.RESULT_OK, intent);
 		}
 		finish();
+	}
+
+	//umeng统计数据
+	private void setUmenData(String city) {
+		// TODO Auto-generated method stub
+		if(path == 0){//选择家乡
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("city", city);
+			MobclickAgent.onEvent(this, "Home",map);
+		}else if(path == 1){//筛选
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("city", city);
+			MobclickAgent.onEvent(this, "CityChange",map);
+		}else{
+			
+		}
 	}
 
 	/**
@@ -216,6 +234,8 @@ public class SelsectedCountry extends Activity {
 			updateCurrentUserHome(home);
 		}else if(path == 1){
 			App.pre.edit().putInt(Global.CURRENT_NATIVE, cityId).commit();
+			turnToMain(home);
+		}else{//发布中选择话系
 			turnToMain(home);
 		}
 	}

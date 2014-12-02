@@ -13,7 +13,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -37,6 +36,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
+import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.dao.InvitationDao;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
 import com.feytuo.laoxianghao.domain.Invitation;
@@ -78,8 +78,9 @@ public class PublishActivity extends Activity {
 	private Timer mProgressTimer;
 	private int mRecordTime;
 	private int type;// 0为全部，2为方言段子，3为方言KTV，4为方言秀场
-	private RelativeLayout publishHomeRela;//选择城市
-	private static final int UPDATE_HOME = 6;
+	private RelativeLayout publishCityRela;//选择城市
+	private static final int CHOOSE_CITY = 0;
+	private String currentCity;
 	/**
 	 * 进度条
 	 */
@@ -112,6 +113,7 @@ public class PublishActivity extends Activity {
 	private void initHome() {
 		// TODO Auto-generated method stub
 		LXHUser user = new LXHUserDao(this).getCurrentUserInfo(App.pre.getString(Global.USER_ID, ""));
+		currentCity = user.getHome();
 		publishHomeText.setText(user.getHome()+"话");
 	}
 
@@ -166,7 +168,7 @@ public class PublishActivity extends Activity {
 		progress = (Button) findViewById(R.id.progressbar_id);
 		publishwordnumText = (TextView) findViewById(R.id.publish_wordnum_text);
 		publishText = (EditText) findViewById(R.id.publish_text);
-		publishHomeRela = (RelativeLayout)findViewById(R.id.publish_select_home_rela);
+		publishCityRela = (RelativeLayout)findViewById(R.id.publish_select_home_rela);
 		publishHomeText = (TextView)findViewById(R.id.publish_home_text);
 		// 还能够输入多少字
 		publishText.addTextChangedListener(new TextWatcher() {
@@ -196,7 +198,7 @@ public class PublishActivity extends Activity {
 		publishButton = (Button) findViewById(R.id.publish_button);
 		publishRerecordButton = (ImageView) findViewById(R.id.publish_rerecord_button);
 		publishPlayRecordImgbutton = (ImageView) findViewById(R.id.publish_play_record_imgbutton);
-		publishHomeRela.setOnClickListener(listenerlist);
+		publishCityRela.setOnClickListener(listenerlist);
 		progress.setOnClickListener(listenerlist);
 		publishButton.setOnClickListener(listenerlist);
 		publishRerecordButton.setOnClickListener(listenerlist);
@@ -240,9 +242,9 @@ public class PublishActivity extends Activity {
 			switch (v.getId()) {
 			case R.id.publish_select_home_rela:
 				Intent intentselsectcity = new Intent();
-				intentselsectcity.putExtra("isfromtocity", 1);// 判断是从那里进入的城市选择
+				intentselsectcity.putExtra("isfromtocity", 3);// 判断是从那里进入的城市选择
 				intentselsectcity.setClass(PublishActivity.this, SelsectedCountry.class);
-				startActivityForResult(intentselsectcity, UPDATE_HOME);
+				startActivityForResult(intentselsectcity, CHOOSE_CITY);
 				break;
 			case R.id.progressbar_id:// 开始录音-结束录音按钮
 				if (null != mediaRecorder) {
@@ -274,8 +276,9 @@ public class PublishActivity extends Activity {
 		if(resultCode == Global.RESULT_OK){
 			String resultData = data.getStringExtra("data").toString().trim();
 			switch(requestCode){
-			case UPDATE_HOME:
-				publishHomeText.setText(resultData);
+			case CHOOSE_CITY:
+				currentCity = resultData;
+				publishHomeText.setText(resultData+"话");
 				break;
 			}
 		}
@@ -350,10 +353,11 @@ public class PublishActivity extends Activity {
 		if (mUser == null || TextUtils.isEmpty(mUser.getObjectId())) {
 			return;
 		}
+		int cityId = new CityDao(this).getCityIdByName(currentCity);
 		// 保存到服务器
 		final Invitation inv = new Invitation();
 		inv.setuId(App.pre.getString(Global.USER_ID, ""));
-		inv.setHome(App.pre.getInt(Global.CURRENT_NATIVE, 1));
+		inv.setHome(cityId);
 		inv.setPosition(publishTitleLocation.getText().toString());
 		inv.setWords(publishText.getText().toString());
 		inv.setVoice(fileUrl);

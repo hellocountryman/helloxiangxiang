@@ -7,12 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.feytuo.laoxianghao.FindDetailsActivity;
 import com.feytuo.laoxianghao.R;
-import com.feytuo.laoxianghao.util.CommonUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class FindFragment extends Fragment {
 
@@ -20,10 +19,10 @@ public class FindFragment extends Fragment {
 	private RelativeLayout findDuanziRelac;
 	private RelativeLayout findktvRelac;
 	private RelativeLayout findtShowRelac;
-	private ImageButton indexTopicImg;//
-	private ImageButton indeDuanziImg;
-	private ImageButton indexKtvImg;//
-	private ImageButton indexShowImg;
+//	private ImageButton indexTopicImg;//
+//	private ImageButton indeDuanziImg;
+//	private ImageButton indexKtvImg;//
+//	private ImageButton indexShowImg;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,14 +39,14 @@ public class FindFragment extends Fragment {
 	}
 
 	public void initview() {
-		indexTopicImg = (ImageButton) getActivity().findViewById(
-				R.id.find_topic_img);
-		indeDuanziImg = (ImageButton) getActivity().findViewById(
-				R.id.find_duanzi_img);
-		indexKtvImg = (ImageButton) getActivity().findViewById(
-				R.id.find_ktv_img);
-		indexShowImg = (ImageButton) getActivity().findViewById(
-				R.id.find_show_img);
+//		indexTopicImg = (ImageButton) getActivity().findViewById(
+//				R.id.find_topic_img);
+//		indeDuanziImg = (ImageButton) getActivity().findViewById(
+//				R.id.find_duanzi_img);
+//		indexKtvImg = (ImageButton) getActivity().findViewById(
+//				R.id.find_ktv_img);
+//		indexShowImg = (ImageButton) getActivity().findViewById(
+//				R.id.find_show_img);
 
 		findTopicRelac = (RelativeLayout) getActivity().findViewById(
 				R.id.find_topic_linear);
@@ -94,4 +93,17 @@ public class FindFragment extends Fragment {
 		}
 	};
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart("FindFragment"); // 统计页面
+	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd("FindFragment");
+	}
 }

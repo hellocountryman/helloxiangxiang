@@ -209,13 +209,15 @@ public class CommentListViewAdapter extends BaseAdapter {
 		// 可以对控件进行操作
 		switch (type) {
 		case TYPE_1:
-			setcontent(holder1, inv);
-			setSubBtn(holder1, inv);
-			Listener listener = new Listener(holder1);
-			holder1.indexSupportLinerlayout.setOnClickListener(listener);
-			holder1.indexShareLinerlayout.setOnClickListener(listener);
-			// holder1.indexProgressbarBtn.setOnClickListener(listener);
-			holder1.indexProgressbarLayout.setOnClickListener(listener);
+			if(!TextUtils.isEmpty(inv.getObjectId())){
+				setcontent(holder1, inv);
+				setSubBtn(holder1, inv);
+				Listener listener = new Listener(holder1);
+				holder1.indexSupportLinerlayout.setOnClickListener(listener);
+				holder1.indexShareLinerlayout.setOnClickListener(listener);
+				// holder1.indexProgressbarBtn.setOnClickListener(listener);
+				holder1.indexProgressbarLayout.setOnClickListener(listener);
+			}
 			break;
 		case TYPE_2:
 			setAudioPlayBtn(holder2, position);

@@ -15,6 +15,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
 import com.feytuo.chat.activity.BlacklistActivity;
 import com.feytuo.chat.utils.PreferenceUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class SetActivity extends Activity implements OnClickListener {
 	/**
@@ -253,6 +254,23 @@ public class SetActivity extends Activity implements OnClickListener {
 	public void setRetImg(View v)
 	{
 		finish();
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart("SetActivity"); // 友盟统计页面
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd("SetActivity");// 友盟保证 onPageEnd 在onPause
+													// 之前调用,因为 onPause 中会保存信息
+		MobclickAgent.onPause(this);
 	}
 
 }

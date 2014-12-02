@@ -39,6 +39,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.CommentActivity;
+import com.feytuo.laoxianghao.FindDetailsActivity;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.dao.CityDao;
 import com.feytuo.laoxianghao.dao.LXHUserDao;
@@ -400,7 +401,11 @@ public class FindListViewAdapter extends SimpleAdapter {
 		Intent intentComment = new Intent();
 		intentComment.setClass(context, CommentActivity.class);
 		intentComment.putExtra("invId", invId);
-		intentComment.putExtra("enterFrom", 2);
+		if(context instanceof FindDetailsActivity){
+			intentComment.putExtra("enterFrom", 2);
+		}else{
+			intentComment.putExtra("enterFrom", 3);
+		}
 		context.startActivity(intentComment);
 	}
 

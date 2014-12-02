@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -105,6 +104,7 @@ import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.view.OnloadDialog;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 聊天页面
@@ -407,6 +407,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 		//添加好友按钮初始化
 		if(App.getInstance().getContactList().containsKey(toChatUsername)){
 			findViewById(R.id.chat_add_friend_btn).setVisibility(View.INVISIBLE);
+		}else{
+			findViewById(R.id.chat_add_friend_btn).setVisibility(View.VISIBLE);
 		}
 
 	}
@@ -1440,11 +1442,16 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 		adapter.refresh();
+		MobclickAgent.onPageStart("ChatActivity"); // 友盟统计页面
+		MobclickAgent.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		MobclickAgent.onPageEnd("ChatActivity");// 友盟保证 onPageEnd 在onPause
+		// 之前调用,因为 onPause 中会保存信息
+		MobclickAgent.onPause(this);
 		if (wakeLock.isHeld())
 			wakeLock.release();
 		if (VoicePlayClickListener.isPlaying && VoicePlayClickListener.currentPlayListener != null) {

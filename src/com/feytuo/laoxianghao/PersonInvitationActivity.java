@@ -7,7 +7,11 @@ import android.view.View;
 
 import com.feytuo.laoxianghao.fragment.Fragment1;
 import com.umeng.analytics.MobclickAgent;
-
+/**
+ * 个人中心的我的帖子
+ * @author feytuo
+ *
+ */
 public class PersonInvitationActivity extends ActionBarActivity {
 
 	@Override

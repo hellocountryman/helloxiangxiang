@@ -15,6 +15,7 @@ import com.feytuo.laoxianghao.util.DataCleanManager;
 import com.feytuo.laoxianghao.util.SDcardTools;
 import com.feytuo.laoxianghao.view.MyDialog;
 import com.feytuo.laoxianghao.view.OnloadDialog;
+import com.umeng.analytics.MobclickAgent;
 
 public class AboutUsActivity extends Activity {
 
@@ -82,5 +83,21 @@ public class AboutUsActivity extends Activity {
 		MyDialog dialog = new MyDialog(this, inv,
 				R.style.MyDialog);
 		dialog.show();
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onPageStart("AboutUsActivity"); // 友盟统计页面
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPageEnd("AboutUsActivity");// 友盟保证 onPageEnd 在onPause
+													// 之前调用,因为 onPause 中会保存信息
+		MobclickAgent.onPause(this);
 	}
 }
