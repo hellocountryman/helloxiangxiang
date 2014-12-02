@@ -57,18 +57,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50.0dip"
+            android:background="@drawable/common_selector"
             android:clickable="true"
-            android:onClick="setPosition"
-            android:background="@drawable/common_selector">
+            android:onClick="setPosition" >
 
             <ImageView
-                android:contentDescription="@string/app_name"
                 android:id="@+id/publish_title_img_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16.0dip"
-                android:background="@drawable/geographical" />
+                android:background="@drawable/geographical"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:id="@+id/publish_title_location"
@@ -80,7 +80,8 @@
                 android:text="@string/my_position"
                 android:textColor="@color/text_num_color"
                 android:textSize="16.0sp" />
-              <include layout="@layout/viewintimg" />
+
+            <include layout="@layout/viewintimg" />
         </RelativeLayout>
 
         <View
@@ -136,12 +137,12 @@
                 android:background="@drawable/corners_storke_weibo"
                 android:gravity="top"
                 android:hint="@string/describedrecord"
-                android:textColorHint="@color/newtime"
                 android:inputType="textMultiLine"
                 android:maxLength="42"
                 android:padding="16.0dip"
                 android:singleLine="false"
-                android:textSize="14.0sp" >
+                android:textColorHint="@color/newtime"
+                android:textSize="@dimen/find_text_size" >
 
                 <requestFocus />
             </EditText>
@@ -151,11 +152,12 @@
             android:id="@+id/publish_wordnum_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_marginTop="110.0dip"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="16.0dip"
             android:layout_marginRight="16dip"
-            android:text="@string/maxmun" />
+            android:layout_marginTop="110.0dip"
+            android:text="@string/maxmun"
+            android:textColor="@color/text_num_color" />
 
         <LinearLayout
             android:id="@+id/publish_recording_linear"
@@ -224,10 +226,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:contentDescription="@string/app_name"
                 android:layout_marginLeft="128dp"
                 android:layout_toRightOf="@id/progressbar_id"
                 android:background="@drawable/rerecord_selector"
+                android:contentDescription="@string/app_name"
                 android:visibility="invisible" />
 
             <TextView

@@ -88,11 +88,11 @@
                 android:layout_centerInParent="true"
                 android:background="@color/indexbg"
                 android:gravity="center"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                android:textColor="@android:color/white"
-                android:textSize="40sp"
-                android:visibility="invisible" />
+                android:text="W"
+                android:visibility="invisible"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+               />
 
             <ImageView 
                 android:id="@+id/contact_list_no_friend_img"
