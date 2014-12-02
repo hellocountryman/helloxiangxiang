@@ -32,7 +32,44 @@
     <string name="weibosdk_demo_toast_share_canceled">取消分享</string>
     <string name="weibosdk_demo_not_support_api_hint">微博客户端不支持 SDK 分享或微博客户端未安装或微博客户端是非官方版本。</string>
     <string name="weibosdk_demo_access_token_is_empty">Access Token 不存在，请先登录</string>
-
+    <string name="about_xiangxiang">关于乡乡</string>
+    <string name="clear_cache">清理缓存</string>
+    <string name="help_and_feeback">帮助与反馈</string>
+    <string name="privacy">使用条款与隐私政策</string>
+    <string name="to_friends">推荐给好友</string>
+    <string name="copyright">飞拓科技版权所有</string>
+    <string name="copyright2014">Copyright © feytuo 2014</string>
+    <string name="allright">All Right Reservrd</string>
+    <string name="add_friends">添加好友</string>
+    <string name="pleaseinputnick">请输入好友昵称</string>
+    <string name="blacklist">黑名单</string>
+    <string name="cilckstoprecord">点击结束录音</string>
+    <string name="stoprecord">松开结束录音</string>
+    <string name="press_record">按住录音</string>
+    <string name="find">发现</string>
+    <string name="hot_topic">热门话题</string>
+    <string name="duanzi">方言段子</string>
+    <string name="ktv">方言KTV</string>
+    <string name="show">方言秀场</string>
+    <string name="share">分享</string>
+    <string name="nick">昵称</string>
+    <string name="goodstudy">天天向上好好学习</string>
+    <string name="home">家乡</string>
+    <string name="my_tiezi">我的帖子</string>
+    <string name="visa">签名</string>
+    <string name="setting">设置</string>
+    <string name="cilck_record">点击录音</string>
+    <string name="maxmun">0/42</string>
+    <string name="describedrecord">请用一段话描述语音</string>
+    <string name="my_fanyan">我的方言</string>
+    <string name="zan">赞</string>
+<string name="hot_city">热门城市</string>
+    <string name="inputkey">请输入关键字</string>
+    <string name="beijing">北京</string>
+    <string name="guangzhou">广州</string>
+    <string name="mychangsha">长沙</string>
+    <string name="chengdu">成都</string>
+    <string name="allcity">全部城市</string>
     <!-- 环信 -->
     <string name="text_ack_msg">已读</string>
     <string name="text_delivered_msg">送达</string>
@@ -63,9 +100,7 @@
     <string name="forward">转发</string>
     <string name="button_logout">退出登录</string>
     <string name="button_uploadlog">上传运行日志</string>
- <!--    
- <string name="ok">确定</string> 
- -->
+    <!-- <string name="ok">确定</string> -->
     <string name="cancel">取消</string>
     <string name="prompt">提示</string>
     <string name="clear_records">清空记录</string>

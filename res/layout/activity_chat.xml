@@ -29,11 +29,11 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/common_tab_bg"
             android:onClick="addFriend"
-            android:text="加为好友"
             android:padding="5dp"
+            android:text="@string/add_friends"
+            android:textColor="@color/white"
             android:textSize="@dimen/city_text_size"
-            android:visibility="invisible"
-            android:textColor="@color/white" />
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:id="@+id/container_to_group"
@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
                 android:src="@drawable/to_group_details_normal" />
         </RelativeLayout>
@@ -151,6 +152,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical|right"
                     android:layout_margin="1dip"
+                    android:contentDescription="@string/app_name"
                     android:scaleType="fitCenter"
                     android:src="@drawable/chatting_biaoqing_btn_normal"
                     android:visibility="visible" />
@@ -163,6 +165,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical|right"
                     android:layout_margin="1dip"
+                    android:contentDescription="@string/app_name"
                     android:scaleType="fitCenter"
                     android:src="@drawable/chatting_biaoqing_btn_enable"
                     android:visibility="invisible" />
@@ -227,6 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="6dp"
+                    android:baselineAligned="false"
                     android:weightSum="4" >
 
                     <LinearLayout
@@ -247,6 +251,7 @@
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/chat_takepic_selector"
                                 android:clickable="true"
+                                android:contentDescription="@string/app_name"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
                         </RelativeLayout>
@@ -277,6 +282,7 @@
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/chat_image_selector"
                                 android:clickable="true"
+                                android:contentDescription="@string/app_name"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
                         </RelativeLayout>
@@ -304,6 +310,7 @@
                                 android:id="@+id/btn_location"
                                 android:layout_width="56dp"
                                 android:layout_height="56dp"
+                                 android:contentDescription="@string/app_name"
                                 android:layout_centerInParent="true"
                                 android:clickable="true"
                                 android:onClick="onClick"
@@ -336,6 +343,7 @@
                                 android:layout_height="56dp"
                                 android:layout_centerInParent="true"
                                 android:clickable="true"
+                                 android:contentDescription="@string/app_name"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter"
                                 android:src="@drawable/chat_video_selector" />
@@ -345,7 +353,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="视频"
+                            android:text="@string/video"
                             android:textColor="#727171" />
                     </LinearLayout>
                 </LinearLayout>
@@ -355,6 +363,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="6dp"
+                     android:baselineAligned="false"
                     android:weightSum="4" >
 
                     <LinearLayout
@@ -369,6 +378,8 @@
                             android:layout_height="64dp" >
 
                             <ImageView
+                                android:contentDescription="@string/app_name"
+                                
                                 android:id="@+id/btn_file"
                                 android:layout_width="56dp"
                                 android:layout_height="56dp"
@@ -406,6 +417,7 @@
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/chat_voice_call_selector"
                                 android:clickable="true"
+                                 android:contentDescription="@string/app_name"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
                         </RelativeLayout>
@@ -462,6 +474,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                 android:contentDescription="@string/app_name"
                 android:src="@drawable/record_animate_01" />
 
             <TextView
@@ -473,7 +486,7 @@
                 android:layout_marginTop="5dp"
                 android:padding="2dp"
                 android:text="@string/move_up_to_cancel"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
     </RelativeLayout>
 

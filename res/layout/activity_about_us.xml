@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="关于乡乡"
+            android:text="@string/about_xiangxiang"
             android:textColor="@color/white"
             android:textSize="@dimen/city_text_size" />
     </RelativeLayout>
@@ -38,14 +38,16 @@
             android:layout_height="68dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:background="@drawable/ic_launcher" />
+
+            android:background="@drawable/ic_launcher"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="乡乡"
+            android:text="@string/app_name"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -70,8 +72,8 @@
             android:layout_height="@dimen/title_hight"
             android:background="@drawable/common_selector"
             android:clickable="true"
-            android:onClick="cleanCache"
             android:gravity="center_vertical"
+            android:onClick="cleanCache"
             android:orientation="horizontal" >
 
             <TextView
@@ -80,7 +82,7 @@
                 android:layout_marginLeft="10.0dip"
                 android:layout_weight="1.0"
                 android:autoLink="all"
-                android:text="清理缓存"
+                android:text="@string/clear_cache"
                 android:textColor="@color/black"
                 android:textSize="16.0sp" />
 
@@ -88,6 +90,7 @@
                 android:layout_width="12.0dip"
                 android:layout_height="12.0dip"
                 android:layout_marginRight="10.0dip"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/into_icon" />
         </LinearLayout>
 
@@ -101,8 +104,8 @@
             android:layout_height="@dimen/title_hight"
             android:background="@drawable/common_selector"
             android:clickable="true"
-             android:onClick="shareToFriends"
             android:gravity="center_vertical"
+            android:onClick="shareToFriends"
             android:orientation="horizontal" >
 
             <TextView
@@ -111,11 +114,12 @@
                 android:layout_marginLeft="10.0dip"
                 android:layout_weight="1.0"
                 android:autoLink="all"
-                android:text="推荐给好友"
+                android:text="@string/to_friends"
                 android:textColor="@color/black"
                 android:textSize="16.0sp" />
 
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:layout_width="12.0dip"
                 android:layout_height="12.0dip"
                 android:layout_marginRight="10.0dip"
@@ -142,11 +146,12 @@
                 android:layout_marginLeft="10.0dip"
                 android:layout_weight="1.0"
                 android:autoLink="all"
-                android:text="帮助与反馈"
+                android:text="@string/help_and_feeback"
                 android:textColor="@color/black"
                 android:textSize="16.0sp" />
 
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:layout_width="12.0dip"
                 android:layout_height="12.0dip"
                 android:layout_marginRight="10.0dip"
@@ -175,7 +180,7 @@
             android:clickable="true"
             android:gravity="center_horizontal"
             android:onClick="our_privacy_olicy"
-            android:text="使用条款与隐私政策"
+            android:text="@string/privacy"
             android:textColor="@color/indexbg"
             android:textSize="12sp" />
 
@@ -184,7 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:gravity="center_horizontal"
-            android:text="飞拓科技版权所有"
+            android:text="@string/copyright"
             android:textColor="@color/indexbg"
             android:textSize="12sp" />
 
@@ -193,7 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:gravity="center_horizontal"
-            android:text="Copyright © feytuo 2014"
+            android:text="@string/copyright2014"
             android:textColor="@color/indexbg"
             android:textSize="12sp" />
 
@@ -202,7 +207,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:gravity="center_horizontal"
-            android:text="All Right Reservrd"
+            android:text="@string/allright"
             android:textColor="@color/indexbg"
             android:textSize="12sp" />
     </LinearLayout>

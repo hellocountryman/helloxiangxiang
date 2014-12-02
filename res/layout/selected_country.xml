@@ -36,7 +36,7 @@
         android:layout_margin="8.0dip"
         android:background="@drawable/corners_storke_indexbg"
         android:drawableLeft="@drawable/search_bar_icon_normal"
-        android:hint="请输入关键字"
+        android:hint="@string/inputkey"
         android:paddingLeft="8.0dip"
         android:singleLine="true"
         android:textSize="15.0dip" />

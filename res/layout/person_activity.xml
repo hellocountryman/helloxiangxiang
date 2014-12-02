@@ -19,6 +19,7 @@
             android:clickable="true" >
 
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/person_head_img"
                 android:layout_width="68dp"
                 android:layout_height="68dip"
@@ -32,7 +33,6 @@
                 android:layout_below="@+id/person_head_img"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16.0dip"
-                android:text="唐小鹏同学"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
-                    android:text="昵称"
+                    android:text="@string/nick"
                     android:textColor="@color/black"
                     android:textSize="@dimen/find_text_size" />
 
@@ -71,7 +71,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
                     android:layout_marginRight="40.0dip"
-                    android:text="唐小鹏同学"
                     android:textColor="@color/head_color"
                     android:textSize="14sp" />
 
@@ -95,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
-                    android:text="签名"
+                    android:text="@string/visa"
                     android:textColor="@color/black"
                     android:textSize="@dimen/find_text_size" />
 
@@ -107,7 +106,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="60.0dip"
                     android:layout_marginRight="40.0dip"
-                    android:text="天天向上好好学习天天向上好好学习天天向上"
+                    android:text="@string/goodstudy"
                     android:textColor="@color/head_color"
                     android:textSize="14sp" />
 
@@ -131,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
-                    android:text="家乡"
+                    android:text="@string/home"
                     android:textColor="@color/black"
                     android:textSize="@dimen/find_text_size" />
 
@@ -143,7 +142,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
                     android:layout_marginRight="40.0dip"
-                    android:text="永州"
                     android:textColor="@color/head_color"
                     android:textSize="14sp" />
 
@@ -176,6 +174,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="40dp"
+                    android:contentDescription="@string/app_name"
                     android:background="@drawable/redpoint"
                     android:visibility="gone" />
 
@@ -184,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
-                    android:text="我的帖子"
+                    android:text="@string/my_tiezi"
                     android:textColor="@color/black"
                     android:textSize="@dimen/find_text_size" />
             </RelativeLayout>
@@ -213,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
-                    android:text="设置"
+                    android:text="@string/setting"
                     android:textColor="@color/black"
                     android:textSize="@dimen/find_text_size" />
             </RelativeLayout>
@@ -242,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16.0dip"
-                    android:text="关于乡乡"
+                    android:text="@string/about_xiangxiang"
                     android:textColor="@color/black"
                     android:textSize="@dimen/find_text_size" />
             </RelativeLayout>
