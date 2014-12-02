@@ -15,7 +15,7 @@
         android:paddingBottom="5dip"
         android:paddingLeft="5dip"
         android:paddingTop="5dip"
-        android:text="A"
+        
         android:textColor="@color/indexbg"
         android:textSize="@dimen/city_list_size" />
 
@@ -38,7 +38,6 @@
             android:gravity="center_vertical"
             android:paddingBottom="10dip"
             android:paddingTop="10dip"
-            android:text="hhhh"
             android:textColor="@color/black"
             android:textSize="@dimen/city_list_size" />
     </LinearLayout>

@@ -39,7 +39,6 @@
             android:layout_marginLeft="8.0dip"
             android:layout_marginTop="4.0dip"
             android:layout_toRightOf="@+id/index_user_head"
-            android:text="2014-10-24 00:00"
             android:textColor="@color/newtime"
             android:textSize="@dimen/text_time_size" />
 
@@ -51,7 +50,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="16.0dip"
             android:layout_marginTop="8.0dip"
-            android:text="中山话"
             android:textColor="@color/grey"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -59,6 +57,7 @@
     <ImageView
         android:id="@+id/index_progressbar_top_img"
         android:layout_width="match_parent"
+        android:contentDescription="@string/app_name"
         android:layout_height="6.0dip"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right" 
@@ -79,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+             android:contentDescription="@string/app_name"
             android:layout_marginLeft="16.0dip"
             android:clickable="false"
             android:background="@drawable/musicplayone" />
@@ -90,7 +90,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16.0dip"
-            android:text="32s"
             android:textColor="@color/indexbg"
             android:textSize="12.0sp" />
     </RelativeLayout>
@@ -103,7 +102,6 @@
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
         android:layout_marginTop="4.0dip"
-        android:text="今天的天气还不错哦"
         android:textColor="@color/black"
         android:textSize="16.0sp" />
 
@@ -111,6 +109,7 @@
         android:id="@+id/index_bottom_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="36dip"
+        android:baselineAligned="false"
         android:background="@drawable/common_selector"
         android:orientation="horizontal" >
 
@@ -126,6 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16.0dip"
+                 android:contentDescription="@string/app_name"
                 android:background="@drawable/geographical" />
 
             <TextView
@@ -133,7 +133,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8.0dip"
-                android:text="湖南长沙"
                 android:textColor="@color/newtime"
                 android:textSize="12.0sp" />
         </LinearLayout>
@@ -150,6 +149,7 @@
                 android:id="@+id/support_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                 android:contentDescription="@string/app_name"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/support_no"
                 android:clickable="false" />
@@ -161,7 +161,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dip"
                 android:clickable="false"
-                android:text="赞"
+                android:text="@string/zan"
                 android:textColor="@color/newtime"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -178,6 +178,7 @@
                 android:id="@+id/comment_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/comment_selector"
                 android:clickable="false" />
@@ -189,7 +190,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dip"
                 android:clickable="false"
-                android:text="评论"
+                android:text="@string/comment"
                 android:textColor="@color/newtime"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -203,6 +204,7 @@
             android:gravity="center" >
 
             <ImageButton
+                android:contentDescription="@string/app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -215,17 +217,17 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dip"
                 android:clickable="false"
-                android:text="分享"
+                android:text="@string/share"
                 android:textColor="@color/newtime"
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <View
             android:layout_width="16.0dip"
             android:layout_height="36dip"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
-        </LinearLayout>
+        </View>
     </LinearLayout>
 
     <include layout="@layout/viewone3dhight" />

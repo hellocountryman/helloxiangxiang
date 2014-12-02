@@ -151,7 +151,7 @@ public class PublishActivity extends Activity {
 		} else if (type == 4) {
 			publishTypeText.setText("发布到方言秀场");
 		} else {
-			publishTypeText.setText("发布");
+			publishTypeText.setText("发布到首页");
 		}
 		
 	}

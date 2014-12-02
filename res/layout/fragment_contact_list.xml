@@ -83,10 +83,10 @@
 
             <TextView
                 android:id="@+id/floating_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48.0dip"
+                android:layout_height="48.0dip"
                 android:layout_centerInParent="true"
-                android:background="@drawable/show_head_toast_bg"
+                android:background="@color/indexbg"
                 android:gravity="center"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"

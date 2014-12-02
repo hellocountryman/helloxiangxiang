@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16.0dip"
-                android:text="松开结束录音"
+                android:text="@string/stoprecord"
                 android:textColor="@color/common_bg" />
         </LinearLayout>
     </RelativeLayout>
@@ -144,6 +144,7 @@
                 android:visibility="gone" />
 
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/comment_rerecord_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="16.0dip"
-            android:text="按住录音"
+            android:text="@string/press_record"
             android:textColor="@color/comment_hint" />
     </LinearLayout>
 

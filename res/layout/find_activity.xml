@@ -27,7 +27,7 @@
             android:layout_marginLeft="@dimen/margin_8dip"
             android:layout_toRightOf="@+id/index_ico_img"
             android:gravity="center_vertical"
-            android:text="发现"
+            android:text="@string/find"
             android:textColor="@color/white"
             android:textSize="@dimen/city_text_size" />
     </RelativeLayout>
@@ -45,6 +45,7 @@
             android:layout_height="@dimen/find_picture"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16.0dip"
+            android:contentDescription="@string/app_name"
             android:background="@drawable/findtopic"
             android:clickable="false" />
 
@@ -53,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="56.0dip"
-            android:text="热门话题"
+            android:text="@string/hot_topic"
             android:textColor="@color/head_color"
             android:textSize="@dimen/find_text_size" />
     </RelativeLayout>
@@ -80,6 +81,7 @@
             android:layout_width="@dimen/find_picture"
             android:layout_height="@dimen/find_picture"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
             android:layout_marginLeft="16.0dip"
             android:background="@drawable/findduanzi"
             android:clickable="false" />
@@ -89,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="56.0dip"
-            android:text="方言段子"
+            android:text="@string/duanzi"
             android:textSize="@dimen/find_text_size"
             android:textColor="@color/head_color" />
     </RelativeLayout>
@@ -107,6 +109,7 @@
         android:clickable="true" >
 
         <ImageButton
+            android:contentDescription="@string/app_name"
             android:id="@+id/find_ktv_img"
             android:layout_width="@dimen/find_picture"
             android:layout_height="@dimen/find_picture"
@@ -121,7 +124,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="56.0dip"
             android:textSize="@dimen/find_text_size"
-            android:text="方言KTV"
+            android:text="@string/ktv"
             android:textColor="@color/head_color" />
     </RelativeLayout>
 
@@ -142,6 +145,7 @@
             android:layout_width="@dimen/find_picture"
             android:layout_height="@dimen/find_picture"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
             android:layout_marginLeft="16.0dip"
             android:background="@drawable/findshow"
             android:clickable="false" />
@@ -152,7 +156,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="56.0dip"
             android:textSize="@dimen/find_text_size"
-            android:text="方言秀场"
+            android:text="@string/show"
             android:textColor="@color/head_color" />
     </RelativeLayout>
 

@@ -36,7 +36,7 @@
         android:layout_margin="8.0dip"
         android:background="@drawable/corners_storke_indexbg"
         android:drawableLeft="@drawable/search_bar_icon_normal"
-        android:hint="请输入关键字"
+        android:hint="@string/inputkey"
         android:paddingLeft="8.0dip"
         android:singleLine="true"
         android:textSize="15.0dip" />
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4.0dip"
             android:layout_marginLeft="8.0dip"
-            android:text="热门城市" />
+            android:text="@string/hot_city" />
 
         <View
             android:layout_width="fill_parent"
@@ -73,7 +73,7 @@
                 android:layout_margin="8.0dip"
                 android:layout_weight="1"
                 android:background="@drawable/corners_storke_indexbg"
-                android:text="北京"
+                android:text="@string/beijing"
                 android:textColor="@color/black"
                 android:textSize="12.0sp" />
 
@@ -85,7 +85,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/corners_storke_indexbg"
                 android:onClick="indexSelectCity"
-                android:text="长沙"
+                android:text="@string/mychangsha"
                 android:textColor="@color/black"
                 android:textSize="12.0sp" />
 
@@ -97,7 +97,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/corners_storke_indexbg"
                 android:onClick="indexSelectCity"
-                android:text="广州"
+                android:text="@string/guangzhou"
                 android:textColor="@color/black"
                 android:textSize="12.0sp" />
 
@@ -109,7 +109,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/corners_storke_indexbg"
                 android:onClick="indexSelectCity"
-                android:text="成都"
+                android:text="@string/chengdu"
                 android:textColor="@color/black"
                 android:textSize="12.0sp" />
         </LinearLayout>
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4.0dip"
         android:layout_marginLeft="8.0dip"
-        android:text="全部城市" />
+        android:text="@string/allcity" />
 
     <View
         android:layout_width="fill_parent"
