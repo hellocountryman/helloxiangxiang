@@ -20,6 +20,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
@@ -41,6 +42,7 @@ public class MainFragment extends Fragment {
 	private final String TAG = "MainFragment";
 	private ListViewAdapter adapter;
 	private ZrcListView indexListView;
+	private ImageView noInvitationImageView;
 	private Handler handler;
 	private Button indexSelectCity;// 选择城市
 	private List<Map<String, Object>> listItems;
@@ -98,15 +100,24 @@ public class MainFragment extends Fragment {
 			listItems.add(map);
 		}
 		adapter.notifyDataSetChanged();
+		setNoInvitationBackGround();
 	}
 
 	public void initview() {
+		noInvitationImageView = (ImageView)getView().findViewById(R.id.main_no_invitation_img);
 		indexSelectCity = (Button) getActivity().findViewById(
 				R.id.index_select_city);
 		indexSelectCity.setOnClickListener(new listener());
 		indexListView = (ZrcListView) getActivity().findViewById(
 				R.id.index_listview);
 
+	}
+	private void setNoInvitationBackGround(){
+		if(adapter != null && adapter.getCount() == 0){
+			noInvitationImageView.setVisibility(View.VISIBLE);
+		}else{
+			noInvitationImageView.setVisibility(View.GONE);
+		}
 	}
 
 	 class listener implements OnClickListener {
@@ -189,6 +200,7 @@ public class MainFragment extends Fragment {
 		adapter = new ListViewAdapter(getActivity(), listItems, topicInvitation);
 		indexListView.setLayoutAnimation(getListAnim());
 		indexListView.setAdapter(adapter);
+		setNoInvitationBackGround();
 	}
 
 	/**
@@ -266,6 +278,7 @@ public class MainFragment extends Fragment {
 					topicInvitation.setShareNum(arg0.get(0).getShareNum());
 					topicInvitation.setHeadId(arg0.get(0).getHeadId());
 					adapter.notifyDataSetChanged();
+					setNoInvitationBackGround();
 				}
 			}
 
@@ -317,6 +330,7 @@ public class MainFragment extends Fragment {
 					listItems.add(map);
 				}
 				adapter.notifyDataSetChanged();
+				setNoInvitationBackGround();
 				// 存入本地数据库
 				InvitationDao inv = new InvitationDao(getActivity());
 				if (actionType == STATE_REFRESH) {

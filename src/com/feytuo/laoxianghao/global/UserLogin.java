@@ -46,7 +46,7 @@ import com.feytuo.laoxianghao.view.OnloadDialog;
 
 public class UserLogin {
 
-	public static LXHUser gUser = null;
+	private static LXHUser gUser = null;
 	private OnloadDialog pd;
 	private boolean progressShow;
 	private LXHUserDao userDao;
@@ -182,7 +182,7 @@ public class UserLogin {
 		lxhUser.setNickName(nickName);
 		lxhUser.setHeadUrl(headUrl);
 		lxhUser.setHome("");
-		lxhUser.setPersonSign("");
+		lxhUser.setPersonSign("好好学习,天天乡乡");
 		lxhUser.update(context, user.getObjectId(), new UpdateListener() {
 
 			@Override
@@ -230,7 +230,7 @@ public class UserLogin {
 		user.setHeadUrl(headUrl);
 		user.setNickName(nickName);
 		user.setHome("");
-		user.setPersonSign("");
+		user.setPersonSign("好好学习,天天乡乡");
 		user.save(context, new SaveListener() {
 
 			@Override
