@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.feytuo.laoxianghao.R;
@@ -79,6 +80,7 @@ public class AuthListener implements WeiboAuthListener{
      public void onWeiboException(WeiboException e) {
 //         Toast.makeText(context, 
 //                 "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
+    	 Log.i("AuthListener", "报错了："+e.getMessage());
      }
      
      public void getUserInfo() {

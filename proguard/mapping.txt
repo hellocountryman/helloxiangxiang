@@ -16171,18 +16171,20 @@ com.feytuo.chat.activity.ChatAllHistoryFragment -> com.feytuo.chat.activity.Chat
     android.view.inputmethod.InputMethodManager inputMethodManager -> c
     android.widget.ListView listView -> d
     com.feytuo.chat.adapter.ChatAllHistoryAdapter adapter -> e
+    android.widget.ImageView noChatImageView -> f
     android.widget.RelativeLayout errorItem -> a
     android.widget.TextView errorText -> b
-    boolean hidden -> f
-    java.util.List groups -> g
-    boolean isInitialized -> h
+    boolean hidden -> g
+    java.util.List groups -> h
+    boolean isInitialized -> i
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void initView() -> c
+    void setNoChatBackGround() -> d
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void refresh() -> a
-    java.util.List loadConversationsWithRecentChat() -> d
+    java.util.List loadConversationsWithRecentChat() -> e
     void sortConversationByLastChatTime(java.util.List) -> a
     void onHiddenChanged(boolean) -> onHiddenChanged
     void onResume() -> onResume
@@ -16310,11 +16312,13 @@ com.feytuo.chat.activity.ContactlistFragment -> com.feytuo.chat.activity.Contact
     boolean hidden -> e
     com.feytuo.chat.widget.Sidebar sidebar -> f
     android.view.inputmethod.InputMethodManager inputMethodManager -> g
-    boolean isInitialized -> h
-    boolean isActivityCreated -> i
+    android.widget.ImageView noFriendImageView -> h
+    boolean isInitialized -> i
+    boolean isActivityCreated -> j
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void initView() -> a
+    void setNoFriendBackGround() -> c
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void onHiddenChanged(boolean) -> onHiddenChanged
@@ -16322,10 +16326,11 @@ com.feytuo.chat.activity.ContactlistFragment -> com.feytuo.chat.activity.Contact
     void deleteContact(com.feytuo.chat.domain.User) -> a
     void moveToBlacklist(java.lang.String) -> a
     void refresh() -> b
-    void getContactList() -> c
+    void getContactList() -> d
     com.feytuo.chat.adapter.ContactAdapter access$0(com.feytuo.chat.activity.ContactlistFragment) -> a
     android.view.inputmethod.InputMethodManager access$1(com.feytuo.chat.activity.ContactlistFragment) -> b
     void access$2(com.feytuo.chat.activity.ContactlistFragment) -> c
+    void access$3(com.feytuo.chat.activity.ContactlistFragment) -> d
 com.feytuo.chat.activity.ContactlistFragment$1 -> com.feytuo.chat.activity.ap:
     com.feytuo.chat.activity.ContactlistFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
@@ -16335,38 +16340,31 @@ com.feytuo.chat.activity.ContactlistFragment$2 -> com.feytuo.chat.activity.aq:
 com.feytuo.chat.activity.ContactlistFragment$3 -> com.feytuo.chat.activity.ar:
     com.feytuo.chat.activity.ContactlistFragment this$0 -> a
     com.feytuo.chat.domain.User val$tobeDeleteUser -> b
+    void run() -> run
+com.feytuo.chat.activity.ContactlistFragment$4 -> com.feytuo.chat.activity.as:
+    com.feytuo.chat.activity.ContactlistFragment this$0 -> a
+    com.feytuo.chat.domain.User val$tobeDeleteUser -> b
     android.app.ProgressDialog val$pd -> c
     void run() -> run
-    com.feytuo.chat.activity.ContactlistFragment access$0(com.feytuo.chat.activity.ContactlistFragment$3) -> a
-com.feytuo.chat.activity.ContactlistFragment$3$1 -> com.feytuo.chat.activity.as:
-    com.feytuo.chat.activity.ContactlistFragment$3 this$1 -> a
-    android.app.ProgressDialog val$pd -> b
-    com.feytuo.chat.domain.User val$tobeDeleteUser -> c
-    void run() -> run
-com.feytuo.chat.activity.ContactlistFragment$3$2 -> com.feytuo.chat.activity.at:
-    com.feytuo.chat.activity.ContactlistFragment$3 this$1 -> a
-    android.app.ProgressDialog val$pd -> b
-    java.lang.Exception val$e -> c
-    void run() -> run
-com.feytuo.chat.activity.ContactlistFragment$4 -> com.feytuo.chat.activity.au:
+com.feytuo.chat.activity.ContactlistFragment$5 -> com.feytuo.chat.activity.at:
     com.feytuo.chat.activity.ContactlistFragment this$0 -> a
     java.lang.String val$username -> b
     android.app.ProgressDialog val$pd -> c
     void run() -> run
-    com.feytuo.chat.activity.ContactlistFragment access$0(com.feytuo.chat.activity.ContactlistFragment$4) -> a
-com.feytuo.chat.activity.ContactlistFragment$4$1 -> com.feytuo.chat.activity.av:
-    com.feytuo.chat.activity.ContactlistFragment$4 this$1 -> a
+    com.feytuo.chat.activity.ContactlistFragment access$0(com.feytuo.chat.activity.ContactlistFragment$5) -> a
+com.feytuo.chat.activity.ContactlistFragment$5$1 -> com.feytuo.chat.activity.au:
+    com.feytuo.chat.activity.ContactlistFragment$5 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     void run() -> run
-com.feytuo.chat.activity.ContactlistFragment$4$2 -> com.feytuo.chat.activity.aw:
-    com.feytuo.chat.activity.ContactlistFragment$4 this$1 -> a
+com.feytuo.chat.activity.ContactlistFragment$5$2 -> com.feytuo.chat.activity.av:
+    com.feytuo.chat.activity.ContactlistFragment$5 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     com.easemob.exceptions.EaseMobException val$e -> c
     void run() -> run
-com.feytuo.chat.activity.ContactlistFragment$5 -> com.feytuo.chat.activity.ax:
+com.feytuo.chat.activity.ContactlistFragment$6 -> com.feytuo.chat.activity.aw:
     com.feytuo.chat.activity.ContactlistFragment this$0 -> a
     void run() -> run
-com.feytuo.chat.activity.ContactlistFragment$6 -> com.feytuo.chat.activity.ay:
+com.feytuo.chat.activity.ContactlistFragment$7 -> com.feytuo.chat.activity.ax:
     com.feytuo.chat.activity.ContactlistFragment this$0 -> a
     int compare(com.feytuo.chat.domain.User,com.feytuo.chat.domain.User) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
@@ -16390,16 +16388,16 @@ com.feytuo.chat.activity.DiagnoseActivity -> com.feytuo.chat.activity.DiagnoseAc
     void onClick(android.view.View) -> onClick
     void uploadlog() -> a
     android.app.ProgressDialog access$0(com.feytuo.chat.activity.DiagnoseActivity) -> a
-com.feytuo.chat.activity.DiagnoseActivity$1 -> com.feytuo.chat.activity.az:
+com.feytuo.chat.activity.DiagnoseActivity$1 -> com.feytuo.chat.activity.ay:
     com.feytuo.chat.activity.DiagnoseActivity this$0 -> a
     void onSuccess() -> onSuccess
     void onProgress(int,java.lang.String) -> onProgress
     void onError(int,java.lang.String) -> onError
     com.feytuo.chat.activity.DiagnoseActivity access$0(com.feytuo.chat.activity.DiagnoseActivity$1) -> a
-com.feytuo.chat.activity.DiagnoseActivity$1$1 -> com.feytuo.chat.activity.ba:
+com.feytuo.chat.activity.DiagnoseActivity$1$1 -> com.feytuo.chat.activity.az:
     com.feytuo.chat.activity.DiagnoseActivity$1 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.DiagnoseActivity$1$2 -> com.feytuo.chat.activity.bb:
+com.feytuo.chat.activity.DiagnoseActivity$1$2 -> com.feytuo.chat.activity.ba:
     com.feytuo.chat.activity.DiagnoseActivity$1 this$1 -> a
     void run() -> run
 com.feytuo.chat.activity.ExitGroupDialog -> com.feytuo.chat.activity.ExitGroupDialog:
@@ -16455,57 +16453,57 @@ com.feytuo.chat.activity.GroupDetailsActivity -> com.feytuo.chat.activity.GroupD
     android.widget.Button access$8(com.feytuo.chat.activity.GroupDetailsActivity) -> i
     android.widget.ImageView access$9(com.feytuo.chat.activity.GroupDetailsActivity) -> j
     android.widget.ImageView access$10(com.feytuo.chat.activity.GroupDetailsActivity) -> k
-com.feytuo.chat.activity.GroupDetailsActivity$1 -> com.feytuo.chat.activity.bc:
+com.feytuo.chat.activity.GroupDetailsActivity$1 -> com.feytuo.chat.activity.bb:
     com.feytuo.chat.activity.GroupDetailsActivity this$0 -> a
     boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-com.feytuo.chat.activity.GroupDetailsActivity$2 -> com.feytuo.chat.activity.bd:
+com.feytuo.chat.activity.GroupDetailsActivity$2 -> com.feytuo.chat.activity.bc:
     com.feytuo.chat.activity.GroupDetailsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.feytuo.chat.activity.GroupDetailsActivity$3 -> com.feytuo.chat.activity.be:
+com.feytuo.chat.activity.GroupDetailsActivity$3 -> com.feytuo.chat.activity.bd:
     com.feytuo.chat.activity.GroupDetailsActivity this$0 -> a
     void run() -> run
     com.feytuo.chat.activity.GroupDetailsActivity access$0(com.feytuo.chat.activity.GroupDetailsActivity$3) -> a
-com.feytuo.chat.activity.GroupDetailsActivity$3$1 -> com.feytuo.chat.activity.bf:
+com.feytuo.chat.activity.GroupDetailsActivity$3$1 -> com.feytuo.chat.activity.be:
     com.feytuo.chat.activity.GroupDetailsActivity$3 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$3$2 -> com.feytuo.chat.activity.bg:
+com.feytuo.chat.activity.GroupDetailsActivity$3$2 -> com.feytuo.chat.activity.bf:
     com.feytuo.chat.activity.GroupDetailsActivity$3 this$1 -> a
     java.lang.Exception val$e -> b
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$4 -> com.feytuo.chat.activity.bh:
+com.feytuo.chat.activity.GroupDetailsActivity$4 -> com.feytuo.chat.activity.bg:
     com.feytuo.chat.activity.GroupDetailsActivity this$0 -> a
     void run() -> run
     com.feytuo.chat.activity.GroupDetailsActivity access$0(com.feytuo.chat.activity.GroupDetailsActivity$4) -> a
-com.feytuo.chat.activity.GroupDetailsActivity$4$1 -> com.feytuo.chat.activity.bi:
+com.feytuo.chat.activity.GroupDetailsActivity$4$1 -> com.feytuo.chat.activity.bh:
     com.feytuo.chat.activity.GroupDetailsActivity$4 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$4$2 -> com.feytuo.chat.activity.bj:
+com.feytuo.chat.activity.GroupDetailsActivity$4$2 -> com.feytuo.chat.activity.bi:
     com.feytuo.chat.activity.GroupDetailsActivity$4 this$1 -> a
     java.lang.Exception val$e -> b
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$5 -> com.feytuo.chat.activity.bk:
+com.feytuo.chat.activity.GroupDetailsActivity$5 -> com.feytuo.chat.activity.bj:
     com.feytuo.chat.activity.GroupDetailsActivity this$0 -> a
     java.lang.String[] val$newmembers -> b
     void run() -> run
     com.feytuo.chat.activity.GroupDetailsActivity access$0(com.feytuo.chat.activity.GroupDetailsActivity$5) -> a
-com.feytuo.chat.activity.GroupDetailsActivity$5$1 -> com.feytuo.chat.activity.bl:
+com.feytuo.chat.activity.GroupDetailsActivity$5$1 -> com.feytuo.chat.activity.bk:
     com.feytuo.chat.activity.GroupDetailsActivity$5 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$5$2 -> com.feytuo.chat.activity.bm:
+com.feytuo.chat.activity.GroupDetailsActivity$5$2 -> com.feytuo.chat.activity.bl:
     com.feytuo.chat.activity.GroupDetailsActivity$5 this$1 -> a
     java.lang.Exception val$e -> b
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$6 -> com.feytuo.chat.activity.bn:
+com.feytuo.chat.activity.GroupDetailsActivity$6 -> com.feytuo.chat.activity.bm:
     com.feytuo.chat.activity.GroupDetailsActivity this$0 -> a
     void run() -> run
     com.feytuo.chat.activity.GroupDetailsActivity access$0(com.feytuo.chat.activity.GroupDetailsActivity$6) -> a
-com.feytuo.chat.activity.GroupDetailsActivity$6$1 -> com.feytuo.chat.activity.bo:
+com.feytuo.chat.activity.GroupDetailsActivity$6$1 -> com.feytuo.chat.activity.bn:
     com.feytuo.chat.activity.GroupDetailsActivity$6 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$6$2 -> com.feytuo.chat.activity.bp:
+com.feytuo.chat.activity.GroupDetailsActivity$6$2 -> com.feytuo.chat.activity.bo:
     com.feytuo.chat.activity.GroupDetailsActivity$6 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter -> com.feytuo.chat.activity.bq:
+com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter -> com.feytuo.chat.activity.bp:
     int res -> c
     boolean isInDeleteMode -> a
     java.util.List objects -> d
@@ -16513,29 +16511,29 @@ com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter -> com.feytuo.chat.act
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     int getCount() -> getCount
     com.feytuo.chat.activity.GroupDetailsActivity access$0(com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter) -> a
-com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$1 -> com.feytuo.chat.activity.br:
+com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$1 -> com.feytuo.chat.activity.bq:
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter this$1 -> a
     void onClick(android.view.View) -> onClick
-com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$2 -> com.feytuo.chat.activity.bs:
+com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$2 -> com.feytuo.chat.activity.br:
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter this$1 -> a
     void onClick(android.view.View) -> onClick
-com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3 -> com.feytuo.chat.activity.bt:
+com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3 -> com.feytuo.chat.activity.bs:
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter this$1 -> a
     java.lang.String val$username -> b
     void onClick(android.view.View) -> onClick
     void deleteMembersFromGroup(java.lang.String) -> a
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter access$0(com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3) -> a
-com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1 -> com.feytuo.chat.activity.bu:
+com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1 -> com.feytuo.chat.activity.bt:
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3 this$2 -> a
     java.lang.String val$username -> b
     android.app.ProgressDialog val$deleteDialog -> c
     void run() -> run
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3 access$0(com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1) -> a
-com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1$1 -> com.feytuo.chat.activity.bv:
+com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1$1 -> com.feytuo.chat.activity.bu:
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1 this$3 -> a
     android.app.ProgressDialog val$deleteDialog -> b
     void run() -> run
-com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1$2 -> com.feytuo.chat.activity.bw:
+com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1$2 -> com.feytuo.chat.activity.bv:
     com.feytuo.chat.activity.GroupDetailsActivity$GridAdapter$3$1 this$3 -> a
     java.lang.Exception val$e -> b
     void run() -> run
@@ -16552,20 +16550,20 @@ com.feytuo.chat.activity.GroupPickContactsActivity -> com.feytuo.chat.activity.G
     java.util.List access$0(com.feytuo.chat.activity.GroupPickContactsActivity) -> a
     boolean access$1(com.feytuo.chat.activity.GroupPickContactsActivity) -> b
     com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter access$2(com.feytuo.chat.activity.GroupPickContactsActivity) -> c
-com.feytuo.chat.activity.GroupPickContactsActivity$1 -> com.feytuo.chat.activity.bx:
+com.feytuo.chat.activity.GroupPickContactsActivity$1 -> com.feytuo.chat.activity.bw:
     com.feytuo.chat.activity.GroupPickContactsActivity this$0 -> a
     int compare(com.feytuo.chat.domain.User,com.feytuo.chat.domain.User) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
-com.feytuo.chat.activity.GroupPickContactsActivity$2 -> com.feytuo.chat.activity.by:
+com.feytuo.chat.activity.GroupPickContactsActivity$2 -> com.feytuo.chat.activity.bx:
     com.feytuo.chat.activity.GroupPickContactsActivity this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter -> com.feytuo.chat.activity.bz:
+com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter -> com.feytuo.chat.activity.by:
     boolean[] isCheckedArray -> b
     com.feytuo.chat.activity.GroupPickContactsActivity this$0 -> a
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     boolean[] access$0(com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter) -> a
     com.feytuo.chat.activity.GroupPickContactsActivity access$1(com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter) -> b
-com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter$1 -> com.feytuo.chat.activity.ca:
+com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter$1 -> com.feytuo.chat.activity.bz:
     com.feytuo.chat.activity.GroupPickContactsActivity$PickContactAdapter this$1 -> a
     java.lang.String val$username -> b
     android.widget.CheckBox val$checkBox -> c
@@ -16590,27 +16588,27 @@ com.feytuo.chat.activity.GroupSimpleDetailActivity -> com.feytuo.chat.activity.G
     android.widget.TextView access$5(com.feytuo.chat.activity.GroupSimpleDetailActivity) -> e
     android.widget.TextView access$6(com.feytuo.chat.activity.GroupSimpleDetailActivity) -> f
     android.widget.TextView access$7(com.feytuo.chat.activity.GroupSimpleDetailActivity) -> g
-com.feytuo.chat.activity.GroupSimpleDetailActivity$1 -> com.feytuo.chat.activity.cb:
+com.feytuo.chat.activity.GroupSimpleDetailActivity$1 -> com.feytuo.chat.activity.ca:
     com.feytuo.chat.activity.GroupSimpleDetailActivity this$0 -> a
     void run() -> run
     com.feytuo.chat.activity.GroupSimpleDetailActivity access$0(com.feytuo.chat.activity.GroupSimpleDetailActivity$1) -> a
-com.feytuo.chat.activity.GroupSimpleDetailActivity$1$1 -> com.feytuo.chat.activity.cc:
+com.feytuo.chat.activity.GroupSimpleDetailActivity$1$1 -> com.feytuo.chat.activity.cb:
     com.feytuo.chat.activity.GroupSimpleDetailActivity$1 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.GroupSimpleDetailActivity$1$2 -> com.feytuo.chat.activity.cd:
+com.feytuo.chat.activity.GroupSimpleDetailActivity$1$2 -> com.feytuo.chat.activity.cc:
     com.feytuo.chat.activity.GroupSimpleDetailActivity$1 this$1 -> a
     com.easemob.exceptions.EaseMobException val$e -> b
     void run() -> run
-com.feytuo.chat.activity.GroupSimpleDetailActivity$2 -> com.feytuo.chat.activity.ce:
+com.feytuo.chat.activity.GroupSimpleDetailActivity$2 -> com.feytuo.chat.activity.cd:
     com.feytuo.chat.activity.GroupSimpleDetailActivity this$0 -> a
     android.app.ProgressDialog val$pd -> b
     void run() -> run
     com.feytuo.chat.activity.GroupSimpleDetailActivity access$0(com.feytuo.chat.activity.GroupSimpleDetailActivity$2) -> a
-com.feytuo.chat.activity.GroupSimpleDetailActivity$2$1 -> com.feytuo.chat.activity.cf:
+com.feytuo.chat.activity.GroupSimpleDetailActivity$2$1 -> com.feytuo.chat.activity.ce:
     com.feytuo.chat.activity.GroupSimpleDetailActivity$2 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     void run() -> run
-com.feytuo.chat.activity.GroupSimpleDetailActivity$2$2 -> com.feytuo.chat.activity.cg:
+com.feytuo.chat.activity.GroupSimpleDetailActivity$2$2 -> com.feytuo.chat.activity.cf:
     com.feytuo.chat.activity.GroupSimpleDetailActivity$2 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     com.easemob.exceptions.EaseMobException val$e -> c
@@ -16629,10 +16627,10 @@ com.feytuo.chat.activity.GroupsActivity -> com.feytuo.chat.activity.GroupsActivi
     void back(android.view.View) -> back
     com.feytuo.chat.adapter.GroupAdapter access$0(com.feytuo.chat.activity.GroupsActivity) -> a
     android.view.inputmethod.InputMethodManager access$1(com.feytuo.chat.activity.GroupsActivity) -> b
-com.feytuo.chat.activity.GroupsActivity$1 -> com.feytuo.chat.activity.ch:
+com.feytuo.chat.activity.GroupsActivity$1 -> com.feytuo.chat.activity.cg:
     com.feytuo.chat.activity.GroupsActivity this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.feytuo.chat.activity.GroupsActivity$2 -> com.feytuo.chat.activity.ci:
+com.feytuo.chat.activity.GroupsActivity$2 -> com.feytuo.chat.activity.ch:
     com.feytuo.chat.activity.GroupsActivity this$0 -> a
     boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
 com.feytuo.chat.activity.ImageGridActivity -> com.feytuo.chat.activity.ImageGridActivity:
@@ -16655,15 +16653,15 @@ com.feytuo.chat.activity.ImageGridFragment -> com.feytuo.chat.activity.ImageGrid
     int access$1(com.feytuo.chat.activity.ImageGridFragment) -> b
     int access$2(com.feytuo.chat.activity.ImageGridFragment) -> c
     com.feytuo.chat.activity.ImageGridFragment$ImageAdapter access$3(com.feytuo.chat.activity.ImageGridFragment) -> d
-com.feytuo.chat.activity.ImageGridFragment$1 -> com.feytuo.chat.activity.cj:
+com.feytuo.chat.activity.ImageGridFragment$1 -> com.feytuo.chat.activity.ci:
     com.feytuo.chat.activity.ImageGridFragment this$0 -> a
     void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
     void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
-com.feytuo.chat.activity.ImageGridFragment$2 -> com.feytuo.chat.activity.ck:
+com.feytuo.chat.activity.ImageGridFragment$2 -> com.feytuo.chat.activity.cj:
     com.feytuo.chat.activity.ImageGridFragment this$0 -> a
     android.widget.GridView val$mGridView -> b
     void onGlobalLayout() -> onGlobalLayout
-com.feytuo.chat.activity.ImageGridFragment$ImageAdapter -> com.feytuo.chat.activity.cl:
+com.feytuo.chat.activity.ImageGridFragment$ImageAdapter -> com.feytuo.chat.activity.ck:
     android.content.Context mContext -> b
     int mItemHeight -> c
     android.widget.RelativeLayout$LayoutParams mImageViewLayoutParams -> d
@@ -16673,7 +16671,7 @@ com.feytuo.chat.activity.ImageGridFragment$ImageAdapter -> com.feytuo.chat.activ
     long getItemId(int) -> getItemId
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setItemHeight(int) -> a
-com.feytuo.chat.activity.ImageGridFragment$ImageAdapter$ViewHolder -> com.feytuo.chat.activity.cm:
+com.feytuo.chat.activity.ImageGridFragment$ImageAdapter$ViewHolder -> com.feytuo.chat.activity.cl:
     com.feytuo.chat.widget.RecyclingImageView imageView -> a
     android.widget.ImageView icon -> b
     android.widget.TextView tvDur -> c
@@ -16692,15 +16690,15 @@ com.feytuo.chat.activity.LoginActivity -> com.feytuo.chat.activity.LoginActivity
     android.widget.EditText access$0(com.feytuo.chat.activity.LoginActivity) -> a
     void access$1(com.feytuo.chat.activity.LoginActivity,boolean) -> a
     boolean access$2(com.feytuo.chat.activity.LoginActivity) -> b
-com.feytuo.chat.activity.LoginActivity$1 -> com.feytuo.chat.activity.cn:
+com.feytuo.chat.activity.LoginActivity$1 -> com.feytuo.chat.activity.cm:
     com.feytuo.chat.activity.LoginActivity this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.feytuo.chat.activity.LoginActivity$2 -> com.feytuo.chat.activity.co:
+com.feytuo.chat.activity.LoginActivity$2 -> com.feytuo.chat.activity.cn:
     com.feytuo.chat.activity.LoginActivity this$0 -> a
     void onCancel(android.content.DialogInterface) -> onCancel
-com.feytuo.chat.activity.LoginActivity$3 -> com.feytuo.chat.activity.cp:
+com.feytuo.chat.activity.LoginActivity$3 -> com.feytuo.chat.activity.co:
     com.feytuo.chat.activity.LoginActivity this$0 -> a
     java.lang.String val$username -> b
     java.lang.String val$password -> c
@@ -16709,11 +16707,11 @@ com.feytuo.chat.activity.LoginActivity$3 -> com.feytuo.chat.activity.cp:
     void onProgress(int,java.lang.String) -> onProgress
     void onError(int,java.lang.String) -> onError
     com.feytuo.chat.activity.LoginActivity access$0(com.feytuo.chat.activity.LoginActivity$3) -> a
-com.feytuo.chat.activity.LoginActivity$3$1 -> com.feytuo.chat.activity.cq:
+com.feytuo.chat.activity.LoginActivity$3$1 -> com.feytuo.chat.activity.cp:
     com.feytuo.chat.activity.LoginActivity$3 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     void run() -> run
-com.feytuo.chat.activity.LoginActivity$3$2 -> com.feytuo.chat.activity.cr:
+com.feytuo.chat.activity.LoginActivity$3$2 -> com.feytuo.chat.activity.cq:
     com.feytuo.chat.activity.LoginActivity$3 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     java.lang.String val$message -> c
@@ -16759,23 +16757,23 @@ com.feytuo.chat.activity.MainActivity -> com.feytuo.chat.activity.MainActivity:
     void access$1(com.feytuo.chat.activity.MainActivity) -> b
     void access$2(com.feytuo.chat.activity.MainActivity,com.feytuo.chat.domain.InviteMessage) -> a
     void access$3(com.feytuo.chat.activity.MainActivity,android.app.AlertDialog$Builder) -> a
-com.feytuo.chat.activity.MainActivity$1 -> com.feytuo.chat.activity.cs:
+com.feytuo.chat.activity.MainActivity$1 -> com.feytuo.chat.activity.cr:
     com.feytuo.chat.activity.MainActivity this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.feytuo.chat.activity.MainActivity$2 -> com.feytuo.chat.activity.ct:
+com.feytuo.chat.activity.MainActivity$2 -> com.feytuo.chat.activity.cs:
     com.feytuo.chat.activity.MainActivity this$0 -> a
     void run() -> run
-com.feytuo.chat.activity.MainActivity$3 -> com.feytuo.chat.activity.cu:
+com.feytuo.chat.activity.MainActivity$3 -> com.feytuo.chat.activity.ct:
     com.feytuo.chat.activity.MainActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.feytuo.chat.activity.MainActivity$MyConnectionListener -> com.feytuo.chat.activity.cv:
+com.feytuo.chat.activity.MainActivity$MyConnectionListener -> com.feytuo.chat.activity.cu:
     com.feytuo.chat.activity.MainActivity this$0 -> a
     void onConnected() -> onConnected
     void onDisConnected(java.lang.String) -> onDisConnected
     void onReConnected() -> onReConnected
     void onReConnecting() -> onReConnecting
     void onConnecting(java.lang.String) -> onConnecting
-com.feytuo.chat.activity.MainActivity$MyContactListener -> com.feytuo.chat.activity.cw:
+com.feytuo.chat.activity.MainActivity$MyContactListener -> com.feytuo.chat.activity.cv:
     com.feytuo.chat.activity.MainActivity this$0 -> a
     void onContactAdded(java.util.List) -> onContactAdded
     void getUserInfoFromBmob(java.util.List) -> a
@@ -16784,11 +16782,11 @@ com.feytuo.chat.activity.MainActivity$MyContactListener -> com.feytuo.chat.activ
     void onContactAgreed(java.lang.String) -> onContactAgreed
     void onContactRefused(java.lang.String) -> onContactRefused
     com.feytuo.chat.activity.MainActivity access$1(com.feytuo.chat.activity.MainActivity$MyContactListener) -> a
-com.feytuo.chat.activity.MainActivity$MyContactListener$1 -> com.feytuo.chat.activity.cx:
+com.feytuo.chat.activity.MainActivity$MyContactListener$1 -> com.feytuo.chat.activity.cw:
     com.feytuo.chat.activity.MainActivity$MyContactListener this$1 -> a
     void onSuccess(java.util.List) -> onSuccess
     void onError(int,java.lang.String) -> onError
-com.feytuo.chat.activity.MainActivity$MyGroupChangeListener -> com.feytuo.chat.activity.cy:
+com.feytuo.chat.activity.MainActivity$MyGroupChangeListener -> com.feytuo.chat.activity.cx:
     com.feytuo.chat.activity.MainActivity this$0 -> a
     void onInvitationReceived(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> onInvitationReceived
     void onInvitationAccpted(java.lang.String,java.lang.String,java.lang.String) -> onInvitationAccpted
@@ -16799,19 +16797,19 @@ com.feytuo.chat.activity.MainActivity$MyGroupChangeListener -> com.feytuo.chat.a
     void onApplicationAccept(java.lang.String,java.lang.String,java.lang.String) -> onApplicationAccept
     void onApplicationDeclined(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> onApplicationDeclined
     com.feytuo.chat.activity.MainActivity access$1(com.feytuo.chat.activity.MainActivity$MyGroupChangeListener) -> a
-com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$1 -> com.feytuo.chat.activity.cz:
+com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$1 -> com.feytuo.chat.activity.cy:
     com.feytuo.chat.activity.MainActivity$MyGroupChangeListener this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$2 -> com.feytuo.chat.activity.da:
+com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$2 -> com.feytuo.chat.activity.cz:
     com.feytuo.chat.activity.MainActivity$MyGroupChangeListener this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$3 -> com.feytuo.chat.activity.db:
+com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$3 -> com.feytuo.chat.activity.da:
     com.feytuo.chat.activity.MainActivity$MyGroupChangeListener this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$4 -> com.feytuo.chat.activity.dc:
+com.feytuo.chat.activity.MainActivity$MyGroupChangeListener$4 -> com.feytuo.chat.activity.db:
     com.feytuo.chat.activity.MainActivity$MyGroupChangeListener this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.MainActivity$NewMessageBroadcastReceiver -> com.feytuo.chat.activity.dd:
+com.feytuo.chat.activity.MainActivity$NewMessageBroadcastReceiver -> com.feytuo.chat.activity.dc:
     com.feytuo.chat.activity.MainActivity this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.feytuo.chat.activity.NewFriendsMsgActivity -> com.feytuo.chat.activity.NewFriendsMsgActivity:
@@ -16835,18 +16833,18 @@ com.feytuo.chat.activity.NewGroupActivity -> com.feytuo.chat.activity.NewGroupAc
     android.widget.CheckBox access$3(com.feytuo.chat.activity.NewGroupActivity) -> d
     android.widget.CheckBox access$4(com.feytuo.chat.activity.NewGroupActivity) -> e
     android.app.ProgressDialog access$5(com.feytuo.chat.activity.NewGroupActivity) -> f
-com.feytuo.chat.activity.NewGroupActivity$1 -> com.feytuo.chat.activity.de:
+com.feytuo.chat.activity.NewGroupActivity$1 -> com.feytuo.chat.activity.dd:
     com.feytuo.chat.activity.NewGroupActivity this$0 -> a
     void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
-com.feytuo.chat.activity.NewGroupActivity$2 -> com.feytuo.chat.activity.df:
+com.feytuo.chat.activity.NewGroupActivity$2 -> com.feytuo.chat.activity.de:
     com.feytuo.chat.activity.NewGroupActivity this$0 -> a
     android.content.Intent val$data -> b
     void run() -> run
     com.feytuo.chat.activity.NewGroupActivity access$0(com.feytuo.chat.activity.NewGroupActivity$2) -> a
-com.feytuo.chat.activity.NewGroupActivity$2$1 -> com.feytuo.chat.activity.dg:
+com.feytuo.chat.activity.NewGroupActivity$2$1 -> com.feytuo.chat.activity.df:
     com.feytuo.chat.activity.NewGroupActivity$2 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.NewGroupActivity$2$2 -> com.feytuo.chat.activity.dh:
+com.feytuo.chat.activity.NewGroupActivity$2$2 -> com.feytuo.chat.activity.dg:
     com.feytuo.chat.activity.NewGroupActivity$2 this$1 -> a
     java.lang.Exception val$e -> b
     void run() -> run
@@ -16859,10 +16857,10 @@ com.feytuo.chat.activity.PickContactNoCheckboxActivity -> com.feytuo.chat.activi
     void onListItemClick(int) -> a
     void back(android.view.View) -> back
     void getContactList() -> a
-com.feytuo.chat.activity.PickContactNoCheckboxActivity$1 -> com.feytuo.chat.activity.di:
+com.feytuo.chat.activity.PickContactNoCheckboxActivity$1 -> com.feytuo.chat.activity.dh:
     com.feytuo.chat.activity.PickContactNoCheckboxActivity this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.feytuo.chat.activity.PickContactNoCheckboxActivity$2 -> com.feytuo.chat.activity.dj:
+com.feytuo.chat.activity.PickContactNoCheckboxActivity$2 -> com.feytuo.chat.activity.di:
     com.feytuo.chat.activity.PickContactNoCheckboxActivity this$0 -> a
     int compare(com.feytuo.chat.domain.User,com.feytuo.chat.domain.User) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
@@ -16882,30 +16880,30 @@ com.feytuo.chat.activity.PublicGroupsActivity -> com.feytuo.chat.activity.Public
     void access$5(com.feytuo.chat.activity.PublicGroupsActivity,android.widget.ImageButton) -> a
     android.widget.EditText access$6(com.feytuo.chat.activity.PublicGroupsActivity) -> d
     android.widget.ImageButton access$7(com.feytuo.chat.activity.PublicGroupsActivity) -> e
-com.feytuo.chat.activity.PublicGroupsActivity$1 -> com.feytuo.chat.activity.dk:
+com.feytuo.chat.activity.PublicGroupsActivity$1 -> com.feytuo.chat.activity.dj:
     com.feytuo.chat.activity.PublicGroupsActivity this$0 -> a
     void run() -> run
     com.feytuo.chat.activity.PublicGroupsActivity access$0(com.feytuo.chat.activity.PublicGroupsActivity$1) -> a
-com.feytuo.chat.activity.PublicGroupsActivity$1$1 -> com.feytuo.chat.activity.dl:
+com.feytuo.chat.activity.PublicGroupsActivity$1$1 -> com.feytuo.chat.activity.dk:
     com.feytuo.chat.activity.PublicGroupsActivity$1 this$1 -> a
     java.util.List val$groupsList -> b
     void run() -> run
     com.feytuo.chat.activity.PublicGroupsActivity$1 access$0(com.feytuo.chat.activity.PublicGroupsActivity$1$1) -> a
-com.feytuo.chat.activity.PublicGroupsActivity$1$1$1 -> com.feytuo.chat.activity.dm:
+com.feytuo.chat.activity.PublicGroupsActivity$1$1$1 -> com.feytuo.chat.activity.dl:
     com.feytuo.chat.activity.PublicGroupsActivity$1$1 this$2 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.feytuo.chat.activity.PublicGroupsActivity$1$1$2 -> com.feytuo.chat.activity.dn:
+com.feytuo.chat.activity.PublicGroupsActivity$1$1$2 -> com.feytuo.chat.activity.dm:
     com.feytuo.chat.activity.PublicGroupsActivity$1$1 this$2 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.feytuo.chat.activity.PublicGroupsActivity$1$1$3 -> com.feytuo.chat.activity.do:
+com.feytuo.chat.activity.PublicGroupsActivity$1$1$3 -> com.feytuo.chat.activity.dn:
     com.feytuo.chat.activity.PublicGroupsActivity$1$1 this$2 -> a
     void onClick(android.view.View) -> onClick
-com.feytuo.chat.activity.PublicGroupsActivity$1$2 -> com.feytuo.chat.activity.dp:
+com.feytuo.chat.activity.PublicGroupsActivity$1$2 -> com.feytuo.chat.activity.do:
     com.feytuo.chat.activity.PublicGroupsActivity$1 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.PublicGroupsActivity$GroupsAdapter -> com.feytuo.chat.activity.dq:
+com.feytuo.chat.activity.PublicGroupsActivity$GroupsAdapter -> com.feytuo.chat.activity.dp:
     android.view.LayoutInflater inflater -> b
     com.feytuo.chat.activity.PublicGroupsActivity this$0 -> a
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
@@ -16944,14 +16942,14 @@ com.feytuo.chat.activity.RecorderVideoActivity -> com.feytuo.chat.activity.Recor
     void onDestroy() -> onDestroy
     void onBackPressed() -> onBackPressed
     void showFailDialog() -> d
-com.feytuo.chat.activity.RecorderVideoActivity$1 -> com.feytuo.chat.activity.dr:
+com.feytuo.chat.activity.RecorderVideoActivity$1 -> com.feytuo.chat.activity.dq:
     com.feytuo.chat.activity.RecorderVideoActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.feytuo.chat.activity.RecorderVideoActivity$2 -> com.feytuo.chat.activity.ds:
+com.feytuo.chat.activity.RecorderVideoActivity$2 -> com.feytuo.chat.activity.dr:
     com.feytuo.chat.activity.RecorderVideoActivity this$0 -> a
     void onScanCompleted(java.lang.String,android.net.Uri) -> onScanCompleted
     void onMediaScannerConnected() -> onMediaScannerConnected
-com.feytuo.chat.activity.RecorderVideoActivity$3 -> com.feytuo.chat.activity.dt:
+com.feytuo.chat.activity.RecorderVideoActivity$3 -> com.feytuo.chat.activity.ds:
     com.feytuo.chat.activity.RecorderVideoActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
 com.feytuo.chat.activity.RegisterActivity -> com.feytuo.chat.activity.RegisterActivity:
@@ -16961,19 +16959,19 @@ com.feytuo.chat.activity.RegisterActivity -> com.feytuo.chat.activity.RegisterAc
     void onCreate(android.os.Bundle) -> onCreate
     void register(android.view.View) -> register
     void back(android.view.View) -> back
-com.feytuo.chat.activity.RegisterActivity$1 -> com.feytuo.chat.activity.du:
+com.feytuo.chat.activity.RegisterActivity$1 -> com.feytuo.chat.activity.dt:
     com.feytuo.chat.activity.RegisterActivity this$0 -> a
     java.lang.String val$username -> b
     java.lang.String val$pwd -> c
     android.app.ProgressDialog val$pd -> d
     void run() -> run
     com.feytuo.chat.activity.RegisterActivity access$0(com.feytuo.chat.activity.RegisterActivity$1) -> a
-com.feytuo.chat.activity.RegisterActivity$1$1 -> com.feytuo.chat.activity.dv:
+com.feytuo.chat.activity.RegisterActivity$1$1 -> com.feytuo.chat.activity.du:
     com.feytuo.chat.activity.RegisterActivity$1 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     java.lang.String val$username -> c
     void run() -> run
-com.feytuo.chat.activity.RegisterActivity$1$2 -> com.feytuo.chat.activity.dw:
+com.feytuo.chat.activity.RegisterActivity$1$2 -> com.feytuo.chat.activity.dv:
     com.feytuo.chat.activity.RegisterActivity$1 this$1 -> a
     android.app.ProgressDialog val$pd -> b
     java.lang.Exception val$e -> c
@@ -17026,35 +17024,35 @@ com.feytuo.chat.activity.SettingsFragment -> com.feytuo.chat.activity.SettingsFr
     void access$7(com.feytuo.chat.activity.SettingsFragment,java.io.File) -> a
     android.graphics.Bitmap access$8(com.feytuo.chat.activity.SettingsFragment) -> f
     android.widget.ImageView access$9(com.feytuo.chat.activity.SettingsFragment) -> g
-com.feytuo.chat.activity.SettingsFragment$1 -> com.feytuo.chat.activity.dx:
+com.feytuo.chat.activity.SettingsFragment$1 -> com.feytuo.chat.activity.dw:
     com.feytuo.chat.activity.SettingsFragment this$0 -> a
     android.widget.ImageView val$head_iv -> b
     java.lang.String val$userName -> c
     void onSuccess(java.util.List) -> onSuccess
     void onError(int,java.lang.String) -> onError
-com.feytuo.chat.activity.SettingsFragment$2 -> com.feytuo.chat.activity.dy:
+com.feytuo.chat.activity.SettingsFragment$2 -> com.feytuo.chat.activity.dx:
     com.feytuo.chat.activity.SettingsFragment this$0 -> a
     cn.bmob.v3.datatype.BmobFile val$bmobFile -> b
     void onSuccess() -> onSuccess
     void onFailure(int,java.lang.String) -> onFailure
-com.feytuo.chat.activity.SettingsFragment$3 -> com.feytuo.chat.activity.dz:
+com.feytuo.chat.activity.SettingsFragment$3 -> com.feytuo.chat.activity.dy:
     com.feytuo.chat.activity.SettingsFragment this$0 -> a
     java.lang.String val$userId -> b
     java.lang.String val$fileUrl -> c
     void onSuccess() -> onSuccess
     void onFailure(int,java.lang.String) -> onFailure
-com.feytuo.chat.activity.SettingsFragment$4 -> com.feytuo.chat.activity.ea:
+com.feytuo.chat.activity.SettingsFragment$4 -> com.feytuo.chat.activity.dz:
     com.feytuo.chat.activity.SettingsFragment this$0 -> a
     java.util.List val$netCommentNum -> b
     java.util.List val$myInvIds -> c
     java.util.List val$localCommentNum -> d
     void onSuccess(java.util.List) -> onSuccess
     void onError(int,java.lang.String) -> onError
-com.feytuo.chat.activity.SettingsFragment$Linstener -> com.feytuo.chat.activity.eb:
+com.feytuo.chat.activity.SettingsFragment$Linstener -> com.feytuo.chat.activity.ea:
     com.feytuo.chat.activity.SettingsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
     com.feytuo.chat.activity.SettingsFragment access$0(com.feytuo.chat.activity.SettingsFragment$Linstener) -> a
-com.feytuo.chat.activity.SettingsFragment$Linstener$1 -> com.feytuo.chat.activity.ec:
+com.feytuo.chat.activity.SettingsFragment$Linstener$1 -> com.feytuo.chat.activity.eb:
     com.feytuo.chat.activity.SettingsFragment$Linstener this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
 com.feytuo.chat.activity.ShowBigImage -> com.feytuo.chat.activity.ShowBigImage:
@@ -17078,26 +17076,26 @@ com.feytuo.chat.activity.ShowBigImage -> com.feytuo.chat.activity.ShowBigImage:
     int access$4(com.feytuo.chat.activity.ShowBigImage) -> d
     void access$5(com.feytuo.chat.activity.ShowBigImage,boolean) -> a
     android.app.ProgressDialog access$6(com.feytuo.chat.activity.ShowBigImage) -> e
-com.feytuo.chat.activity.ShowBigImage$1 -> com.feytuo.chat.activity.ed:
+com.feytuo.chat.activity.ShowBigImage$1 -> com.feytuo.chat.activity.ec:
     com.feytuo.chat.activity.ShowBigImage this$0 -> a
     void onClick(android.view.View) -> onClick
-com.feytuo.chat.activity.ShowBigImage$2 -> com.feytuo.chat.activity.ee:
+com.feytuo.chat.activity.ShowBigImage$2 -> com.feytuo.chat.activity.ed:
     com.feytuo.chat.activity.ShowBigImage this$0 -> a
     void onSuccess(java.lang.String) -> onSuccess
     void onError(java.lang.String) -> onError
     void onProgress(int) -> onProgress
     com.feytuo.chat.activity.ShowBigImage access$0(com.feytuo.chat.activity.ShowBigImage$2) -> a
-com.feytuo.chat.activity.ShowBigImage$2$1 -> com.feytuo.chat.activity.ef:
+com.feytuo.chat.activity.ShowBigImage$2$1 -> com.feytuo.chat.activity.ee:
     com.feytuo.chat.activity.ShowBigImage$2 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.ShowBigImage$2$2 -> com.feytuo.chat.activity.eg:
+com.feytuo.chat.activity.ShowBigImage$2$2 -> com.feytuo.chat.activity.ef:
     com.feytuo.chat.activity.ShowBigImage$2 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.ShowBigImage$2$3 -> com.feytuo.chat.activity.eh:
+com.feytuo.chat.activity.ShowBigImage$2$3 -> com.feytuo.chat.activity.eg:
     com.feytuo.chat.activity.ShowBigImage$2 this$1 -> a
     int val$progress -> b
     void run() -> run
-com.feytuo.chat.activity.ShowBigImage$3 -> com.feytuo.chat.activity.ei:
+com.feytuo.chat.activity.ShowBigImage$3 -> com.feytuo.chat.activity.eh:
     com.feytuo.chat.activity.ShowBigImage this$0 -> a
     com.easemob.cloud.HttpFileManager val$httpFileMgr -> b
     java.lang.String val$remoteFilePath -> c
@@ -17110,26 +17108,26 @@ com.feytuo.chat.activity.ShowNormalFileActivity -> com.feytuo.chat.activity.Show
     void onCreate(android.os.Bundle) -> onCreate
     java.io.File access$0(com.feytuo.chat.activity.ShowNormalFileActivity) -> a
     android.widget.ProgressBar access$1(com.feytuo.chat.activity.ShowNormalFileActivity) -> b
-com.feytuo.chat.activity.ShowNormalFileActivity$1 -> com.feytuo.chat.activity.ej:
+com.feytuo.chat.activity.ShowNormalFileActivity$1 -> com.feytuo.chat.activity.ei:
     com.feytuo.chat.activity.ShowNormalFileActivity this$0 -> a
     com.easemob.chat.FileMessageBody val$messageBody -> b
     java.util.Map val$maps -> c
     void run() -> run
     com.feytuo.chat.activity.ShowNormalFileActivity access$0(com.feytuo.chat.activity.ShowNormalFileActivity$1) -> a
-com.feytuo.chat.activity.ShowNormalFileActivity$1$1 -> com.feytuo.chat.activity.ek:
+com.feytuo.chat.activity.ShowNormalFileActivity$1$1 -> com.feytuo.chat.activity.ej:
     com.feytuo.chat.activity.ShowNormalFileActivity$1 this$1 -> a
     void onSuccess(java.lang.String) -> onSuccess
     void onProgress(int) -> onProgress
     void onError(java.lang.String) -> onError
     com.feytuo.chat.activity.ShowNormalFileActivity$1 access$0(com.feytuo.chat.activity.ShowNormalFileActivity$1$1) -> a
-com.feytuo.chat.activity.ShowNormalFileActivity$1$1$1 -> com.feytuo.chat.activity.el:
+com.feytuo.chat.activity.ShowNormalFileActivity$1$1$1 -> com.feytuo.chat.activity.ek:
     com.feytuo.chat.activity.ShowNormalFileActivity$1$1 this$2 -> a
     void run() -> run
-com.feytuo.chat.activity.ShowNormalFileActivity$1$1$2 -> com.feytuo.chat.activity.em:
+com.feytuo.chat.activity.ShowNormalFileActivity$1$1$2 -> com.feytuo.chat.activity.el:
     com.feytuo.chat.activity.ShowNormalFileActivity$1$1 this$2 -> a
     int val$progress -> b
     void run() -> run
-com.feytuo.chat.activity.ShowNormalFileActivity$1$1$3 -> com.feytuo.chat.activity.en:
+com.feytuo.chat.activity.ShowNormalFileActivity$1$1$3 -> com.feytuo.chat.activity.em:
     com.feytuo.chat.activity.ShowNormalFileActivity$1$1 this$2 -> a
     java.lang.String val$msg -> b
     void run() -> run
@@ -17144,23 +17142,23 @@ com.feytuo.chat.activity.ShowVideoActivity -> com.feytuo.chat.activity.ShowVideo
     android.widget.RelativeLayout access$0(com.feytuo.chat.activity.ShowVideoActivity) -> a
     android.widget.ProgressBar access$1(com.feytuo.chat.activity.ShowVideoActivity) -> b
     java.lang.String access$2(com.feytuo.chat.activity.ShowVideoActivity) -> c
-com.feytuo.chat.activity.ShowVideoActivity$1 -> com.feytuo.chat.activity.eo:
+com.feytuo.chat.activity.ShowVideoActivity$1 -> com.feytuo.chat.activity.en:
     com.feytuo.chat.activity.ShowVideoActivity this$0 -> a
     void onSuccess(java.lang.String) -> onSuccess
     void onProgress(int) -> onProgress
     void onError(java.lang.String) -> onError
     com.feytuo.chat.activity.ShowVideoActivity access$0(com.feytuo.chat.activity.ShowVideoActivity$1) -> a
-com.feytuo.chat.activity.ShowVideoActivity$1$1 -> com.feytuo.chat.activity.ep:
+com.feytuo.chat.activity.ShowVideoActivity$1$1 -> com.feytuo.chat.activity.eo:
     com.feytuo.chat.activity.ShowVideoActivity$1 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.ShowVideoActivity$1$2 -> com.feytuo.chat.activity.eq:
+com.feytuo.chat.activity.ShowVideoActivity$1$2 -> com.feytuo.chat.activity.ep:
     com.feytuo.chat.activity.ShowVideoActivity$1 this$1 -> a
     int val$progress -> b
     void run() -> run
-com.feytuo.chat.activity.ShowVideoActivity$1$3 -> com.feytuo.chat.activity.er:
+com.feytuo.chat.activity.ShowVideoActivity$1$3 -> com.feytuo.chat.activity.eq:
     com.feytuo.chat.activity.ShowVideoActivity$1 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.ShowVideoActivity$2 -> com.feytuo.chat.activity.es:
+com.feytuo.chat.activity.ShowVideoActivity$2 -> com.feytuo.chat.activity.er:
     com.feytuo.chat.activity.ShowVideoActivity this$0 -> a
     com.easemob.cloud.HttpFileManager val$httpFileMgr -> b
     java.lang.String val$remoteUrl -> c
@@ -17218,37 +17216,37 @@ com.feytuo.chat.activity.VoiceCallActivity -> com.feytuo.chat.activity.VoiceCall
     boolean access$11(com.feytuo.chat.activity.VoiceCallActivity) -> i
     boolean access$12(com.feytuo.chat.activity.VoiceCallActivity) -> j
     int[] $SWITCH_TABLE$com$feytuo$chat$activity$VoiceCallActivity$CallingState() -> d
-com.feytuo.chat.activity.VoiceCallActivity$1 -> com.feytuo.chat.activity.et:
+com.feytuo.chat.activity.VoiceCallActivity$1 -> com.feytuo.chat.activity.es:
     com.feytuo.chat.activity.VoiceCallActivity this$0 -> a
     void run() -> run
-com.feytuo.chat.activity.VoiceCallActivity$2 -> com.feytuo.chat.activity.eu:
+com.feytuo.chat.activity.VoiceCallActivity$2 -> com.feytuo.chat.activity.et:
     com.feytuo.chat.activity.VoiceCallActivity this$0 -> a
     void run() -> run
-com.feytuo.chat.activity.VoiceCallActivity$3 -> com.feytuo.chat.activity.ev:
+com.feytuo.chat.activity.VoiceCallActivity$3 -> com.feytuo.chat.activity.eu:
     com.feytuo.chat.activity.VoiceCallActivity this$0 -> a
     int[] $SWITCH_TABLE$com$easemob$chat$EMCallStateChangeListener$CallState -> b
     void onCallStateChanged(com.easemob.chat.EMCallStateChangeListener$CallState,com.easemob.chat.EMCallStateChangeListener$CallError) -> onCallStateChanged
     int[] $SWITCH_TABLE$com$easemob$chat$EMCallStateChangeListener$CallState() -> a
     com.feytuo.chat.activity.VoiceCallActivity access$1(com.feytuo.chat.activity.VoiceCallActivity$3) -> a
-com.feytuo.chat.activity.VoiceCallActivity$3$1 -> com.feytuo.chat.activity.ew:
+com.feytuo.chat.activity.VoiceCallActivity$3$1 -> com.feytuo.chat.activity.ev:
     com.feytuo.chat.activity.VoiceCallActivity$3 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.VoiceCallActivity$3$2 -> com.feytuo.chat.activity.ex:
+com.feytuo.chat.activity.VoiceCallActivity$3$2 -> com.feytuo.chat.activity.ew:
     com.feytuo.chat.activity.VoiceCallActivity$3 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.VoiceCallActivity$3$3 -> com.feytuo.chat.activity.ey:
+com.feytuo.chat.activity.VoiceCallActivity$3$3 -> com.feytuo.chat.activity.ex:
     com.feytuo.chat.activity.VoiceCallActivity$3 this$1 -> a
     void run() -> run
-com.feytuo.chat.activity.VoiceCallActivity$3$4 -> com.feytuo.chat.activity.ez:
+com.feytuo.chat.activity.VoiceCallActivity$3$4 -> com.feytuo.chat.activity.ey:
     com.feytuo.chat.activity.VoiceCallActivity$3 this$1 -> a
     com.easemob.chat.EMCallStateChangeListener$CallError val$fError -> b
     void postDelayedCloseMsg() -> a
     void run() -> run
     com.feytuo.chat.activity.VoiceCallActivity$3 access$0(com.feytuo.chat.activity.VoiceCallActivity$3$4) -> a
-com.feytuo.chat.activity.VoiceCallActivity$3$4$1 -> com.feytuo.chat.activity.fa:
+com.feytuo.chat.activity.VoiceCallActivity$3$4$1 -> com.feytuo.chat.activity.ez:
     com.feytuo.chat.activity.VoiceCallActivity$3$4 this$2 -> a
     void run() -> run
-com.feytuo.chat.activity.VoiceCallActivity$CallingState -> com.feytuo.chat.activity.fb:
+com.feytuo.chat.activity.VoiceCallActivity$CallingState -> com.feytuo.chat.activity.fa:
     com.feytuo.chat.activity.VoiceCallActivity$CallingState CANCED -> a
     com.feytuo.chat.activity.VoiceCallActivity$CallingState NORMAL -> b
     com.feytuo.chat.activity.VoiceCallActivity$CallingState REFUESD -> c
@@ -19360,6 +19358,7 @@ com.feytuo.laoxianghao.R$drawable -> com.feytuo.laoxianghao.R$drawable:
     int ic_com_sina_weibo_sdk_login_with_text -> ic_com_sina_weibo_sdk_login_with_text
     int ic_com_sina_weibo_sdk_logo -> ic_com_sina_weibo_sdk_logo
     int ic_launcher -> ic_launcher
+    int icon360 -> icon360
     int icon_account -> icon_account
     int icon_marka -> icon_marka
     int icon_mute_normal -> icon_mute_normal
@@ -19411,6 +19410,9 @@ com.feytuo.laoxianghao.R$drawable -> com.feytuo.laoxianghao.R$drawable:
     int musicplaytwo -> musicplaytwo
     int myprogress_style -> myprogress_style
     int new_friends_icon -> new_friends_icon
+    int no_chat_bg -> no_chat_bg
+    int no_friend_bg -> no_friend_bg
+    int no_invitation_bg -> no_invitation_bg
     int notice_no -> notice_no
     int notice_no_redpoint -> notice_no_redpoint
     int notice_normal_selector -> notice_normal_selector
@@ -19432,7 +19434,6 @@ com.feytuo.laoxianghao.R$drawable -> com.feytuo.laoxianghao.R$drawable:
     int progress_selector -> progress_selector
     int publish_btn_no -> publish_btn_no
     int publish_press -> publish_press
-    int publish_selector -> publish_selector
     int qq_no -> qq_no
     int qq_press -> qq_press
     int record -> record
@@ -19629,11 +19630,13 @@ com.feytuo.laoxianghao.R$id -> com.feytuo.laoxianghao.R$id:
     int comment_time -> comment_time
     int comment_time_date -> comment_time_date
     int confirm_password -> confirm_password
+    int contact_list_no_friend_img -> contact_list_no_friend_img
     int contact_viewpager -> contact_viewpager
     int container -> container
     int container_status_btn -> container_status_btn
     int container_to_group -> container_to_group
     int container_voice_call -> container_voice_call
+    int conversation_no_chat_img -> conversation_no_chat_img
     int country_lvcountry -> country_lvcountry
     int cursor -> cursor
     int default_activity_button -> default_activity_button
@@ -19768,6 +19771,7 @@ com.feytuo.laoxianghao.R$id -> com.feytuo.laoxianghao.R$id:
     int login_sina_img -> login_sina_img
     int mainLayout -> mainLayout
     int main_bottom -> main_bottom
+    int main_no_invitation_img -> main_no_invitation_img
     int message -> message
     int message_listview -> message_listview
     int message_title -> message_title
@@ -19869,6 +19873,7 @@ com.feytuo.laoxianghao.R$id -> com.feytuo.laoxianghao.R$id:
     int search_plate -> search_plate
     int search_src_text -> search_src_text
     int search_voice_btn -> search_voice_btn
+    int select_city_hot_0 -> select_city_hot_0
     int select_city_hot_1 -> select_city_hot_1
     int select_city_hot_2 -> select_city_hot_2
     int select_city_hot_3 -> select_city_hot_3
@@ -20107,7 +20112,12 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int abc_searchview_description_voice -> abc_searchview_description_voice
     int abc_shareactionprovider_share_with -> abc_shareactionprovider_share_with
     int abc_shareactionprovider_share_with_application -> abc_shareactionprovider_share_with_application
+    int about_xiangxiang -> about_xiangxiang
     int action_settings -> action_settings
+    int add_friends -> add_friends
+    int all -> all
+    int allcity -> allcity
+    int allright -> allright
     int app_name -> app_name
     int attach_file -> attach_file
     int attach_location -> attach_location
@@ -20116,6 +20126,8 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int attach_take_pic -> attach_take_pic
     int attach_voice_call -> attach_voice_call
     int back -> back
+    int beijing -> beijing
+    int blacklist -> blacklist
     int button_add -> button_add
     int button_cancel -> button_cancel
     int button_logout -> button_logout
@@ -20126,7 +20138,11 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int button_uploadlog -> button_uploadlog
     int cancel -> cancel
     int changsha -> changsha
+    int chengdu -> chengdu
+    int cilck_record -> cilck_record
+    int cilckstoprecord -> cilckstoprecord
     int clear_all_records -> clear_all_records
+    int clear_cache -> clear_cache
     int clear_records -> clear_records
     int com_sina_weibo_sdk_login -> com_sina_weibo_sdk_login
     int com_sina_weibo_sdk_login_with_weibo_account -> com_sina_weibo_sdk_login_with_weibo_account
@@ -20139,35 +20155,57 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int copy -> copy
     int copy_message -> copy_message
     int copy_right -> copy_right
+    int copyright -> copyright
+    int copyright2014 -> copyright2014
     int country -> country
     int delete -> delete
     int delete_message -> delete_message
     int delete_video -> delete_video
     int delete_voice -> delete_voice
+    int describedrecord -> describedrecord
     int dissolution_group_hint -> dissolution_group_hint
+    int duanzi -> duanzi
     int exit_group -> exit_group
     int exit_group_hint -> exit_group_hint
     int feedback -> feedback
     int feedback_hint -> feedback_hint
     int file -> file
+    int find -> find
     int forward -> forward
+    int goodstudy -> goodstudy
+    int guangzhou -> guangzhou
+    int help_and_feeback -> help_and_feeback
+    int home -> home
     int hometown -> hometown
+    int hot_city -> hot_city
+    int hot_topic -> hot_topic
+    int inputkey -> inputkey
+    int ktv -> ktv
     int location_message -> location_message
     int location_prefix -> location_prefix
     int location_recv -> location_recv
     int logout -> logout
     int logout_hint -> logout_hint
+    int maxmun -> maxmun
     int move_up_to_cancel -> move_up_to_cancel
+    int my_fanyan -> my_fanyan
+    int my_position -> my_position
+    int my_tiezi -> my_tiezi
+    int mychangsha -> mychangsha
     int mycollect -> mycollect
     int mymessage -> mymessage
     int myshare_to -> myshare_to
     int network_isnot_available -> network_isnot_available
     int network_unavailable -> network_unavailable
+    int nick -> nick
     int ok -> ok
     int pealseselectlogin -> pealseselectlogin
     int picture -> picture
+    int pleaseinputnick -> pleaseinputnick
     int position_choose_dialog -> position_choose_dialog
+    int press_record -> press_record
     int pressskeak -> pressskeak
+    int privacy -> privacy
     int prompt -> prompt
     int publish_fangyang -> publish_fangyang
     int publish_hint -> publish_hint
@@ -20182,10 +20220,16 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int search_header -> search_header
     int select_contacts -> select_contacts
     int send_fail -> send_fail
+    int setting -> setting
+    int share -> share
+    int show -> show
+    int stoprecord -> stoprecord
     int text_ack_msg -> text_ack_msg
     int text_delivered_msg -> text_delivered_msg
+    int to_friends -> to_friends
     int user_card -> user_card
     int video -> video
+    int visa -> visa
     int voice -> voice
     int voice_call -> voice_call
     int wait -> wait
@@ -20198,6 +20242,7 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int weibosdk_demo_toast_share_canceled -> weibosdk_demo_toast_share_canceled
     int weibosdk_demo_toast_share_failed -> weibosdk_demo_toast_share_failed
     int weibosdk_demo_toast_share_success -> weibosdk_demo_toast_share_success
+    int zan -> zan
 com.feytuo.laoxianghao.R$style -> com.feytuo.laoxianghao.R$style:
     int AnimBottom -> AnimBottom
     int AnimFade -> AnimFade
@@ -20504,13 +20549,14 @@ com.feytuo.laoxianghao.SelsectedCountry -> com.feytuo.laoxianghao.SelsectedCount
     android.widget.Button selectCityHot2 -> i
     android.widget.Button selectCityHot3 -> j
     android.widget.Button selectCityHot4 -> k
-    com.feytuo.laoxianghao.sortlistview.CharacterParser characterParser -> l
-    java.util.List SourceDateList -> m
-    java.util.List cityNameList -> n
-    android.widget.LinearLayout hotCityLinear -> o
-    com.feytuo.laoxianghao.sortlistview.PinyinComparator pinyinComparator -> p
-    int path -> q
-    com.feytuo.laoxianghao.view.OnloadDialog pd -> r
+    android.widget.Button selectCityHot0 -> l
+    com.feytuo.laoxianghao.sortlistview.CharacterParser characterParser -> m
+    java.util.List SourceDateList -> n
+    java.util.List cityNameList -> o
+    android.widget.LinearLayout hotCityLinear -> p
+    com.feytuo.laoxianghao.sortlistview.PinyinComparator pinyinComparator -> q
+    int path -> r
+    com.feytuo.laoxianghao.view.OnloadDialog pd -> s
     void onCreate(android.os.Bundle) -> onCreate
     void initCity() -> a
     void initViews() -> b
@@ -21506,26 +21552,28 @@ com.feytuo.laoxianghao.fragment.MainFragment -> com.feytuo.laoxianghao.fragment.
     java.lang.String TAG -> a
     com.feytuo.laoxianghao.adapter.ListViewAdapter adapter -> b
     com.feytuo.listviewonload.ZrcListView indexListView -> c
-    android.os.Handler handler -> d
-    android.widget.Button indexSelectCity -> e
-    java.util.List listItems -> f
-    java.util.List listData -> g
-    com.feytuo.laoxianghao.domain.Invitation topicInvitation -> h
-    int STATE_REFRESH -> i
-    int STATE_MORE -> j
-    int REQUEST_CODE -> k
-    int LIMIT -> l
-    int curPage -> m
+    android.widget.ImageView noInvitationImageView -> d
+    android.os.Handler handler -> e
+    android.widget.Button indexSelectCity -> f
+    java.util.List listItems -> g
+    java.util.List listData -> h
+    com.feytuo.laoxianghao.domain.Invitation topicInvitation -> i
+    int STATE_REFRESH -> j
+    int STATE_MORE -> k
+    int REQUEST_CODE -> l
+    int LIMIT -> m
+    int curPage -> n
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     void getListDataFromLocal() -> c
     void initview() -> a
+    void setNoInvitationBackGround() -> d
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void initlistview() -> b
-    android.view.animation.LayoutAnimationController getListAnim() -> d
-    void refresh() -> e
-    void loadMore() -> f
-    void getTopicInvitation() -> g
+    android.view.animation.LayoutAnimationController getListAnim() -> e
+    void refresh() -> f
+    void loadMore() -> g
+    void getTopicInvitation() -> h
     void getListData(int,int) -> a
     void onResume() -> onResume
     void onPause() -> onPause
@@ -21536,9 +21584,10 @@ com.feytuo.laoxianghao.fragment.MainFragment -> com.feytuo.laoxianghao.fragment.
     void access$4(com.feytuo.laoxianghao.fragment.MainFragment,int,int) -> a
     int access$5(com.feytuo.laoxianghao.fragment.MainFragment) -> e
     com.feytuo.laoxianghao.domain.Invitation access$6(com.feytuo.laoxianghao.fragment.MainFragment) -> f
-    com.feytuo.listviewonload.ZrcListView access$7(com.feytuo.laoxianghao.fragment.MainFragment) -> g
-    void access$8(com.feytuo.laoxianghao.fragment.MainFragment,int) -> a
-    java.util.List access$9(com.feytuo.laoxianghao.fragment.MainFragment) -> h
+    void access$7(com.feytuo.laoxianghao.fragment.MainFragment) -> g
+    com.feytuo.listviewonload.ZrcListView access$8(com.feytuo.laoxianghao.fragment.MainFragment) -> h
+    void access$9(com.feytuo.laoxianghao.fragment.MainFragment,int) -> a
+    java.util.List access$10(com.feytuo.laoxianghao.fragment.MainFragment) -> i
 com.feytuo.laoxianghao.fragment.MainFragment$1 -> com.feytuo.laoxianghao.fragment.d:
     com.feytuo.laoxianghao.fragment.MainFragment this$0 -> a
     void onStart() -> a
@@ -21587,7 +21636,8 @@ com.feytuo.laoxianghao.global.UserLogin -> com.feytuo.laoxianghao.d.a:
     void access$5(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> b
     com.feytuo.laoxianghao.dao.LXHUserDao access$6(com.feytuo.laoxianghao.global.UserLogin) -> b
     void access$7(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String) -> a
-    boolean access$8(com.feytuo.laoxianghao.global.UserLogin) -> c
+    void access$8(com.feytuo.laoxianghao.domain.LXHUser) -> a
+    boolean access$9(com.feytuo.laoxianghao.global.UserLogin) -> c
 com.feytuo.laoxianghao.global.UserLogin$1 -> com.feytuo.laoxianghao.d.b:
     com.feytuo.laoxianghao.global.UserLogin this$0 -> a
     android.content.Context val$context -> b
@@ -21614,8 +21664,12 @@ com.feytuo.laoxianghao.global.UserLogin$11$1 -> com.feytuo.laoxianghao.d.f:
     void run() -> run
 com.feytuo.laoxianghao.global.UserLogin$11$2 -> com.feytuo.laoxianghao.d.g:
     com.feytuo.laoxianghao.global.UserLogin$11 this$1 -> a
-    android.content.Context val$context -> b
+    int val$code -> b
     java.lang.String val$message -> c
+    android.content.Context val$context -> d
+    java.lang.String val$username -> e
+    java.lang.String val$pwd -> f
+    java.lang.String val$nickName -> g
     void run() -> run
 com.feytuo.laoxianghao.global.UserLogin$12 -> com.feytuo.laoxianghao.d.h:
     com.feytuo.laoxianghao.global.UserLogin this$0 -> a

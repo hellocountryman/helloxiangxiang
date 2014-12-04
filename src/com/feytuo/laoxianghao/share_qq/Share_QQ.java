@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.global.UserLogin;
@@ -269,7 +270,14 @@ public class Share_QQ {
 											"QQ", json.getString("nickname"),
 											headBitmap);
 								} catch (JSONException e) {
-
+									((Activity)context).runOnUiThread(new Runnable() {
+										
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											Toast.makeText(context, "网络不给力哦，请稍候再试...", Toast.LENGTH_LONG).show();
+										}
+									});
 								}
 							}
 						}

@@ -866,11 +866,11 @@ com.feytuo.chat.activity.ChatActivity:
     public static final int CHATTYPE_GROUP
     public static final java.lang.String COPY_IMAGE
     private int position
-    1623:1623:public java.lang.String getToChatUsername()
+    1624:1624:public java.lang.String getToChatUsername()
 com.feytuo.chat.activity.ChatAndContactFragment:
     247:247:public int getCurrentTabInCAC()
 com.feytuo.chat.activity.ContactlistFragment:
-    308:308:public boolean isActivityCreated()
+    319:319:public boolean isActivityCreated()
 com.feytuo.chat.activity.GroupDetailsActivity:
     private static final java.lang.String TAG
     private static final int REQUEST_CODE_ADD_USER
