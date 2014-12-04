@@ -129,7 +129,7 @@ public class UserToPersonActivity extends Activity {
 		if(user != null){
 			new ImageLoader(this).loadNoImage(user.getHeadUrl(), null, toPersonHeadImg);
 			toPersonNick.setText(user.getNickName());
-			toPersonHome.setText(user.getHome());
+			toPersonHome.setText(user.getHome()+"人");
 			toPersonSignText.setText(user.getPersonSign());
 			//添加好友按钮初始化
 			if(App.getInstance().getContactList().containsKey(user.getObjectId())){

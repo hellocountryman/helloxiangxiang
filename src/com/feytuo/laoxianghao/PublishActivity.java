@@ -440,7 +440,7 @@ public class PublishActivity extends Activity {
 		publishRecordTime.setVisibility(View.VISIBLE);
 		publishRecordingLinear.setVisibility(View.VISIBLE);// 显示出录音时候的动画
 		publishRecordingImg.setBackgroundResource(R.anim.frame_comment_anim);// 正在录音的动画
-		publishHint.setText("点击结束");
+		publishHint.setText("再点一下结束录音");
 		animationDrawable = (AnimationDrawable) publishRecordingImg
 				.getBackground();
 		animationDrawable.start();
@@ -578,7 +578,7 @@ public class PublishActivity extends Activity {
 		});
 		// Log.i("progress", "progress:"+progress.getProgress());
 		publishHint.setText("点击播放");
-		publishRecordTime.setText(mRecordTime + "s");
+		publishRecordTime.setText(mRecordTime + "\"");
 		publishRerecordButton.setVisibility(View.VISIBLE);
 		publishPlayRecordImgbutton
 				.setBackgroundResource(R.drawable.comment_record_play);
@@ -595,7 +595,7 @@ public class PublishActivity extends Activity {
 		progress.setBackgroundResource(R.drawable.comment_record_no);
 		// 初始化录音
 		mRecordTime = 0;
-		publishRecordTime.setText(mRecordTime + "s");
+		publishRecordTime.setText(mRecordTime + "\"");
 		if (fileAudio != null) {
 			fileAudio.delete();// 文件删除
 			fileAudio = null;
@@ -615,7 +615,7 @@ public class PublishActivity extends Activity {
 			publishPlayRecordImgbutton
 					.setBackgroundResource(R.drawable.comment_record_play);// 点击播放
 			publishRerecordButton.setVisibility(View.VISIBLE);
-			publishRecordTime.setText(mRecordTime + "s");
+			publishRecordTime.setText(mRecordTime + "\"");
 			publishHint.setText("点击试听");
 			Log.i("tangpeng", "试听完成的时候");
 		}
@@ -623,7 +623,7 @@ public class PublishActivity extends Activity {
 		@Override
 		public void onTick(long millisUntilFinished) {
 			Log.i("countdown", millisUntilFinished + "");
-			publishRecordTime.setText(millisUntilFinished / 1000 + "s");
+			publishRecordTime.setText(millisUntilFinished / 1000 + "\"");
 		}
 	}
 
@@ -649,11 +649,11 @@ public class PublishActivity extends Activity {
 		public void handleMessage(Message msg) {
 			if (msg.what == 1) {// 录音计时器
 				mRecordTime++;
-				publishRecordTime.setText(mRecordTime + "s");
+				publishRecordTime.setText(mRecordTime + "\"");
 			} else if (msg.what == 0) {
 				mProgressTimer.cancel();
 				publishRerecordButton.setVisibility(View.VISIBLE);
-				publishRecordTime.setText(mRecordTime + "s");
+				publishRecordTime.setText(mRecordTime + "\"");
 				// publishPlayRecordImgbutton
 				// .setBackgroundResource(R.drawable.play_ico);
 			}

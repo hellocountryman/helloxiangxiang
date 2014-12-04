@@ -171,7 +171,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 			if (mHolder != null && mHolder.equals(holder)) {
 				isCurrentItemAudioPlay = false;
 				holder.indexProgressbarTime.setText((Integer) list
-						.get(position).get("voice_duration") + "s");
+						.get(position).get("voice_duration") + "\"");
 				animationDrawable.stop();
 				holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 
@@ -236,7 +236,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 		holder.indexLocalsTime.setText(StringTools.getTimeFormatText(date));
 		holder.indexProgressbarTime.setText(list.get(position).get(
 				"voice_duration")
-				+ "s");
+				+ "\"");
 		// 点赞数
 		if ((Integer) (list.get(position).get("praise_num")) > 0) {
 			holder.indexSupportNum.setText(list.get(position).get("praise_num")
@@ -584,7 +584,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 		isPlay = false;
 		isAudioPlayArray.put(position, false);
 		if (holder != null) {
-			holder.indexProgressbarTime.setText(voiceDuration + "s");
+			holder.indexProgressbarTime.setText(voiceDuration + "\"");
 			animationDrawable.stop();
 			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 			
@@ -611,7 +611,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 		public void onFinish() {
 			// 完成的时候提示
 //			if (isCurrentItemAudioPlay) {
-				mHolder.indexProgressbarTime.setText(0 + "s");
+				mHolder.indexProgressbarTime.setText(0 + "\"");
 				mHandler.postDelayed(new Runnable() {
 					
 					@Override
@@ -631,7 +631,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 					+ isCurrentItemAudioPlay);
 			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(millisUntilFinished / 1000
-						+ "s");
+						+ "\"");
 			}
 		}
 	}
@@ -644,7 +644,7 @@ public class FindListViewAdapter extends SimpleAdapter {
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
 				if (isCurrentItemAudioPlay) {
-					mHolder.indexProgressbarTime.setText(voiceDuration + "s");
+					mHolder.indexProgressbarTime.setText(voiceDuration + "\"");
 					animationDrawable.stop();
 					mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 				}

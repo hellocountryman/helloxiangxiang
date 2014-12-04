@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.feytuo.laoxianghao.global.Global;
 import com.feytuo.laoxianghao.global.UserLogin;
+import com.feytuo.laoxianghao.view.OnloadDialog;
 import com.tencent.connect.UserInfo;
 //import com.feytuo.laoxianghao.MainActivity;
 import com.tencent.connect.common.Constants;
@@ -245,13 +246,20 @@ public class Share_QQ {
 	}
 
 	private Bitmap headBitmap;
-
+	private OnloadDialog loadDialog;
 	private void getUserQQInfo(final String openId,final Context context) {
 		if (mTencent != null && mTencent.isSessionValid()) {// 如果已经登录并且token可用
+			loadDialog = new OnloadDialog(context);
+	    	 loadDialog.setCanceledOnTouchOutside(false);
+	    	 loadDialog.show();
+	    	 loadDialog.setMessage("正在获取QQ登录信息");
 			IUiListener listener = new IUiListener() {
 
 				@Override
 				public void onError(UiError e) {
+					if(loadDialog.isShowing()){
+							loadDialog.dismiss();
+						}
 				}
 
 				@Override
@@ -266,6 +274,9 @@ public class Share_QQ {
 									headBitmap = Util.getbitmap(json
 											.getString("figureurl_qq_2"));
 									// QQ登录
+									if(loadDialog.isShowing()){
+	 									loadDialog.dismiss();
+	 								}
 									new UserLogin().Login(context, openId,
 											"QQ", json.getString("nickname"),
 											headBitmap);
@@ -275,6 +286,9 @@ public class Share_QQ {
 										@Override
 										public void run() {
 											// TODO Auto-generated method stub
+											if(loadDialog.isShowing()){
+			 									loadDialog.dismiss();
+			 								}
 											Toast.makeText(context, "网络不给力哦，请稍候再试...", Toast.LENGTH_LONG).show();
 										}
 									});
@@ -287,6 +301,9 @@ public class Share_QQ {
 
 				@Override
 				public void onCancel() {
+					if(loadDialog.isShowing()){
+							loadDialog.dismiss();
+						}
 				}
 			};
 			UserInfo mInfo = new UserInfo(context, mTencent.getQQToken());

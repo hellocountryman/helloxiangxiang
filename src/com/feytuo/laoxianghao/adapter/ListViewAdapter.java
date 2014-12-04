@@ -284,9 +284,9 @@ public class ListViewAdapter extends BaseAdapter {
 				isCurrentItemAudioPlay = false;
 				if(getItemViewType(position) == TYPE_1){
 					holder.indexProgressbarTime.setText((Integer) list
-							.get(listIndex).get("voice_duration") + "s");
+							.get(listIndex).get("voice_duration") + "\"");
 				}else{
-					holder.indexProgressbarTime.setText(topicInv.getVoiceDuration() + "s");
+					holder.indexProgressbarTime.setText(topicInv.getVoiceDuration() + "\"");
 				}
 				animationDrawable.stop();
 				 holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
@@ -338,7 +338,7 @@ public class ListViewAdapter extends BaseAdapter {
 			holder.indexLocalsTime.setText(StringTools.getTimeFormatText(date));
 			holder.indexProgressbarTime.setText(list.get(listIndex).get(
 					"voice_duration")
-					+ "s");
+					+ "\"");
 			// 点赞数
 			if ((Integer) (list.get(listIndex).get("praise_num")) > 0) {
 				holder.indexSupportNum.setText(list.get(listIndex).get("praise_num")
@@ -380,7 +380,7 @@ public class ListViewAdapter extends BaseAdapter {
 				e.printStackTrace();
 			}
 			holder.indexLocalsTime.setText(StringTools.getTimeFormatText(date));
-			holder.indexProgressbarTime.setText(topicInv.getVoiceDuration()+ "s");
+			holder.indexProgressbarTime.setText(topicInv.getVoiceDuration()+ "\"");
 			// 点赞数
 			if (topicInv.getPraiseNum() > 0) {
 				holder.indexSupportNum.setText(topicInv.getPraiseNum()
@@ -788,7 +788,7 @@ public class ListViewAdapter extends BaseAdapter {
 	public void stopAudio(final ViewHolder holder, int position) {
 		// TODO Auto-generated method stub
 		if (holder != null) {
-			holder.indexProgressbarTime.setText(voiceDuration + "s");
+			holder.indexProgressbarTime.setText(voiceDuration + "\"");
 			animationDrawable.stop();
 			holder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 		}
@@ -816,7 +816,7 @@ public class ListViewAdapter extends BaseAdapter {
 		public void onFinish() {
 			// 完成的时候提示
 //			if (isCurrentItemAudioPlay) {
-				mHolder.indexProgressbarTime.setText(0 + "s");
+				mHolder.indexProgressbarTime.setText(0 + "\"");
 				mHandler.postDelayed(new Runnable() {
 					
 					@Override
@@ -835,7 +835,7 @@ public class ListViewAdapter extends BaseAdapter {
 			 Log.i(TAG, "isCurrentItemAudioPlay:"+isCurrentItemAudioPlay);
 			if (isCurrentItemAudioPlay) {
 				mHolder.indexProgressbarTime.setText(millisUntilFinished / 1000
-						+ "s");
+						+ "\"");
 			}
 		}
 	}
@@ -848,7 +848,7 @@ public class ListViewAdapter extends BaseAdapter {
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
 				if (isCurrentItemAudioPlay) {
-					mHolder.indexProgressbarTime.setText(voiceDuration + "s");
+					mHolder.indexProgressbarTime.setText(voiceDuration + "\"");
 					animationDrawable.stop();
 					mHolder.indexProgressbarBtn.setBackgroundResource(R.drawable.musicplayone);
 				}

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.global.UserLogin;
+import com.feytuo.laoxianghao.view.OnloadDialog;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.exception.WeiboException;
@@ -25,6 +26,7 @@ public class AuthListener implements WeiboAuthListener{
     private String words;
     private int resource;
     private long uid;
+    private OnloadDialog loadDialog;
     public AuthListener(Context context , boolean isLogin,String words,int resource) {
     	this.isLogin = isLogin;
 		this.context = context;
@@ -84,6 +86,10 @@ public class AuthListener implements WeiboAuthListener{
      }
      
      public void getUserInfo() {
+    	 loadDialog = new OnloadDialog(context);
+    	 loadDialog.setCanceledOnTouchOutside(false);
+    	 loadDialog.show();
+    	 loadDialog.setMessage("正在获取微博登录信息");
  		// 获取当前已保存过的 Token
  		Oauth2AccessToken mAccessToken = AccessTokenKeeper
  				.readAccessToken(context);
@@ -116,12 +122,10 @@ public class AuthListener implements WeiboAuthListener{
  								Bitmap bitmap = null;
  								bitmap = com.feytuo.laoxianghao.share_qq.Util
  										.getbitmap(user.profile_image_url);
- 								
+ 								if(loadDialog.isShowing()){
+ 									loadDialog.dismiss();
+ 								}
  								new UserLogin().Login(context, uid+"", "Sina",user.screen_name,bitmap);
-// 								Message msg = new Message();
-// 								msg.obj = bitmap;
-// 								msg.what = 1;
-// 								mHandler.sendMessage(msg);
  							}
  						}
 
@@ -133,6 +137,9 @@ public class AuthListener implements WeiboAuthListener{
  		@Override
  		public void onWeiboException(WeiboException e) {
  			// LogUtil.e(TAG, e.getMessage());
+ 			if(loadDialog.isShowing()){
+					loadDialog.dismiss();
+				}
  			ErrorInfo info = ErrorInfo.parse(e.getMessage());
  			Toast.makeText(context, info.toString(), Toast.LENGTH_LONG).show();
  		}

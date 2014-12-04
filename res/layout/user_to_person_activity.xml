@@ -17,7 +17,13 @@
             android:layout_height="48.0dip"
             android:background="@drawable/return_selector"
             android:onClick="toPersonReturnBtn" />
-
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="@color/white"
+		    android:layout_centerInParent="true"
+            android:textSize="@dimen/font_big_size"
+		    android:text="@string/countryman"/>
         <Button
             android:id="@+id/user_info_add_friend_btn"
             android:layout_width="wrap_content"
@@ -26,7 +32,7 @@
             android:layout_centerVertical="true"
             android:padding="5dp"
             android:background="@drawable/common_tab_bg"
-            android:text="加为好友"
+            android:text="@string/addtofriend"
             android:textColor="@color/white"
             android:onClick="addFriend"
             android:textSize="@dimen/city_text_size" />
@@ -43,6 +49,7 @@
             android:layout_width="64dp"
             android:layout_height="64.0dip"
             android:layout_margin="8.0dip"
+            android:contentDescription="@string/app_name"
             android:background="@drawable/default_avatar"
              />
 
@@ -53,7 +60,7 @@
             android:layout_marginLeft="80.0dip"
             android:layout_marginRight="8.0dip"
             android:layout_marginTop="12.0dip"
-            android:text="乡乡"
+            android:text="@string/app_name"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -65,7 +72,7 @@
             android:layout_marginLeft="80.0dip"
             android:layout_marginRight="8.0dip"
             android:layout_marginTop="10.0dip"
-            android:text="熟悉的才是好玩的"
+            android:text="@string/app_sign"
             android:textColor="@color/head_color"
             android:textSize="12sp" />
 
@@ -75,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12.0dip"
             android:layout_toLeftOf="@+id/person_text"
-            android:text="火星"
+            android:text="@string/marsman"
             android:textColor="@color/head_color"
             android:textSize="12sp" />
 
@@ -86,7 +93,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="38.0dip"
             android:layout_marginTop="12.0dip"
-            
             android:textColor="@color/head_color"
             android:textSize="12sp" />
     </RelativeLayout>
@@ -99,7 +105,7 @@
     <ListView
         android:id="@+id/user_to_person_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="3"
         android:clickable="true"
         android:divider="@color/weibo_unline"
@@ -112,7 +118,7 @@
         android:layout_margin="4dip"
         android:background="@drawable/chat_selector"
         android:onClick="toPersonChat"
-        android:text="发起聊天"
+        android:text="@string/talkto"
         android:textColor="@color/white"
         android:textSize="16.0sp" />
 

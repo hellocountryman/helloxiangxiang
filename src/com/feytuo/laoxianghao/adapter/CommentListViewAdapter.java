@@ -348,7 +348,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		holder.indexLocalsTime.setText(inv.getTime());
 		// 地方话
 		holder.home.setText(cityDao.getCityNameById(inv.getHome()) + "话");
-		holder.indexProgressbarTime.setText(inv.getVoiceDuration() + "s");
+		holder.indexProgressbarTime.setText(inv.getVoiceDuration() + "\"");
 		if (1 == inv.getIsHot()) {
 			holder.titleImage.setVisibility(View.GONE);
 			holder.indexLocalsCountry.setVisibility(View.GONE);
@@ -747,7 +747,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 //		mCount = 0;
 		isInvitationPlay = false;
 		if (holder != null) {
-			holder.indexProgressbarTime.setText(voiceDuration + "s");
+			holder.indexProgressbarTime.setText(voiceDuration + "\"");
 			animationDrawable.stop();
 			holder.indexProgressbarBtn
 					.setBackgroundResource(R.drawable.musicplayone);
@@ -773,7 +773,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		@Override
 		public void onFinish() {
 			// 完成的时候提示
-			mHolder1.indexProgressbarTime.setText(0 + "s");
+			mHolder1.indexProgressbarTime.setText(0 + "\"");
 			mHandler.postDelayed(new Runnable() {
 				
 				@Override
@@ -787,7 +787,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		@Override
 		public void onTick(long millisUntilFinished) {
 			mHolder1.indexProgressbarTime.setText(millisUntilFinished / 1000
-					+ "s");
+					+ "\"");
 		}
 	}
 
@@ -799,7 +799,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
-				mHolder1.indexProgressbarTime.setText(voiceDuration + "s");
+				mHolder1.indexProgressbarTime.setText(voiceDuration + "\"");
 				animationDrawable.stop();
 				mHolder1.indexProgressbarBtn
 						.setBackgroundResource(R.drawable.musicplayone);
