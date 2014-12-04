@@ -46,6 +46,7 @@ public class SelsectedCountry extends Activity {
 	private Button selectCountryReturnBtn;
 	private Button selectCityHot1, selectCityHot2, selectCityHot3,
 			selectCityHot4;// 几个热门城市;
+	private Button selectCityHot0;
 	/**
 	 * 汉字转换成拼音的类
 	 */
@@ -82,10 +83,12 @@ public class SelsectedCountry extends Activity {
 		hotCityLinear=(LinearLayout)findViewById(R.id.hotcitylinear);
 		
 		Listener listener = new Listener();
+		selectCityHot0 = (Button) findViewById(R.id.select_city_hot_0);//全部城市
 		selectCityHot1 = (Button) findViewById(R.id.select_city_hot_1);
 		selectCityHot2 = (Button) findViewById(R.id.select_city_hot_2);
 		selectCityHot3 = (Button) findViewById(R.id.select_city_hot_3);
 		selectCityHot4 = (Button) findViewById(R.id.select_city_hot_4);
+		selectCityHot0.setOnClickListener(listener);
 		selectCityHot1.setOnClickListener(listener);
 		selectCityHot2.setOnClickListener(listener);
 		selectCityHot3.setOnClickListener(listener);
@@ -172,6 +175,9 @@ public class SelsectedCountry extends Activity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.select_city_hot_0:
+				saveCurrentHome("all");
+				break;
 			case R.id.select_city_hot_1:
 				saveCurrentHome("北京");
 				break;
@@ -228,11 +234,11 @@ public class SelsectedCountry extends Activity {
 	protected void saveCurrentHome(String home) {
 		// TODO Auto-generated method stub
 		int cityId = new CityDao(this).getCityIdByName(home);
-		if(path == 0 || path == 2){//欢迎界面跳转
+		if(path == 0 || path == 2){//欢迎界面、选择家乡跳转
 			// 更新当前用户home属性
 			App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
 			updateCurrentUserHome(home);
-		}else if(path == 1){
+		}else if(path == 1){//筛选
 			App.pre.edit().putInt(Global.CURRENT_NATIVE, cityId).commit();
 			turnToMain(home);
 		}else{//发布中选择话系

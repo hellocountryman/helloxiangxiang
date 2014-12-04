@@ -55,5 +55,13 @@
     </RelativeLayout>
 
     <!-- end -->
+    <ImageView 
+        android:id="@+id/main_no_invitation_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:background="@drawable/no_invitation_bg"
+        />
 
 </RelativeLayout>

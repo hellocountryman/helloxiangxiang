@@ -367,7 +367,7 @@ public class PublishActivity extends Activity {
 		inv.setShareNum(0);
 		inv.setCommentNum(0);
 		inv.setHeadId(1);
-		inv.setUser(UserLogin.gUser);
+		inv.setUser(UserLogin.getCurrentUser());
 		inv.save(this, new SaveListener() {
 
 			@Override

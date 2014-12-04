@@ -67,6 +67,16 @@
             android:orientation="horizontal" >
 
             <Button
+                android:id="@+id/select_city_hot_0"
+                android:layout_width="0.0dip"
+                android:layout_height="30dip"
+                android:layout_margin="8.0dip"
+                android:layout_weight="1"
+                android:background="@drawable/corners_storke_indexbg"
+                android:text="@string/all"
+                android:textColor="@color/black"
+                android:textSize="12.0sp" />
+            <Button
                 android:id="@+id/select_city_hot_1"
                 android:layout_width="0.0dip"
                 android:layout_height="30dip"

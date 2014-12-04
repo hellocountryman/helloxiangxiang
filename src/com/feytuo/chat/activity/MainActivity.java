@@ -67,6 +67,7 @@ import com.feytuo.laoxianghao.WelcomeActivity;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.fragment.FindFragment;
 import com.feytuo.laoxianghao.fragment.MainFragment;
+import com.feytuo.laoxianghao.global.Global;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
@@ -848,6 +849,10 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			//按返回键，重新将首页设为全部，并需要刷新列表
+			App.pre.edit().putInt(Global.CURRENT_NATIVE, 0).commit();
+			App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, true)
+			.commit();
 			moveTaskToBack(false);
 			return true;
 		}
