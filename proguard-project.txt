@@ -84,6 +84,7 @@
 -libraryjars libs/mta-sdk-1.6.2.jar
 -libraryjars libs/open_sdk_r4066.jar
 -libraryjars libs/umeng-analytics-v5.2.4.jar
+-libraryjars libs/weibosdkcore.jar
 -libraryjars libs/zrclistview.jar
 
 #baidu
