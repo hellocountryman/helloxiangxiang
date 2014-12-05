@@ -15557,6 +15557,7 @@ com.feytuo.laoxianghao.R$dimen: int field_margin_right
 com.feytuo.laoxianghao.R$dimen: int field_textsize
 com.feytuo.laoxianghao.R$dimen: int find_picture
 com.feytuo.laoxianghao.R$dimen: int find_text_size
+com.feytuo.laoxianghao.R$dimen: int font_big_size
 com.feytuo.laoxianghao.R$dimen: int headico
 com.feytuo.laoxianghao.R$dimen: int height_row_weixin
 com.feytuo.laoxianghao.R$dimen: int height_top_bar
@@ -16623,10 +16624,12 @@ com.feytuo.laoxianghao.R$string: int abc_shareactionprovider_share_with_applicat
 com.feytuo.laoxianghao.R$string: int about_xiangxiang
 com.feytuo.laoxianghao.R$string: int action_settings
 com.feytuo.laoxianghao.R$string: int add_friends
+com.feytuo.laoxianghao.R$string: int addtofriend
 com.feytuo.laoxianghao.R$string: int all
 com.feytuo.laoxianghao.R$string: int allcity
 com.feytuo.laoxianghao.R$string: int allright
 com.feytuo.laoxianghao.R$string: int app_name
+com.feytuo.laoxianghao.R$string: int app_sign
 com.feytuo.laoxianghao.R$string: int attach_file
 com.feytuo.laoxianghao.R$string: int attach_location
 com.feytuo.laoxianghao.R$string: int attach_picture
@@ -16666,6 +16669,7 @@ com.feytuo.laoxianghao.R$string: int copy_right
 com.feytuo.laoxianghao.R$string: int copyright
 com.feytuo.laoxianghao.R$string: int copyright2014
 com.feytuo.laoxianghao.R$string: int country
+com.feytuo.laoxianghao.R$string: int countryman
 com.feytuo.laoxianghao.R$string: int delete
 com.feytuo.laoxianghao.R$string: int delete_message
 com.feytuo.laoxianghao.R$string: int delete_video
@@ -16694,6 +16698,7 @@ com.feytuo.laoxianghao.R$string: int location_prefix
 com.feytuo.laoxianghao.R$string: int location_recv
 com.feytuo.laoxianghao.R$string: int logout
 com.feytuo.laoxianghao.R$string: int logout_hint
+com.feytuo.laoxianghao.R$string: int marsman
 com.feytuo.laoxianghao.R$string: int maxmun
 com.feytuo.laoxianghao.R$string: int move_up_to_cancel
 com.feytuo.laoxianghao.R$string: int my_fanyan
@@ -16732,6 +16737,7 @@ com.feytuo.laoxianghao.R$string: int setting
 com.feytuo.laoxianghao.R$string: int share
 com.feytuo.laoxianghao.R$string: int show
 com.feytuo.laoxianghao.R$string: int stoprecord
+com.feytuo.laoxianghao.R$string: int talkto
 com.feytuo.laoxianghao.R$string: int text_ack_msg
 com.feytuo.laoxianghao.R$string: int text_delivered_msg
 com.feytuo.laoxianghao.R$string: int to_friends

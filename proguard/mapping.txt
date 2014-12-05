@@ -19056,6 +19056,7 @@ com.feytuo.laoxianghao.R$dimen -> com.feytuo.laoxianghao.R$dimen:
     int field_textsize -> field_textsize
     int find_picture -> find_picture
     int find_text_size -> find_text_size
+    int font_big_size -> font_big_size
     int headico -> headico
     int height_row_weixin -> height_row_weixin
     int height_top_bar -> height_top_bar
@@ -20115,10 +20116,12 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int about_xiangxiang -> about_xiangxiang
     int action_settings -> action_settings
     int add_friends -> add_friends
+    int addtofriend -> addtofriend
     int all -> all
     int allcity -> allcity
     int allright -> allright
     int app_name -> app_name
+    int app_sign -> app_sign
     int attach_file -> attach_file
     int attach_location -> attach_location
     int attach_picture -> attach_picture
@@ -20158,6 +20161,7 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int copyright -> copyright
     int copyright2014 -> copyright2014
     int country -> country
+    int countryman -> countryman
     int delete -> delete
     int delete_message -> delete_message
     int delete_video -> delete_video
@@ -20186,6 +20190,7 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int location_recv -> location_recv
     int logout -> logout
     int logout_hint -> logout_hint
+    int marsman -> marsman
     int maxmun -> maxmun
     int move_up_to_cancel -> move_up_to_cancel
     int my_fanyan -> my_fanyan
@@ -20224,6 +20229,7 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int share -> share
     int show -> show
     int stoprecord -> stoprecord
+    int talkto -> talkto
     int text_ack_msg -> text_ack_msg
     int text_delivered_msg -> text_delivered_msg
     int to_friends -> to_friends
@@ -21743,6 +21749,7 @@ com.feytuo.laoxianghao.global.UserLogin$9$1 -> com.feytuo.laoxianghao.d.r:
 com.feytuo.laoxianghao.share_qq.Share_QQ -> com.feytuo.laoxianghao.e.a:
     com.tencent.tauth.Tencent mTencent -> a
     android.graphics.Bitmap headBitmap -> b
+    com.feytuo.laoxianghao.view.OnloadDialog loadDialog -> c
     void qqLogin(android.app.Activity) -> a
     void shareToQQOrQzone(android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int) -> a
     void doShareToQQ(android.content.Context,android.os.Bundle) -> a
@@ -21750,8 +21757,9 @@ com.feytuo.laoxianghao.share_qq.Share_QQ -> com.feytuo.laoxianghao.e.a:
     void getUserQQInfo(java.lang.String,android.content.Context) -> a
     void access$0(com.feytuo.laoxianghao.share_qq.Share_QQ,org.json.JSONObject,boolean,android.content.Context) -> a
     com.tencent.tauth.Tencent access$1(com.feytuo.laoxianghao.share_qq.Share_QQ) -> a
-    void access$2(com.feytuo.laoxianghao.share_qq.Share_QQ,android.graphics.Bitmap) -> a
-    android.graphics.Bitmap access$3(com.feytuo.laoxianghao.share_qq.Share_QQ) -> b
+    com.feytuo.laoxianghao.view.OnloadDialog access$2(com.feytuo.laoxianghao.share_qq.Share_QQ) -> b
+    void access$3(com.feytuo.laoxianghao.share_qq.Share_QQ,android.graphics.Bitmap) -> a
+    android.graphics.Bitmap access$4(com.feytuo.laoxianghao.share_qq.Share_QQ) -> c
 com.feytuo.laoxianghao.share_qq.Share_QQ$1 -> com.feytuo.laoxianghao.e.b:
     com.feytuo.laoxianghao.share_qq.Share_QQ this$0 -> a
     android.app.Activity val$activity -> b
@@ -21771,6 +21779,7 @@ com.feytuo.laoxianghao.share_qq.Share_QQ$2$1 -> com.feytuo.laoxianghao.e.d:
     android.content.Context val$context -> c
     java.lang.String val$openId -> d
     void run() -> run
+    com.feytuo.laoxianghao.share_qq.Share_QQ$2 access$0(com.feytuo.laoxianghao.share_qq.Share_QQ$2$1) -> a
 com.feytuo.laoxianghao.share_qq.Share_QQ$2$1$1 -> com.feytuo.laoxianghao.e.e:
     com.feytuo.laoxianghao.share_qq.Share_QQ$2$1 this$2 -> a
     android.content.Context val$context -> b
@@ -21799,13 +21808,15 @@ com.feytuo.laoxianghao.share_sina.AuthListener -> com.feytuo.laoxianghao.f.c:
     java.lang.String words -> d
     int resource -> e
     long uid -> f
-    com.sina.weibo.sdk.net.RequestListener getUserInfoListener -> g
+    com.feytuo.laoxianghao.view.OnloadDialog loadDialog -> g
+    com.sina.weibo.sdk.net.RequestListener getUserInfoListener -> h
     void onComplete(android.os.Bundle) -> onComplete
     void onCancel() -> onCancel
     void onWeiboException(com.sina.weibo.sdk.exception.WeiboException) -> onWeiboException
     void getUserInfo() -> a
-    android.content.Context access$0(com.feytuo.laoxianghao.share_sina.AuthListener) -> a
-    long access$1(com.feytuo.laoxianghao.share_sina.AuthListener) -> b
+    com.feytuo.laoxianghao.view.OnloadDialog access$0(com.feytuo.laoxianghao.share_sina.AuthListener) -> a
+    android.content.Context access$1(com.feytuo.laoxianghao.share_sina.AuthListener) -> b
+    long access$2(com.feytuo.laoxianghao.share_sina.AuthListener) -> c
 com.feytuo.laoxianghao.share_sina.AuthListener$1 -> com.feytuo.laoxianghao.f.d:
     com.feytuo.laoxianghao.share_sina.AuthListener this$0 -> a
     void onComplete(java.lang.String) -> onComplete

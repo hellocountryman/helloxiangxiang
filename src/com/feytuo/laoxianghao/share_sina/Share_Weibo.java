@@ -306,8 +306,8 @@ public class Share_Weibo {
 				voiceImageRes)).getBitmap();
 		voiceObject.setThumbImage(bitmap);
 		voiceObject.actionUrl = voiceUrl;
-		voiceObject.dataUrl = "www.baidu.com";
-		voiceObject.dataHdUrl = "www.baidu.com";
+		voiceObject.dataUrl = "http://baike.baidu.com/view/15208269.htm?fr=aladdin";
+		voiceObject.dataHdUrl = "http://baike.baidu.com/view/15208269.htm?fr=aladdin";
 		voiceObject.duration = 10;
 		voiceObject.defaultText = "乡乡分享";
 		return voiceObject;

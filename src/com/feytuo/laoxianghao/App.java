@@ -32,9 +32,6 @@ import com.feytuo.chat.receiver.VoiceCallReceiver;
 import com.feytuo.chat.utils.PreferenceUtils;
 import com.feytuo.laoxianghao.db.DatabaseHelper;
 import com.feytuo.laoxianghao.global.Global;
-import com.feytuo.laoxianghao.share_qq.Share_QQ;
-import com.feytuo.laoxianghao.share_sina.Share_Weibo;
-import com.feytuo.laoxianghao.wxapi.Share_Weixin;
 /**
  * application
  * @author feytuo
@@ -55,9 +52,6 @@ public class App extends Application {
 	private Map<String, User> contactList;
 	private UserDao userDao;
 	
-	public static Share_QQ shareQQ;// QQ登录和分享
-	public static Share_Weibo shareWeibo;// 微博登录和分享
-	public static Share_Weixin shareWeixin;// 微信分享
 	/**
 	 * 当前用户nickname,为了苹果推送不是userid而是昵称
 	 */
@@ -66,7 +60,6 @@ public class App extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		initThree();//初始化第三方登录、分享
 		userDao = new UserDao(this);
 		pre = this.getSharedPreferences(Global.PREFERENCE_NAME, Context.MODE_PRIVATE);
         int pid = android.os.Process.myPid();
@@ -150,12 +143,6 @@ public class App extends Application {
 		registerReceiver(new VoiceCallReceiver(), callFilter);
 	}
 	
-	private void initThree() {
-		// TODO Auto-generated method stub
-		shareQQ = new Share_QQ(this);// QQ登录和分享
-		shareWeibo = new Share_Weibo(this);
-		shareWeixin = new Share_Weixin(this);
-	}
 	public static boolean isLogin(){
 		String userId = pre.getString(Global.USER_ID, Global.NO_LOGIN);
 		if(userId.equals(Global.NO_LOGIN)){

@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.feytuo.laoxianghao.App;
 import com.feytuo.laoxianghao.R;
 import com.feytuo.laoxianghao.domain.Invitation;
+import com.feytuo.laoxianghao.share_qq.Share_QQ;
+import com.feytuo.laoxianghao.share_sina.Share_Weibo;
+import com.feytuo.laoxianghao.wxapi.Share_Weixin;
 
 public class MyDialog extends Dialog {
 	Context context;
@@ -31,6 +33,9 @@ public class MyDialog extends Dialog {
 	private ImageView shareQQFriend;
 	private ImageView shareQzone;
 	private ImageView shareSms;
+	private Share_QQ shareQQ;
+	private Share_Weibo shareWeibo;
+	private Share_Weixin shareWeixin;
 
 	public MyDialog(Context context) {
 		super(context);
@@ -58,6 +63,9 @@ public class MyDialog extends Dialog {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.dialog);
+		shareQQ = new Share_QQ(context);
+		shareWeibo = new Share_Weibo(context);
+		shareWeixin = new Share_Weixin(context);
 		shareWeixinArea = (ImageView) findViewById(R.id.share_weixin_area);
 		shareSina = (ImageView) findViewById(R.id.share_sina);
 		shareWeixinFriend = (ImageView) findViewById(R.id.share_weixin_friend);
@@ -111,28 +119,28 @@ public class MyDialog extends Dialog {
 		// TODO Auto-generated method stub
 		// String voiceUrl =
 		// "http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3";
-		if (App.shareWeibo.getmWeiboShareAPI().isWeiboAppInstalled()) {
+		if (shareWeibo.getmWeiboShareAPI().isWeiboAppInstalled()) {
 			// 安装了客户端正常分享
-			App.shareWeibo.sendMessage(words, targetUrl,
+			shareWeibo.sendMessage(words, targetUrl,
 					imageResource, voiceTitle, voiceDes, audioUrl,
 					imageResource);
 		} else {
 			// 未安装客户端调用openapi分享
-			App.shareWeibo.sendMessage((Activity) context,words + targetUrl,
+			shareWeibo.sendMessage((Activity) context,words + targetUrl,
 					imageResource);
 		}
 	}
 
 	private void shareQzone() {
 		// TODO Auto-generated method stub
-		App.shareQQ.shareToQQOrQzone(context,words,voiceTitle, targetUrl,
+		shareQQ.shareToQQOrQzone(context,words,voiceTitle, targetUrl,
 				imageUrl, audioUrl, 1);
 	}
 
 	// 分享QQ好友
 	private void shareQFriend() {
 		// TODO Auto-generated method stub
-		App.shareQQ.shareToQQOrQzone(context,words,voiceTitle, targetUrl,
+		shareQQ.shareToQQOrQzone(context,words,voiceTitle, targetUrl,
 				imageUrl, audioUrl, 2);
 	}
 
@@ -142,7 +150,7 @@ public class MyDialog extends Dialog {
 	 * @param v
 	 */
 	private void toWeixinFriend() {
-		App.shareWeixin.wechatShare(0, words,voiceTitle, targetUrl,
+		shareWeixin.wechatShare(0, words,voiceTitle, targetUrl,
 				audioUrl, R.drawable.ic_launcher);
 	}
 
@@ -152,7 +160,7 @@ public class MyDialog extends Dialog {
 	 * @param v
 	 */
 	private void toFriendGroup() {
-		App.shareWeixin.wechatShare(1,words,voiceTitle, targetUrl,
+		shareWeixin.wechatShare(1,words,voiceTitle, targetUrl,
 				audioUrl, R.drawable.ic_launcher);
 	}
 	

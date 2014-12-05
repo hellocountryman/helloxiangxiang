@@ -68,6 +68,7 @@ import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.fragment.FindFragment;
 import com.feytuo.laoxianghao.fragment.MainFragment;
 import com.feytuo.laoxianghao.global.Global;
+import com.feytuo.laoxianghao.share_sina.Share_Weibo;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
@@ -93,6 +94,7 @@ public class MainActivity extends FragmentActivity implements
 	// 当前fragment的index
 	private int currentTabIndex;
 	private NewMessageBroadcastReceiver msgReceiver;
+	private Share_Weibo shareWeibo;
 	// 账号在别处登录
 	private boolean isConflict = false;
 
@@ -100,6 +102,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		shareWeibo = new Share_Weibo(this);
 		((App)getApplication()).setMainActivity(this);
 		initShare(savedInstanceState);
 		initView(savedInstanceState);
@@ -149,7 +152,7 @@ public class MainActivity extends FragmentActivity implements
 	private void initShare(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		if (savedInstanceState != null) {
-			App.shareWeibo.getmWeiboShareAPI().handleWeiboResponse(getIntent(),
+			shareWeibo.getmWeiboShareAPI().handleWeiboResponse(getIntent(),
 					this);
 		}
 	}
@@ -331,7 +334,7 @@ public class MainActivity extends FragmentActivity implements
 			// 主页面收到消息后，主要为了提示未读，实际消息内容需要到chat页面查看
 
 			// 消息id
-			String msgId = intent.getStringExtra("msgid");
+//			String msgId = intent.getStringExtra("msgid");
 			// 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
 			// EMMessage message =
 			// EMChatManager.getInstance().getMessage(msgId);
@@ -949,8 +952,8 @@ public class MainActivity extends FragmentActivity implements
 
 		// SSO 授权回调
 		// 重要：发起 SSO 登陆的 Activity 必须重写 onActivityResult
-		if (App.shareWeibo.getmSsoHandler() != null) {
-			App.shareWeibo.getmSsoHandler().authorizeCallBack(requestCode,
+		if (shareWeibo.getmSsoHandler() != null) {
+			shareWeibo.getmSsoHandler().authorizeCallBack(requestCode,
 					resultCode, data);
 		}
 	}
@@ -966,7 +969,7 @@ public class MainActivity extends FragmentActivity implements
 		// 来接收微博客户端返回的数据；执行成功，返回 true，并调用
 		// {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
 		// mWeiboShareAPI.handleWeiboResponse(intent, getActivity());
-		App.shareWeibo.getmWeiboShareAPI().handleWeiboResponse(intent, this);
+		shareWeibo.getmWeiboShareAPI().handleWeiboResponse(intent, this);
 	}
 
 	@Override

@@ -15,7 +15,6 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
-import com.sina.weibo.sdk.openapi.UsersAPI;
 
 public class AuthListener implements WeiboAuthListener{
 
@@ -56,7 +55,7 @@ public class AuthListener implements WeiboAuthListener{
 //	             Log.i("WeiboAuthTest", uid+"=="+values.getString("uid"));
 	             getUserInfo();
              }
-             
+             Log.i("AuthListener", "授权成功");
              //授权成功即可
          } else {
              // 以下几种情况，您会收到 Code：
@@ -68,12 +67,14 @@ public class AuthListener implements WeiboAuthListener{
              if (!TextUtils.isEmpty(code)) {
                  message = message + "\nObtained the code: " + code;
              }
+             Log.i("AuthListener", message);
 //             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
          }
      }
 
      @Override
      public void onCancel() {
+    	 Log.i("AuthListener", "授权取消");
 //         Toast.makeText(context, 
 //                 R.string.weibosdk_demo_toast_auth_canceled, Toast.LENGTH_LONG).show();
      }

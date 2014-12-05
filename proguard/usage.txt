@@ -1066,7 +1066,7 @@ com.feytuo.laoxianghao.db.DatabaseHelper:
     47:47:public boolean deleteDatabase(android.content.Context)
 com.feytuo.laoxianghao.global.Global
 com.feytuo.laoxianghao.share_qq.Share_QQ:
-    60:61:public void qqLogout(android.app.Activity)
+    61:62:public void qqLogout(android.app.Activity)
 com.feytuo.laoxianghao.share_qq.Util:
     private static final java.lang.String TAG
     private static android.app.Dialog mProgressDialog
