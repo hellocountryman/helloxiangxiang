@@ -1045,7 +1045,7 @@ com.feytuo.chat.widget.photoview.VersionedGestureDetector$EclairDetector:
     private static final int INVALID_POINTER_ID
 com.feytuo.laoxianghao.App:
     private static final java.lang.String PREF_PWD
-    201:201:public void setStrangerList(java.util.Map)
+    188:188:public void setStrangerList(java.util.Map)
 com.feytuo.laoxianghao.BuildConfig
 com.feytuo.laoxianghao.Manifest
 com.feytuo.laoxianghao.Manifest$permission
@@ -1149,6 +1149,19 @@ com.feytuo.laoxianghao.share_sina.StatusesAPI:
     274:284:private com.sina.weibo.sdk.net.WeiboParameters buildMentionsParams(long,long,int,int,int,int,int,boolean)
 com.feytuo.laoxianghao.share_sina.User:
     public com.feytuo.laoxianghao.share_sina.Status status
+com.feytuo.laoxianghao.share_sina.UsersAPI:
+    private static final int READ_USER
+    private static final int READ_USER_BY_DOMAIN
+    private static final int READ_USER_COUNT
+    private static final java.lang.String API_BASE_URL
+    70:73:public void show(java.lang.String,com.sina.weibo.sdk.net.RequestListener)
+    82:85:public void domainShow(java.lang.String,com.sina.weibo.sdk.net.RequestListener)
+    94:96:public void counts(long[],com.sina.weibo.sdk.net.RequestListener)
+    108:110:public java.lang.String showSync(long)
+    117:119:public java.lang.String showSync(java.lang.String)
+    126:128:public java.lang.String domainShowSync(java.lang.String)
+    135:136:public java.lang.String countsSync(long[])
+    140:147:private com.sina.weibo.sdk.net.WeiboParameters buildCountsParams(long[])
 com.feytuo.laoxianghao.share_sina.Visible:
     public static final int VISIBLE_NORMAL
     public static final int VISIBLE_PRIVACY
@@ -1216,7 +1229,7 @@ com.feytuo.laoxianghao.util.StringTools:
 com.feytuo.laoxianghao.view.ListViewForScrollView:
     8:9:public ListViewForScrollView(android.content.Context)
 com.feytuo.laoxianghao.view.MyDialog:
-    36:39:public MyDialog(android.content.Context)
+    41:44:public MyDialog(android.content.Context)
 com.feytuo.laoxianghao.view.PositionChooseDialog:
     37:39:public PositionChooseDialog(android.content.Context,int)
 com.feytuo.listviewonload.APIUtil:

@@ -16726,12 +16726,13 @@ com.feytuo.chat.activity.MainActivity -> com.feytuo.chat.activity.MainActivity:
     int index -> g
     int currentTabIndex -> h
     com.feytuo.chat.activity.MainActivity$NewMessageBroadcastReceiver msgReceiver -> i
-    boolean isConflict -> j
-    android.content.BroadcastReceiver ackMessageReceiver -> k
-    com.feytuo.chat.db.InviteMessgeDao inviteMessgeDao -> l
-    com.feytuo.chat.db.UserDao userDao -> m
-    android.app.AlertDialog$Builder conflictBuilder -> n
-    boolean isConflictDialogShow -> o
+    com.feytuo.laoxianghao.share_sina.Share_Weibo shareWeibo -> j
+    boolean isConflict -> k
+    android.content.BroadcastReceiver ackMessageReceiver -> l
+    com.feytuo.chat.db.InviteMessgeDao inviteMessgeDao -> m
+    com.feytuo.chat.db.UserDao userDao -> n
+    android.app.AlertDialog$Builder conflictBuilder -> o
+    boolean isConflictDialogShow -> p
     void onCreate(android.os.Bundle) -> onCreate
     void registerHXListeners() -> a
     void initShare(android.os.Bundle) -> a
@@ -18368,19 +18369,15 @@ com.feytuo.laoxianghao.AboutUsActivity$1 -> com.feytuo.laoxianghao.a:
 com.feytuo.laoxianghao.App -> com.feytuo.laoxianghao.App:
     android.content.SharedPreferences pre -> a
     android.content.Context applicationContext -> b
-    android.app.Activity mainActivity -> h
-    com.feytuo.laoxianghao.App instance -> i
+    android.app.Activity mainActivity -> e
+    com.feytuo.laoxianghao.App instance -> f
     java.lang.String PREF_USERNAME -> c
-    java.lang.String userName -> j
-    java.lang.String password -> k
-    java.util.Map contactList -> l
-    com.feytuo.chat.db.UserDao userDao -> m
-    com.feytuo.laoxianghao.share_qq.Share_QQ shareQQ -> d
-    com.feytuo.laoxianghao.share_sina.Share_Weibo shareWeibo -> e
-    com.feytuo.laoxianghao.wxapi.Share_Weixin shareWeixin -> f
-    java.lang.String currentUserNick -> g
+    java.lang.String userName -> g
+    java.lang.String password -> h
+    java.util.Map contactList -> i
+    com.feytuo.chat.db.UserDao userDao -> j
+    java.lang.String currentUserNick -> d
     void onCreate() -> onCreate
-    void initThree() -> g
     boolean isLogin() -> a
     com.feytuo.laoxianghao.App getInstance() -> b
     java.util.Map getContactList() -> c
@@ -18976,8 +18973,6 @@ com.feytuo.laoxianghao.R$color -> com.feytuo.laoxianghao.R$color:
     int btn_white_normal -> btn_white_normal
     int btn_white_pressed -> btn_white_pressed
     int button_no -> button_no
-    int com_sina_weibo_sdk_blue -> com_sina_weibo_sdk_blue
-    int com_sina_weibo_sdk_loginview_text_color -> com_sina_weibo_sdk_loginview_text_color
     int comment_hint -> comment_hint
     int common_bg -> common_bg
     int common_bottom_bar_normal_bg -> common_bottom_bar_normal_bg
@@ -19041,13 +19036,6 @@ com.feytuo.laoxianghao.R$dimen -> com.feytuo.laoxianghao.R$dimen:
     int call_button_padding_vertical -> call_button_padding_vertical
     int city_list_size -> city_list_size
     int city_text_size -> city_text_size
-    int com_sina_weibo_sdk_loginview_compound_drawable_padding -> com_sina_weibo_sdk_loginview_compound_drawable_padding
-    int com_sina_weibo_sdk_loginview_padding -> com_sina_weibo_sdk_loginview_padding
-    int com_sina_weibo_sdk_loginview_padding_bottom -> com_sina_weibo_sdk_loginview_padding_bottom
-    int com_sina_weibo_sdk_loginview_padding_left -> com_sina_weibo_sdk_loginview_padding_left
-    int com_sina_weibo_sdk_loginview_padding_right -> com_sina_weibo_sdk_loginview_padding_right
-    int com_sina_weibo_sdk_loginview_padding_top -> com_sina_weibo_sdk_loginview_padding_top
-    int com_sina_weibo_sdk_loginview_text_size -> com_sina_weibo_sdk_loginview_text_size
     int dialog_fixed_height_major -> dialog_fixed_height_major
     int dialog_fixed_height_minor -> dialog_fixed_height_minor
     int dialog_fixed_width_major -> dialog_fixed_width_major
@@ -19268,11 +19256,6 @@ com.feytuo.laoxianghao.R$drawable -> com.feytuo.laoxianghao.R$drawable:
     int close_icon -> close_icon
     int collect_no -> collect_no
     int collect_press -> collect_press
-    int com_sina_weibo_sdk_button_blue -> com_sina_weibo_sdk_button_blue
-    int com_sina_weibo_sdk_button_grey -> com_sina_weibo_sdk_button_grey
-    int com_sina_weibo_sdk_login_button_with_account_text -> com_sina_weibo_sdk_login_button_with_account_text
-    int com_sina_weibo_sdk_login_button_with_frame_logo -> com_sina_weibo_sdk_login_button_with_frame_logo
-    int com_sina_weibo_sdk_login_button_with_original_logo -> com_sina_weibo_sdk_login_button_with_original_logo
     int comment_audio_normal -> comment_audio_normal
     int comment_audio_play -> comment_audio_play
     int comment_audio_pressed -> comment_audio_pressed
@@ -19344,20 +19327,6 @@ com.feytuo.laoxianghao.R$drawable -> com.feytuo.laoxianghao.R$drawable:
     int group_icon -> group_icon
     int groups_icon -> groups_icon
     int head_choose_selector -> head_choose_selector
-    int ic_com_sina_weibo_sdk_button_blue_focused -> ic_com_sina_weibo_sdk_button_blue_focused
-    int ic_com_sina_weibo_sdk_button_blue_normal -> ic_com_sina_weibo_sdk_button_blue_normal
-    int ic_com_sina_weibo_sdk_button_blue_pressed -> ic_com_sina_weibo_sdk_button_blue_pressed
-    int ic_com_sina_weibo_sdk_button_grey_focused -> ic_com_sina_weibo_sdk_button_grey_focused
-    int ic_com_sina_weibo_sdk_button_grey_normal -> ic_com_sina_weibo_sdk_button_grey_normal
-    int ic_com_sina_weibo_sdk_button_grey_pressed -> ic_com_sina_weibo_sdk_button_grey_pressed
-    int ic_com_sina_weibo_sdk_login_button_with_frame_logo_focused -> ic_com_sina_weibo_sdk_login_button_with_frame_logo_focused
-    int ic_com_sina_weibo_sdk_login_button_with_frame_logo_normal -> ic_com_sina_weibo_sdk_login_button_with_frame_logo_normal
-    int ic_com_sina_weibo_sdk_login_button_with_frame_logo_pressed -> ic_com_sina_weibo_sdk_login_button_with_frame_logo_pressed
-    int ic_com_sina_weibo_sdk_login_with_account_text_focused -> ic_com_sina_weibo_sdk_login_with_account_text_focused
-    int ic_com_sina_weibo_sdk_login_with_account_text_normal -> ic_com_sina_weibo_sdk_login_with_account_text_normal
-    int ic_com_sina_weibo_sdk_login_with_account_text_pressed -> ic_com_sina_weibo_sdk_login_with_account_text_pressed
-    int ic_com_sina_weibo_sdk_login_with_text -> ic_com_sina_weibo_sdk_login_with_text
-    int ic_com_sina_weibo_sdk_logo -> ic_com_sina_weibo_sdk_logo
     int ic_launcher -> ic_launcher
     int icon360 -> icon360
     int icon_account -> icon_account
@@ -20147,9 +20116,6 @@ com.feytuo.laoxianghao.R$string -> com.feytuo.laoxianghao.R$string:
     int clear_all_records -> clear_all_records
     int clear_cache -> clear_cache
     int clear_records -> clear_records
-    int com_sina_weibo_sdk_login -> com_sina_weibo_sdk_login
-    int com_sina_weibo_sdk_login_with_weibo_account -> com_sina_weibo_sdk_login_with_weibo_account
-    int com_sina_weibo_sdk_logout -> com_sina_weibo_sdk_logout
     int comment -> comment
     int confirm_forward_to -> confirm_forward_to
     int confirm_resend -> confirm_resend
@@ -20410,8 +20376,6 @@ com.feytuo.laoxianghao.R$style -> com.feytuo.laoxianghao.R$style:
     int chat_content_date_style -> chat_content_date_style
     int chat_text_date_style -> chat_text_date_style
     int chat_text_name_style -> chat_text_name_style
-    int com_sina_weibo_sdk_loginview_default_style -> com_sina_weibo_sdk_loginview_default_style
-    int com_sina_weibo_sdk_loginview_silver_style -> com_sina_weibo_sdk_loginview_silver_style
     int devide_line_eee -> devide_line_eee
     int horizontal_slide -> horizontal_slide
     int nornal_style -> nornal_style
@@ -20623,8 +20587,10 @@ com.feytuo.laoxianghao.SetActivity -> com.feytuo.laoxianghao.SetActivity:
     void onResume() -> onResume
     void onPause() -> onPause
 com.feytuo.laoxianghao.SimpleSelsectedCountry -> com.feytuo.laoxianghao.SimpleSelsectedCountry:
+    com.feytuo.laoxianghao.share_sina.Share_Weibo shareWeibo -> a
     void onCreate(android.os.Bundle) -> onCreate
     void appLogin(android.view.View) -> appLogin
+    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void onResume() -> onResume
     void onPause() -> onPause
 com.feytuo.laoxianghao.UserToPersonActivity -> com.feytuo.laoxianghao.UserToPersonActivity:
@@ -21941,7 +21907,10 @@ com.feytuo.laoxianghao.share_sina.User -> com.feytuo.laoxianghao.f.m:
     java.lang.String block_word -> K
     com.feytuo.laoxianghao.share_sina.User parse(java.lang.String) -> a
     com.feytuo.laoxianghao.share_sina.User parse(org.json.JSONObject) -> a
-com.feytuo.laoxianghao.share_sina.Visible -> com.feytuo.laoxianghao.f.n:
+com.feytuo.laoxianghao.share_sina.UsersAPI -> com.feytuo.laoxianghao.f.n:
+    android.util.SparseArray sAPIList -> b
+    void show(long,com.sina.weibo.sdk.net.RequestListener) -> a
+com.feytuo.laoxianghao.share_sina.Visible -> com.feytuo.laoxianghao.f.o:
     int type -> a
     int list_id -> b
     com.feytuo.laoxianghao.share_sina.Visible parse(org.json.JSONObject) -> a
@@ -22118,7 +22087,10 @@ com.feytuo.laoxianghao.view.MyDialog -> com.feytuo.laoxianghao.view.a:
     android.widget.ImageView shareQQFriend -> l
     android.widget.ImageView shareQzone -> m
     android.widget.ImageView shareSms -> n
-    android.view.View$OnClickListener loginListener -> o
+    com.feytuo.laoxianghao.share_qq.Share_QQ shareQQ -> o
+    com.feytuo.laoxianghao.share_sina.Share_Weibo shareWeibo -> p
+    com.feytuo.laoxianghao.wxapi.Share_Weixin shareWeixin -> q
+    android.view.View$OnClickListener loginListener -> r
     void onCreate(android.os.Bundle) -> onCreate
     void shareSina() -> a
     void shareQzone() -> b
@@ -22897,49 +22869,6 @@ com.sina.sso.RemoteSSO$Stub$Proxy -> com.sina.sso.RemoteSSO$Stub$Proxy:
     java.lang.String getLoginUserName() -> getLoginUserName
 com.sina.weibo.sdk.BuildConfig -> com.sina.weibo.sdk.BuildConfig:
     boolean DEBUG -> DEBUG
-com.sina.weibo.sdk.R -> com.sina.weibo.sdk.R:
-com.sina.weibo.sdk.R$color -> com.sina.weibo.sdk.R$color:
-    int com_sina_weibo_sdk_blue -> com_sina_weibo_sdk_blue
-    int com_sina_weibo_sdk_loginview_text_color -> com_sina_weibo_sdk_loginview_text_color
-com.sina.weibo.sdk.R$dimen -> com.sina.weibo.sdk.R$dimen:
-    int activity_horizontal_margin -> activity_horizontal_margin
-    int activity_vertical_margin -> activity_vertical_margin
-    int com_sina_weibo_sdk_loginview_compound_drawable_padding -> com_sina_weibo_sdk_loginview_compound_drawable_padding
-    int com_sina_weibo_sdk_loginview_padding -> com_sina_weibo_sdk_loginview_padding
-    int com_sina_weibo_sdk_loginview_padding_bottom -> com_sina_weibo_sdk_loginview_padding_bottom
-    int com_sina_weibo_sdk_loginview_padding_left -> com_sina_weibo_sdk_loginview_padding_left
-    int com_sina_weibo_sdk_loginview_padding_right -> com_sina_weibo_sdk_loginview_padding_right
-    int com_sina_weibo_sdk_loginview_padding_top -> com_sina_weibo_sdk_loginview_padding_top
-    int com_sina_weibo_sdk_loginview_text_size -> com_sina_weibo_sdk_loginview_text_size
-com.sina.weibo.sdk.R$drawable -> com.sina.weibo.sdk.R$drawable:
-    int com_sina_weibo_sdk_button_blue -> com_sina_weibo_sdk_button_blue
-    int com_sina_weibo_sdk_button_grey -> com_sina_weibo_sdk_button_grey
-    int com_sina_weibo_sdk_login_button_with_account_text -> com_sina_weibo_sdk_login_button_with_account_text
-    int com_sina_weibo_sdk_login_button_with_frame_logo -> com_sina_weibo_sdk_login_button_with_frame_logo
-    int com_sina_weibo_sdk_login_button_with_original_logo -> com_sina_weibo_sdk_login_button_with_original_logo
-    int ic_com_sina_weibo_sdk_button_blue_focused -> ic_com_sina_weibo_sdk_button_blue_focused
-    int ic_com_sina_weibo_sdk_button_blue_normal -> ic_com_sina_weibo_sdk_button_blue_normal
-    int ic_com_sina_weibo_sdk_button_blue_pressed -> ic_com_sina_weibo_sdk_button_blue_pressed
-    int ic_com_sina_weibo_sdk_button_grey_focused -> ic_com_sina_weibo_sdk_button_grey_focused
-    int ic_com_sina_weibo_sdk_button_grey_normal -> ic_com_sina_weibo_sdk_button_grey_normal
-    int ic_com_sina_weibo_sdk_button_grey_pressed -> ic_com_sina_weibo_sdk_button_grey_pressed
-    int ic_com_sina_weibo_sdk_login_button_with_frame_logo_focused -> ic_com_sina_weibo_sdk_login_button_with_frame_logo_focused
-    int ic_com_sina_weibo_sdk_login_button_with_frame_logo_normal -> ic_com_sina_weibo_sdk_login_button_with_frame_logo_normal
-    int ic_com_sina_weibo_sdk_login_button_with_frame_logo_pressed -> ic_com_sina_weibo_sdk_login_button_with_frame_logo_pressed
-    int ic_com_sina_weibo_sdk_login_with_account_text_focused -> ic_com_sina_weibo_sdk_login_with_account_text_focused
-    int ic_com_sina_weibo_sdk_login_with_account_text_normal -> ic_com_sina_weibo_sdk_login_with_account_text_normal
-    int ic_com_sina_weibo_sdk_login_with_account_text_pressed -> ic_com_sina_weibo_sdk_login_with_account_text_pressed
-    int ic_com_sina_weibo_sdk_login_with_text -> ic_com_sina_weibo_sdk_login_with_text
-    int ic_com_sina_weibo_sdk_logo -> ic_com_sina_weibo_sdk_logo
-com.sina.weibo.sdk.R$string -> com.sina.weibo.sdk.R$string:
-    int com_sina_weibo_sdk_login -> com_sina_weibo_sdk_login
-    int com_sina_weibo_sdk_login_with_weibo_account -> com_sina_weibo_sdk_login_with_weibo_account
-    int com_sina_weibo_sdk_logout -> com_sina_weibo_sdk_logout
-com.sina.weibo.sdk.R$style -> com.sina.weibo.sdk.R$style:
-    int AppBaseTheme -> AppBaseTheme
-    int AppTheme -> AppTheme
-    int com_sina_weibo_sdk_loginview_default_style -> com_sina_weibo_sdk_loginview_default_style
-    int com_sina_weibo_sdk_loginview_silver_style -> com_sina_weibo_sdk_loginview_silver_style
 com.sina.weibo.sdk.api.BaseMediaObject -> com.sina.weibo.sdk.api.BaseMediaObject:
     int MEDIA_TYPE_TEXT -> MEDIA_TYPE_TEXT
     int MEDIA_TYPE_IMAGE -> MEDIA_TYPE_IMAGE
@@ -23350,37 +23279,6 @@ com.sina.weibo.sdk.auth.sso.SsoHandler$1 -> com.sina.weibo.sdk.auth.sso.SsoHandl
     com.sina.weibo.sdk.auth.sso.SsoHandler this$0 -> this$0
     void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
     void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
-com.sina.weibo.sdk.codestyle.CodingRuler -> com.sina.weibo.sdk.codestyle.CodingRuler:
-    java.lang.String ACTION_MAIN -> ACTION_MAIN
-    int MSG_AUTH_NONE -> MSG_AUTH_NONE
-    int MSG_AUTH_SUCCESS -> MSG_AUTH_SUCCESS
-    int MSG_AUTH_FAILED -> MSG_AUTH_FAILED
-    java.lang.Object mObject0 -> mObject0
-    java.lang.Object mObject1 -> mObject1
-    java.lang.Object mObject2 -> mObject2
-    java.lang.Object mObject3 -> mObject3
-    java.lang.Object mObject4 -> mObject4
-    void doSomething(int,float,java.lang.String) -> doSomething
-    void doSomething() -> doSomething
-    void doSomethingInternal(int,float) -> doSomethingInternal
-    void conditionFun() -> conditionFun
-    void switchFun() -> switchFun
-    void circulationFun() -> circulationFun
-    void exceptionFun() -> exceptionFun
-    void otherFun() -> otherFun
-com.sina.weibo.sdk.codestyle.SampleCode -> com.sina.weibo.sdk.codestyle.SampleCode:
-    java.lang.String ACTION_MAIN -> ACTION_MAIN
-    int MSG_AUTH_NONE -> MSG_AUTH_NONE
-    int MSG_AUTH_SUCCESS -> MSG_AUTH_SUCCESS
-    int MSG_AUTH_FAILED -> MSG_AUTH_FAILED
-    java.lang.Object mObject0 -> mObject0
-    java.lang.Object mObject1 -> mObject1
-    java.lang.Object mObject2 -> mObject2
-    java.lang.Object mObject3 -> mObject3
-    java.lang.Object mObject4 -> mObject4
-    void doSomething(int,float,java.lang.String) -> doSomething
-    void doSomething() -> doSomething
-    void doSomethingInternal(int,float) -> doSomethingInternal
 com.sina.weibo.sdk.constant.WBAuthErrorCode -> com.sina.weibo.sdk.constant.WBAuthErrorCode:
     int redirect_uri_mismatch -> redirect_uri_mismatch
     int invalid_request -> invalid_request
@@ -23568,712 +23466,6 @@ com.sina.weibo.sdk.net.WeiboParameters -> com.sina.weibo.sdk.net.WeiboParameters
     int size() -> size
     java.lang.String encodeUrl() -> encodeUrl
     boolean hasBinaryData() -> hasBinaryData
-com.sina.weibo.sdk.openapi.AbsOpenAPI -> com.sina.weibo.sdk.openapi.AbsOpenAPI:
-    java.lang.String TAG -> TAG
-    java.lang.String API_SERVER -> API_SERVER
-    java.lang.String HTTPMETHOD_POST -> HTTPMETHOD_POST
-    java.lang.String HTTPMETHOD_GET -> HTTPMETHOD_GET
-    java.lang.String KEY_ACCESS_TOKEN -> KEY_ACCESS_TOKEN
-    com.sina.weibo.sdk.auth.Oauth2AccessToken mAccessToken -> mAccessToken
-    void requestAsync(java.lang.String,com.sina.weibo.sdk.net.WeiboParameters,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> requestAsync
-    java.lang.String requestSync(java.lang.String,com.sina.weibo.sdk.net.WeiboParameters,java.lang.String) -> requestSync
-com.sina.weibo.sdk.openapi.CommentsAPI -> com.sina.weibo.sdk.openapi.CommentsAPI:
-    int AUTHOR_FILTER_ALL -> AUTHOR_FILTER_ALL
-    int AUTHOR_FILTER_ATTENTIONS -> AUTHOR_FILTER_ATTENTIONS
-    int AUTHOR_FILTER_STRANGER -> AUTHOR_FILTER_STRANGER
-    int SRC_FILTER_ALL -> SRC_FILTER_ALL
-    int SRC_FILTER_WEIBO -> SRC_FILTER_WEIBO
-    int SRC_FILTER_WEIQUN -> SRC_FILTER_WEIQUN
-    int READ_API_TO_ME -> READ_API_TO_ME
-    int READ_API_BY_ME -> READ_API_BY_ME
-    int READ_API_SHOW -> READ_API_SHOW
-    int READ_API_TIMELINE -> READ_API_TIMELINE
-    int READ_API_MENTIONS -> READ_API_MENTIONS
-    int READ_API_SHOW_BATCH -> READ_API_SHOW_BATCH
-    int WRITE_API_CREATE -> WRITE_API_CREATE
-    int WRITE_API_DESTROY -> WRITE_API_DESTROY
-    int WRITE_API_SDESTROY_BATCH -> WRITE_API_SDESTROY_BATCH
-    int WRITE_API_REPLY -> WRITE_API_REPLY
-    java.lang.String API_BASE_URL -> API_BASE_URL
-    android.util.SparseArray sAPIList -> sAPIList
-    void show(long,long,long,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> show
-    void byME(long,long,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> byME
-    void toME(long,long,int,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> toME
-    void timeline(long,long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> timeline
-    void mentions(long,long,int,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> mentions
-    void showBatch(long[],com.sina.weibo.sdk.net.RequestListener) -> showBatch
-    void create(java.lang.String,long,boolean,com.sina.weibo.sdk.net.RequestListener) -> create
-    void destroy(long,com.sina.weibo.sdk.net.RequestListener) -> destroy
-    void destroyBatch(long[],com.sina.weibo.sdk.net.RequestListener) -> destroyBatch
-    void reply(long,long,java.lang.String,boolean,boolean,com.sina.weibo.sdk.net.RequestListener) -> reply
-    java.lang.String showSync(long,long,long,int,int,int) -> showSync
-    java.lang.String byMESync(long,long,int,int,int) -> byMESync
-    java.lang.String toMESync(long,long,int,int,int,int) -> toMESync
-    java.lang.String timelineSync(long,long,int,int,boolean) -> timelineSync
-    java.lang.String mentionsSync(long,long,int,int,int,int) -> mentionsSync
-    java.lang.String showBatchSync(long[]) -> showBatchSync
-    java.lang.String createSync(java.lang.String,long,boolean) -> createSync
-    java.lang.String destroySync(long) -> destroySync
-    java.lang.String destroyBatchSync(long[]) -> destroyBatchSync
-    java.lang.String replySync(long,long,java.lang.String,boolean,boolean) -> replySync
-    com.sina.weibo.sdk.net.WeiboParameters buildTimeLineParamsBase(long,long,int,int) -> buildTimeLineParamsBase
-    com.sina.weibo.sdk.net.WeiboParameters buildShowOrDestoryBatchParams(long[]) -> buildShowOrDestoryBatchParams
-    com.sina.weibo.sdk.net.WeiboParameters buildCreateParams(java.lang.String,long,boolean) -> buildCreateParams
-    com.sina.weibo.sdk.net.WeiboParameters buildReplyParams(long,long,java.lang.String,boolean,boolean) -> buildReplyParams
-com.sina.weibo.sdk.openapi.InviteAPI -> com.sina.weibo.sdk.openapi.InviteAPI:
-    java.lang.String TAG -> TAG
-    java.lang.String INVITE_URL -> INVITE_URL
-    java.lang.String KEY_TEXT -> KEY_TEXT
-    java.lang.String KEY_URL -> KEY_URL
-    java.lang.String KEY_INVITE_LOGO -> KEY_INVITE_LOGO
-    void sendInvite(java.lang.String,org.json.JSONObject,com.sina.weibo.sdk.net.RequestListener) -> sendInvite
-com.sina.weibo.sdk.openapi.LogoutAPI -> com.sina.weibo.sdk.openapi.LogoutAPI:
-    java.lang.String REVOKE_OAUTH_URL -> REVOKE_OAUTH_URL
-    void logout(com.sina.weibo.sdk.net.RequestListener) -> logout
-com.sina.weibo.sdk.openapi.StatusesAPI -> com.sina.weibo.sdk.openapi.StatusesAPI:
-    int FEATURE_ALL -> FEATURE_ALL
-    int FEATURE_ORIGINAL -> FEATURE_ORIGINAL
-    int FEATURE_PICTURE -> FEATURE_PICTURE
-    int FEATURE_VIDEO -> FEATURE_VIDEO
-    int FEATURE_MUSICE -> FEATURE_MUSICE
-    int AUTHOR_FILTER_ALL -> AUTHOR_FILTER_ALL
-    int AUTHOR_FILTER_ATTENTIONS -> AUTHOR_FILTER_ATTENTIONS
-    int AUTHOR_FILTER_STRANGER -> AUTHOR_FILTER_STRANGER
-    int SRC_FILTER_ALL -> SRC_FILTER_ALL
-    int SRC_FILTER_WEIBO -> SRC_FILTER_WEIBO
-    int SRC_FILTER_WEIQUN -> SRC_FILTER_WEIQUN
-    int TYPE_FILTER_ALL -> TYPE_FILTER_ALL
-    int TYPE_FILTER_ORIGAL -> TYPE_FILTER_ORIGAL
-    java.lang.String API_BASE_URL -> API_BASE_URL
-    int READ_API_FRIENDS_TIMELINE -> READ_API_FRIENDS_TIMELINE
-    int READ_API_MENTIONS -> READ_API_MENTIONS
-    int WRITE_API_UPDATE -> WRITE_API_UPDATE
-    int WRITE_API_REPOST -> WRITE_API_REPOST
-    int WRITE_API_UPLOAD -> WRITE_API_UPLOAD
-    int WRITE_API_UPLOAD_URL_TEXT -> WRITE_API_UPLOAD_URL_TEXT
-    android.util.SparseArray sAPIList -> sAPIList
-    void friendsTimeline(long,long,int,int,boolean,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> friendsTimeline
-    void mentions(long,long,int,int,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> mentions
-    void update(java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> update
-    void upload(java.lang.String,android.graphics.Bitmap,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> upload
-    void uploadUrlText(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> uploadUrlText
-    java.lang.String friendsTimelineSync(long,long,int,int,boolean,int,boolean) -> friendsTimelineSync
-    java.lang.String mentionsSync(long,long,int,int,int,int,int,boolean) -> mentionsSync
-    java.lang.String updateSync(java.lang.String,java.lang.String,java.lang.String) -> updateSync
-    java.lang.String uploadSync(java.lang.String,android.graphics.Bitmap,java.lang.String,java.lang.String) -> uploadSync
-    java.lang.String uploadUrlTextSync(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> uploadUrlTextSync
-    com.sina.weibo.sdk.net.WeiboParameters buildTimeLineParamsBase(long,long,int,int,boolean,boolean,int) -> buildTimeLineParamsBase
-    com.sina.weibo.sdk.net.WeiboParameters buildUpdateParams(java.lang.String,java.lang.String,java.lang.String) -> buildUpdateParams
-    com.sina.weibo.sdk.net.WeiboParameters buildMentionsParams(long,long,int,int,int,int,int,boolean) -> buildMentionsParams
-com.sina.weibo.sdk.openapi.UsersAPI -> com.sina.weibo.sdk.openapi.UsersAPI:
-    int READ_USER -> READ_USER
-    int READ_USER_BY_DOMAIN -> READ_USER_BY_DOMAIN
-    int READ_USER_COUNT -> READ_USER_COUNT
-    java.lang.String API_BASE_URL -> API_BASE_URL
-    android.util.SparseArray sAPIList -> sAPIList
-    void show(long,com.sina.weibo.sdk.net.RequestListener) -> show
-    void show(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> show
-    void domainShow(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> domainShow
-    void counts(long[],com.sina.weibo.sdk.net.RequestListener) -> counts
-    java.lang.String showSync(long) -> showSync
-    java.lang.String showSync(java.lang.String) -> showSync
-    java.lang.String domainShowSync(java.lang.String) -> domainShowSync
-    java.lang.String countsSync(long[]) -> countsSync
-    com.sina.weibo.sdk.net.WeiboParameters buildCountsParams(long[]) -> buildCountsParams
-com.sina.weibo.sdk.openapi.legacy.AccountAPI -> com.sina.weibo.sdk.openapi.legacy.AccountAPI:
-    int SCHOOL_TYPE_COLLEGE -> SCHOOL_TYPE_COLLEGE
-    int SCHOOL_TYPE_SENIOR -> SCHOOL_TYPE_SENIOR
-    int SCHOOL_TYPE_TECHNICAL -> SCHOOL_TYPE_TECHNICAL
-    int SCHOOL_TYPE_JUNIOR -> SCHOOL_TYPE_JUNIOR
-    int SCHOOL_TYPE_PRIMARY -> SCHOOL_TYPE_PRIMARY
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void getPrivacy(com.sina.weibo.sdk.net.RequestListener) -> getPrivacy
-    void schoolList(int,int,int,int,com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL,java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> schoolList
-    void rateLimitStatus(com.sina.weibo.sdk.net.RequestListener) -> rateLimitStatus
-    void getUid(com.sina.weibo.sdk.net.RequestListener) -> getUid
-    void endSession(com.sina.weibo.sdk.net.RequestListener) -> endSession
-com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL -> com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL:
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL A -> A
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL B -> B
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL C -> C
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL D -> D
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL E -> E
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL F -> F
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL G -> G
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL H -> H
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL I -> I
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL J -> J
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL K -> K
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL L -> L
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL M -> M
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL N -> N
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL O -> O
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL P -> P
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL Q -> Q
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL R -> R
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL S -> S
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL T -> T
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL U -> U
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL V -> V
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL W -> W
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL X -> X
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL Y -> Y
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL Z -> Z
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL[] ENUM$VALUES -> ENUM$VALUES
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL[] values() -> values
-    com.sina.weibo.sdk.openapi.legacy.AccountAPI$CAPITAL valueOf(java.lang.String) -> valueOf
-com.sina.weibo.sdk.openapi.legacy.ActivityInvokeAPI -> com.sina.weibo.sdk.openapi.legacy.ActivityInvokeAPI:
-    void openSendWeibo(android.app.Activity,java.lang.String) -> openSendWeibo
-    void openSendWeibo(android.app.Activity,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> openSendWeibo
-    void openNearbyPeople(android.app.Activity) -> openNearbyPeople
-    void openNearbyWeibo(android.app.Activity) -> openNearbyWeibo
-    void openUserInfoByNickName(android.app.Activity,java.lang.String) -> openUserInfoByNickName
-    void openUserInfoByUid(android.app.Activity,java.lang.String) -> openUserInfoByUid
-    void openWeiboBrowser(android.app.Activity,java.lang.String) -> openWeiboBrowser
-    void openWeibo(android.app.Activity) -> openWeibo
-    void openShake(android.app.Activity) -> openShake
-    void openContact(android.app.Activity) -> openContact
-    void openUserTrends(android.app.Activity,java.lang.String) -> openUserTrends
-    void openMessageListByUid(android.app.Activity,java.lang.String) -> openMessageListByUid
-    void openMessageListByNickName(android.app.Activity,java.lang.String) -> openMessageListByNickName
-    void openDetail(android.app.Activity,java.lang.String) -> openDetail
-com.sina.weibo.sdk.openapi.legacy.CommonAPI -> com.sina.weibo.sdk.openapi.legacy.CommonAPI:
-    java.lang.String LANGUAGE_ZH_CN -> LANGUAGE_ZH_CN
-    java.lang.String LANGUAGE_ZH_TW -> LANGUAGE_ZH_TW
-    java.lang.String LANGUAGE_EN -> LANGUAGE_EN
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void getCity(java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> getCity
-    void getCountry(com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> getCountry
-    void getTimezone(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> getTimezone
-com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL -> com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL:
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL a -> a
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL b -> b
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL c -> c
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL d -> d
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL e -> e
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL f -> f
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL g -> g
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL h -> h
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL i -> i
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL j -> j
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL k -> k
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL l -> l
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL m -> m
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL n -> n
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL o -> o
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL p -> p
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL q -> q
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL r -> r
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL s -> s
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL t -> t
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL u -> u
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL v -> v
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL w -> w
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL x -> x
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL y -> y
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL z -> z
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL[] ENUM$VALUES -> ENUM$VALUES
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL[] values() -> values
-    com.sina.weibo.sdk.openapi.legacy.CommonAPI$CAPITAL valueOf(java.lang.String) -> valueOf
-com.sina.weibo.sdk.openapi.legacy.FavoritesAPI -> com.sina.weibo.sdk.openapi.legacy.FavoritesAPI:
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void favorites(int,int,com.sina.weibo.sdk.net.RequestListener) -> favorites
-    void ids(int,int,com.sina.weibo.sdk.net.RequestListener) -> ids
-    void show(long,com.sina.weibo.sdk.net.RequestListener) -> show
-    void byTags(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> byTags
-    void tags(int,int,com.sina.weibo.sdk.net.RequestListener) -> tags
-    void byTagsIds(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> byTagsIds
-    void create(long,com.sina.weibo.sdk.net.RequestListener) -> create
-    void destroy(long,com.sina.weibo.sdk.net.RequestListener) -> destroy
-    void destroyBatch(long[],com.sina.weibo.sdk.net.RequestListener) -> destroyBatch
-    void tagsUpdate(long,java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> tagsUpdate
-    void tagsUpdateBatch(long,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> tagsUpdateBatch
-    void tagsDestroyBatch(long,com.sina.weibo.sdk.net.RequestListener) -> tagsDestroyBatch
-    com.sina.weibo.sdk.net.WeiboParameters buildCountPage(int,int) -> buildCountPage
-com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI -> com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI:
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void friends(long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> friends
-    void friends(java.lang.String,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> friends
-    void inCommon(long,long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> inCommon
-    void bilateral(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> bilateral
-    void bilateralIds(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> bilateralIds
-    void friendsIds(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> friendsIds
-    void friendsIds(java.lang.String,int,int,com.sina.weibo.sdk.net.RequestListener) -> friendsIds
-    void followers(long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> followers
-    void followers(java.lang.String,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> followers
-    void followersIds(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> followersIds
-    void followersIds(java.lang.String,int,int,com.sina.weibo.sdk.net.RequestListener) -> followersIds
-    void followersActive(long,int,com.sina.weibo.sdk.net.RequestListener) -> followersActive
-    void chainFollowers(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> chainFollowers
-    void show(long,long,com.sina.weibo.sdk.net.RequestListener) -> show
-    void show(long,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> show
-    void show(java.lang.String,long,com.sina.weibo.sdk.net.RequestListener) -> show
-    void show(java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> show
-    void create(long,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> create
-    void create(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> create
-    void destroy(long,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> destroy
-    void destroy(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> destroy
-    com.sina.weibo.sdk.net.WeiboParameters buildFriendsParam(int,int,boolean) -> buildFriendsParam
-    com.sina.weibo.sdk.net.WeiboParameters buildFriendIDParam(long,int) -> buildFriendIDParam
-com.sina.weibo.sdk.openapi.legacy.GroupAPI -> com.sina.weibo.sdk.openapi.legacy.GroupAPI:
-    int FEATURE_ALL -> FEATURE_ALL
-    int FEATURE_ORIGINAL -> FEATURE_ORIGINAL
-    int FEATURE_PICTURE -> FEATURE_PICTURE
-    int FEATURE_VIDEO -> FEATURE_VIDEO
-    int FEATURE_MUSICE -> FEATURE_MUSICE
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void groups(com.sina.weibo.sdk.net.RequestListener) -> groups
-    void timeline(long,long,long,int,int,boolean,int,com.sina.weibo.sdk.net.RequestListener) -> timeline
-    void timelineIds() -> timelineIds
-    void members(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> members
-    void membersIds() -> membersIds
-    void memberDescriptionPatch() -> memberDescriptionPatch
-    void isMember(long,long,com.sina.weibo.sdk.net.RequestListener) -> isMember
-    void listed() -> listed
-    void showGroup(long,com.sina.weibo.sdk.net.RequestListener) -> showGroup
-    void showGroupBatch(java.lang.String,long,com.sina.weibo.sdk.net.RequestListener) -> showGroupBatch
-    void create(java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> create
-    void update(long,java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> update
-    void deleteGroup(long,com.sina.weibo.sdk.net.RequestListener) -> deleteGroup
-    void addMember(long,long,com.sina.weibo.sdk.net.RequestListener) -> addMember
-    void addMemberBatch(long,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> addMemberBatch
-    void updateMembers(long,long,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> updateMembers
-    void deleteMembers(long,long,com.sina.weibo.sdk.net.RequestListener) -> deleteMembers
-    void order(java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> order
-    com.sina.weibo.sdk.net.WeiboParameters buildeMembersParams(long,long) -> buildeMembersParams
-com.sina.weibo.sdk.openapi.legacy.LocationAPI -> com.sina.weibo.sdk.openapi.legacy.LocationAPI:
-    java.lang.String API_BASE_URL -> API_BASE_URL
-    int READ_API_GPS_TO_OFFSET -> READ_API_GPS_TO_OFFSET
-    int READ_API_SEARCH_POIS_BY_GEO -> READ_API_SEARCH_POIS_BY_GEO
-    int READ_API_GET_TO_ADDRESS -> READ_API_GET_TO_ADDRESS
-    android.util.SparseArray sAPIList -> sAPIList
-    void gps2Offset(java.lang.Double,java.lang.Double,com.sina.weibo.sdk.net.RequestListener) -> gps2Offset
-    void searchPoisByGeo(java.lang.Double,java.lang.Double,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> searchPoisByGeo
-    void geo2Address(java.lang.Double,java.lang.Double,com.sina.weibo.sdk.net.RequestListener) -> geo2Address
-    java.lang.String gps2OffsetSync(java.lang.Double,java.lang.Double) -> gps2OffsetSync
-    java.lang.String searchPoisByGeoSync(java.lang.Double,java.lang.Double,java.lang.String) -> searchPoisByGeoSync
-    java.lang.String geo2AddressSync(java.lang.Double,java.lang.Double) -> geo2AddressSync
-    com.sina.weibo.sdk.net.WeiboParameters buildGPS2OffsetParams(java.lang.Double,java.lang.Double) -> buildGPS2OffsetParams
-    com.sina.weibo.sdk.net.WeiboParameters buildSerarPoiByGeoParmas(java.lang.Double,java.lang.Double,java.lang.String) -> buildSerarPoiByGeoParmas
-    com.sina.weibo.sdk.net.WeiboParameters buildGeo2AddressParam(java.lang.Double,java.lang.Double) -> buildGeo2AddressParam
-com.sina.weibo.sdk.openapi.legacy.PlaceAPI -> com.sina.weibo.sdk.openapi.legacy.PlaceAPI:
-    int SORT_BY_TIME -> SORT_BY_TIME
-    int SORT_BY_DISTENCE -> SORT_BY_DISTENCE
-    int NEARBY_POIS_SORT_BY_WEIGHT -> NEARBY_POIS_SORT_BY_WEIGHT
-    int NEARBY_POIS_SORT_BY_DISTENCE -> NEARBY_POIS_SORT_BY_DISTENCE
-    int NEARBY_POIS_SORT_BY_CHECKIN_NUMBER -> NEARBY_POIS_SORT_BY_CHECKIN_NUMBER
-    int POIS_SORT_BY_TIME -> POIS_SORT_BY_TIME
-    int POIS_SORT_BY_HOT -> POIS_SORT_BY_HOT
-    int RELATIONSHIP_FILTER_ALL -> RELATIONSHIP_FILTER_ALL
-    int RELATIONSHIP_FILTER_STRANGER -> RELATIONSHIP_FILTER_STRANGER
-    int RELATIONSHIP_FILTER_FOLLOW -> RELATIONSHIP_FILTER_FOLLOW
-    int GENDER_ALL -> GENDER_ALL
-    int GENDER_MAN -> GENDER_MAN
-    int GENDER_WOMAM -> GENDER_WOMAM
-    int USER_LEVEL_ALL -> USER_LEVEL_ALL
-    int USER_LEVEL_NORMAL -> USER_LEVEL_NORMAL
-    int USER_LEVEL_VIP -> USER_LEVEL_VIP
-    int USER_LEVEL_STAR -> USER_LEVEL_STAR
-    int NEARBY_USER_SORT_BY_TIME -> NEARBY_USER_SORT_BY_TIME
-    int NEARBY_USER_SORT_BY_DISTANCE -> NEARBY_USER_SORT_BY_DISTANCE
-    int NEARBY_USER_SORT_BY_SOCIAL_SHIP -> NEARBY_USER_SORT_BY_SOCIAL_SHIP
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void pulicTimeline(long,boolean,com.sina.weibo.sdk.net.RequestListener) -> pulicTimeline
-    void friendsTimeline(long,long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> friendsTimeline
-    void userTimeline(long,long,long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> userTimeline
-    void poiTimeline(java.lang.String,long,long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> poiTimeline
-    void nearbyTimeline(java.lang.String,java.lang.String,int,long,long,int,int,int,boolean,boolean,com.sina.weibo.sdk.net.RequestListener) -> nearbyTimeline
-    void statusesShow(long,com.sina.weibo.sdk.net.RequestListener) -> statusesShow
-    void usersShow(long,boolean,com.sina.weibo.sdk.net.RequestListener) -> usersShow
-    void usersCheckins(long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> usersCheckins
-    void usersPhotos(long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> usersPhotos
-    void usersTips(long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> usersTips
-    void usersTodo(long,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> usersTodo
-    void poisShow(java.lang.String,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisShow
-    void poisUsers(java.lang.String,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisUsers
-    void poisPhotos(java.lang.String,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisPhotos
-    void poisTips(java.lang.String,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisTips
-    void poisSearch(java.lang.String,java.lang.String,java.lang.String,int,int,com.sina.weibo.sdk.net.RequestListener) -> poisSearch
-    void poisCategory(int,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisCategory
-    void nearbyPois(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> nearbyPois
-    void nearbyUsers(java.lang.String,java.lang.String,int,long,long,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> nearbyUsers
-    void nearbyPhotos(java.lang.String,java.lang.String,int,long,long,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> nearbyPhotos
-    void nearbyUserList(java.lang.String,java.lang.String,int,int,int,int,int,int,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> nearbyUserList
-    void poisCreate(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> poisCreate
-    void poisAddCheckin(java.lang.String,java.lang.String,java.lang.String,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisAddCheckin
-    void poisAddPhoto(java.lang.String,java.lang.String,java.lang.String,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisAddPhoto
-    void poisAddTip(java.lang.String,java.lang.String,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisAddTip
-    void poisAddTodo(java.lang.String,java.lang.String,boolean,com.sina.weibo.sdk.net.RequestListener) -> poisAddTodo
-    void nearbyUsersCreate(java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> nearbyUsersCreate
-    void nearbyUsersDestroy(com.sina.weibo.sdk.net.RequestListener) -> nearbyUsersDestroy
-    com.sina.weibo.sdk.net.WeiboParameters buildTimeLineParamsBase(long,long,int,int) -> buildTimeLineParamsBase
-    com.sina.weibo.sdk.net.WeiboParameters buildUserParams(long,int,int,boolean) -> buildUserParams
-    com.sina.weibo.sdk.net.WeiboParameters buildNearbyParams(java.lang.String,java.lang.String,int,int,int,int,boolean) -> buildNearbyParams
-    com.sina.weibo.sdk.net.WeiboParameters buildPoiis(java.lang.String,java.lang.String,boolean) -> buildPoiis
-    com.sina.weibo.sdk.net.WeiboParameters buildPoisParams(java.lang.String,int,int,boolean) -> buildPoisParams
-com.sina.weibo.sdk.openapi.legacy.RegisterAPI -> com.sina.weibo.sdk.openapi.legacy.RegisterAPI:
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void suggestions(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> suggestions
-com.sina.weibo.sdk.openapi.legacy.SearchAPI -> com.sina.weibo.sdk.openapi.legacy.SearchAPI:
-    int SCHOOL_TYPE_COLLEGE -> SCHOOL_TYPE_COLLEGE
-    int SCHOOL_TYPE_SENIOR -> SCHOOL_TYPE_SENIOR
-    int SCHOOL_TYPE_TECHNICAL -> SCHOOL_TYPE_TECHNICAL
-    int SCHOOL_TYPE_JUNIOR -> SCHOOL_TYPE_JUNIOR
-    int SCHOOL_TYPE_PRIMARY -> SCHOOL_TYPE_PRIMARY
-    int FRIEND_TYPE_ATTENTIONS -> FRIEND_TYPE_ATTENTIONS
-    int FRIEND_TYPE_FELLOWS -> FRIEND_TYPE_FELLOWS
-    int RANGE_ATTENTIONS -> RANGE_ATTENTIONS
-    int RANGE_ATTENTION_TAGS -> RANGE_ATTENTION_TAGS
-    int RANGE_ALL -> RANGE_ALL
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void users(java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> users
-    void statuses(java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> statuses
-    void schools(java.lang.String,int,int,com.sina.weibo.sdk.net.RequestListener) -> schools
-    void companies(java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> companies
-    void apps(java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> apps
-    void atUsers(java.lang.String,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> atUsers
-    com.sina.weibo.sdk.net.WeiboParameters buildBaseParams(java.lang.String,int) -> buildBaseParams
-com.sina.weibo.sdk.openapi.legacy.ShortUrlAPI -> com.sina.weibo.sdk.openapi.legacy.ShortUrlAPI:
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void shorten(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> shorten
-    void expand(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> expand
-    java.lang.String expandSync(java.lang.String[]) -> expandSync
-    void clicks(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> clicks
-    void referers(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> referers
-    void locations(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> locations
-    void shareCounts(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> shareCounts
-    void shareStatuses(java.lang.String,long,long,int,int,com.sina.weibo.sdk.net.RequestListener) -> shareStatuses
-    void commentCounts(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> commentCounts
-    void comments(java.lang.String,long,long,int,int,com.sina.weibo.sdk.net.RequestListener) -> comments
-    com.sina.weibo.sdk.net.WeiboParameters buildRequestParams(java.lang.String,long,long,int,int) -> buildRequestParams
-    com.sina.weibo.sdk.net.WeiboParameters buildURLRequest(java.lang.String[],java.lang.String) -> buildURLRequest
-com.sina.weibo.sdk.openapi.legacy.StatusesAPI -> com.sina.weibo.sdk.openapi.legacy.StatusesAPI:
-    int FEATURE_ALL -> FEATURE_ALL
-    int FEATURE_ORIGINAL -> FEATURE_ORIGINAL
-    int FEATURE_PICTURE -> FEATURE_PICTURE
-    int FEATURE_VIDEO -> FEATURE_VIDEO
-    int FEATURE_MUSICE -> FEATURE_MUSICE
-    int AUTHOR_FILTER_ALL -> AUTHOR_FILTER_ALL
-    int AUTHOR_FILTER_ATTENTIONS -> AUTHOR_FILTER_ATTENTIONS
-    int AUTHOR_FILTER_STRANGER -> AUTHOR_FILTER_STRANGER
-    int SRC_FILTER_ALL -> SRC_FILTER_ALL
-    int SRC_FILTER_WEIBO -> SRC_FILTER_WEIBO
-    int SRC_FILTER_WEIQUN -> SRC_FILTER_WEIQUN
-    int TYPE_FILTER_ALL -> TYPE_FILTER_ALL
-    int TYPE_FILTER_ORIGAL -> TYPE_FILTER_ORIGAL
-    int TYPE_STATUSES -> TYPE_STATUSES
-    int TYPE_COMMENTS -> TYPE_COMMENTS
-    int TYPE_MESSAGE -> TYPE_MESSAGE
-    int COMMENTS_NONE -> COMMENTS_NONE
-    int COMMENTS_CUR_STATUSES -> COMMENTS_CUR_STATUSES
-    int COMMENTS_RIGAL_STATUSES -> COMMENTS_RIGAL_STATUSES
-    int COMMENTS_BOTH -> COMMENTS_BOTH
-    java.lang.String EMOTION_TYPE_FACE -> EMOTION_TYPE_FACE
-    java.lang.String EMOTION_TYPE_ANI -> EMOTION_TYPE_ANI
-    java.lang.String EMOTION_TYPE_CARTOON -> EMOTION_TYPE_CARTOON
-    java.lang.String LANGUAGE_CNNAME -> LANGUAGE_CNNAME
-    java.lang.String LANGUAGE_TWNAME -> LANGUAGE_TWNAME
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void publicTimeline(int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> publicTimeline
-    void friendsTimeline(long,long,int,int,boolean,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> friendsTimeline
-    void friendsTimelineIds(long,long,int,int,boolean,int,com.sina.weibo.sdk.net.RequestListener) -> friendsTimelineIds
-    void homeTimeline(long,long,int,int,boolean,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> homeTimeline
-    void userTimeline(long,long,long,int,int,boolean,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> userTimeline
-    void userTimeline(java.lang.String,long,long,int,int,boolean,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> userTimeline
-    void userTimeline(long,long,int,int,boolean,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> userTimeline
-    void userTimelineIds(long,long,long,int,int,boolean,int,com.sina.weibo.sdk.net.RequestListener) -> userTimelineIds
-    void userTimelineIds(java.lang.String,long,long,int,int,boolean,int,com.sina.weibo.sdk.net.RequestListener) -> userTimelineIds
-    void repostTimeline(long,long,long,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> repostTimeline
-    void repostTimelineIds(long,long,long,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> repostTimelineIds
-    void repostByMe(long,long,int,int,com.sina.weibo.sdk.net.RequestListener) -> repostByMe
-    void mentions(long,long,int,int,int,int,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> mentions
-    void mentionsIds(long,long,int,int,int,int,int,com.sina.weibo.sdk.net.RequestListener) -> mentionsIds
-    void bilateralTimeline(long,long,int,int,boolean,int,boolean,com.sina.weibo.sdk.net.RequestListener) -> bilateralTimeline
-    void show(long,com.sina.weibo.sdk.net.RequestListener) -> show
-    void queryMID(long[],int,com.sina.weibo.sdk.net.RequestListener) -> queryMID
-    void queryID(java.lang.String[],int,boolean,boolean,com.sina.weibo.sdk.net.RequestListener) -> queryID
-    void hotRepostDaily(int,boolean,com.sina.weibo.sdk.net.RequestListener) -> hotRepostDaily
-    void hotRepostWeekly(int,boolean,com.sina.weibo.sdk.net.RequestListener) -> hotRepostWeekly
-    void hotCommentsDaily(int,boolean,com.sina.weibo.sdk.net.RequestListener) -> hotCommentsDaily
-    void hotCommentsWeekly(int,boolean,com.sina.weibo.sdk.net.RequestListener) -> hotCommentsWeekly
-    void count(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> count
-    void repost(long,java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> repost
-    void destroy(long,com.sina.weibo.sdk.net.RequestListener) -> destroy
-    void update(java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> update
-    void upload(java.lang.String,android.graphics.Bitmap,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> upload
-    void uploadUrlText(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> uploadUrlText
-    void emotions(java.lang.String,java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> emotions
-    com.sina.weibo.sdk.net.WeiboParameters buildTimeLineBase(long,long,int,int) -> buildTimeLineBase
-    com.sina.weibo.sdk.net.WeiboParameters buildTimeLineWithApp(long,long,int,int,boolean,int) -> buildTimeLineWithApp
-    com.sina.weibo.sdk.net.WeiboParameters buildTimeLineWithAppTrim(long,long,int,int,boolean,boolean,int) -> buildTimeLineWithAppTrim
-    com.sina.weibo.sdk.net.WeiboParameters buildHotParams(int,boolean) -> buildHotParams
-    com.sina.weibo.sdk.net.WeiboParameters buildUpdateParams(java.lang.String,java.lang.String,java.lang.String) -> buildUpdateParams
-com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI -> com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI:
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void usersHot(com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY,com.sina.weibo.sdk.net.RequestListener) -> usersHot
-    void mayInterested(int,int,com.sina.weibo.sdk.net.RequestListener) -> mayInterested
-    void byStatus(java.lang.String,int,com.sina.weibo.sdk.net.RequestListener) -> byStatus
-    void statusesHot(com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE,boolean,int,int,com.sina.weibo.sdk.net.RequestListener) -> statusesHot
-    void favoritesHot(int,int,com.sina.weibo.sdk.net.RequestListener) -> favoritesHot
-    void notInterested(long,com.sina.weibo.sdk.net.RequestListener) -> notInterested
-    com.sina.weibo.sdk.net.WeiboParameters builderCountPage(int,int) -> builderCountPage
-com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE -> com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE:
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE ENTERTAINMENT -> ENTERTAINMENT
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE FUNNY -> FUNNY
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE BEAUTY -> BEAUTY
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE VIDEO -> VIDEO
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE CONSTELLATION -> CONSTELLATION
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE LOVELY -> LOVELY
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE FASHION -> FASHION
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE CARS -> CARS
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE CATE -> CATE
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE MUSIC -> MUSIC
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE[] ENUM$VALUES -> ENUM$VALUES
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE[] values() -> values
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$STATUSES_TYPE valueOf(java.lang.String) -> valueOf
-com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY -> com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY:
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY DEFAULT -> DEFAULT
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY ent -> ent
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY hk_famous -> hk_famous
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY model -> model
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY cooking -> cooking
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY sports -> sports
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY finance -> finance
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY tech -> tech
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY singer -> singer
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY writer -> writer
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY moderator -> moderator
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY medium -> medium
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY stockplayer -> stockplayer
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY[] ENUM$VALUES -> ENUM$VALUES
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY[] values() -> values
-    com.sina.weibo.sdk.openapi.legacy.SuggestionsAPI$USER_CATEGORY valueOf(java.lang.String) -> valueOf
-com.sina.weibo.sdk.openapi.legacy.TagsAPI -> com.sina.weibo.sdk.openapi.legacy.TagsAPI:
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void tags(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> tags
-    void tagsBatch(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> tagsBatch
-    void suggestions(int,com.sina.weibo.sdk.net.RequestListener) -> suggestions
-    void create(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> create
-    void destroy(long,com.sina.weibo.sdk.net.RequestListener) -> destroy
-    void destroyBatch(java.lang.String[],com.sina.weibo.sdk.net.RequestListener) -> destroyBatch
-com.sina.weibo.sdk.openapi.legacy.TrendsAPI -> com.sina.weibo.sdk.openapi.legacy.TrendsAPI:
-    java.lang.String SERVER_URL_PRIX -> SERVER_URL_PRIX
-    void trends(long,int,int,com.sina.weibo.sdk.net.RequestListener) -> trends
-    void isFollow(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> isFollow
-    void hourly(boolean,com.sina.weibo.sdk.net.RequestListener) -> hourly
-    void daily(boolean,com.sina.weibo.sdk.net.RequestListener) -> daily
-    void weekly(boolean,com.sina.weibo.sdk.net.RequestListener) -> weekly
-    void follow(java.lang.String,com.sina.weibo.sdk.net.RequestListener) -> follow
-    void destroy(long,com.sina.weibo.sdk.net.RequestListener) -> destroy
-com.sina.weibo.sdk.openapi.models.AbsDataObject -> com.sina.weibo.sdk.openapi.models.AbsDataObject:
-    java.lang.Object parse(java.lang.String) -> parse
-    java.lang.Object parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.Comment -> com.sina.weibo.sdk.openapi.models.Comment:
-    java.lang.String created_at -> created_at
-    java.lang.String id -> id
-    java.lang.String text -> text
-    java.lang.String source -> source
-    com.sina.weibo.sdk.openapi.models.User user -> user
-    java.lang.String mid -> mid
-    java.lang.String idstr -> idstr
-    com.sina.weibo.sdk.openapi.models.Status status -> status
-    com.sina.weibo.sdk.openapi.models.Comment reply_comment -> reply_comment
-    com.sina.weibo.sdk.openapi.models.Comment parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.CommentList -> com.sina.weibo.sdk.openapi.models.CommentList:
-    java.util.ArrayList commentList -> commentList
-    java.lang.String previous_cursor -> previous_cursor
-    java.lang.String next_cursor -> next_cursor
-    int total_number -> total_number
-    com.sina.weibo.sdk.openapi.models.CommentList parse(java.lang.String) -> parse
-com.sina.weibo.sdk.openapi.models.Coordinate -> com.sina.weibo.sdk.openapi.models.Coordinate:
-    java.lang.Double Longtitude -> Longtitude
-    java.lang.Double Latitude -> Latitude
-    com.sina.weibo.sdk.openapi.models.Coordinate parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.ErrorInfo -> com.sina.weibo.sdk.openapi.models.ErrorInfo:
-    java.lang.String error -> error
-    java.lang.String error_code -> error_code
-    java.lang.String request -> request
-    com.sina.weibo.sdk.openapi.models.ErrorInfo parse(java.lang.String) -> parse
-    java.lang.String toString() -> toString
-com.sina.weibo.sdk.openapi.models.Favorite -> com.sina.weibo.sdk.openapi.models.Favorite:
-    com.sina.weibo.sdk.openapi.models.Status status -> status
-    java.util.ArrayList tags -> tags
-    java.lang.String favorited_time -> favorited_time
-    com.sina.weibo.sdk.openapi.models.Favorite parse(java.lang.String) -> parse
-    com.sina.weibo.sdk.openapi.models.Favorite parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.FavoriteList -> com.sina.weibo.sdk.openapi.models.FavoriteList:
-    java.util.ArrayList favoriteList -> favoriteList
-    int total_number -> total_number
-    com.sina.weibo.sdk.openapi.models.FavoriteList parse(java.lang.String) -> parse
-com.sina.weibo.sdk.openapi.models.Geo -> com.sina.weibo.sdk.openapi.models.Geo:
-    java.lang.String longitude -> longitude
-    java.lang.String latitude -> latitude
-    java.lang.String city -> city
-    java.lang.String province -> province
-    java.lang.String city_name -> city_name
-    java.lang.String province_name -> province_name
-    java.lang.String address -> address
-    java.lang.String pinyin -> pinyin
-    java.lang.String more -> more
-    com.sina.weibo.sdk.openapi.models.Geo parse(java.lang.String) -> parse
-    com.sina.weibo.sdk.openapi.models.Geo parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.GeoList -> com.sina.weibo.sdk.openapi.models.GeoList:
-    java.util.ArrayList Geos -> Geos
-    com.sina.weibo.sdk.openapi.models.GeoList parse(java.lang.String) -> parse
-com.sina.weibo.sdk.openapi.models.Group -> com.sina.weibo.sdk.openapi.models.Group:
-    java.lang.String GROUP_ID_ALL -> GROUP_ID_ALL
-    java.lang.String id -> id
-    java.lang.String idStr -> idStr
-    java.lang.String name -> name
-    java.lang.String mode -> mode
-    int visible -> visible
-    int like_count -> like_count
-    int member_count -> member_count
-    java.lang.String description -> description
-    java.util.ArrayList tags -> tags
-    java.lang.String profile_image_url -> profile_image_url
-    com.sina.weibo.sdk.openapi.models.User user -> user
-    java.lang.String createAtTime -> createAtTime
-    com.sina.weibo.sdk.openapi.models.Group parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.GroupList -> com.sina.weibo.sdk.openapi.models.GroupList:
-    java.util.ArrayList groupList -> groupList
-    int total_number -> total_number
-    com.sina.weibo.sdk.openapi.models.GroupList parse(java.lang.String) -> parse
-com.sina.weibo.sdk.openapi.models.GroupTag -> com.sina.weibo.sdk.openapi.models.GroupTag:
-    java.lang.String tag -> tag
-    com.sina.weibo.sdk.openapi.models.GroupTag parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.IParseable -> com.sina.weibo.sdk.openapi.models.IParseable:
-    java.lang.Object parse(java.lang.String) -> parse
-    java.lang.Object parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.MusicInfo -> com.sina.weibo.sdk.openapi.models.MusicInfo:
-    java.lang.String author -> author
-    java.lang.String title -> title
-    java.lang.String album -> album
-    java.lang.String playUrl -> playUrl
-    com.sina.weibo.sdk.openapi.models.MusicInfo parser(java.lang.String) -> parser
-    com.sina.weibo.sdk.openapi.models.MusicInfo parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.OffsetGeo -> com.sina.weibo.sdk.openapi.models.OffsetGeo:
-    java.util.ArrayList Geos -> Geos
-    com.sina.weibo.sdk.openapi.models.OffsetGeo parse(java.lang.String) -> parse
-com.sina.weibo.sdk.openapi.models.Poi -> com.sina.weibo.sdk.openapi.models.Poi:
-    java.lang.String poiid -> poiid
-    java.lang.String title -> title
-    java.lang.String address -> address
-    java.lang.String lon -> lon
-    java.lang.String lat -> lat
-    java.lang.String category -> category
-    java.lang.String city -> city
-    java.lang.String province -> province
-    java.lang.String country -> country
-    java.lang.String url -> url
-    java.lang.String phone -> phone
-    java.lang.String postcode -> postcode
-    java.lang.String weibo_id -> weibo_id
-    java.lang.String categorys -> categorys
-    java.lang.String category_name -> category_name
-    java.lang.String icon -> icon
-    java.lang.String checkin_num -> checkin_num
-    java.lang.String checkin_user_num -> checkin_user_num
-    java.lang.String tip_num -> tip_num
-    java.lang.String photo_num -> photo_num
-    java.lang.String todo_num -> todo_num
-    java.lang.String distance -> distance
-    com.sina.weibo.sdk.openapi.models.Poi parse(java.lang.String) -> parse
-    com.sina.weibo.sdk.openapi.models.Poi parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.PoiList -> com.sina.weibo.sdk.openapi.models.PoiList:
-    java.util.ArrayList pois -> pois
-    java.lang.String totalNumber -> totalNumber
-    com.sina.weibo.sdk.openapi.models.PoiList parse(java.lang.String) -> parse
-com.sina.weibo.sdk.openapi.models.Privacy -> com.sina.weibo.sdk.openapi.models.Privacy:
-com.sina.weibo.sdk.openapi.models.Remind -> com.sina.weibo.sdk.openapi.models.Remind:
-com.sina.weibo.sdk.openapi.models.Status -> com.sina.weibo.sdk.openapi.models.Status:
-    java.lang.String created_at -> created_at
-    java.lang.String id -> id
-    java.lang.String mid -> mid
-    java.lang.String idstr -> idstr
-    java.lang.String text -> text
-    java.lang.String source -> source
-    boolean favorited -> favorited
-    boolean truncated -> truncated
-    java.lang.String in_reply_to_status_id -> in_reply_to_status_id
-    java.lang.String in_reply_to_user_id -> in_reply_to_user_id
-    java.lang.String in_reply_to_screen_name -> in_reply_to_screen_name
-    java.lang.String thumbnail_pic -> thumbnail_pic
-    java.lang.String bmiddle_pic -> bmiddle_pic
-    java.lang.String original_pic -> original_pic
-    com.sina.weibo.sdk.openapi.models.Geo geo -> geo
-    com.sina.weibo.sdk.openapi.models.User user -> user
-    com.sina.weibo.sdk.openapi.models.Status retweeted_status -> retweeted_status
-    int reposts_count -> reposts_count
-    int comments_count -> comments_count
-    int attitudes_count -> attitudes_count
-    int mlevel -> mlevel
-    com.sina.weibo.sdk.openapi.models.Visible visible -> visible
-    java.util.ArrayList pic_urls -> pic_urls
-    com.sina.weibo.sdk.openapi.models.Status parse(java.lang.String) -> parse
-    com.sina.weibo.sdk.openapi.models.Status parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.StatusList -> com.sina.weibo.sdk.openapi.models.StatusList:
-    java.util.ArrayList statusList -> statusList
-    com.sina.weibo.sdk.openapi.models.Status statuses -> statuses
-    boolean hasvisible -> hasvisible
-    java.lang.String previous_cursor -> previous_cursor
-    java.lang.String next_cursor -> next_cursor
-    int total_number -> total_number
-    java.lang.Object[] advertises -> advertises
-    com.sina.weibo.sdk.openapi.models.StatusList parse(java.lang.String) -> parse
-com.sina.weibo.sdk.openapi.models.Tag -> com.sina.weibo.sdk.openapi.models.Tag:
-    int id -> id
-    java.lang.String tag -> tag
-    com.sina.weibo.sdk.openapi.models.Tag parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.User -> com.sina.weibo.sdk.openapi.models.User:
-    java.lang.String id -> id
-    java.lang.String idstr -> idstr
-    java.lang.String screen_name -> screen_name
-    java.lang.String name -> name
-    int province -> province
-    int city -> city
-    java.lang.String location -> location
-    java.lang.String description -> description
-    java.lang.String url -> url
-    java.lang.String profile_image_url -> profile_image_url
-    java.lang.String profile_url -> profile_url
-    java.lang.String domain -> domain
-    java.lang.String weihao -> weihao
-    java.lang.String gender -> gender
-    int followers_count -> followers_count
-    int friends_count -> friends_count
-    int statuses_count -> statuses_count
-    int favourites_count -> favourites_count
-    java.lang.String created_at -> created_at
-    boolean following -> following
-    boolean allow_all_act_msg -> allow_all_act_msg
-    boolean geo_enabled -> geo_enabled
-    boolean verified -> verified
-    int verified_type -> verified_type
-    java.lang.String remark -> remark
-    com.sina.weibo.sdk.openapi.models.Status status -> status
-    boolean allow_all_comment -> allow_all_comment
-    java.lang.String avatar_large -> avatar_large
-    java.lang.String avatar_hd -> avatar_hd
-    java.lang.String verified_reason -> verified_reason
-    boolean follow_me -> follow_me
-    int online_status -> online_status
-    int bi_followers_count -> bi_followers_count
-    java.lang.String lang -> lang
-    java.lang.String star -> star
-    java.lang.String mbtype -> mbtype
-    java.lang.String mbrank -> mbrank
-    java.lang.String block_word -> block_word
-    com.sina.weibo.sdk.openapi.models.User parse(java.lang.String) -> parse
-    com.sina.weibo.sdk.openapi.models.User parse(org.json.JSONObject) -> parse
-com.sina.weibo.sdk.openapi.models.Visible -> com.sina.weibo.sdk.openapi.models.Visible:
-    int VISIBLE_NORMAL -> VISIBLE_NORMAL
-    int VISIBLE_PRIVACY -> VISIBLE_PRIVACY
-    int VISIBLE_GROUPED -> VISIBLE_GROUPED
-    int VISIBLE_FRIEND -> VISIBLE_FRIEND
-    int type -> type
-    int list_id -> list_id
-    com.sina.weibo.sdk.openapi.models.Visible parse(org.json.JSONObject) -> parse
 com.sina.weibo.sdk.utils.BitmapHelper -> com.sina.weibo.sdk.utils.BitmapHelper:
     boolean makesureSizeNotTooLarge(android.graphics.Rect) -> makesureSizeNotTooLarge
     int getSampleSizeOfNotTooLarge(android.graphics.Rect) -> getSampleSizeOfNotTooLarge
@@ -24381,56 +23573,6 @@ com.sina.weibo.sdk.utils.Utility -> com.sina.weibo.sdk.utils.Utility:
     java.lang.String generateGUID() -> generateGUID
     java.lang.String getSign(android.content.Context,java.lang.String) -> getSign
     java.lang.String safeString(java.lang.String) -> safeString
-com.sina.weibo.sdk.widget.LoginButton -> com.sina.weibo.sdk.widget.LoginButton:
-    java.lang.String TAG -> TAG
-    int LOGIN_INCON_STYLE_1 -> LOGIN_INCON_STYLE_1
-    int LOGIN_INCON_STYLE_2 -> LOGIN_INCON_STYLE_2
-    int LOGIN_INCON_STYLE_3 -> LOGIN_INCON_STYLE_3
-    android.content.Context mContext -> mContext
-    com.sina.weibo.sdk.auth.WeiboAuth$AuthInfo mAuthInfo -> mAuthInfo
-    com.sina.weibo.sdk.auth.sso.SsoHandler mSsoHandler -> mSsoHandler
-    com.sina.weibo.sdk.auth.WeiboAuthListener mAuthListener -> mAuthListener
-    android.view.View$OnClickListener mExternalOnClickListener -> mExternalOnClickListener
-    void setWeiboAuthInfo(com.sina.weibo.sdk.auth.WeiboAuth$AuthInfo,com.sina.weibo.sdk.auth.WeiboAuthListener) -> setWeiboAuthInfo
-    void setWeiboAuthInfo(java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.auth.WeiboAuthListener) -> setWeiboAuthInfo
-    void setStyle(int) -> setStyle
-    void setExternalOnClickListener(android.view.View$OnClickListener) -> setExternalOnClickListener
-    void onClick(android.view.View) -> onClick
-    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    void initialize(android.content.Context) -> initialize
-com.sina.weibo.sdk.widget.LoginoutButton -> com.sina.weibo.sdk.widget.LoginoutButton:
-    java.lang.String TAG -> TAG
-    android.content.Context mContext -> mContext
-    com.sina.weibo.sdk.auth.WeiboAuth$AuthInfo mAuthInfo -> mAuthInfo
-    com.sina.weibo.sdk.auth.sso.SsoHandler mSsoHandler -> mSsoHandler
-    com.sina.weibo.sdk.auth.WeiboAuthListener mAuthListener -> mAuthListener
-    com.sina.weibo.sdk.auth.Oauth2AccessToken mAccessToken -> mAccessToken
-    com.sina.weibo.sdk.net.RequestListener mLogoutListener -> mLogoutListener
-    android.view.View$OnClickListener mExternalOnClickListener -> mExternalOnClickListener
-    void setWeiboAuthInfo(com.sina.weibo.sdk.auth.WeiboAuth$AuthInfo,com.sina.weibo.sdk.auth.WeiboAuthListener) -> setWeiboAuthInfo
-    void setWeiboAuthInfo(java.lang.String,java.lang.String,java.lang.String,com.sina.weibo.sdk.auth.WeiboAuthListener) -> setWeiboAuthInfo
-    void setLogoutInfo(com.sina.weibo.sdk.auth.Oauth2AccessToken,com.sina.weibo.sdk.net.RequestListener) -> setLogoutInfo
-    void setLogoutListener(com.sina.weibo.sdk.net.RequestListener) -> setLogoutListener
-    void setExternalOnClickListener(android.view.View$OnClickListener) -> setExternalOnClickListener
-    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    void onClick(android.view.View) -> onClick
-    void initialize(android.content.Context,android.util.AttributeSet) -> initialize
-    void loadDefaultStyle(android.util.AttributeSet) -> loadDefaultStyle
-    void login() -> login
-    void logout() -> logout
-    void access$0(com.sina.weibo.sdk.widget.LoginoutButton,com.sina.weibo.sdk.auth.Oauth2AccessToken) -> access$0
-    com.sina.weibo.sdk.auth.Oauth2AccessToken access$1(com.sina.weibo.sdk.widget.LoginoutButton) -> access$1
-    com.sina.weibo.sdk.auth.WeiboAuthListener access$2(com.sina.weibo.sdk.widget.LoginoutButton) -> access$2
-    com.sina.weibo.sdk.net.RequestListener access$3(com.sina.weibo.sdk.widget.LoginoutButton) -> access$3
-com.sina.weibo.sdk.widget.LoginoutButton$1 -> com.sina.weibo.sdk.widget.LoginoutButton$1:
-    com.sina.weibo.sdk.widget.LoginoutButton this$0 -> this$0
-    void onComplete(android.os.Bundle) -> onComplete
-    void onCancel() -> onCancel
-    void onWeiboException(com.sina.weibo.sdk.exception.WeiboException) -> onWeiboException
-com.sina.weibo.sdk.widget.LoginoutButton$2 -> com.sina.weibo.sdk.widget.LoginoutButton$2:
-    com.sina.weibo.sdk.widget.LoginoutButton this$0 -> this$0
-    void onComplete(java.lang.String) -> onComplete
-    void onWeiboException(com.sina.weibo.sdk.exception.WeiboException) -> onWeiboException
 com.tencent.a.a.a -> com.tencent.a.a.a:
     com.tencent.a.a.h a -> a
     java.io.FileWriter b -> b
