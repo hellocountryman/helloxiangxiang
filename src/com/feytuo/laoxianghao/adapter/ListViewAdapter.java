@@ -48,6 +48,7 @@ import com.feytuo.laoxianghao.dao.PraiseDao;
 import com.feytuo.laoxianghao.domain.Invitation;
 import com.feytuo.laoxianghao.domain.LXHUser;
 import com.feytuo.laoxianghao.global.Global;
+import com.feytuo.laoxianghao.util.CommonUtils;
 import com.feytuo.laoxianghao.util.ImageLoader;
 import com.feytuo.laoxianghao.util.NetUtil;
 import com.feytuo.laoxianghao.util.StringTools;
@@ -324,6 +325,8 @@ public class ListViewAdapter extends BaseAdapter {
 			holder.home.setText(cityDao.getCityNameById((int) list.get(listIndex)
 					.get("home")) + "话");
 			// 设置昵称和头像
+			CommonUtils.corner(context, R.drawable.default_avatar, holder.personHeadImg);
+			holder.personUserNick.setText("");
 			setUserInfo(list.get(listIndex).get("uid").toString(),
 					holder.personUserNick, holder.personHeadImg);
 

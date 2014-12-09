@@ -115,11 +115,16 @@ public class UserLogin {
 		File file = saveBitmap2File(context, headBitmap);
 		if (file != null && file.exists()) {
 			final BmobFile bmobFile = new BmobFile(file);
+			progressShow = true;
 			bmobFile.uploadblock(context, new UploadFileListener() {
 
 				@Override
 				public void onSuccess() {
 					// TODO Auto-generated method stub
+					if (!progressShow) {
+						Log.i("UserLogin", "提示框不见了！");
+						return;
+					}
 					// 判断是否存在该用户
 					judgeUserExist(context, uName, uKey, nickName,
 							bmobFile.getFileUrl());
@@ -140,6 +145,7 @@ public class UserLogin {
 	private void judgeUserExist(final Context context, final String uName,
 			final String uKey, final String nickName, final String headUrl) {
 		// TODO Auto-generated method stub
+		progressShow = true;
 		// 判断是否在数据库中有该用户
 		BmobQuery<LXHUser> query = new BmobQuery<LXHUser>();
 		query.addWhereEqualTo("uName", uName);
@@ -147,6 +153,10 @@ public class UserLogin {
 			@Override
 			public void onSuccess(List<LXHUser> arg0) {
 				// TODO Auto-generated method stub
+				if (!progressShow) {
+					Log.i("UserLogin", "提示框不见了！");
+					return;
+				}
 				if (arg0.size() > 0 && arg0.get(0) != null) {
 					// 如果存在该用户
 					// 更新用户信息，然后直接登录环信服务器
@@ -163,6 +173,10 @@ public class UserLogin {
 			@Override
 			public void onError(int arg0, String arg1) {
 				// TODO Auto-generated method stub
+				if (!progressShow) {
+					Log.i("UserLogin", "提示框不见了！");
+					return;
+				}
 				Toast.makeText(context, uKey + "登陆失败,请稍候再试...",
 						Toast.LENGTH_SHORT).show();
 				Log.i("UserLogin", arg1 + "----" + arg0);
@@ -172,6 +186,7 @@ public class UserLogin {
 
 	private void updataAndLogin(final Context context, final LXHUser user,
 			final String nickName, String headUrl) {
+		progressShow = true;
 		// TODO Auto-generated method stub
 		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
@@ -187,6 +202,10 @@ public class UserLogin {
 
 			@Override
 			public void onSuccess() {
+				if (!progressShow) {
+					Log.i("UserLogin", "提示框不见了！");
+					return;
+				}
 				// TODO Auto-generated method stub
 				Log.i("UserLogin", user.getObjectId() + "--" + user.getuName());
 				//保存到本地当前用户表
@@ -200,6 +219,10 @@ public class UserLogin {
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
+				if (!progressShow) {
+					Log.i("UserLogin", "提示框不见了！");
+					return;
+				}
 				pd.dismiss();
 				Toast.makeText(context, user.getuKey() + "更新用户信息失败,请稍后再试...",
 						Toast.LENGTH_SHORT).show();
@@ -218,6 +241,7 @@ public class UserLogin {
 	 */
 	private void saveAndLogin(final Context context, final String uName,
 			final String uKey, final String nickName, String headUrl) {
+		progressShow = true;
 		// 如果没，则添加用户
 		((Activity) context).runOnUiThread(new Runnable() {
 			public void run() {
@@ -236,6 +260,10 @@ public class UserLogin {
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
+				if (!progressShow) {
+					Log.i("UserLogin", "提示框不见了！");
+					return;
+				}
 				//保存到本地当前用户表
 				userDao.insertCurrentUser(user);
 				// 注册环信服务器
@@ -248,6 +276,10 @@ public class UserLogin {
 			@Override
 			public void onFailure(int arg0, String arg1) {
 				// TODO Auto-generated method stub
+				if (!progressShow) {
+					Log.i("UserLogin", "提示框不见了！");
+					return;
+				}
 				pd.dismiss();
 				Toast.makeText(context, uKey + "保存用户信息失败,请稍候再试...",
 						Toast.LENGTH_SHORT).show();

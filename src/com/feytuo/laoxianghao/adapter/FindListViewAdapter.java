@@ -222,6 +222,8 @@ public class FindListViewAdapter extends SimpleAdapter {
 			holder.indexLocalsCountry.setTextColor(context.getResources()
 					.getColor(R.color.indexbg));
 			// 设置头像、昵称
+			CommonUtils.corner(context, R.drawable.default_avatar,holder.personHeadImg);
+			holder.personUserNick.setText("");
 			setUserInfo((String) list.get(position).get("uid"), holder.personUserNick,
 					holder.personHeadImg);
 		}

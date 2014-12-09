@@ -331,6 +331,8 @@ public class NoticeListViewAdapter extends SimpleAdapter {
 			holder.indexTextDescribe.setText(list.get(position).get("words") + "");
 		}
 		// 设置昵称和头像
+		CommonUtils.corner(context, R.drawable.default_avatar,holder.personHeadImg);
+		holder.personUserNick.setText("");
 		setUserInfo(list.get(position).get("uid").toString(),
 				holder.personUserNick, holder.personHeadImg);
 

@@ -234,6 +234,8 @@ public class CommentListViewAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		Map<String, ?> map = data.get(position - 1);
 		//设置用户头像和昵称
+		CommonUtils.corner(context, R.drawable.default_avatar,holder2.commentUserHead);
+		holder2.commentNickName.setText("");
 		setUserInfo(map.get("uid").toString(),
 				holder2.commentNickName, holder2.commentUserHead);
 		

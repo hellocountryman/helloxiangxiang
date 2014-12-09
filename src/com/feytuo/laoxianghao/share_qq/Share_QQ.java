@@ -46,10 +46,10 @@ public class Share_QQ {
 	 * @param v
 	 */
 	public void qqLogin(Activity activity) {
-		// if (!mTencent.isSessionValid()) {
-		// mTencent.login((Activity) context, "all", listener);
-		// }
-		mTencent.login(activity, "all", new MyIUiListener(true,activity));
+		 if (mTencent.isSessionValid()) {
+			 qqLogout(activity);
+		 }
+		 mTencent.login(activity, "all", new MyIUiListener(true,activity));
 	}
 
 	/**
