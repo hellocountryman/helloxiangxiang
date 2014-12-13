@@ -19498,6 +19498,96 @@ com.feytuo.laoxianghao.R$drawable -> com.feytuo.laoxianghao.R$drawable:
     int x_no -> x_no
     int x_press -> x_press
     int xlistview_arrow -> xlistview_arrow
+    int xx_1 -> xx_1
+    int xx_10 -> xx_10
+    int xx_11 -> xx_11
+    int xx_12 -> xx_12
+    int xx_13 -> xx_13
+    int xx_14 -> xx_14
+    int xx_15 -> xx_15
+    int xx_16 -> xx_16
+    int xx_17 -> xx_17
+    int xx_18 -> xx_18
+    int xx_19 -> xx_19
+    int xx_2 -> xx_2
+    int xx_20 -> xx_20
+    int xx_21 -> xx_21
+    int xx_22 -> xx_22
+    int xx_23 -> xx_23
+    int xx_24 -> xx_24
+    int xx_25 -> xx_25
+    int xx_26 -> xx_26
+    int xx_27 -> xx_27
+    int xx_28 -> xx_28
+    int xx_29 -> xx_29
+    int xx_3 -> xx_3
+    int xx_30 -> xx_30
+    int xx_31 -> xx_31
+    int xx_32 -> xx_32
+    int xx_33 -> xx_33
+    int xx_34 -> xx_34
+    int xx_35 -> xx_35
+    int xx_36 -> xx_36
+    int xx_37 -> xx_37
+    int xx_38 -> xx_38
+    int xx_39 -> xx_39
+    int xx_4 -> xx_4
+    int xx_40 -> xx_40
+    int xx_41 -> xx_41
+    int xx_42 -> xx_42
+    int xx_43 -> xx_43
+    int xx_44 -> xx_44
+    int xx_45 -> xx_45
+    int xx_46 -> xx_46
+    int xx_47 -> xx_47
+    int xx_48 -> xx_48
+    int xx_49 -> xx_49
+    int xx_5 -> xx_5
+    int xx_50 -> xx_50
+    int xx_51 -> xx_51
+    int xx_52 -> xx_52
+    int xx_53 -> xx_53
+    int xx_54 -> xx_54
+    int xx_55 -> xx_55
+    int xx_56 -> xx_56
+    int xx_57 -> xx_57
+    int xx_58 -> xx_58
+    int xx_59 -> xx_59
+    int xx_6 -> xx_6
+    int xx_60 -> xx_60
+    int xx_61 -> xx_61
+    int xx_62 -> xx_62
+    int xx_63 -> xx_63
+    int xx_64 -> xx_64
+    int xx_65 -> xx_65
+    int xx_66 -> xx_66
+    int xx_67 -> xx_67
+    int xx_68 -> xx_68
+    int xx_69 -> xx_69
+    int xx_7 -> xx_7
+    int xx_70 -> xx_70
+    int xx_71 -> xx_71
+    int xx_72 -> xx_72
+    int xx_73 -> xx_73
+    int xx_74 -> xx_74
+    int xx_75 -> xx_75
+    int xx_76 -> xx_76
+    int xx_77 -> xx_77
+    int xx_78 -> xx_78
+    int xx_79 -> xx_79
+    int xx_8 -> xx_8
+    int xx_80 -> xx_80
+    int xx_81 -> xx_81
+    int xx_82 -> xx_82
+    int xx_83 -> xx_83
+    int xx_84 -> xx_84
+    int xx_85 -> xx_85
+    int xx_86 -> xx_86
+    int xx_87 -> xx_87
+    int xx_88 -> xx_88
+    int xx_89 -> xx_89
+    int xx_9 -> xx_9
+    int xx_90 -> xx_90
     int z_no -> z_no
     int z_press -> z_press
 com.feytuo.laoxianghao.R$id -> com.feytuo.laoxianghao.R$id:
@@ -21290,8 +21380,8 @@ com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder -> com.feytuo.la
     android.widget.RelativeLayout access$24(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> f
     android.widget.ImageView access$25(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> g
     android.widget.TextView access$26(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> h
-    android.widget.TextView access$27(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> i
-    android.widget.ImageButton access$28(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> j
+    android.widget.ImageButton access$27(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> i
+    android.widget.TextView access$28(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> j
     android.widget.ImageView access$29(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> k
     android.widget.TextView access$30(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> l
     android.widget.TextView access$31(com.feytuo.laoxianghao.adapter.NoticeListViewAdapter$ViewHolder) -> m
@@ -21603,13 +21693,13 @@ com.feytuo.laoxianghao.global.UserLogin -> com.feytuo.laoxianghao.d.a:
     void access$0(com.feytuo.laoxianghao.global.UserLogin,com.feytuo.laoxianghao.view.OnloadDialog) -> a
     com.feytuo.laoxianghao.view.OnloadDialog access$1(com.feytuo.laoxianghao.global.UserLogin) -> a
     void access$2(com.feytuo.laoxianghao.global.UserLogin,boolean) -> a
-    void access$3(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
-    void access$4(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,com.feytuo.laoxianghao.domain.LXHUser,java.lang.String,java.lang.String) -> a
-    void access$5(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> b
-    com.feytuo.laoxianghao.dao.LXHUserDao access$6(com.feytuo.laoxianghao.global.UserLogin) -> b
-    void access$7(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String) -> a
-    void access$8(com.feytuo.laoxianghao.domain.LXHUser) -> a
-    boolean access$9(com.feytuo.laoxianghao.global.UserLogin) -> c
+    boolean access$3(com.feytuo.laoxianghao.global.UserLogin) -> b
+    void access$4(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    void access$5(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,com.feytuo.laoxianghao.domain.LXHUser,java.lang.String,java.lang.String) -> a
+    void access$6(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> b
+    com.feytuo.laoxianghao.dao.LXHUserDao access$7(com.feytuo.laoxianghao.global.UserLogin) -> c
+    void access$8(com.feytuo.laoxianghao.global.UserLogin,android.content.Context,java.lang.String,java.lang.String,java.lang.String) -> a
+    void access$9(com.feytuo.laoxianghao.domain.LXHUser) -> a
 com.feytuo.laoxianghao.global.UserLogin$1 -> com.feytuo.laoxianghao.d.b:
     com.feytuo.laoxianghao.global.UserLogin this$0 -> a
     android.content.Context val$context -> b
@@ -21717,6 +21807,7 @@ com.feytuo.laoxianghao.share_qq.Share_QQ -> com.feytuo.laoxianghao.e.a:
     android.graphics.Bitmap headBitmap -> b
     com.feytuo.laoxianghao.view.OnloadDialog loadDialog -> c
     void qqLogin(android.app.Activity) -> a
+    void qqLogout(android.app.Activity) -> b
     void shareToQQOrQzone(android.content.Context,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int) -> a
     void doShareToQQ(android.content.Context,android.os.Bundle) -> a
     void initOpenidAndToken(org.json.JSONObject,boolean,android.content.Context) -> a

@@ -52,19 +52,19 @@ public class PositionChooseDialog extends Dialog {
 		// TODO Auto-generated method stub
 		data = new ArrayList<Map<String, String>>();
 		HashMap<String, String> map1 = new HashMap<String, String>();
-		map1.put("position", "金星");
+		map1.put("position", "火星");
 		HashMap<String, String> map2 = new HashMap<String, String>();
-		map2.put("position", "木星");
+		map2.put("position", "喵星");
 		HashMap<String, String> map3 = new HashMap<String, String>();
-		map3.put("position", "水星");
+		map3.put("position", "汪星");
 		HashMap<String, String> map4 = new HashMap<String, String>();
-		map4.put("position", "火星");
+		map4.put("position", "M78星云");
 		HashMap<String, String> map5 = new HashMap<String, String>();
-		map5.put("position", "土星");
+		map5.put("position", "塞博坦星球");
 		HashMap<String, String> map6 = new HashMap<String, String>();
 		map6.put("position", "地球");
 		HashMap<String, String> map7 = new HashMap<String, String>();
-		map7.put("position", "月球");
+		map7.put("position", "壕星");
 		HashMap<String, String> map8 = new HashMap<String, String>();
 		map8.put("position", location);
 		data.add(map1);
