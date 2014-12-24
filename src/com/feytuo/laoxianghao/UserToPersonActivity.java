@@ -44,6 +44,7 @@ public class UserToPersonActivity extends Activity {
 	private TextView toPersonNick;
 	private TextView toPersonSignText;
 	private Button addFriendBtn;
+	private Button chatBtn;
 	private LXHUser mUser;
 	
 	private String userId;//用户id
@@ -65,6 +66,7 @@ public class UserToPersonActivity extends Activity {
 		toPersonHome = (TextView)findViewById(R.id.to_person_home);
 		toPersonSignText = (TextView)findViewById(R.id.to_person_sign_text);	
 		addFriendBtn = (Button)findViewById(R.id.user_info_add_friend_btn);
+		chatBtn = (Button)findViewById(R.id.user_to_person_chat_btn);
 	}
 
 	/**
@@ -129,7 +131,9 @@ public class UserToPersonActivity extends Activity {
 		if(user != null){
 			new ImageLoader(this).loadNoImage(user.getHeadUrl(), null, toPersonHeadImg);
 			toPersonNick.setText(user.getNickName());
-			toPersonHome.setText(user.getHome()+"人");
+			if(!TextUtils.isEmpty(user.getHome())){
+				toPersonHome.setText(user.getHome()+"人");
+			}
 			toPersonSignText.setText(user.getPersonSign());
 			//添加好友按钮初始化
 			if(App.getInstance().getContactList().containsKey(user.getObjectId())){
@@ -137,6 +141,9 @@ public class UserToPersonActivity extends Activity {
 			}else{
 				addFriendBtn.setVisibility(View.VISIBLE);
 			}
+		}else{
+			addFriendBtn.setVisibility(View.INVISIBLE);
+			chatBtn.setVisibility(View.INVISIBLE);
 		}
 	}
 

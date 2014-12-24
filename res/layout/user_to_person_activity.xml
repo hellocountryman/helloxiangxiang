@@ -112,6 +112,7 @@
         android:scrollbars="none" />
 
     <Button
+        android:id="@+id/user_to_person_chat_btn"
         android:layout_width="match_parent"
         android:layout_height="48.0dip"
         android:layout_gravity="bottom"

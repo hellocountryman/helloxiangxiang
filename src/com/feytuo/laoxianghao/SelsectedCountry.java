@@ -239,6 +239,8 @@ public class SelsectedCountry extends Activity {
 			App.pre.edit().putInt(Global.USER_HOME, cityId).commit();
 			updateCurrentUserHome(home);
 		}else if(path == 1){//筛选
+			App.pre.edit().putBoolean(Global.IS_MAIN_LIST_NEED_REFRESH, true)
+			.commit();
 			App.pre.edit().putInt(Global.CURRENT_NATIVE, cityId).commit();
 			turnToMain(home);
 		}else{//发布中选择话系
